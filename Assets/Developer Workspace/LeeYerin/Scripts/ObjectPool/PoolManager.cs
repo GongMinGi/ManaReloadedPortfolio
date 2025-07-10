@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public class PoolManager : MonoBehaviour
 {
-    private PoolManager instance;
-    public PoolManager Instance => instance;
+    private static PoolManager instance;
+    public static PoolManager Instance => instance;
 
     // 오브젝트 풀을 관리하는 딕셔너리
     private Dictionary<int, ObjectPool> poolDic = new Dictionary<int, ObjectPool>();
