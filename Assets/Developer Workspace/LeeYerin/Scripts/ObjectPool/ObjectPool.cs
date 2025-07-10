@@ -38,6 +38,7 @@ public class ObjectPool : MonoBehaviour
             PooledObject instance = Instantiate(poolObj);
             instance.gameObject.SetActive(false);
             instance.Pool = this;
+            instance.transform.SetParent(transform);    // 오브젝트를 Pool의 자식으로 생성
             objectPool.Push(instance);
         }
     }
@@ -65,6 +66,7 @@ public class ObjectPool : MonoBehaviour
         {
             PooledObject instance = Instantiate(poolObj);
             instance.Pool = this;
+            instance.transform.SetParent(transform);    // 오브젝트를 Pool의 자식으로 생성
             instance.transform.position = position;
             instance.transform.rotation = rotation;
             return instance;
