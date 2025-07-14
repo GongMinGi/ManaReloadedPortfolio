@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8398879737750911802}
   - component: {fileID: 2166593588354238127}
   - component: {fileID: 3063194621121699364}
+  - component: {fileID: 6955623735976839650}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -121,7 +122,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b9a48844277bb46bd94b1e67873e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleData: {fileID: 11400000, guid: bd29f3cdcd34f8d4abf1d5754ce0702a, type: 2}
+  type: 2
+--- !u!208 &6955623735976839650
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916162369323030435}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &4934668246261852836
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +152,7 @@ GameObject:
   - component: {fileID: 7721340020657301623}
   - component: {fileID: 8567853047809133388}
   - component: {fileID: 8583152181406884259}
+  - component: {fileID: 8580624451918712890}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -243,7 +261,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b9a48844277bb46bd94b1e67873e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleData: {fileID: 11400000, guid: 6f3046b3af7ab4d4fa94202a798bce6a, type: 2}
+  type: 1
+--- !u!208 &8580624451918712890
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4934668246261852836}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5830079864178274728
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +456,7 @@ GameObject:
   - component: {fileID: 1621399324364548903}
   - component: {fileID: 9004220410650133018}
   - component: {fileID: 5796247276497717674}
+  - component: {fileID: 134775319764448819}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -530,4 +565,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b9a48844277bb46bd94b1e67873e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleData: {fileID: 11400000, guid: a023997436a1f1041b2b404223cdf543, type: 2}
+  type: 0
+--- !u!208 &134775319764448819
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7245414702476567670}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

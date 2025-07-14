@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afba685ab21c8754da6dde1f9e851b41, type: 3}
-  m_Name: InfiniteMapRnD
+  m_Script: {fileID: 11500000, guid: 7be08259e308fa14d9af6643ce6098ce, type: 3}
+  m_Name: Tracking Enemy Test Data
   m_EditorClassIdentifier: 
-  tileObstacles: 000000000100000002000000
-  obstacleOdds:
-  - 40
-  - 70
+  enemies:
+  - {fileID: 3065842872469741354, guid: 700868f2cc9274c47b3b421785043ed6, type: 3}
+  enemyOdds:
   - 100
-  obstacleNumOdds:
-  - 20
-  - 80
-  - 100
+  spawnDis: 30
+  spawnRange: 30
+  minSpawnTime: 3
+  maxSpawnTime: 6
