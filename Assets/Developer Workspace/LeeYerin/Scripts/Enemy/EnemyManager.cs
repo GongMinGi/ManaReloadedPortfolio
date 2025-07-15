@@ -87,6 +87,10 @@ public class EnemyManager : MonoBehaviour
     /// <param name="enemyNum">생성할 적 수</param>
     public void SpawnEnemy(PooledObject enemyPrefab, Vector3 moveDir, int enemyNum)
     {
+        // 플레이어 시야에서 적 생성 방지
+        if (moveDir == Vector3.zero)
+            moveDir = Vector3.forward;
+
         // 플레이어 위치 + 이동 방향 * 생성 거리
         Vector3 spawnPos = player.transform.position + moveDir * spawnDis;
 
