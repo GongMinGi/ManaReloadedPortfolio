@@ -52,8 +52,8 @@ public class EnemyManager : MonoBehaviour
 
         Initialization();
 
-        // 적 생성 코루틴 시작
-        StartCoroutine(SpawnEnemyLoop());
+            // 적 생성 코루틴 시작
+        StartCoroutine(SpawnEnemyLoop(0));  // TODO... 페이즈와 연결
     }
     #endregion
 
@@ -78,39 +78,50 @@ public class EnemyManager : MonoBehaviour
 
     #region Spawn Enemys
     /// <summary>
-    /// 적을 특정 방향으로 스폰하는 메서드
+    /// 지정한 수만큼 적을 특정 방향으로 스폰하는 메서드
     /// 플레이어 위치 기준으로 spawnDis 거리만큼 이동 방향으로 이동하고, 
     /// 랜덤 범위 내 위치 보정 적용
     /// </summary>
     /// <param name="enemyPrefab">생성할 적 프리팹</param>
     /// <param name="moveDir">생성 방향(단위 벡터)</param>
-    public void SpawnEnemy(PooledObject enemyPrefab, Vector3 moveDir)
+    /// <param name="enemyNum">생성할 적 수</param>
+    public void SpawnEnemy(PooledObject enemyPrefab, Vector3 moveDir, int enemyNum)
     {
         // 플레이어 위치 + 이동 방향 * 생성 거리
         Vector3 spawnPos = player.transform.position + moveDir * spawnDis;
-        // 랜덤 범위 내 위치 오프셋 추가(x, z 축)
-        spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
 
-        // Pool에서 적 오브젝트 위치 지정 및 활성화
-        PooledObject newEnemy = PoolManager.Instance.GetPool(enemyPrefab, spawnPos, Quaternion.identity);
+        for (int i = 0; i < enemyNum; i++)
+        {
+            // 랜덤 범위 내 위치 오프셋 추가(x, z 축)
+            spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
 
-        // 생성 위치 방향을 바라보도록 회전 설정
-        newEnemy.transform.LookAt(spawnPos);
+            // Pool에서 적 오브젝트 위치 지정 및 활성화
+            PooledObject newEnemy = PoolManager.Instance.GetPool(enemyPrefab, spawnPos, Quaternion.identity);
+
+            // 생성 위치 방향을 바라보도록 회전 설정
+            newEnemy.transform.LookAt(spawnPos);
+        }
     }
 
     /// <summary>
     /// 일정 시간 간격으로 적을 반복 생성하는 코루틴
     /// 생성 대기 시간은 최소/최대 생성 시간 사이에서 랜덤으로 결정
     /// </summary>
+    /// <param name="phase">현재 페이즈 넘버</param>
     /// <returns></returns>
-    IEnumerator SpawnEnemyLoop()
+    IEnumerator SpawnEnemyLoop(int phase)
     {
         while (true)  // TODO... 아후 게임 종료 여부 관리하는 변수 연결할 예정
         {
             // 최소 ~ 최대 스폰 시간 사이에서 랜덤 대기
-            yield return new WaitForSeconds(
-                Random.Range(minSpawnTime, maxSpawnTime));
-            SpawnEnemy(mapEnemyData.Enemies[0], player.moveDir);    // TODO... 페이즈에 따른 적 오브젝트 변경은 이후 적용
+            yield return new WaitForSeconds(1f);
+                // Random.Range(minSpawnTime, maxSpawnTime));
+            for (int i = 0; i < mapEnemyData.Phases[phase].enemies.Count; i++)
+                SpawnEnemy(
+                    mapEnemyData.Phases[phase].enemies[i], 
+                    player.moveDir,
+                    mapEnemyData.Phases[phase].enemiesPerSec[i]
+                    );
         }
     }
     #endregion

@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 3065842872469741354, guid: 700868f2cc9274c47b3b421785043ed6, type: 3}
-  enemyOdds:
-  - 100
-  spawnDis: 30
-  spawnRange: 30
+  spawnDis: 40
+  spawnRange: 5
+  phases:
+  - enemies:
+    - {fileID: 3065842872469741354, guid: 700868f2cc9274c47b3b421785043ed6, type: 3}
+    enemiesPerSec: 06000000
   minSpawnTime: 3
   maxSpawnTime: 6

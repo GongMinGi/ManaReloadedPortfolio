@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,9 +15,7 @@ public class MapEnemyData : ScriptableObject
     [Header("Map Enemy Odd Setting")]
     #region Map Enemy Odd Setting
     [Tooltip("List of enemy prefabs that appear on the map")]
-    [SerializeField] List<PooledObject> enemies = new();    // 맵에 등장하는 적 프리팹 목록
-    [Tooltip("List of the probability (ratio) of each enemy's appearance")]
-    [SerializeField] List<float> enemyOdds = new(); // 각 적의 등장 확률(비율) 리스트
+    [SerializeField] List<EnemyController> enemies = new();    // 맵에 등장하는 적 프리팹 목록
     #endregion
 
     [Header("Spawn Enemy Setting")]
@@ -25,6 +24,7 @@ public class MapEnemyData : ScriptableObject
     [SerializeField] float spawnDis = 5f; // 플레이어로부터의 생성 거리
     [Tooltip("Random generation range")]
     [SerializeField] float spawnRange = 2f; // 랜덤 생성 범위
+    [SerializeField] List<PhaseEnemyData> phases = new();
 
     [Tooltip("Minimum time to create enemy objects (sec)")]
     [SerializeField] float minSpawnTime;    // 적 오브젝트 생성 최소 시간
@@ -42,21 +42,8 @@ public class MapEnemyData : ScriptableObject
     /// <summary>
     /// 맵에 등장하는 적 프리팹 목록
     /// </summary>
-    public List<PooledObject> Enemies => enemies;
-
-    /// <summary>
-    /// 적별 등장 확률을 빠르게 조회하기 위한 딕셔너리
-    /// </summary>
-    public Dictionary<PooledObject, float> EnemyOddsMap
-    {
-        get
-        {
-            if (enemyOdds == null)
-                SetEnemyOdds();
-
-            return enemyOddsMap;
-        }
-    }
+    public List<EnemyController> Enemies => enemies;
+    public List<PhaseEnemyData> Phases => phases;
     #endregion
 
     #region Variable Initialization
@@ -79,18 +66,16 @@ public class MapEnemyData : ScriptableObject
         maxSpawnTime = this.maxSpawnTime;
     }
     #endregion
+}
 
-    #region Enemy Odds Initialization
-    /// <summary>
-    /// 적 목록과 확률 리스트를 매핑하여 딕셔너리를 초기화하는 메서드
-    /// 적 등장 확률을 빠르게 조회하기 위해 사용됨
-    /// </summary>
-    private void SetEnemyOdds()
-    {
-        enemyOddsMap = new();
-
-        for (int i = 0; i < enemies.Count; i++)
-            enemyOddsMap.Add(enemies[i], enemyOdds[i]);
-    }
-    #endregion
+/// <summary>
+/// 각 페이즈 적 생성에 있어 필요한 정보를 저장하는 구조체
+/// 
+/// 페이즈에 나오는 적 종류 리스트(enemies)와 초 당 생성하는 적 수 리스트(enemiesPerSec)를 담고 있다
+/// </summary>
+[Serializable]
+public struct PhaseEnemyData
+{
+    public List<EnemyController> enemies;
+    public List<int> enemiesPerSec;
 }

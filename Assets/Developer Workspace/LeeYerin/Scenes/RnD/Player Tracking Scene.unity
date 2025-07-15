@@ -268,8 +268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapEnemyData: {fileID: 11400000, guid: 7b5587a2aa68514489124de54c734de9, type: 2}
-  size: 20
-  capacity: 50
+  size: 180
+  capacity: 400
   player: {fileID: 538419495}
   spawnDis: 0
   spawnRange: 0
@@ -818,7 +818,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.11, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_LocalScale: {x: 20, y: 1, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 538419500}
