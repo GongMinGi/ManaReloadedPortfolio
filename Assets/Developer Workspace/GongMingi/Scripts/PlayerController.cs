@@ -11,6 +11,10 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+
+
+    #region FieldAndProperty
+
     [SerializeField] CharacterController controller;
     [SerializeField] float moveSpeed;
     [SerializeField] float sprintMultiplier = 2f;
@@ -31,7 +35,7 @@ public class PlayerController : MonoBehaviour
         set => moveDir = value;
     }
 
-
+    #endregion
 
 
     #region Unity Update
@@ -54,6 +58,7 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started) isSprint = true;
         if (ctx.canceled) isSprint = false;
+        else return;
 
         //Debug.Log($"val : {value}, {value.Get<float>()}");
         //isSprint = value.Get<float>() >0.5f ? true : false;
