@@ -123,7 +123,7 @@ public class EnemyManager : MonoBehaviour
             for (int i = 0; i < mapEnemyData.Phases[phase].enemies.Count; i++)
                 SpawnEnemy(
                     mapEnemyData.Phases[phase].enemies[i], 
-                    player.moveDir,
+                    player.MoveDir,
                     mapEnemyData.Phases[phase].enemiesPerSec[i]
                     );
         }
