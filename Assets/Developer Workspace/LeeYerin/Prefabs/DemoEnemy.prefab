@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3553346068026372134}
   - component: {fileID: 2812542015459533918}
   - component: {fileID: 3065842872469741354}
+  - component: {fileID: 2187720440823672240}
   - component: {fileID: 7106274944024096709}
   m_Layer: 0
   m_Name: DemoEnemy
@@ -124,10 +125,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2197419e5e5ed43a927be3884e63f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 7106274944024096709}
+  enemyPooeledObj: {fileID: 2187720440823672240}
+--- !u!114 &2187720440823672240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7200460328440234525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ee2fb82983cf145a3d20b565b696e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   autoRelease: 0
   releaseTime: 0
   pool: {fileID: 0}
-  agent: {fileID: 7106274944024096709}
 --- !u!195 &7106274944024096709
 NavMeshAgent:
   m_ObjectHideFlags: 0

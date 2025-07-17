@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] CharacterController controller;
     [SerializeField] float moveSpeed;
-    Vector3 moveDir = new();
+    public Vector3 moveDir = new();
     bool isMove;
 
     #region Unity Update

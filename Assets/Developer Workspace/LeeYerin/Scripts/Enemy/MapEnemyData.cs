@@ -15,7 +15,7 @@ public class MapEnemyData : ScriptableObject
     [Header("Map Enemy Odd Setting")]
     #region Map Enemy Odd Setting
     [Tooltip("List of enemy prefabs that appear on the map")]
-    [SerializeField] List<EnemyController> enemies = new();    // 맵에 등장하는 적 프리팹 목록
+    [SerializeField] List<PooledObject> enemies = new();    // 맵에 등장하는 적 프리팹 목록
     #endregion
 
     [Header("Spawn Enemy Setting")]
@@ -42,7 +42,7 @@ public class MapEnemyData : ScriptableObject
     /// <summary>
     /// 맵에 등장하는 적 프리팹 목록
     /// </summary>
-    public List<EnemyController> Enemies => enemies;
+    public List<PooledObject> Enemies => enemies;
     public List<PhaseEnemyData> Phases => phases;
     #endregion
 
@@ -76,6 +76,6 @@ public class MapEnemyData : ScriptableObject
 [Serializable]
 public struct PhaseEnemyData
 {
-    public List<EnemyController> enemies;
+    public List<PooledObject> enemies;
     public List<int> enemiesPerSec;
 }

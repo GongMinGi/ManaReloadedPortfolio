@@ -7,14 +7,21 @@ using UnityEngine.AI;
 /// 적 캐릭터의 동작 및 네이게이션 이동 등을 관리하는 컨트롤러
 /// TODO... 이후 상태 머신이랑 연결해야 함.
 /// </summary>
-public class EnemyController : PooledObject
+public class EnemyController : MonoBehaviour
 {
+    [Header("Enemy Movement Setting")]
     [Tooltip("NavMeshAgent component used for enemy movement")]
     [SerializeField] NavMeshAgent agent;    // 적 이동에 사용하는 NavMeshAgent 컴포넌트
+
+    [Header("Pool Object Setting")]
+    [SerializeField] PooledObject enemyPooeledObj;
 
     #region Unity Event
     private void Update()
     {
+        if (enemyPooeledObj == null)
+            Debug.LogError("PooledObject is null");
+
         if (EnemyManager.Instance.Player == null)
             return;
 
@@ -33,7 +40,7 @@ public class EnemyController : PooledObject
         if (agent.isOnNavMesh)
             agent.SetDestination(EnemyManager.Instance.Player.transform.position);
         else
-            Release();
+            enemyPooeledObj.Release();
     }
     #endregion
 }
