@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,10 +24,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float sprintMultiplier = 2f;
 
 
+    [SerializeField] bool isSprint;
     bool isMove;
-    bool canMove = true;
-    [SerializeField]
-    bool isSprint;
+
 
     Vector3 moveDir = new();
 
@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
 
     private readonly List<E_CastingType> currentCastingList = new();
 
+
+    //[System.]
 
 
     private static readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()
@@ -128,15 +130,10 @@ public class PlayerController : MonoBehaviour
     #region 속성 캐스팅
     public void OnCastingSpell(InputAction.CallbackContext ctx)
     {
-
-        
         if (!ctx.started) return;                       // 버튼을 눌렀을 때만 .. 홀드.. 땔때는 모두 리턴
 
         var keyControl = ctx.control as KeyControl;
         if (keyControl == null) return;                 // 게임패드, 마우스 등 키보드가 아닐 경우 리턴
-
-
-
 
         Key key = keyControl.keyCode;                   // 새 인풋 시스템의 키 열거형
         Debug.Log(key);
@@ -145,19 +142,7 @@ public class PlayerController : MonoBehaviour
         {
             AddCasting(castingType);
         }
-
-
-
     }
-
-    public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
-    {
-        if (!ctx.started) return;
-        Debug.Log("조합마법 공격");
-
-        TryCastSkill();
-    }
-
 
     private void AddCasting(E_CastingType castingType)
     {
@@ -166,6 +151,28 @@ public class PlayerController : MonoBehaviour
         currentCastingList.Add(castingType);
         onCastAdded.Invoke(castingType, currentCastingList.Count - 1);  // unity event
     }
+
+
+
+    private void ResetCasting()
+    {
+        currentCastingList.Clear();
+        onCastReset?.Invoke();
+    }
+
+
+    #endregion
+
+
+    #region 조합 마법 공격
+    public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.started) return;
+        Debug.Log("조합마법 공격");
+
+        TryCastSkill();
+    }
+
 
     private void TryCastSkill()
     {
@@ -185,11 +192,48 @@ public class PlayerController : MonoBehaviour
         ResetCasting();
 
     }
+    #endregion
 
-    private void ResetCasting()
+
+    #region 근접 공격
+
+    public void OnMeleeAttack(InputAction.CallbackContext ctx)
     {
-        currentCastingList.Clear();
-        onCastReset?.Invoke();
+        if(!ctx.started) return;
+
+        if (currentCastingList.Count != 0)
+        {
+            TryEnchant();
+            return;
+        }
+
+        Debug.Log("근접 공격 ");
+    }
+
+    private void TryEnchant()
+    {
+        Debug.Log("인첸트 실행");
+
+        ResetCasting();
+    }
+
+    #endregion
+
+
+    #region 원거리 공격
+
+    public void OnRangedAttack(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.started) return;
+
+
+        if (currentCastingList.Count == 0)
+            return;
+
+        Debug.Log("원거리 공격");
+
+        ResetCasting();
+
     }
 
 
