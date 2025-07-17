@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] bool isSprint;
     bool isMove;
-
+    //bool canMove;
 
     Vector3 moveDir = new();
 
@@ -97,8 +97,12 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext value)
     {
 
-        if (keyboard.leftCtrlKey.isPressed)
-            return;
+        //if (keyboard.leftCtrlKey.isPressed)
+        //{
+        //    Debug.Log("컨트롤 눌림");
+        //    return;
+
+        //}
         //Vector2 input = value.Get<Vector2>();
 
         Vector2 input = value.ReadValue<Vector2>();
@@ -114,7 +118,12 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        if (keyboard.leftCtrlKey.isPressed)
+        {
+            Debug.Log("컨트롤 눌림");
+            return;
 
+        }
 
         float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);
 
