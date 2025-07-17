@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 /// <summary>
 /// 개발자: 이예린
@@ -11,7 +14,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-
+    Keyboard keyboard = Keyboard.current;               // 현재 키보드에 대한 제어를 들고 있음?
 
     #region FieldAndProperty
 
@@ -21,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
 
     bool isMove;
+    bool canMove = true;
     [SerializeField]
     bool isSprint;
 
@@ -34,6 +38,29 @@ public class PlayerController : MonoBehaviour
         get => moveDir; 
         set => moveDir = value;
     }
+
+
+    [Header("Casting Settings")]
+    [SerializeField] private int maxInputCount = 6;                         // 조합 길이
+    [SerializeField] private Key castingCompleteKey = Key.Space;    // 캐스팅 확정 키
+
+
+    [Header("Event -> UI 연결")]
+    public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
+    public UnityEvent onCastReset;
+
+    private readonly List<E_CastingType> currentCastingList = new();
+
+
+
+    private static readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()
+    {
+        {Key.W, E_CastingType.Fire },
+        {Key.A, E_CastingType.Frost },
+        {Key.S, E_CastingType.Lightning },
+        {Key.D, E_CastingType.Earth },
+    };
+
 
     #endregion
 
@@ -68,6 +95,8 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext value)
     {
 
+        if (keyboard.leftCtrlKey.isPressed)
+            return;
         //Vector2 input = value.Get<Vector2>();
 
         Vector2 input = value.ReadValue<Vector2>();
@@ -83,10 +112,87 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+
+
         float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);
+
+        //if (keyboard.leftCtrlKey.isPressed)
+        //    speed = 0;
 
         controller.Move(transform.right * moveDir.x * speed * Time.deltaTime);
         controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);
     }
     #endregion
+
+
+    #region 속성 캐스팅
+    public void OnCastingSpell(InputAction.CallbackContext ctx)
+    {
+
+        
+        if (!ctx.started) return;                       // 버튼을 눌렀을 때만 .. 홀드.. 땔때는 모두 리턴
+
+        var keyControl = ctx.control as KeyControl;
+        if (keyControl == null) return;                 // 게임패드, 마우스 등 키보드가 아닐 경우 리턴
+
+
+
+
+        Key key = keyControl.keyCode;                   // 새 인풋 시스템의 키 열거형
+        Debug.Log(key);
+
+        if (castingKeyMapping.TryGetValue(key, out var castingType))
+        {
+            AddCasting(castingType);
+        }
+
+
+
+    }
+
+    public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.started) return;
+        Debug.Log("조합마법 공격");
+
+        TryCastSkill();
+    }
+
+
+    private void AddCasting(E_CastingType castingType)
+    {
+        if (currentCastingList.Count >= maxInputCount) return;      //초과 입력 무시
+
+        currentCastingList.Add(castingType);
+        onCastAdded.Invoke(castingType, currentCastingList.Count - 1);  // unity event
+    }
+
+    private void TryCastSkill()
+    {
+        if (currentCastingList.Count == 0) return;
+
+        BaseSkill skill = SkillCastingManager.Instance.GetSkill(currentCastingList);
+
+        if (skill != null)
+        {
+            skill.ExecuteSkill();
+        }
+        else
+        {
+            Debug.LogError("해당 조합에 매칭되는 스킬이 없습니다.");
+        }
+
+        ResetCasting();
+
+    }
+
+    private void ResetCasting()
+    {
+        currentCastingList.Clear();
+        onCastReset?.Invoke();
+    }
+
+
+    #endregion
+
 }
