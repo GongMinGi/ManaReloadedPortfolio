@@ -786,6 +786,38 @@ MonoBehaviour:
   moveSpeed: 5
   sprintMultiplier: 2
   isSprint: 0
+  maxInputCount: 6
+  castingCompleteKey: 1
+  onCastAdded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 110074648}
+        m_TargetAssemblyTypeName: UICastingDisplay, Assembly-CSharp
+        m_MethodName: UpdateSlot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onCastReset:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 110074648}
+        m_TargetAssemblyTypeName: UICastingDisplay, Assembly-CSharp
+        m_MethodName: ResetAll
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!143 &538419496
 CharacterController:
   m_ObjectHideFlags: 0
@@ -970,8 +1002,8 @@ MonoBehaviour:
     m_ActionName: 'player/RangedAttack[/Mouse/leftButton]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 538419502}
-        m_TargetAssemblyTypeName: PlayerCastingInputController, Assembly-CSharp
+      - m_Target: {fileID: 538419495}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnCastingSpell
         m_Mode: 0
         m_Arguments:
@@ -986,8 +1018,8 @@ MonoBehaviour:
     m_ActionName: 'player/SpellCasting[/Keyboard/space]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 538419502}
-        m_TargetAssemblyTypeName: PlayerCastingInputController, Assembly-CSharp
+      - m_Target: {fileID: 538419495}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnCombinationMagicAttack
         m_Mode: 0
         m_Arguments:
@@ -1012,7 +1044,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538419494}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2af15a470ec851047b1c748a6097e4b6, type: 3}
   m_Name: 
