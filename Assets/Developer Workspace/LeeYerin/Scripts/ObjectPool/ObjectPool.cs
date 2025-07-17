@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,6 +70,7 @@ public class ObjectPool : MonoBehaviour
             instance.transform.SetParent(transform);    // 오브젝트를 Pool의 자식으로 생성
             instance.transform.position = position;
             instance.transform.rotation = rotation;
+            instance.gameObject.SetActive(true);
             return instance;
         }
     }
