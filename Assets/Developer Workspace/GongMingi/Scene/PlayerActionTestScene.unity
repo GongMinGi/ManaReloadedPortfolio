@@ -808,6 +808,7 @@ MonoBehaviour:
   isSprint: 0
   maxInputCount: 6
   castingCompleteKey: 1
+  rangedAttackController: {fileID: 0}
   onCastAdded:
     m_PersistentCalls:
       m_Calls:
