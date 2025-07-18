@@ -1,25 +1,36 @@
-using NUnit.Framework;
+ï»¿using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
+
+/// <summary>
+/// ê°œë°œì: ê³µë¯¼ê¸°
+/// 
+/// ì‹±ê¸€í†¤ìœ¼ë¡œ ì¡´ì¬í•˜ë©°, í”Œë ˆì´ì–´ê°€ ì…ë ¥í•œ ì›ì†Œ ì¡°í•©(List<E_CastingType>;)ì„
+/// ë¬¸ìì—´ â†’ í•´ì‹œê°’ìœ¼ë¡œ ë³€í™˜í•´ ë¹ ë¥´ê²Œ ì¡°íšŒí•  ìˆ˜ ìˆë„ë¡ ê´€ë¦¬í•˜ëŠ” ì¤‘ì•™ ë§¤ë‹ˆì €ì…ë‹ˆë‹¤.
+/// - ì¸ìŠ¤í™í„°ì— ë“±ë¡ëœ SkillHashTable ëª©ë¡ì„ ë”•ì…”ë„ˆë¦¬(í•´ì‹œ â†’ í…Œì´ë¸”)ë¡œ ë³€í™˜í•´ ìºì‹±í•˜ê³ 
+/// - GetCastTypeHashTable()ë¡œ ì¡°í•©ì„ ìœ ì¼ í•´ì‹œë¡œ ë³€í™˜í•œ ë’¤ GetSkill()ì„ í†µí•´ ëŒ€ì‘ ìŠ¤í‚¬ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
+/// 
+/// </summary>
+
 public class SkillCastingManager : MonoBehaviour
 {
 
     #region Field and Property
-    // ½Ì±ÛÅæ
+    // ì‹±ê¸€í†¤
     private static SkillCastingManager instance;
 
-    public static SkillCastingManager Instance => instance; // get ÇÁ·ÎÆÛÆ¼
+    public static SkillCastingManager Instance => instance; // get í”„ë¡œí¼í‹°
 
-    // ÀÎ½ºÆåÅÍ¿¡¼­ ScriptableObject ¸ñ·ÏÀ» Á÷Á¢ ³Ö¾îµÎ´Â °ø°£
+    // ì¸ìŠ¤í™í„°ì—ì„œ ScriptableObject ëª©ë¡ì„ ì§ì ‘ ë„£ì–´ë‘ëŠ” ê³µê°„
     public List<SkillHashTable> allSkilltable = null;
 
-    // ·±Å¸ÀÓ¿¡ ºü¸¥ Á¶È¸¸¦ À§ÇØ º¯È¯ÇØ µÎ´Â µñ¼Å³Ê¸® ( ÇØ½Ã°ª => ÇØ½Ã Å×ÀÌºí)
+    // ëŸ°íƒ€ì„ì— ë¹ ë¥¸ ì¡°íšŒë¥¼ ìœ„í•´ ë³€í™˜í•´ ë‘ëŠ” ë”•ì…”ë„ˆë¦¬ ( í•´ì‹œê°’ => í•´ì‹œ í…Œì´ë¸”)
     protected Dictionary<int, SkillHashTable> allSkillTableDict = new Dictionary<int, SkillHashTable>();
 
-    bool isInit = false; // Áßº¹ ÃÊ±âÈ­ ¹æÁö
+    bool isInit = false; // ì¤‘ë³µ ì´ˆê¸°í™” ë°©ì§€
 
     #endregion
 
@@ -37,7 +48,7 @@ public class SkillCastingManager : MonoBehaviour
         }
 
 
-        Init(); // °ÔÀÓ½ÃÀÛ ÈÄ ÃÊ±âÈ­ 
+        Init(); // ê²Œì„ì‹œì‘ í›„ ì´ˆê¸°í™” 
 
     }
 
@@ -45,20 +56,20 @@ public class SkillCastingManager : MonoBehaviour
 
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ÀÔ·ÂÇÑ Ä³½ºÆÃÀ» => ¹®ÀÚ¿­ => ÇØ½Ã ÄÚµå ¼ø¼­·Î º¯È¯ÇÑ´Ù.
-    /// Ä³½ºÆÃ Å¸ÀÔ ¸®½ºÆ® (ex: ºÒ, ¹°, ºÒ..)¸¦ ¹®ÀÚ¿­È­ => HashCode·Î º¯È¯
-    /// µ¿ÀÏ Á¶ÇÕ, µ¿ÀÏ ¼ø¼­¶ó¸é, °°Àº ¹®ÀÚ¿­ÀÌ ³ª¿À¹Ç·Î °°Àº ÇØ½Ã°¡ ³ª¿Â´Ù.
+    /// í”Œë ˆì´ì–´ê°€ ì…ë ¥í•œ ìºìŠ¤íŒ…ì„ => ë¬¸ìì—´ => í•´ì‹œ ì½”ë“œ ìˆœì„œë¡œ ë³€í™˜í•œë‹¤.
+    /// ìºìŠ¤íŒ… íƒ€ì… ë¦¬ìŠ¤íŠ¸ (ex: ë¶ˆ, ë¬¼, ë¶ˆ..)ë¥¼ ë¬¸ìì—´í™” => HashCodeë¡œ ë³€í™˜
+    /// ë™ì¼ ì¡°í•©, ë™ì¼ ìˆœì„œë¼ë©´, ê°™ì€ ë¬¸ìì—´ì´ ë‚˜ì˜¤ë¯€ë¡œ ê°™ì€ í•´ì‹œê°€ ë‚˜ì˜¨ë‹¤.
     /// </summary>
     public static int GetCastTypeHashTable(List<E_CastingType> playerCast)
     {
-        if (playerCast.Count <= 0)                      // Ä³½ºÆÃÀÌ ºñ¾îÀÖÀ¸¸é 0À» ¹İÈ¯ÇØ ¿¡·¯ Ç¥½Ã
+        if (playerCast.Count <= 0)                      // ìºìŠ¤íŒ…ì´ ë¹„ì–´ìˆìœ¼ë©´ 0ì„ ë°˜í™˜í•´ ì—ëŸ¬ í‘œì‹œ
             return 0;
 
         string tempString = "";
 
         foreach(var item in playerCast)
         {
-            tempString += item.ToString() + "|";        // ºÒ|¹°|...| ÀÇ ÇüÅÂ·Î º¯È¯½ÃÅ²´Ù
+            tempString += item.ToString() + "|";        // ë¶ˆ|ë¬¼|...| ì˜ í˜•íƒœë¡œ ë³€í™˜ì‹œí‚¨ë‹¤
         }
 
         return tempString.GetHashCode();
@@ -67,11 +78,11 @@ public class SkillCastingManager : MonoBehaviour
 
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ°¡ ÀÔ·ÂÇÑ Ä³½ºÆÃÀ» ¹Ş¾Æ¼­ GetCastTypeHashTableÀ» ÅëÇØ ÇØ½Ã°ªÀ¸·Î º¯È¯,
-    /// ½ºÅ³ÀÇ ÇØ½Ã ÄÚµå°¡ µé¾îÀÖ´Â µñ¼Å³Ê¸®¿¡¼­ °Ë»öÇØ¼­ µî·ÏµÈ ½ºÅ³ÀÎÁö Ã£´Â´Ù
-    /// µî·ÏµÇ¾î ÀÖÀ¸¸é ÇØ½Ã °ªÀ» ¹İÈ¯
+    /// í”Œë ˆì´ê°€ ì…ë ¥í•œ ìºìŠ¤íŒ…ì„ ë°›ì•„ì„œ GetCastTypeHashTableì„ í†µí•´ í•´ì‹œê°’ìœ¼ë¡œ ë³€í™˜,
+    /// ìŠ¤í‚¬ì˜ í•´ì‹œ ì½”ë“œê°€ ë“¤ì–´ìˆëŠ” ë”•ì…”ë„ˆë¦¬ì—ì„œ ê²€ìƒ‰í•´ì„œ ë“±ë¡ëœ ìŠ¤í‚¬ì¸ì§€ ì°¾ëŠ”ë‹¤
+    /// ë“±ë¡ë˜ì–´ ìˆìœ¼ë©´ í•´ì‹œ ê°’ì„ ë°˜í™˜
     /// </summary>
-    /// <param name="playerCast"></param>
+    /// <param name="playerCast">í”Œë ˆì´ì–´ê°€ ì…ë ¥í•œ ì›ì†Œ ìºìŠ¤íŒ… ëª©ë¡</param>
     /// <returns></returns>
     public BaseSkill GetSkill( List<E_CastingType> playerCast)
     {
@@ -79,7 +90,7 @@ public class SkillCastingManager : MonoBehaviour
 
         if( hashValue == 0)
         {
-            Debug.LogError("°ª ÀÌ»óÇÔ È®ÀÎ ¿ä¸Á");
+            Debug.LogError("ê°’ ì´ìƒí•¨ í™•ì¸ ìš”ë§");
         }
 
 
@@ -93,9 +104,15 @@ public class SkillCastingManager : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// ì¸ìŠ¤í™í„°ì— ë“±ë¡ëœ <see cref="SkillHashTable"/> ë¦¬ìŠ¤íŠ¸ë¥¼
+    /// ëŸ°íƒ€ì„ ì¡°íšŒìš© ë”•ì…”ë„ˆë¦¬(<c>allSkillTableDict</c>)ë¡œ ë³€í™˜í•´ ìºì‹±í•œë‹¤.
+    /// - ì¤‘ë³µ í˜¸ì¶œ ë°©ì§€ë¥¼ ìœ„í•´ <c>isInit</c> í”Œë˜ê·¸ ì‚¬ìš©.
+    /// </summary>
     public void Init()
     {
-        if (isInit) return;     // Áßº¹ ÃÊ±âÈ­ ¹æÁö
+        if (isInit) return;     // ì¤‘ë³µ ì´ˆê¸°í™” ë°©ì§€
 
 
         isInit = true;
