@@ -330,13 +330,13 @@ MonoBehaviour:
   - {fileID: 1600510567}
   defaultColor: {r: 0, g: 0, b: 0, a: 1}
   elementColors:
-  - type: 0
+  - type: 4
     color: {r: 1, g: 0, b: 0, a: 0}
-  - type: 1
+  - type: 5
     color: {r: 0.7122642, g: 0.96895367, b: 1, a: 0}
-  - type: 2
+  - type: 1
     color: {r: 0.9966632, g: 0.5330188, b: 1, a: 0}
-  - type: 3
+  - type: 0
     color: {r: 0.5849056, g: 0.34543052, b: 0.19588822, a: 0}
 --- !u!114 &110074649
 MonoBehaviour:
