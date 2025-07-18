@@ -781,8 +781,9 @@ GameObject:
   - component: {fileID: 538419498}
   - component: {fileID: 538419497}
   - component: {fileID: 538419496}
-  - component: {fileID: 538419495}
   - component: {fileID: 538419501}
+  - component: {fileID: 538419495}
+  - component: {fileID: 538419502}
   m_Layer: 0
   m_Name: DemoPlayer
   m_TagString: Untagged
@@ -808,6 +809,7 @@ MonoBehaviour:
   isSprint: 0
   maxInputCount: 6
   castingCompleteKey: 1
+  rangedAttackController: {fileID: 538419502}
   onCastAdded:
     m_PersistentCalls:
       m_Calls:
@@ -1082,6 +1084,19 @@ MonoBehaviour:
   m_DefaultActionMap: player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &538419502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538419494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60570044479fde943b1dca440b165bd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elementPriorityData: {fileID: 11400000, guid: 930bab5c1a6bac2439b9149a4d75ae0b, type: 2}
 --- !u!1 &733412523
 GameObject:
   m_ObjectHideFlags: 0

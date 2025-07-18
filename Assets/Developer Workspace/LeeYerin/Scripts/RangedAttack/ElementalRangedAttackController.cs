@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -14,12 +15,24 @@ public class ElementalRangedAttackController : MonoBehaviour
 {
     [SerializeField] ElementPriorityData elementPriorityData;
 
-    private List<int> castedElementCount = new();
+    private Dictionary<E_CastingType, int> castedElementCount = new();
 
     /// <summary>
     /// enum으로 정의된 casting type을  리스트에 플레그 형태로 저장
     /// </summary>
-    public List<int> CastedElementCount => castedElementCount;
+    public Dictionary<E_CastingType, int> CastedElementCount => castedElementCount;
+
+    #region Casted Element Count Clear
+    /// <summary>
+    /// 보유한 원소 속성별 카운트를 초기화하는 메서드
+    /// 모든 원소의 개수를 0으로 설정하여 원소 보유 정보를 리셋함
+    /// </summary>
+    private void ClearCastedElementCount()
+    {
+        foreach (var element in castedElementCount.Keys.ToList())
+            castedElementCount[element] = 0;
+    }
+    #endregion
 
     #region Elemental Attack Dispatcher
     /// <summary>
@@ -28,6 +41,9 @@ public class ElementalRangedAttackController : MonoBehaviour
     /// </summary>
     public void TryElementalRangedAttack()
     {
+        if (castedElementCount == null)
+            return;
+
         // 우선순위와 보유 개수를 기반으로 하나의 속성을 선택
         E_CastingType? castingType = SelectPrimaryCastingElement();
 
@@ -60,7 +76,7 @@ public class ElementalRangedAttackController : MonoBehaviour
         }
 
         // 보유 중인 원소 개수에 대한 데이터 정리
-        castedElementCount.Clear();
+        ClearCastedElementCount();
     }
 
     /// <summary>
@@ -76,12 +92,15 @@ public class ElementalRangedAttackController : MonoBehaviour
 
             foreach (var element in group.elements)
             {
+                if (!castedElementCount.ContainsKey(element))
+                    continue;
+
                 // 해당 원소를 1개 이상 보유 중인지 확인
-                if (CastedElementCount[(int)element] == 0)
+                if (castedElementCount[element] == 0)
                     continue;
 
                 // 동일 우선순위 그룹 내에서는 개수가 가장 많은 속성을 우선 선택
-                if (castingType == null || CastedElementCount[(int)castingType] < CastedElementCount[(int)element])
+                if (castingType == null || castedElementCount[castingType.Value] < castedElementCount[element])
                     castingType = element;
             }
 
