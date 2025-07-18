@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int maxInputCount = 6;                         // 조합 길이
     [SerializeField] private Key castingCompleteKey = Key.Space;            // 캐스팅 확정 키
 
+    [SerializeField]
+    ElementalRangedAttackController rangedAttackController; 
+
 
     [Header("Event -> UI 연결")]
     public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
@@ -83,6 +86,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         MapTileManager.Instance.Player = this;
+
+        // 원거리 공격을 위한 초기 세팅 작업
+        foreach (var mapping in castingKeyMapping)
+            rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
     }
     #endregion
 
@@ -193,6 +200,7 @@ public class PlayerController : MonoBehaviour
         if (currentCastingList.Count >= maxInputCount) return;          //초과 입력 무시
 
         currentCastingList.Add(castingType);
+        rangedAttackController.CastedElementCount[castingType]++;   // 현재 캐스팅된 속성 개수 업데이트
         onCastAdded.Invoke(castingType, currentCastingList.Count - 1);  // unity event
     }
 
@@ -310,6 +318,8 @@ public class PlayerController : MonoBehaviour
             return;
 
         Debug.Log("원거리 공격");
+
+        rangedAttackController.TryElementalRangedAttack();  // 원거리 공격 시도
 
         ResetCasting();
 
