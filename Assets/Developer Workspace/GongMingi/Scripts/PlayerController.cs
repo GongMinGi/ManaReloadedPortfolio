@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
 /// <summary>
-/// 개발자: 이예린
+/// 개발자: 이예린, 공민기
 /// 
 /// 플레이어 조작을 관리하는 클래스
 /// 
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Casting Settings")]
     [SerializeField] private int maxInputCount = 6;                         // 조합 길이
-    [SerializeField] private Key castingCompleteKey = Key.Space;    // 캐스팅 확정 키
+    [SerializeField] private Key castingCompleteKey = Key.Space;            // 캐스팅 확정 키
 
 
     [Header("Event -> UI 연결")]
@@ -51,8 +51,6 @@ public class PlayerController : MonoBehaviour
 
     private readonly List<E_CastingType> currentCastingList = new();
 
-
-    //[System.]
 
 
     private static readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()
@@ -68,6 +66,13 @@ public class PlayerController : MonoBehaviour
 
 
     #region Unity Update
+
+    /// <summary>
+    /// 물리 프레임마다 호출.
+    /// - <see cref="Move"/>로 실제 이동을 수행하고  
+    /// - 이동 중이면 <see cref="MapTileManager.UpdateCurrentPos"/>를 호출해
+    ///   무한 맵 타일 위치를 갱신한다.
+    /// </summary>
     private void FixedUpdate()
     {
         Move();
@@ -83,6 +88,12 @@ public class PlayerController : MonoBehaviour
 
     #region Move
 
+
+    /// <summary>
+    /// 스프린트(Shift) 입력 처리.
+    /// - <paramref name="ctx"/>.started → isSprint = true
+    /// - <paramref name="ctx"/>.canceled → isSprint = false
+    /// </summary>
     public void OnSprint(InputAction.CallbackContext ctx)
     {
         if (ctx.started) isSprint = true;
@@ -93,7 +104,13 @@ public class PlayerController : MonoBehaviour
         //isSprint = value.Get<float>() >0.5f ? true : false;
     }
 
-    //InputValue
+
+    /// <summary>
+    /// WASD 이동 입력 처리.
+    /// - 입력 벡터를 moveDir에 저장하고 
+    /// - 0,0 여부에 따라 isMove 플래그를 갱신한다.
+    /// </summary>
+    /// <param name="value">InputAction 콜백으로 전달된 Vector2 값</param>
     public void OnMove(InputAction.CallbackContext value)
     {
 
@@ -116,6 +133,12 @@ public class PlayerController : MonoBehaviour
             isMove = true;
     }
 
+
+    /// <summary>
+    /// 실제 CharacterController 이동 로직.
+    /// - 좌 Ctrl이 눌려 있으면 이동을 중단한다.  
+    /// - 스프린트 중이면 sprintMultiplier 를 speed에 곱해주어 속도를 증가시킨다.
+    /// </summary>
     private void Move()
     {
         if (keyboard.leftCtrlKey.isPressed)
@@ -137,6 +160,12 @@ public class PlayerController : MonoBehaviour
 
 
     #region 속성 캐스팅
+
+    /// <summary>
+    /// 속성 키(WASD) 입력 처리.
+    /// - 키보드 키를 <see cref="E_CastingType"/>로 매핑해 <see cref="AddCasting"/> 호출.  
+    /// - 홀드/릴리스 구분 없이 ctx.started 상태에서만 동작.
+    /// </summary>
     public void OnCastingSpell(InputAction.CallbackContext ctx)
     {
         if (!ctx.started) return;                       // 버튼을 눌렀을 때만 .. 홀드.. 땔때는 모두 리턴
@@ -153,9 +182,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 캐스팅 리스트에 새 속성을 추가하고 UI 이벤트를 발행한다.
+    /// - maxInputCount 초과 시 무시.  
+    /// - <see cref="onCastAdded"/> (타입, 인덱스) 이벤트 호출.
+    /// </summary>
     private void AddCasting(E_CastingType castingType)
     {
-        if (currentCastingList.Count >= maxInputCount) return;      //초과 입력 무시
+        if (currentCastingList.Count >= maxInputCount) return;          //초과 입력 무시
 
         currentCastingList.Add(castingType);
         onCastAdded.Invoke(castingType, currentCastingList.Count - 1);  // unity event
@@ -163,6 +198,12 @@ public class PlayerController : MonoBehaviour
 
 
 
+    /// <summary>
+    /// 캐스팅 입력을 초기화하고 UI 리셋 이벤트(<see cref="onCastReset"/>)를 호출한다.
+    /// 
+    /// => 이부분 추가로 공부필요 어케작동하는지 아직이해못함 ㅠ
+    /// 
+    /// </summary>
     private void ResetCasting()
     {
         currentCastingList.Clear();
@@ -174,6 +215,11 @@ public class PlayerController : MonoBehaviour
 
 
     #region 조합 마법 공격
+
+    /// <summary>
+    /// ‘조합 마법 공격’ 입력 트리거.
+    /// - ctx.started 상태에서 <see cref="TryCastSkill"/>을 호출한다.
+    /// </summary>
     public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
     {
         if (!ctx.started) return;
@@ -183,6 +229,13 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// 현재 캐스팅 리스트와 매칭되는 스킬을 찾아 실행한다.
+    /// - <see cref="SkillCastingManager.GetSkill"/>로 조회.  
+    /// - 성공 시 ExecuteSkill() 호출, 없으면 오류 로그.  
+    /// - 처리 후 <see cref="ResetCasting"/> 수행.
+    /// </summary>
     private void TryCastSkill()
     {
         if (currentCastingList.Count == 0) return;
@@ -195,7 +248,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("해당 조합에 매칭되는 스킬이 없습니다.");
+            Debug.LogWarning("해당 조합에 매칭되는 스킬이 없습니다.");
         }
 
         ResetCasting();
@@ -206,6 +259,12 @@ public class PlayerController : MonoBehaviour
 
     #region 근접 공격
 
+
+    /// <summary>
+    /// 근접 공격 입력 트리거.
+    /// - 캐스팅이 존재하면 <see cref="TryEnchant"/>를 호출해 인첸트 시도.  
+    /// - 없으면 일반 근접 공격(후속 구현 필요) 로그 출력.
+    /// </summary>
     public void OnMeleeAttack(InputAction.CallbackContext ctx)
     {
         if(!ctx.started) return;
@@ -219,6 +278,11 @@ public class PlayerController : MonoBehaviour
         Debug.Log("근접 공격 ");
     }
 
+
+    /// <summary>
+    /// 근접 무기 인첸트 시도.
+    /// * 실제 인첸트 효과는 추후 구현 예정.
+    /// </summary>
     private void TryEnchant()
     {
         Debug.Log("인첸트 실행");
@@ -231,6 +295,12 @@ public class PlayerController : MonoBehaviour
 
     #region 원거리 공격
 
+
+    /// <summary>
+    /// 원거리 공격 입력 트리거.
+    /// - 캐스팅 리스트가 비어 있으면 아무 작업도 하지 않는다.  
+    /// - 현재는 로그 출력 후 캐스팅을 초기화한다.
+    /// </summary>
     public void OnRangedAttack(InputAction.CallbackContext ctx)
     {
         if (!ctx.started) return;
