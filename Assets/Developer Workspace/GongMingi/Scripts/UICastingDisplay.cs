@@ -15,18 +15,19 @@ public class UICastingDisplay : MonoBehaviour
 {
 
     #region field and property
-    [SerializeField] private Image[] slotImages;
-    [SerializeField] private Color defaultColor = Color.black;
+
+    [SerializeField] private Image[] slotImages;                    // 캐스팅 될 속성의 색을 표시할 이미지
+    [SerializeField] private Color defaultColor = Color.black;      // 속성이 캐스팅되지 않았을 때의 
 
     [System.Serializable] private struct ElementColor
     {
-        public E_CastingType type;
-        public Color color;
+        public E_CastingType type;           // 인스펙터에서 설정하는 들고 갈 속성 타입
+        public Color color;                  // 설정한 속성이 ui 에서 표시될 색깔 설정
     }
 
-    [SerializeField] private ElementColor[] elementColors;
+    [SerializeField] private ElementColor[] elementColors;  // 속성 - 색깔을 리스트로 editor에 표시
 
-    private readonly Dictionary<E_CastingType, Color> elementColorMap = new();
+    private readonly Dictionary<E_CastingType, Color> elementColorMap = new();  
 
 
     #endregion
@@ -41,7 +42,7 @@ public class UICastingDisplay : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        foreach(var element in elementColors)
+        foreach(var element in elementColors)    
         {
             elementColorMap[element.type] = element.color;
         }
@@ -61,13 +62,13 @@ public class UICastingDisplay : MonoBehaviour
     /// <param name="index">업데이트할 슬롯 인덱스</param>
     public void UpdateSlot(E_CastingType type, int index)
     {
-        if (index < 0 || index >= slotImages.Length) return;
+        if (index < 0 || index >= slotImages.Length) return;        // 슬롯 이미지 최대 길이를 넘어가면 리턴
 
-        Color baseCol = elementColorMap.TryGetValue(type, out var color) ? color : Color.white;
+        Color baseCol = elementColorMap.TryGetValue(type, out var color) ? color : Color.white;  // 타입에 지정된 색상이 없으면, 흰색으로 설정 
 
-        baseCol.a = 1f;
+        baseCol.a = 1f;                     // UI 에 표시되는 색상이 투명해지지 않도록 alpha 값을 1로 고정
 
-        slotImages[index].color = baseCol;
+        slotImages[index].color = baseCol;  // 타입마다 지정된 색상을 UI 변수에 할당
     }
 
 
@@ -76,7 +77,7 @@ public class UICastingDisplay : MonoBehaviour
     /// </summary>
     public void ResetAll()
     {
-        foreach (Image img in slotImages) img.color = defaultColor;
+        foreach (Image img in slotImages) img.color = defaultColor;     // ui의 캐스팅 슬롯들을 모두 캐스팅 되지 않은 상태 (검은색)로 초기화
     }
 
     // Update is called once per frame
