@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
+
 /// <summary>
 /// 개발자: 이예린, 공민기
 /// 
@@ -85,10 +86,10 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        MapTileManager.Instance.Player = this;
+        MapTileManager.Instance.Player = this;                                  // 무한 맵 관리 매니저 초기화
 
         // 원거리 공격을 위한 초기 세팅 작업
-        foreach (var mapping in castingKeyMapping)
+        foreach (var mapping in castingKeyMapping)                              
             rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
     }
     #endregion
@@ -103,12 +104,11 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnSprint(InputAction.CallbackContext ctx)
     {
-        if (ctx.started) isSprint = true;
-        if (ctx.canceled) isSprint = false;
+        if (ctx.started) isSprint = true;           // shift를 누르기 시작했을때 달리기 상태로 들어간다.
+        if (ctx.canceled) isSprint = false;         // shift에서 손을 땔 때 걷기 상태로 돌아간다.
         else return;
 
-        //Debug.Log($"val : {value}, {value.Get<float>()}");
-        //isSprint = value.Get<float>() >0.5f ? true : false;
+
     }
 
 
@@ -121,20 +121,12 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext value)
     {
 
-        //if (keyboard.leftCtrlKey.isPressed)
-        //{
-        //    Debug.Log("컨트롤 눌림");
-        //    return;
+        Vector2 input = value.ReadValue<Vector2>();    // wasd로 이동값을 입력받음 
 
-        //}
-        //Vector2 input = value.Get<Vector2>();
+        moveDir.x = input.x;                    // x축이 입력받고 잇는지 , 오른쪽 == 1, 왼쪽 == -1, 정지 == 0
+        moveDir.z = input.y;                    // y축이 입력받고 잇는지 , 위쪽 == 1, 아래쪽 == -1, 정지 == 0
 
-        Vector2 input = value.ReadValue<Vector2>();
-
-        moveDir.x = input.x;
-        moveDir.z = input.y;
-
-        if (input.x == 0 && input.y == 0)
+        if (input.x == 0 && input.y == 0)       // x축 y축 모두 움직이지 않는다면, 움직임을 판단하는 변수를 false로 설정
             isMove = false;
         else
             isMove = true;
@@ -148,20 +140,18 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        if (keyboard.leftCtrlKey.isPressed)
+        if (keyboard.leftCtrlKey.isPressed)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
         {
             Debug.Log("컨트롤 눌림");
-            return;
+            return;                                                         
 
         }
 
-        float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);
+        float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);       // 이동속도 변수에 달리는 중이면, 다른 숫자를 곱해주고, 아니면  1을 곱해준다
 
-        //if (keyboard.leftCtrlKey.isPressed)
-        //    speed = 0;
 
-        controller.Move(transform.right * moveDir.x * speed * Time.deltaTime);
-        controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);
+        controller.Move(transform.right * moveDir.x * speed * Time.deltaTime);      // 좌우 방향 플레이어 이동 
+        controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);    // 상하 방향 플레이어 이동
     }
     #endregion
 
@@ -199,8 +189,8 @@ public class PlayerController : MonoBehaviour
     {
         if (currentCastingList.Count >= maxInputCount) return;          //초과 입력 무시
 
-        currentCastingList.Add(castingType);
-        rangedAttackController.CastedElementCount[castingType]++;   // 현재 캐스팅된 속성 개수 업데이트
+        currentCastingList.Add(castingType);                            // 현재 캐스팅된 원소 목록에 지금 누른 원소를 추가한다.
+        rangedAttackController.CastedElementCount[castingType]++;       // 현재 캐스팅된 속성 개수 업데이트
         onCastAdded.Invoke(castingType, currentCastingList.Count - 1);  // unity event
     }
 
@@ -214,8 +204,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ResetCasting()
     {
-        currentCastingList.Clear();
-        onCastReset?.Invoke();
+        currentCastingList.Clear();     // 현재 캐스팅 된 원소들을 지운다
+        onCastReset?.Invoke();          // ui에 표시된 원소를 전부 검정색으로 바꾼다. (비운다)
     }
 
 
@@ -230,10 +220,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
     {
-        if (!ctx.started) return;
+        if (!ctx.started) return;       // space 를 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.
         Debug.Log("조합마법 공격");
 
-        TryCastSkill();
+        TryCastSkill();                 // 스킬 실행
     }
 
 
@@ -246,20 +236,20 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void TryCastSkill()
     {
-        if (currentCastingList.Count == 0) return;
+        if (currentCastingList.Count == 0) return;      // 현재 캐스팅된 원소가 없으면 스킬을 실행하지 않는다.
 
-        BaseSkill skill = SkillCastingManager.Instance.GetSkill(currentCastingList);
+        BaseSkill skill = SkillCastingManager.Instance.GetSkill(currentCastingList);    // 스킬관리자에게 캐스팅된 원소리스트를 보내서 그에 해당하는 스킬의 고유번호를 받는다.
 
-        if (skill != null)
+        if (skill != null)              // 스킬이 존재한다면
         {
-            skill.ExecuteSkill();
+            skill.ExecuteSkill();       // 스킬을 실행한다.
         }
         else
         {
             Debug.LogWarning("해당 조합에 매칭되는 스킬이 없습니다.");
         }
 
-        ResetCasting();
+        ResetCasting();                 // 캐스팅한 속성을 전부 비운다.
 
     }
     #endregion
@@ -311,17 +301,17 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnRangedAttack(InputAction.CallbackContext ctx)
     {
-        if (!ctx.started) return;
+        if (!ctx.started) return;       // 마우스 좌클릭을 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.            
 
 
-        if (currentCastingList.Count == 0)
+        if (currentCastingList.Count == 0)  // 현재 캐스팅된 원소의 수가 없다면, 리턴한다
             return;
 
         Debug.Log("원거리 공격");
 
         rangedAttackController.TryElementalRangedAttack();  // 원거리 공격 시도
 
-        ResetCasting();
+        ResetCasting();                     // 캐스팅한 속성을 전부 비운다.
 
     }
 
