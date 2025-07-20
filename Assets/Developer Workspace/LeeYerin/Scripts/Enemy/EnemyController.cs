@@ -6,7 +6,6 @@ using UnityEngine.AI;
 /// 개발자: 이예린
 /// 
 /// 적 캐릭터의 동작 및 네이게이션 이동 등을 관리하는 컨트롤러
-/// TODO... 이후 상태 머신이랑 연결해야 함.
 /// </summary>
 public class EnemyController : MonoBehaviour
 {
@@ -19,22 +18,24 @@ public class EnemyController : MonoBehaviour
 
     [Header("Enemy Attack Setting")]
     [SerializeField] LayerMask PlayerLayer;
-    [SerializeField] BoxCollider attackRange;
+    [SerializeField] protected BoxCollider attackRange;
     private float attackDis;
-    Coroutine attackLoop;
+    protected Coroutine attackLoop;
     [SerializeField] bool isAttack = false;
 
     [Header("Pool Object Setting")]
+    [SerializeField] protected bool isBoss;
     [SerializeField] PooledObject enemyPooeledObj;
 
     #region Unity Event
 
-    private IEnumerator Start()
+    protected virtual IEnumerator Start()
     {
         if (enemyPooeledObj == null)
-            Debug.LogError("PooledObject is null");
+            if (!isBoss)
+                Debug.LogError("PooledObject is null");
 
-        yield return new WaitUntil(() => GameModeManager.EnemyManager.Player == null);
+        yield return new WaitUntil(() => GameModeManager.EnemyManager.Player != null);
 
         attackDis = attackRange.size.z;
     }
@@ -122,7 +123,7 @@ public class EnemyController : MonoBehaviour
     /// 콜라이더를 활성 상태로 유지하며 코루틴을 종료
     /// </summary>
     /// <returns></returns>
-    private IEnumerator MeleeAttackLoop()
+    protected virtual IEnumerator MeleeAttackLoop()
     {
         while (isAttack)
         {
