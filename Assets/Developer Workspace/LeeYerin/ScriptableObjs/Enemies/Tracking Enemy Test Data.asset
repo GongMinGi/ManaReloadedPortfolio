@@ -19,6 +19,6 @@ MonoBehaviour:
   phases:
   - enemies:
     - {fileID: 2187720440823672240, guid: 700868f2cc9274c47b3b421785043ed6, type: 3}
-    enemiesPerSec: 06000000
+    enemiesPerSec: 01000000
   minSpawnTime: 3
   maxSpawnTime: 6
