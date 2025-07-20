@@ -9,7 +9,6 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     private static PoolManager instance;
-    public static PoolManager Instance => instance;
 
     // 오브젝트 풀을 관리하는 딕셔너리
     private Dictionary<int, ObjectPool> poolDic = new Dictionary<int, ObjectPool>();
@@ -18,7 +17,10 @@ public class PoolManager : MonoBehaviour
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+            GameModeManager.PoolManager = instance;
+        }
         else
             Destroy(gameObject);
     }

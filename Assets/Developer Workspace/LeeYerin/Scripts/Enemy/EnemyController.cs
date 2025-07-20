@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour
         if (enemyPooeledObj == null)
             Debug.LogError("PooledObject is null");
 
-        if (EnemyManager.Instance.Player == null)
+        if (GameModeManager.EnemyManager.Player == null)
             return;
 
         TryTracking();
@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
     private void TryTracking()
     {
         if (agent.isOnNavMesh)
-            agent.SetDestination(EnemyManager.Instance.Player.transform.position);
+            agent.SetDestination(GameModeManager.EnemyManager.Player.transform.position);
         else
             enemyPooeledObj.Release();
     }
