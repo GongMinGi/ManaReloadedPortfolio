@@ -22,8 +22,6 @@ public class SkillCastingManager : MonoBehaviour
     // 싱글톤
     private static SkillCastingManager instance;
 
-    public static SkillCastingManager Instance => instance; // get 프로퍼티
-
     // 인스펙터에서 ScriptableObject 목록을 직접 넣어두는 공간
     public List<SkillHashTable> allSkilltable = null;
 
@@ -40,6 +38,7 @@ public class SkillCastingManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            GameModeManager.SkillCastingManager = instance;
             DontDestroyOnLoad(this.gameObject);
         }
         else

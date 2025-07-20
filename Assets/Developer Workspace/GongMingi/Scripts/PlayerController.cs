@@ -81,12 +81,12 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         if (isMove)
-            MapTileManager.Instance.UpdateCurrentPos();
+            GameModeManager.MapTileManager.UpdateCurrentPos();
     }
 
     private void Start()
     {
-        MapTileManager.Instance.Player = this;                                  // 무한 맵 관리 매니저 초기화
+        GameModeManager.Player = this;                                  // 현재 플레이어 인스턴스를 GameModeManager에 등록
 
         // 원거리 공격을 위한 초기 세팅 작업
         foreach (var mapping in castingKeyMapping)                              
@@ -238,7 +238,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentCastingList.Count == 0) return;      // 현재 캐스팅된 원소가 없으면 스킬을 실행하지 않는다.
 
-        BaseSkill skill = SkillCastingManager.Instance.GetSkill(currentCastingList);    // 스킬관리자에게 캐스팅된 원소리스트를 보내서 그에 해당하는 스킬의 고유번호를 받는다.
+        BaseSkill skill = GameModeManager.SkillCastingManager.GetSkill(currentCastingList);    // 스킬관리자에게 캐스팅된 원소리스트를 보내서 그에 해당하는 스킬의 고유번호를 받는다.
 
         if (skill != null)              // 스킬이 존재한다면
         {

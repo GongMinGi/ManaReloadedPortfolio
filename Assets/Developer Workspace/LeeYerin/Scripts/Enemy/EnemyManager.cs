@@ -12,7 +12,6 @@ public class EnemyManager : MonoBehaviour
     #region Fields and Properties
     #region Singleton
     private static EnemyManager instance;
-    public static EnemyManager Instance => instance;
     #endregion
 
     #region Enemy Object Pool Settings
@@ -25,7 +24,7 @@ public class EnemyManager : MonoBehaviour
     #region Enemy Spawn Settings
     [Header("Enemy Spawn Settings")]
     [SerializeField] PlayerController player;
-    public PlayerController Player => player;
+    public PlayerController Player { get { return player; } set { player = value; } }
 
     #region Initialized from ScriptableObject
     [Tooltip("Spawn distance from player")]
@@ -43,12 +42,19 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #region Unity Event
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameModeManager.Player != null);   // 플레이어를 알 수 있을 때까지 대기
+
         if (instance == null)
+        {
             instance = this;
+            GameModeManager.EnemyManager = instance;
+        }
         else
             Destroy(instance);
+
+        yield return new WaitUntil(() => player != null);   // 플레이어가 할당된 후 진행
 
         Initialization();
 
@@ -65,7 +71,7 @@ public class EnemyManager : MonoBehaviour
     {
         // MapEnemyData 내 적 프리팹 목록을 순회하며 각각 Pool 생성
         foreach (var enemy in mapEnemyData.Enemies)
-            PoolManager.Instance.CreatePool(enemy, size, capacity);
+            GameModeManager.PoolManager.CreatePool(enemy, size, capacity);
 
         // MapEnemyData에 정의된 스폰 설정값을 필드에 복사
         mapEnemyData.Initialization(
@@ -100,7 +106,7 @@ public class EnemyManager : MonoBehaviour
             spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
 
             // Pool에서 적 오브젝트 위치 지정 및 활성화
-            PooledObject newEnemy = PoolManager.Instance.GetPool(enemyPrefab, spawnPos, Quaternion.identity);
+            PooledObject newEnemy = GameModeManager.PoolManager.GetPool(enemyPrefab, spawnPos, Quaternion.identity);
 
             // 생성 위치 방향을 바라보도록 회전 설정
             newEnemy.transform.LookAt(spawnPos);
