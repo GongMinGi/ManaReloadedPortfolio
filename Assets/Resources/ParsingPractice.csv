@@ -1,0 +1,4 @@
+SerialNumber,Type,Name,Discription,Attack,deffense,magic
+1,지팡이,제식 지팡이,지팡이다,0,0,5
+2,검,오래된 검,칼이다,10,0,0
+3,갑옷,마법사 로브,옷이다,0,10,0
