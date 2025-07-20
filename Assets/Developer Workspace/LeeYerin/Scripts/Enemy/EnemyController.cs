@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,19 +14,36 @@ public class EnemyController : MonoBehaviour
     [Tooltip("NavMeshAgent component used for enemy movement")]
     [SerializeField] NavMeshAgent agent;    // 적 이동에 사용하는 NavMeshAgent 컴포넌트
 
+    [Header("HP")]
+    [SerializeField] float hp = 100f;
+
+    [Header("Enemy Attack Setting")]
+    [SerializeField] LayerMask PlayerLayer;
+    [SerializeField] BoxCollider attackRange;
+    private float attackDis;
+    Coroutine attackLoop;
+    [SerializeField] bool isAttack = false;
+
     [Header("Pool Object Setting")]
     [SerializeField] PooledObject enemyPooeledObj;
 
     #region Unity Event
-    private void Update()
+
+    private IEnumerator Start()
     {
         if (enemyPooeledObj == null)
             Debug.LogError("PooledObject is null");
 
-        if (GameModeManager.EnemyManager.Player == null)
-            return;
+        yield return new WaitUntil(() => GameModeManager.EnemyManager.Player == null);
 
+        attackDis = attackRange.size.z;
+    }
+    private void Update()
+    {
         TryTracking();
+
+        /*if (isAttack && attackLoop == null)
+            OnAttack();*/
     }
     #endregion
 
@@ -38,9 +56,95 @@ public class EnemyController : MonoBehaviour
     private void TryTracking()
     {
         if (agent.isOnNavMesh)
+        {
+            // isAttack이 true인데 플레이어와 적의 거리가 공격 가능한 거리보다 멀 경우
+            if (isAttack && Vector3.Distance(GameModeManager.EnemyManager.Player.transform.position, transform.position) > attackDis)
+                isAttack = false;
+
             agent.SetDestination(GameModeManager.EnemyManager.Player.transform.position);
+        }
         else
             enemyPooeledObj.Release();
+    }
+    #endregion
+
+    #region Damage & Death Handling
+    /// <summary>
+    /// 플레이어한테 데미지를 입히는 메서드
+    /// 현재 구조만 마련된 상태
+    /// 
+    /// TODO... 이후 플레이어와 연계
+    /// </summary>
+    /// <param name="damage">입힐 데미지</param>
+    private void TakeDamage(float damage)
+    {
+        Debug.Log($"적이 {damage}의 데미지를 입었습니다.");
+        hp -= damage;
+
+        if (hp <= 0f)
+            OnDie();
+    }
+
+    /// <summary>
+    /// 적이 사망했을 경우 호출되는 메서드
+    /// 
+    /// TODO... 게임 흐름과 연계가 필요한 작업은 이후 예정
+    /// </summary>
+    private void OnDie()
+    {
+        Debug.Log("적의 체력이 0이 되어 죽었습니다!");
+
+        if (attackLoop != null)
+            StopCoroutine(attackLoop);
+
+        hp = 100f;  //TODO... 이후 스크립터블 오브젝트로 데이터 구성해 연결
+        isAttack = false;
+        attackRange.enabled = true;
+
+        enemyPooeledObj.Release();  // Pool에 반납
+    }
+    #endregion
+
+    #region Attack Handling
+    /// <summary>
+    /// 기본 근접 공격 루틴 코루틴(MeleeAttackLoop)을 실행하는 메서드
+    /// </summary>
+    protected virtual void StartAttack()
+    {
+        attackLoop = StartCoroutine(MeleeAttackLoop());
+    }
+
+    /// <summary>
+    /// 기본 근접 공격 루틴을 구현한 코루틴
+    /// 
+    /// isAttack가 true인 동안 1.5초 간격으로 공격 범위 판정용 콜라이더를 활성화함
+    /// isAttack이 false가 되면 attackLoop를 null로 초기화하고,
+    /// 콜라이더를 활성 상태로 유지하며 코루틴을 종료
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator MeleeAttackLoop()
+    {
+        while (isAttack)
+        {
+            attackRange.enabled = true;
+
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        attackLoop = null;
+        attackRange.enabled = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (PlayerLayer.Contain(other.gameObject.layer))    // 만약 충돌한 객체가 플레이어라면
+        {
+            if (!isAttack)  // isAttack이 현재 false일 때만 실행
+                StartAttack();
+
+            Debug.Log("단순 근접 공격 범위 내에 플레이어 들어옴");
+            attackRange.enabled = false;    // 공격 판정용 콜라이더 비활성화
+        }
     }
     #endregion
 }
