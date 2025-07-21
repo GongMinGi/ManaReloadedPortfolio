@@ -15,7 +15,7 @@ public class MapEnemyData : ScriptableObject
     [Header("Map Enemy Odd Setting")]
     #region Map Enemy Odd Setting
     [Tooltip("List of enemy prefabs that appear on the map")]
-    [SerializeField] List<PooledObject> enemies = new();    // 맵에 등장하는 적 프리팹 목록
+    [SerializeField] List<EnemyPooledObject> enemies = new();    // 맵에 등장하는 적 프리팹 목록
     #endregion
 
     [Header("Spawn Enemy Setting")]
@@ -35,14 +35,18 @@ public class MapEnemyData : ScriptableObject
 
     #region Runtime Data
     // 적별 등장 확률을 빠르게 조회하기 위한 딕셔너리
-    private Dictionary<PooledObject, float> enemyOddsMap;
+    private Dictionary<EnemyPooledObject, float> enemyOddsMap;
     #endregion
 
     #region Public Properties
     /// <summary>
     /// 맵에 등장하는 적 프리팹 목록
     /// </summary>
-    public List<PooledObject> Enemies => enemies;
+    public List<EnemyPooledObject> Enemies => enemies;
+
+    /// <summary>
+    /// 맵 각 페이즈에 대한 정보 리스트
+    /// </summary>
     public List<PhaseEnemyData> Phases => phases;
     #endregion
 
@@ -69,9 +73,10 @@ public class MapEnemyData : ScriptableObject
 }
 
 /// <summary>
-/// 각 페이즈 적 생성에 있어 필요한 정보를 저장하는 구조체
+/// 페이즈별 적 배치 정보를 정의하는 구조체
 /// 
-/// 페이즈에 나오는 적 종류 리스트(enemies)와 초 당 생성하는 적 수 리스트(enemiesPerSec)를 담고 있다
+/// - 일반 적: 등장하는 적 종류(enemies)와 각 적의 등장 수량(enemiesNum)으로 구성
+/// - 보스 적: 해당 페이즈가 보스 페이즈인지(isBossPhase) 여부와, 보스 프리팹(bossEnemy) 정보를 포함
 /// </summary>
 [Serializable]
 public struct PhaseEnemyData
@@ -79,7 +84,7 @@ public struct PhaseEnemyData
     /// <summary>
     /// 해당 페이즈에 등장하는 적 종류
     /// </summary>
-    public List<PooledObject> enemies;
+    public List<EnemyPooledObject> enemies;
 
     /// <summary>
     /// 적 종류마다 페이즈 내 등장하는 총 수량

@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: Tracking Enemy Test Data
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 2187720440823672240, guid: 700868f2cc9274c47b3b421785043ed6, type: 3}
+  - {fileID: 93786728031379940, guid: 700868f2cc9274c47b3b421785043ed6, type: 3}
+  - {fileID: 93786728031379940, guid: 74cdbe2f39a719f449d79bf124fb06a9, type: 3}
   spawnDis: 40
   spawnRange: 5
   phases:
   - enemies:
-    - {fileID: 2187720440823672240, guid: 700868f2cc9274c47b3b421785043ed6, type: 3}
-    enemiesPerSec: 01000000
+    - {fileID: 93786728031379940, guid: 700868f2cc9274c47b3b421785043ed6, type: 3}
+    enemiesNum: 14000000
+    isBossPhase: 0
+    bossEnemy: {fileID: 0}
   minSpawnTime: 3
   maxSpawnTime: 6
