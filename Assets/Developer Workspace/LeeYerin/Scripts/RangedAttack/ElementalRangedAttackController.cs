@@ -67,17 +67,17 @@ public class ElementalRangedAttackController : MonoBehaviour
             switch (castingType.Value)
             {
                 case E_CastingType.Earth:
-                case E_CastingType.Lightning:
+                case E_CastingType.Thunder:
                     ChargeAttack(castingType.Value);
                     break;
 
-                case E_CastingType.Lumina:
+                case E_CastingType.Light:
                 case E_CastingType.Darkness:
                     BeamAttack(castingType.Value);
                     break;
 
                 case E_CastingType.Fire:
-                case E_CastingType.Frost:
+                case E_CastingType.Cold:
                     ConeAttack(castingType.Value);
                     break;
             }
@@ -137,7 +137,7 @@ public class ElementalRangedAttackController : MonoBehaviour
                 Debug.Log("폭발하는 투사체 발사!");  // Earth 속성 전용
                 chargeProjectileAttack.ExecuteAttack(castingType);
                 break;
-            case E_CastingType.Lightning:
+            case E_CastingType.Thunder:
                 Debug.Log("원뿔 모양에 한 번에 데미지를 입히는 공격 발사!");   // Lightning 속성 전용
                 chargeConeAttack.ExecuteAttack(castingType);
                 break;
@@ -156,7 +156,7 @@ public class ElementalRangedAttackController : MonoBehaviour
     {
         switch (castingType)
         {
-            case E_CastingType.Lumina:
+            case E_CastingType.Light:
                 Debug.Log("일직선의 빛의 빔 발사!"); // Lumina 속성 전용
                 beamAttack.ExecuteAttack(castingType);
                 break;
@@ -183,7 +183,7 @@ public class ElementalRangedAttackController : MonoBehaviour
                 Debug.Log("불꽃의 원뿔 범위 공격 발사!");  // Fire 속성 전용
                 coneAttack.ExecuteAttack(castingType);
                 break;
-            case E_CastingType.Frost:
+            case E_CastingType.Cold:
                 Debug.Log("냉기의 원뿔 범위 공격 발사!");   // Frost 속성 전용
                 coneAttack.ExecuteAttack(castingType);
                 break;

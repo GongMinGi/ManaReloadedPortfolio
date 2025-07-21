@@ -9,11 +9,15 @@ using UnityEngine;
 public enum E_CastingType
 {
     Earth,
-    Lightning,
-    Lumina,
+    Thunder,
+    Light,
     Darkness, 
     Fire,
-    Frost,
+    Cold,
+
+    // ¹Ì±¸Çö
+    
+
 }
 
 

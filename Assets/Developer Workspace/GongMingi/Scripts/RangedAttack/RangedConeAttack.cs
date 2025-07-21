@@ -14,38 +14,46 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
     [SerializeField] private float radius = 6f;         // 탐지 반경
     [SerializeField] private float angle = 60f;         // 전체 부채꼴 각도(디그리) 
     [SerializeField] private int damage = 12;           // 1회 피해량
-    [SerializeField] private LayerMask enemyLayer;     // Enemy 전용 레이어 , 
+    [SerializeField] private LayerMask enemyLayer;      // Enemy 전용 레이어 , 
     [SerializeField] private bool flatCone = true;      // Y축 높이 무시 여부
 
 
     float cosThreshold;                                 // cos(angle/2) 캐시
 
 
-    void Awake() => cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad);
+    void Awake() => cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad); // 부채꼴의 각의 절반.
 
 
+
+
+    /// <summary>
+    /// 구체범위에 들어온 적을 레이어를 통해 감지
+    /// 적의 방향벡터와 플레이어의 정면벡터를 내적시켜, 원뿔모양의 범위에 들어오는지 판단
+    /// 들어가는 적에게만 공격 적용
+    /// </summary>
+    /// <param name="type"></param>
     public void ExecuteAttack(E_CastingType type)
     {
         Debug.Log("원뿔 공격이 시전되었습니다.");
 
-        cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad);
+        cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad);             // 부채꼴 공격범위의 절반을 감지범위로 결정
 
-        Collider[] hits = Physics.OverlapSphere(transform.position, radius, enemyLayer);
+        Collider[] hits = Physics.OverlapSphere(transform.position, radius, enemyLayer);     // 구체 형태의 범위에 들어가 있는 적 개체를 감지
 
         Debug.Log($"적 개체 {hits.Length} 개 감지");
         
-        Vector3 forward = transform.forward;            // 플레이어 정면 벡터 준비
-        if (flatCone) forward.y = 0;
-        forward.Normalize();
+        Vector3 forward = transform.forward;                                // 플레이어 정면 벡터 준비
+        if (flatCone) forward.y = 0;                                        // 벡터 y축 높이 무시
+        forward.Normalize();                                                // 플레이어 정면 벡터를 정규화
 
         // step 2) 부채꼴 판정 & step 3) 데미지 적용
         foreach ( var hit in hits )
         {
-            Vector3 dir = hit.transform.position - transform.position;
-            if (flatCone) dir.y = 0;
-            dir.Normalize();
+            Vector3 dir = hit.transform.position - transform.position;      // 플레이어 - 적 방향 벡터 구하기
+            if (flatCone) dir.y = 0;                                        // y축 높이 무시
+            dir.Normalize();                                                // 방향벡터 정규화
 
-            if (Vector3.Dot(forward, dir) >= cosThreshold)
+            if (Vector3.Dot(forward, dir) >= cosThreshold)                  // 적과 플레이어의 내적값(코사인값) 이  threshold보다 큰 경우에만 적용
             {
                 Debug.Log("원거리 원뿔 공격 데미지 적용");
                
@@ -66,7 +74,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
     }
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR                                        // Scene 뷰에서 공격 범위 시각화
     void OnDrawGizmosSelected()
     {
         if (!enabled) return;
