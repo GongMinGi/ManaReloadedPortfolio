@@ -42,9 +42,6 @@ public class EnemyController : MonoBehaviour
     private void Update()
     {
         TryTracking();
-
-        /*if (isAttack && attackLoop == null)
-            OnAttack();*/
     }
     #endregion
 

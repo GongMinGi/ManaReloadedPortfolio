@@ -58,8 +58,9 @@ public class EnemyManager : MonoBehaviour
 
         Initialization();
 
-            // 적 생성 코루틴 시작
-        StartCoroutine(SpawnEnemyLoop(0));  // TODO... 페이즈와 연결
+        // yield return new WaitForSeconds(1f);
+
+        StartSpawnEnemyLoop(0);
     }
     #endregion
 
@@ -71,7 +72,7 @@ public class EnemyManager : MonoBehaviour
     {
         // MapEnemyData 내 적 프리팹 목록을 순회하며 각각 Pool 생성
         foreach (var enemy in mapEnemyData.Enemies)
-            GameModeManager.PoolManager.CreatePool(enemy, size, capacity);
+            GameModeManager.PoolManager.CreateEnemyPool(enemy, size, capacity);
 
         // MapEnemyData에 정의된 스폰 설정값을 필드에 복사
         mapEnemyData.Initialization(
@@ -91,7 +92,7 @@ public class EnemyManager : MonoBehaviour
     /// <param name="enemyPrefab">생성할 적 프리팹</param>
     /// <param name="moveDir">생성 방향(단위 벡터)</param>
     /// <param name="enemyNum">생성할 적 수</param>
-    public void SpawnEnemy(PooledObject enemyPrefab, Vector3 moveDir, int enemyNum)
+    public void SpawnEnemy(EnemyPooledObject enemyPrefab, Vector3 moveDir, int enemyNum = 1)
     {
         // 플레이어 시야에서 적 생성 방지
         if (moveDir == Vector3.zero)
@@ -106,11 +107,21 @@ public class EnemyManager : MonoBehaviour
             spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
 
             // Pool에서 적 오브젝트 위치 지정 및 활성화
-            PooledObject newEnemy = GameModeManager.PoolManager.GetPool(enemyPrefab, spawnPos, Quaternion.identity);
+            EnemyPooledObject newEnemy = GameModeManager.PoolManager.GetEnemyPool(enemyPrefab, spawnPos, Quaternion.identity);
 
             // 생성 위치 방향을 바라보도록 회전 설정
             newEnemy.transform.LookAt(spawnPos);
         }
+    }
+
+    /// <summary>
+    /// 각 페이즈 적 생성 로직을 구현된 코루틴 실행하는 메서드
+    /// </summary>
+    /// <param name="phase">실행할 페이즈 단계</param>
+    public void StartSpawnEnemyLoop(int phase)
+    {
+        // 적 생성 코루틴 시작
+        StartCoroutine(SpawnEnemyLoop(phase));
     }
 
     /// <summary>
@@ -121,16 +132,27 @@ public class EnemyManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator SpawnEnemyLoop(int phase)
     {
+        // 현재 진행 중인 페이즈 번호(phase)를 기준으로
+        // 해당 페이즈의 적 프리팹 및 등장 수 정보를 보관한 데이터(PhaseEnemyData)를 추출
+        PhaseEnemyData phaseData = mapEnemyData.Phases[phase];
+
+        for (int i = 0; i < mapEnemyData.Phases[phase].enemies.Count; i++)
+        {
+            // i번째 적 프리팹에 해당하는 EnemyPool을 찾아,
+            // 그에 연결된 EnemySpawnTracker에 해당 적의 등장 수(phaseData.enemiesNum[i])를 설정
+            GameModeManager.PoolManager.FindEnemyPoolDic((phaseData.enemies[i]))
+                .Tracker.Set(phaseData.enemiesNum[i]);
+        }
+
         while (true)  // TODO... 아후 게임 종료 여부 관리하는 변수 연결할 예정
         {
             // 최소 ~ 최대 스폰 시간 사이에서 랜덤 대기
-            yield return new WaitForSeconds(1f);
-                // Random.Range(minSpawnTime, maxSpawnTime));
-            for (int i = 0; i < mapEnemyData.Phases[phase].enemies.Count; i++)
+            yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
+
+            for (int i = 0; i < phaseData.enemies.Count; i++)
                 SpawnEnemy(
-                    mapEnemyData.Phases[phase].enemies[i], 
-                    player.MoveDir,
-                    mapEnemyData.Phases[phase].enemiesPerSec[i]
+                    phaseData.enemies[i], 
+                    player.MoveDir
                     );
         }
     }
