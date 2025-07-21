@@ -76,6 +76,24 @@ public class MapEnemyData : ScriptableObject
 [Serializable]
 public struct PhaseEnemyData
 {
+    /// <summary>
+    /// 해당 페이즈에 등장하는 적 종류
+    /// </summary>
     public List<PooledObject> enemies;
-    public List<int> enemiesPerSec;
+
+    /// <summary>
+    /// 적 종류마다 페이즈 내 등장하는 총 수량
+    /// </summary>
+    public List<int> enemiesNum;
+
+    /// <summary>
+    /// 해당 페이즈가 보스 페이즈인지
+    /// </summary>
+    public bool isBossPhase;
+
+    /// <summary>
+    /// 보스 적의 프리팹
+    /// isBossPhase가 true일 때만 사용
+    /// </summary>
+    public GameObject bossEnemy;
 }
