@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Casting Settings")]
     [SerializeField] private int maxInputCount = 6;                         // 조합 길이
-    [SerializeField] private Key castingCompleteKey = Key.Space;            // 캐스팅 확정 키
 
     [SerializeField]
     ElementalRangedAttackController rangedAttackController; 
@@ -60,8 +59,8 @@ public class PlayerController : MonoBehaviour
     private static readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()
     {
         {Key.W, E_CastingType.Fire },
-        {Key.A, E_CastingType.Frost },
-        {Key.S, E_CastingType.Lightning },
+        {Key.A, E_CastingType.Light },
+        {Key.S, E_CastingType.Thunder },
         {Key.D, E_CastingType.Earth },
     };
 
