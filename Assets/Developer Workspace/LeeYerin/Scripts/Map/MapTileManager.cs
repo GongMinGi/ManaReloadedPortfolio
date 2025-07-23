@@ -41,6 +41,12 @@ public class MapTileManager : MonoBehaviour
     // 현재 활성화된 타일을 저장해두는 딕셔너리
     private Dictionary<Vector2Int, PooledObject> activeTiles = new();
     #endregion
+
+    #region State Flags
+    private bool isReady;
+
+    public bool IsReady => isReady;
+    #endregion
     #endregion
 
     #region Unity Event
@@ -60,6 +66,8 @@ public class MapTileManager : MonoBehaviour
 
         GameModeManager.PoolManager.CreatePool(tilePrefab, size, capacity);
         UpdateCurrentPos();
+
+        isReady = true;
     }
     #endregion
 
