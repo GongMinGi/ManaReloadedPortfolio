@@ -39,7 +39,7 @@ public class SkillCastingManager : MonoBehaviour
         {
             instance = this;
             GameModeManager.SkillCastingManager = instance;
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
         }
         else
         {

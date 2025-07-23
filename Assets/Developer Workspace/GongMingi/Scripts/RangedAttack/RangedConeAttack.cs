@@ -4,27 +4,33 @@ using UnityEngine;
 
 /// <summary>
 /// * 작성자 : 공민기
+///   - 불 / 냉기 속성 전용 '즉발 부채꼴' 공격
 ///   - 캐스팅한 원소가 불과 냉기 밖에 없는 경우 실행되는 원거리 공격
 ///   - 원거리공격을 시전하는 동시에, 원뿔형태의 마법 공격이 시전된다.
 /// </summary>
 public class RangedConeAttack : MonoBehaviour, IRangedAttack
 {
 
+    #region Field And Property
+
     [Header("Cone Parameters")]
     [SerializeField] private float radius = 6f;         // 탐지 반경
     [SerializeField] private float angle = 60f;         // 전체 부채꼴 각도(디그리) 
-    [SerializeField] private int damage = 12;           // 1회 피해량
+    //[SerializeField] private int damage = 12;           // 1회 피해량
     [SerializeField] private LayerMask enemyLayer;      // Enemy 전용 레이어 , 
     [SerializeField] private bool flatCone = true;      // Y축 높이 무시 여부
 
 
     float cosThreshold;                                 // cos(angle/2) 캐시
 
+    #endregion endregion
 
+    #region Unity Event
     void Awake() => cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad); // 부채꼴의 각의 절반.
 
+    #endregion
 
-
+    #region IRangedAttack Implementation
 
     /// <summary>
     /// 구체범위에 들어온 적을 레이어를 통해 감지
@@ -66,12 +72,10 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
 
     }
 
+    // 즉발형 스킬이므로 별도 취소 로직 필요 없음
+    public void Stop() { }
 
-    // 필요시 채널링 /dot 취소용
-    public void Stop()
-    {
-
-    }
+    #endregion
 
 
 #if UNITY_EDITOR                                        // Scene 뷰에서 공격 범위 시각화

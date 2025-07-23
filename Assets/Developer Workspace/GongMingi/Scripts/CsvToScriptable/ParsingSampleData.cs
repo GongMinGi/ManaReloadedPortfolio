@@ -10,7 +10,7 @@ public class ParsingSampleData : ScriptableObject
 {
     public int id;
     public string type;
-    public string name;
+    public string sampleName;
     public string discription;
     public int attack;
     public int deffense;

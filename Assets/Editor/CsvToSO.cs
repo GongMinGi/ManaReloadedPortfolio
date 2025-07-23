@@ -42,7 +42,7 @@ public class CsvToSO : EditorWindow
         // csv값 => 필드 매핑
         data.id = int.Parse(row["id"].ToString());
         data.type = row["Type"].ToString();
-        data.name = row["Name"].ToString();
+        data.sampleName = row["Name"].ToString();
         data.discription = row["Discription"].ToString();
         data.attack = int.Parse(row["Attack"].ToString());
         data.deffense = int.Parse(row["deffense"].ToString());

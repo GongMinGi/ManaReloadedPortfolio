@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Casting Settings")]
     [SerializeField] private int maxInputCount = 6;                         // 조합 길이
-    [SerializeField] private Key castingCompleteKey = Key.Space;            // 캐스팅 확정 키
 
     [SerializeField]
     ElementalRangedAttackController rangedAttackController; 
