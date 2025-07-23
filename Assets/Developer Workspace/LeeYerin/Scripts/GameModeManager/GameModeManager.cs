@@ -18,13 +18,20 @@ public static class GameModeManager
     public static PlayerController Player { get { return player; }set { player = value; } }
     #endregion
 
+    private static GameLogicManager gameLogicManager;
     private static PoolManager poolManager;
     private static MapTileManager mapTileManager;
     private static EnemyManager enemyManager;
     private static SkillCastingManager skillCastingManager;
 
+    public static GameLogicManager GameLogicManager { get { return gameLogicManager; } set { gameLogicManager = value; } }
     public static PoolManager PoolManager { get { return poolManager; } set { poolManager = value;} }
     public static MapTileManager MapTileManager { get { return mapTileManager; } set { mapTileManager = value; mapTileManager.Player = player; } }
     public static EnemyManager EnemyManager { get { return enemyManager; } set { enemyManager = value; enemyManager.Player = player; } }
     public static SkillCastingManager SkillCastingManager { get { return skillCastingManager; } set { skillCastingManager = value; } }
+
+    /// <summary>
+    /// 모든 필수 매니저가 준비된 상태인지 반환
+    /// </summary>
+    public static bool IsReady => MapTileManager.IsReady && EnemyManager.IsReady;
 }
