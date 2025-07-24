@@ -43,9 +43,8 @@ public class PlayerController : MonoBehaviour
     [Header("Casting Settings")]
     [SerializeField] private int maxInputCount = 6;                         // 조합 길이
 
-    [SerializeField]
-    ElementalRangedAttackController rangedAttackController; 
-
+    [SerializeField] ElementalRangedAttackController rangedAttackController;    // 원거리 공격을 제어하는 컨트롤러
+    [SerializeField] MeleeConeAttack meleeConeAttack;                           // 근접공격을 실행하기 위한 변수
 
     [Header("Event -> UI 연결")]
     public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
@@ -265,6 +264,8 @@ public class PlayerController : MonoBehaviour
             TryEnchant();
             return;
         }
+
+        meleeConeAttack.ExecuteAttack(E_CastingType.None);      // 무속성 물리 공격 실행
 
         Debug.Log("근접 공격 ");
     }
