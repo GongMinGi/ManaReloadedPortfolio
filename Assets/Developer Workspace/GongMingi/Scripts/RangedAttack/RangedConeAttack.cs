@@ -16,7 +16,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
     [Header("Cone Parameters")]
     [SerializeField] private float radius = 6f;         // 탐지 반경
     [SerializeField] private float angle = 60f;         // 전체 부채꼴 각도(디그리) 
-    //[SerializeField] private int damage = 12;           // 1회 피해량
+    [SerializeField] private int damage = 12;           // 1회 피해량
     [SerializeField] private LayerMask enemyLayer;      // Enemy 전용 레이어 , 
     [SerializeField] private bool flatCone = true;      // Y축 높이 무시 여부
 
@@ -62,10 +62,10 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
             if (Vector3.Dot(forward, dir) >= cosThreshold)                  // 적과 플레이어의 내적값(코사인값) 이  threshold보다 큰 경우에만 적용
             {
                 Debug.Log("원거리 원뿔 공격 데미지 적용");
-               
+
                 // 데미지 적용
-                //if (hit.TryGetComponent(out IDamageable target))
-                //    target.TakeDamage(damage);
+                if (hit.TryGetComponent(out IDamageable target))
+                    target.TakeDamage(damage);
             }      
 
         }

@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] bool isSprint;
     bool isMove;
-    //bool canMove;
 
     Vector3 moveDir = new();
 
@@ -93,9 +92,8 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+
     #region Move
-
-
     /// <summary>
     /// 스프린트(Shift) 입력 처리.
     /// - <paramref name="ctx"/>.started → isSprint = true
@@ -106,8 +104,6 @@ public class PlayerController : MonoBehaviour
         if (ctx.started) isSprint = true;           // shift를 누르기 시작했을때 달리기 상태로 들어간다.
         if (ctx.canceled) isSprint = false;         // shift에서 손을 땔 때 걷기 상태로 돌아간다.
         else return;
-
-
     }
 
 
@@ -119,7 +115,6 @@ public class PlayerController : MonoBehaviour
     /// <param name="value">InputAction 콜백으로 전달된 Vector2 값</param>
     public void OnMove(InputAction.CallbackContext value)
     {
-
         Vector2 input = value.ReadValue<Vector2>();    // wasd로 이동값을 입력받음 
 
         moveDir.x = input.x;                    // x축이 입력받고 잇는지 , 오른쪽 == 1, 왼쪽 == -1, 정지 == 0
@@ -206,7 +201,6 @@ public class PlayerController : MonoBehaviour
         currentCastingList.Clear();     // 현재 캐스팅 된 원소들을 지운다
         onCastReset?.Invoke();          // ui에 표시된 원소를 전부 검정색으로 바꾼다. (비운다)
     }
-
 
     #endregion
 

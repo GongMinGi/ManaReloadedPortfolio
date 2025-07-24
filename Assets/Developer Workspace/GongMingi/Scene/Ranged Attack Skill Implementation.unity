@@ -377,6 +377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 252126575}
+  - component: {fileID: 252126578}
   - component: {fileID: 252126574}
   - component: {fileID: 252126573}
   - component: {fileID: 252126576}
@@ -467,6 +468,22 @@ MonoBehaviour:
   spawnRange: 0
   minSpawnTime: 0
   maxSpawnTime: 0
+--- !u!114 &252126578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252126572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05fb9cb05330aa419c86b477fe7356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalPhases: 0
+  currentPhase: 0
+  sec: 0
+  min: 0
 --- !u!1 &373232924
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,7 +805,8 @@ GameObject:
   - component: {fileID: 538419501}
   - component: {fileID: 538419495}
   - component: {fileID: 538419502}
-  m_Layer: 0
+  - component: {fileID: 538419503}
+  m_Layer: 6
   m_Name: DemoPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -812,7 +830,6 @@ MonoBehaviour:
   sprintMultiplier: 2
   isSprint: 0
   maxInputCount: 6
-  castingCompleteKey: 1
   rangedAttackController: {fileID: 538419502}
   onCastAdded:
     m_PersistentCalls:
@@ -1106,6 +1123,19 @@ MonoBehaviour:
   chargeProjectileAttack: {fileID: 1889096709}
   beamAttack: {fileID: 1647372403}
   coneAttack: {fileID: 1904681556}
+--- !u!114 &538419503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538419494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3f2542fdd21b44bbbe98a4049181c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HP>k__BackingField: 100
 --- !u!1 &729373742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,7 +1189,7 @@ MonoBehaviour:
   chargeInterval: 0.5
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 128
 --- !u!1 &733412523
 GameObject:
   m_ObjectHideFlags: 0
@@ -2162,7 +2192,7 @@ MonoBehaviour:
   damagePerTick: 6
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 128
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -2482,7 +2512,7 @@ MonoBehaviour:
   chargeInteval: 0.4
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 128
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -2611,7 +2641,7 @@ MonoBehaviour:
   damage: 12
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 128
   flatCone: 1
 --- !u!1 &1939245615
 GameObject:

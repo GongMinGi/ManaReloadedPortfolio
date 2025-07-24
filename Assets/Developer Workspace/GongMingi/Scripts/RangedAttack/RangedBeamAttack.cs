@@ -20,7 +20,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
     [SerializeField] private float maxDistance = 15f;       // 빔 최대 사거리
     [SerializeField] private float maxDuration = 4f;        // 한 번에 지속 가능한 최대 시간
     [SerializeField] private float tickInterval = 0.25f;    // 피해 주기
-    //[SerializeField] private int damagePerTick = 6;         // 틱당 피해량
+    [SerializeField] private int damagePerTick = 6;         // 틱당 피해량
     [SerializeField] private LayerMask enemyLayer;          // 적 레이어
     [SerializeField] private LayerMask obstacleLayer;       // 빔을 막는 지형 레이어
 
@@ -108,8 +108,8 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
                 if(enemyLayer.Contain(hit.collider.gameObject.layer))       // 확장메서드를 이용하여 레이어 마스크 판단.
                 {
                     Debug.Log("데미지 적용");
-                    //if (hit.collider.TryGetComponent(out IDamageable dmg))
-                    //  dmg.TakeDamage(damagePerTick);
+                    if (hit.collider.TryGetComponent(out IDamageable target))
+                        target.TakeDamage(damagePerTick);
                 }
             }
 
