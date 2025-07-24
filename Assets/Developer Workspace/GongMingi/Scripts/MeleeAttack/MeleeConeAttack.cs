@@ -1,16 +1,14 @@
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 
 
 /// <summary>
 /// * 작성자 : 공민기
-///   - 불 / 냉기 속성 전용 '즉발 부채꼴' 공격
-///   - 캐스팅한 원소가 불과 냉기 밖에 없는 경우 실행되는 원거리 공격
-///   - 원거리공격을 시전하는 동시에, 원뿔형태의 마법 공격이 시전된다.
+///  - 원뿔 범위에 휘두르기 즉발 공격
+///  - 원거리 원뿔 즉발 공격과 완전히 동일한 로직
+///  - 심각한 코드중복.. 추후 인터페이스의 의미를 퇴색시키지 않는 방법으로 원거리공격 로직과 통합 필요
 /// </summary>
-public class RangedConeAttack : MonoBehaviour, IRangedAttack
+public class MeleeConeAttack : MonoBehaviour
 {
-
     #region Field And Property
 
     [Header("Cone Parameters")]
@@ -38,7 +36,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
     /// 들어가는 적에게만 공격 적용
     /// </summary>
     /// <param name="type"></param>
-    public void ExecuteAttack(E_CastingType type )
+    public void ExecuteAttack(E_CastingType type)
     {
         Debug.Log("원뿔 공격이 시전되었습니다.");
 
@@ -47,13 +45,13 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, enemyLayer);     // 구체 형태의 범위에 들어가 있는 적 개체를 감지
 
         Debug.Log($"적 개체 {hits.Length} 개 감지");
-        
+
         Vector3 forward = transform.forward;                                // 플레이어 정면 벡터 준비
         if (flatCone) forward.y = 0;                                        // 벡터 y축 높이 무시
         forward.Normalize();                                                // 플레이어 정면 벡터를 정규화
 
         // step 2) 부채꼴 판정 & step 3) 데미지 적용
-        foreach ( var hit in hits )
+        foreach (var hit in hits)
         {
             Vector3 dir = hit.transform.position - transform.position;      // 플레이어 - 적 방향 벡터 구하기
             if (flatCone) dir.y = 0;                                        // y축 높이 무시
@@ -66,7 +64,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
                 // 데미지 적용
                 if (hit.TryGetComponent(out IDamageable target))
                     target.TakeDamage(damage);
-            }      
+            }
 
         }
 
@@ -76,22 +74,5 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
     public void Stop() { }
 
     #endregion
-
-
-#if UNITY_EDITOR                                        // Scene 뷰에서 공격 범위 시각화
-    void OnDrawGizmosSelected()
-    {
-        if (!enabled) return;
-
-        Gizmos.color = new Color(1, 0.5f, 0, 0.25f);
-        UnityEditor.Handles.color = Gizmos.color;
-        UnityEditor.Handles.DrawSolidArc(
-            transform.position,
-            flatCone ? Vector3.up : transform.up,
-            Quaternion.Euler(0, -angle * 0.5f, 0) * transform.forward,
-            angle, radius
-            );
-    }
-#endif
 
 }

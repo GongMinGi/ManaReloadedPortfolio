@@ -13,8 +13,8 @@ public class EnemyController : MonoBehaviour
     [Tooltip("NavMeshAgent component used for enemy movement")]
     [SerializeField] NavMeshAgent agent;    // 적 이동에 사용하는 NavMeshAgent 컴포넌트
 
-    [Header("HP")]
-    [SerializeField] float hp = 100f;
+    //[Header("HP")]
+    //[SerializeField] float hp = 100f;
 
     [Header("Enemy Attack Setting")]
     [SerializeField] LayerMask PlayerLayer;
@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
     private float attackDis;
     protected Coroutine attackLoop;
     [SerializeField] bool isAttack = false;
+    [SerializeField] float attackDamage = 10;
 
     [Header("Pool Object Setting")]
     [SerializeField] protected bool isBoss;
@@ -67,21 +68,6 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Damage & Death Handling
-    /// <summary>
-    /// 플레이어한테 데미지를 입히는 메서드
-    /// 현재 구조만 마련된 상태
-    /// 
-    /// TODO... 이후 플레이어와 연계
-    /// </summary>
-    /// <param name="damage">입힐 데미지</param>
-    private void TakeDamage(float damage)
-    {
-        Debug.Log($"적이 {damage}의 데미지를 입었습니다.");
-        hp -= damage;
-
-        if (hp <= 0f)
-            OnDie();
-    }
 
     /// <summary>
     /// 적이 사망했을 경우 호출되는 메서드
@@ -95,7 +81,7 @@ public class EnemyController : MonoBehaviour
         if (attackLoop != null)
             StopCoroutine(attackLoop);
 
-        hp = 100f;  //TODO... 이후 스크립터블 오브젝트로 데이터 구성해 연결
+        //hp = 100f;  //TODO... 이후 스크립터블 오브젝트로 데이터 구성해 연결
         isAttack = false;
         attackRange.enabled = true;
 
@@ -141,6 +127,9 @@ public class EnemyController : MonoBehaviour
                 StartAttack();
 
             Debug.Log("단순 근접 공격 범위 내에 플레이어 들어옴");
+            if (other.TryGetComponent(out IDamageable target))
+                target.TakeDamage(attackDamage);
+
             attackRange.enabled = false;    // 공격 판정용 콜라이더 비활성화
         }
     }

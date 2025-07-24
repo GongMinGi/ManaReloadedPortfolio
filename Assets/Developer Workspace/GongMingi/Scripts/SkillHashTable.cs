@@ -15,6 +15,8 @@ public enum E_CastingType
     Fire,
     Cold,
 
+
+    None,
     // ¹Ì±¸Çö
     
 

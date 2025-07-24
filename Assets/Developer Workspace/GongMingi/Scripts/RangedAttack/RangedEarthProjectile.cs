@@ -98,9 +98,11 @@ public class RangedEarthProjectile : AbstractProjectile
     {
         
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, enemyLayer);    // 폭발 범위 내 적 탐색
-        foreach (var h in hits)
+        foreach (var hit in hits)
         {
             Debug.Log("폭발 피해 적용");
+            if (hit.TryGetComponent(out IDamageable target))
+                target.TakeDamage(damage);
         }
 
         // 추후 폭발 이펙트 적용 필요

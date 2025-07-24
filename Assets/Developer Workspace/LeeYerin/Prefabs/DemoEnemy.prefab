@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 3065842872469741354}
   - component: {fileID: 93786728031379940}
   - component: {fileID: 7106274944024096709}
-  m_Layer: 4
+  - component: {fileID: 4610015785476510369}
+  m_Layer: 7
   m_Name: DemoEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,12 +149,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 7106274944024096709}
-  hp: 100
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 64
   attackRange: {fileID: 5224915592042884724}
   isAttack: 0
+  attackDamage: 10
   isBoss: 0
   enemyPooeledObj: {fileID: 93786728031379940}
 --- !u!114 &93786728031379940
@@ -193,3 +194,16 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4610015785476510369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7200460328440234525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 758c7c93753177d4db03d0a376188d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HP>k__BackingField: 500
