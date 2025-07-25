@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 /// <summary>
 /// 개발자: 이예린
@@ -13,9 +14,6 @@ public class EnemyController : MonoBehaviour
     [Tooltip("NavMeshAgent component used for enemy movement")]
     [SerializeField] NavMeshAgent agent;    // 적 이동에 사용하는 NavMeshAgent 컴포넌트
 
-    //[Header("HP")]
-    //[SerializeField] float hp = 100f;
-
     [Header("Enemy Attack Setting")]
     [SerializeField] LayerMask PlayerLayer;
     [SerializeField] protected BoxCollider attackRange;
@@ -27,6 +25,10 @@ public class EnemyController : MonoBehaviour
     [Header("Pool Object Setting")]
     [SerializeField] protected bool isBoss;
     [SerializeField] PooledObject enemyPooeledObj;
+
+    [Header("Animation Setting")]
+    [SerializeField] Animator animator;
+    private bool isMove;
 
     #region Unity Event
 
@@ -61,9 +63,19 @@ public class EnemyController : MonoBehaviour
                 isAttack = false;
 
             agent.SetDestination(GameModeManager.EnemyManager.Player.transform.position);
+
+            // 이동 상태가 아니면 이동 상태로 전환하고, Animator에 이동 트리거 전달
+            if (!isMove)    
+            {
+                isMove = true;
+                animator.SetTrigger("IsMove");
+            }
         }
         else
+        {
+            isMove = false;     // 이동 상태를 false로 전환
             enemyPooeledObj.Release();
+        }
     }
     #endregion
 
@@ -74,18 +86,26 @@ public class EnemyController : MonoBehaviour
     /// 
     /// TODO... 게임 흐름과 연계가 필요한 작업은 이후 예정
     /// </summary>
-    private void OnDie()
+    public void OnDie()
     {
-        Debug.Log("적의 체력이 0이 되어 죽었습니다!");
-
         if (attackLoop != null)
             StopCoroutine(attackLoop);
 
-        //hp = 100f;  //TODO... 이후 스크립터블 오브젝트로 데이터 구성해 연결
         isAttack = false;
+        isMove = false;
         attackRange.enabled = true;
 
-        enemyPooeledObj.Release();  // Pool에 반납
+        animator.SetTrigger("IsDie");   // Die 애니메이션 실행
+
+        Sequence seq = DOTween.Sequence();
+
+        // 서서히 축소 → 풀로 반납
+        seq.Append(transform.DOScale(Vector3.zero, 0.7f)
+            .SetEase(Ease.InBack)) // 부드러운 축소 이펙트
+            .OnComplete(() =>
+            {
+                enemyPooeledObj.Release();  // Pool에 반납
+            });
     }
     #endregion
 
@@ -95,6 +115,7 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     protected virtual void StartAttack()
     {
+        isMove = false;     // 이동 상태를 false로 전환
         attackLoop = StartCoroutine(MeleeAttackLoop());
     }
 
@@ -108,11 +129,13 @@ public class EnemyController : MonoBehaviour
     /// <returns></returns>
     protected virtual IEnumerator MeleeAttackLoop()
     {
+        isAttack = true;
+
         while (isAttack)
         {
             attackRange.enabled = true;
 
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
         }
 
         attackLoop = null;
@@ -128,7 +151,10 @@ public class EnemyController : MonoBehaviour
 
             Debug.Log("단순 근접 공격 범위 내에 플레이어 들어옴");
             if (other.TryGetComponent(out IDamageable target))
+            {
+                animator.SetTrigger("IsAttack");    // 기본 근접 공격 애니메이션 실행
                 target.TakeDamage(attackDamage);
+            }
 
             attackRange.enabled = false;    // 공격 판정용 콜라이더 비활성화
         }

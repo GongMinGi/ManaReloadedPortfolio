@@ -461,8 +461,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapEnemyData: {fileID: 11400000, guid: 7b5587a2aa68514489124de54c734de9, type: 2}
-  size: 180
-  capacity: 400
+  size: 20
+  capacity: 50
   player: {fileID: 538419495}
   spawnDis: 0
   spawnRange: 0
