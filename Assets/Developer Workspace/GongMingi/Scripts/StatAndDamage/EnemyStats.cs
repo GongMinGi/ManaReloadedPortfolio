@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyStats : MonoBehaviour, IDamageable
 {
-
     [field: SerializeField] public float HP { get; set; } = 500f;
+    [SerializeField] private UnityEvent OnDie = new();
 
     /// <summary>
     /// - 해당 오브젝트에 데미지를 입힌다
@@ -14,7 +15,8 @@ public class EnemyStats : MonoBehaviour, IDamageable
     {
         HP -= damage;
         Debug.Log($"남은 체력: {HP}");
+
+        if (HP <= 0f)
+            OnDie?.Invoke();
     }
-
-
 }
