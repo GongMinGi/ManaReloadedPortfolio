@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// * 작성자 : 공민기
@@ -9,5 +10,6 @@ using UnityEngine;
 public interface IDamageable
 {
     float HP { get; set; }
+
     void TakeDamage(float damage);
 }
