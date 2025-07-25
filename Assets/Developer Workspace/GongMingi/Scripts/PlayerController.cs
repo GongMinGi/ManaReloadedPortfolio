@@ -20,10 +20,10 @@ public class PlayerController : MonoBehaviour
 
     #region FieldAndProperty
 
-    [SerializeField] CharacterController controller;
+    //[SerializeField] CharacterController controller;
     [SerializeField] float moveSpeed;
     [SerializeField] float sprintMultiplier = 2f;
-
+    [SerializeField] Rigidbody rb;
 
     [SerializeField] bool isSprint;
     bool isMove;
@@ -143,8 +143,13 @@ public class PlayerController : MonoBehaviour
         float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);       // 이동속도 변수에 달리는 중이면, 다른 숫자를 곱해주고, 아니면  1을 곱해준다
 
 
-        controller.Move(transform.right * moveDir.x * speed * Time.deltaTime);      // 좌우 방향 플레이어 이동 
-        controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);    // 상하 방향 플레이어 이동
+        Vector3 targetVelocity = moveDir.normalized * speed;
+        Debug.Log(targetVelocity);
+
+        rb.linearVelocity = new Vector3(targetVelocity.x,0, targetVelocity.z);
+
+        //controller.Move(transform.right * moveDir.x * speed * Time.deltaTime);      // 좌우 방향 플레이어 이동 
+        //controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);    // 상하 방향 플레이어 이동
     }
     #endregion
 
