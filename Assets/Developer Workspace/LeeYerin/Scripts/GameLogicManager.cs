@@ -68,6 +68,8 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     private void StartGame()
     {
+        GameModeManager.SoundManager.PlayBGM(bgmClip.game);     // 게임 BGM 실행
+
         // FadeIn 후 게임 로직 실행
         GameModeManager.UIManager.FadeIn(() => 
         {
@@ -127,6 +129,8 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     public void GameRetry()
     {
+        GameModeManager.SoundManager.StopBGM();     // 게임 BGM 종료
+
         GameModeManager.UIManager.FadeOut(() =>
         {
             GameModeManager.UIManager.ClearPopupHistory();      // UIManager의 ClearPopupHistory 스택 초기화
@@ -139,6 +143,8 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     public void GoToMainMenu()
     {
+        GameModeManager.SoundManager.StopBGM();     // 게임 BGM 종료
+
         GameModeManager.UIManager.LoadIntoLoadoutUI = false;
         GameModeManager.UIManager.FadeOut(() => 
         { 
@@ -151,6 +157,8 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     public void GoToLoadout()
     {
+        GameModeManager.SoundManager.StopBGM();     // 게임 BGM 종료
+
         GameModeManager.UIManager.LoadIntoLoadoutUI = true;
         GameModeManager.UIManager.FadeOut(() =>
         {

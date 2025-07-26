@@ -16,7 +16,9 @@ public class PreGameFlowManager : MonoBehaviour
     #region Unity Event
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => GameModeManager.UIManager != null);
+        yield return new WaitUntil(() => GameModeManager.UIManager != null && GameModeManager.SoundManager != null);
+
+        GameModeManager.SoundManager.PlayBGM(bgmClip.title);    // PreGameFlow의 BGM 실행
 
         if (GameModeManager.UIManager.IsFirstLaunch)    // 게임 실행 후 첫 진입일 경우
             yield break;
@@ -54,6 +56,8 @@ public class PreGameFlowManager : MonoBehaviour
     /// </summary>
     public void GameStart()
     {
+        GameModeManager.SoundManager.StopBGM();      // PreGameFlow의 BGM 종료
+
         GameModeManager.UIManager.FadeOut(() =>
         {
             SceneManager.LoadScene("Game Scene");
