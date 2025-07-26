@@ -18,6 +18,12 @@ public static class GameModeManager
     public static PlayerController Player { get { return player; }set { player = value; } }
     #endregion
 
+    #region UI Manager
+    private static UIManager uiManager;
+    public static UIManager UIManager { get { return uiManager; } set { uiManager = value; } }
+    #endregion
+
+    #region Game Scene's Manager
     private static GameLogicManager gameLogicManager;
     private static PoolManager poolManager;
     private static MapTileManager mapTileManager;
