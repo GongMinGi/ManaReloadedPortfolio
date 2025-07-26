@@ -23,6 +23,11 @@ public static class GameModeManager
     public static UIManager UIManager { get { return uiManager; } set { uiManager = value; } }
     #endregion
 
+    #region Sound Manager
+    private static SoundManager soundManager;
+    public static SoundManager SoundManager { get { return soundManager; } set { soundManager = value; } }
+    #endregion
+
     #region Game Scene's Manager
     private static GameLogicManager gameLogicManager;
     private static PoolManager poolManager;
