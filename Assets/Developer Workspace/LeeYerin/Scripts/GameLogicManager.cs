@@ -129,6 +129,7 @@ public class GameLogicManager : MonoBehaviour
     {
         GameModeManager.UIManager.FadeOut(() =>
         {
+            GameModeManager.UIManager.ClearPopupHistory();      // UIManager의 ClearPopupHistory 스택 초기화
             SceneManager.LoadScene("Game Scene");
         });
     }

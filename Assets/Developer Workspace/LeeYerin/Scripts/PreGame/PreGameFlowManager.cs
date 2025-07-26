@@ -21,6 +21,8 @@ public class PreGameFlowManager : MonoBehaviour
         if (GameModeManager.UIManager.IsFirstLaunch)    // 게임 실행 후 첫 진입일 경우
             yield break;
 
+        GameModeManager.UIManager.ClearPopupHistory();      // UIManager의 ClearPopupHistory 스택 초기화
+
         if (GameModeManager.UIManager.LoadIntoLoadoutUI)    // 게임 로드아웃으로 이동일 경우
         {
             gameMenuUI.SetActive(false);
