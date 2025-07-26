@@ -93,13 +93,17 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
                 hits,                                       // 결과를 담을 배열         
                 maxDistance,                                // 최대 거리
                 enemyLayer | obstacleLayer,                 // 탐지할 레이어 마스크
-                QueryTriggerInteraction.Ignore);            // 트리거 Collider 무시 ?? 
+                QueryTriggerInteraction.Collide);            // 트리거 Collider 무시 ?? 
 
             float beamLength = maxDistance;                 // 최종 빔 길이 초기값.
 
             for (int i = 0;  i < hitCount; ++i)             // 빔에 맞은 개수만큼 순회
             {
+                Debug.Log("충돌확인");
+
                 RaycastHit hit = hits[i];
+
+                if (hit.collider.isTrigger) continue;
 
                 if (hit.distance < beamLength)              // 더 가까운 무언가에 맞으면
                     beamLength = hit.distance;              // 빔 길이 단축
