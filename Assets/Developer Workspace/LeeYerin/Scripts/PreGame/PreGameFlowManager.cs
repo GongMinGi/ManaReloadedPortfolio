@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,25 @@ public class PreGameFlowManager : MonoBehaviour
 {
     [SerializeField] GameObject gameMenuUI;     // 게임 메뉴 UI
     [SerializeField] GameObject loadOutUI;      // 로드아웃 UI
+
+    #region Unity Event
+    private IEnumerator Start()
+    {
+        yield return new WaitUntil(() => GameModeManager.UIManager != null);
+
+        if (GameModeManager.UIManager.IsFirstLaunch)    // 게임 실행 후 첫 진입일 경우
+            yield break;
+
+        if (GameModeManager.UIManager.LoadIntoLoadoutUI)    // 게임 로드아웃으로 이동일 경우
+        {
+            gameMenuUI.SetActive(false);
+            loadOutUI.SetActive(true);
+            GameModeManager.UIManager.FadeIn();
+        }
+        else                                               // 게임 메인 메뉴로 이동일 경우
+            GameModeManager.UIManager.FadeIn();
+    }
+    #endregion
 
     /// <summary>
     /// 게임 메뉴에서 로드아웃 UI로 전환하는 메서드

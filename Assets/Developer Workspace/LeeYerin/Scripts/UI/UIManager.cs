@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 개발자: 이예린
 /// 
-/// UI 전환 효과(Fade In/Out) 및 팝업 UI의 스택 기반 관리 기능을 제공하는 메니저 클래스
+/// UI 전환 효과(Fade In/Out) 및 팝업 UI의 스택 기반 관리 기능 둥 UI를 위한 기능 제공하는 메니저 클래스
 /// </summary>
 public class UIManager : MonoBehaviour
 {
@@ -18,8 +18,11 @@ public class UIManager : MonoBehaviour
 
     private Stack<PopupController> popupHistory = new();    // 팝업 UI 스택
 
+    public bool IsFirstLaunch => !fadeUI.gameObject.activeSelf;     // 게임 실행 후 첫 진입인지 여부
+    public bool LoadIntoLoadoutUI { get; set; } = false;    // 로드아웃으로의 이동인지 여부
+
     Sequence sequenceFadeIn;
-    Sequence sequenceFadeInOut;
+    Sequence sequenceFadeOut;
 
     #region Unity Event
     private void Awake()
@@ -71,11 +74,11 @@ public class UIManager : MonoBehaviour
     /// <param name="onComplete">페이드 아웃 완료 후 실행할 콜백</param>
     public void FadeOut(Action onComplete = null)
     {
-        if (sequenceFadeInOut == null)
+        if (sequenceFadeOut == null)
         {
-            sequenceFadeInOut = DOTween.Sequence();
+            sequenceFadeOut = DOTween.Sequence();
 
-            sequenceFadeInOut.Append(fadeUI.DOFade(1.0f, fadeTime))
+            sequenceFadeOut.Append(fadeUI.DOFade(1.0f, fadeTime))
                 .SetAutoKill(false)
                 .OnStart(() =>
                 {
@@ -94,11 +97,11 @@ public class UIManager : MonoBehaviour
         {
             // 시퀀스가 이미 생성되어 있을 경우, 이전에 설정된 OnComplete 콜백이 남아있을 수 있으므로
             // 외부에서 새로 전달된 onComplete를 반영하기 위해 OnComplete를 다시 설정함
-            sequenceFadeInOut.OnComplete(() =>
+            sequenceFadeOut.OnComplete(() =>
             {
                 onComplete?.Invoke();
             });
-            sequenceFadeInOut.Restart();    // 기존 시퀀스 재사용
+            sequenceFadeOut.Restart();    // 기존 시퀀스 재사용
         }
     }
     #endregion
