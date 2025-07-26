@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using DG.Tweening;
+//using DG.Tweening;
 
 /// <summary>
 /// 개발자: 이예린
@@ -97,15 +97,15 @@ public class EnemyController : MonoBehaviour
 
         animator.SetTrigger("IsDie");   // Die 애니메이션 실행
 
-        Sequence seq = DOTween.Sequence();
+        //Sequence seq = DOTween.Sequence();
 
-        // 서서히 축소 → 풀로 반납
-        seq.Append(transform.DOScale(Vector3.zero, 0.7f)
-            .SetEase(Ease.InBack)) // 부드러운 축소 이펙트
-            .OnComplete(() =>
-            {
-                enemyPooeledObj.Release();  // Pool에 반납
-            });
+        //// 서서히 축소 → 풀로 반납
+        //seq.Append(transform.DOScale(Vector3.zero, 0.7f)
+        //    .SetEase(Ease.InBack)) // 부드러운 축소 이펙트
+        //    .OnComplete(() =>
+        //    {
+        //        enemyPooeledObj.Release();  // Pool에 반납
+        //    });
     }
     #endregion
 

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
 
+
 /// <summary>
 /// 개발자: 이예린, 공민기
 /// 
@@ -26,18 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody rb;
 
     [SerializeField] bool isSprint;
-    bool isMove;
-
-    Vector3 moveDir = new();
-
-    /// <summary>
-    /// 외부 몬스터에서 접근하기 위해서 moveDir 프로퍼티화
-    /// </summary>
-    public Vector3 MoveDir
-    {
-        get => moveDir; 
-        set => moveDir = value;
-    }
+    [SerializeField] bool isMove;
 
 
     [Header("Casting Settings")]
@@ -50,9 +40,21 @@ public class PlayerController : MonoBehaviour
     public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
     public UnityEvent onCastReset;
 
+
+    [SerializeField] Animator playerAnim;                                   // 플레이어 애니메이션
+
+    Vector3 moveDir = new();
+
+    /// <summary>
+    /// 외부 몬스터에서 접근하기 위해서 moveDir 프로퍼티화
+    /// </summary>
+    public Vector3 MoveDir
+    {
+        get => moveDir; 
+        set => moveDir = value;
+    }
+
     private readonly List<E_CastingType> currentCastingList = new();
-
-
 
     private static readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()
     {
@@ -83,7 +85,9 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("start 진입");
         GameModeManager.Player = this;                                  // 현재 플레이어 인스턴스를 GameModeManager에 등록
+        Debug.Log("player 할당");
 
         // 원거리 공격을 위한 초기 세팅 작업
         foreach (var mapping in castingKeyMapping)                              
@@ -136,6 +140,11 @@ public class PlayerController : MonoBehaviour
         if (keyboard.leftCtrlKey.isPressed)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
         {
             Debug.Log("컨트롤 눌림");
+
+            rb.linearVelocity = new Vector3(0, 0, 0);                       // 플레이어 즉시 정지
+
+            playerAnim.SetFloat("Horizontal", 0);                           // 플레이어 이동 애니메이션 정지
+            playerAnim.SetFloat("Speed", 0);
             return;                                                         
 
         }
@@ -143,15 +152,18 @@ public class PlayerController : MonoBehaviour
         float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);       // 이동속도 변수에 달리는 중이면, 다른 숫자를 곱해주고, 아니면  1을 곱해준다
 
 
-        Vector3 targetVelocity = moveDir.normalized * speed;
-        Debug.Log(targetVelocity);
+        playerAnim.SetFloat("Horizontal", moveDir.x);
+        playerAnim.SetFloat("Speed", moveDir.z);
+        
 
+        Vector3 targetVelocity = moveDir.normalized * speed;
         rb.linearVelocity = new Vector3(targetVelocity.x,0, targetVelocity.z);
 
         //controller.Move(transform.right * moveDir.x * speed * Time.deltaTime);      // 좌우 방향 플레이어 이동 
         //controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);    // 상하 방향 플레이어 이동
     }
     #endregion
+
 
 
     #region 속성 캐스팅
