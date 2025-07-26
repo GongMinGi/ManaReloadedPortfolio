@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
 
+
 /// <summary>
 /// 개발자: 이예린, 공민기
 /// 
@@ -20,13 +21,27 @@ public class PlayerController : MonoBehaviour
 
     #region FieldAndProperty
 
-    [SerializeField] CharacterController controller;
+    //[SerializeField] CharacterController controller;
     [SerializeField] float moveSpeed;
     [SerializeField] float sprintMultiplier = 2f;
-
+    [SerializeField] Rigidbody rb;
 
     [SerializeField] bool isSprint;
-    bool isMove;
+    [SerializeField] bool isMove;
+    [SerializeField] bool isDie;
+
+    [Header("Casting Settings")]
+    [SerializeField] private int maxInputCount = 6;                         // 조합 길이
+
+    [SerializeField] ElementalRangedAttackController rangedAttackController;    // 원거리 공격을 제어하는 컨트롤러
+    [SerializeField] MeleeConeAttack meleeConeAttack;                           // 근접공격을 실행하기 위한 변수
+
+    [Header("Event -> UI 연결")]
+    public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
+    public UnityEvent onCastReset;
+
+
+    [SerializeField] Animator playerAnim;                                   // 플레이어 애니메이션
 
     Vector3 moveDir = new();
 
@@ -39,20 +54,7 @@ public class PlayerController : MonoBehaviour
         set => moveDir = value;
     }
 
-
-    [Header("Casting Settings")]
-    [SerializeField] private int maxInputCount = 6;                         // 조합 길이
-
-    [SerializeField] ElementalRangedAttackController rangedAttackController;    // 원거리 공격을 제어하는 컨트롤러
-    [SerializeField] MeleeConeAttack meleeConeAttack;                           // 근접공격을 실행하기 위한 변수
-
-    [Header("Event -> UI 연결")]
-    public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
-    public UnityEvent onCastReset;
-
     private readonly List<E_CastingType> currentCastingList = new();
-
-
 
     private static readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()
     {
@@ -81,13 +83,22 @@ public class PlayerController : MonoBehaviour
             GameModeManager.MapTileManager.UpdateCurrentPos();
     }
 
+    private void Awake()
+    {
+    }
+
     private void Start()
     {
+        Debug.Log("start 진입");
         GameModeManager.Player = this;                                  // 현재 플레이어 인스턴스를 GameModeManager에 등록
+        Debug.Log("player 할당");
 
         // 원거리 공격을 위한 초기 세팅 작업
         foreach (var mapping in castingKeyMapping)                              
             rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
+
+        rangedAttackController.PlayerAnim = playerAnim;                 // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
+
     }
     #endregion
 
@@ -133,9 +144,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        if (keyboard.leftCtrlKey.isPressed)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
+        if (keyboard.leftCtrlKey.isPressed || isDie == true)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
         {
             Debug.Log("컨트롤 눌림");
+
+            rb.linearVelocity = new Vector3(0, 0, 0);                       // 플레이어 즉시 정지
+
+            playerAnim.SetFloat("Horizontal", 0);                           // 플레이어 이동 애니메이션 정지
+            playerAnim.SetFloat("Speed", 0);
             return;                                                         
 
         }
@@ -143,10 +159,28 @@ public class PlayerController : MonoBehaviour
         float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);       // 이동속도 변수에 달리는 중이면, 다른 숫자를 곱해주고, 아니면  1을 곱해준다
 
 
-        controller.Move(transform.right * moveDir.x * speed * Time.deltaTime);      // 좌우 방향 플레이어 이동 
-        controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);    // 상하 방향 플레이어 이동
+        playerAnim.SetFloat("Horizontal", moveDir.x);
+        playerAnim.SetFloat("Speed", moveDir.z);
+        
+
+        Vector3 targetVelocity = moveDir.normalized * speed;
+        rb.linearVelocity = new Vector3(targetVelocity.x,0, targetVelocity.z);
+
+        //controller.Move(transform.right * moveDir.x * speed * Time.deltaTime);      // 좌우 방향 플레이어 이동 
+        //controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);    // 상하 방향 플레이어 이동
     }
     #endregion
+
+
+    public void OnDie()
+    {
+        isDie = true;
+
+        playerAnim.SetBool("isDie", true);
+        Debug.Log("사망");
+    }
+
+
 
 
     #region 속성 캐스팅

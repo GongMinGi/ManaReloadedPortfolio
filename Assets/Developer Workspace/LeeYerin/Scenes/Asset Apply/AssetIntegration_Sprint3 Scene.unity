@@ -806,6 +806,7 @@ GameObject:
   - component: {fileID: 538419495}
   - component: {fileID: 538419502}
   - component: {fileID: 538419503}
+  - component: {fileID: 538419504}
   m_Layer: 6
   m_Name: DemoPlayer
   m_TagString: Untagged
@@ -825,9 +826,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbdd9d6bcda43e4789a4627d90ffad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 538419496}
   moveSpeed: 5
   sprintMultiplier: 2
+  rb: {fileID: 538419504}
   isSprint: 0
   maxInputCount: 6
   rangedAttackController: {fileID: 538419502}
@@ -1138,6 +1139,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <HP>k__BackingField: 100
+--- !u!54 &538419504
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538419494}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &729373742
 GameObject:
   m_ObjectHideFlags: 0
