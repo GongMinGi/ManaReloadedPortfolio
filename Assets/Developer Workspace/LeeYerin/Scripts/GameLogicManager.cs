@@ -1,5 +1,7 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 개발자: 이예린
@@ -19,9 +21,15 @@ public class GameLogicManager : MonoBehaviour
     #endregion
 
     #region Timer Info
-    [SerializeField] int sec;   // 경과 초
-    [SerializeField] int min;   // 경과 분
+    [SerializeField] TMP_Text timeText;
+    private int time;   // 경과한 시간
+    public int Time => time;
     Coroutine timer;            // 게임 시간 추적용 코루틴 핸들
+    #endregion
+
+    #region Game Over UI Setting
+    [SerializeField] GameObject gameOverUI;     // 게임 오버 UI 오브젝트
+    [SerializeField] TMP_Text totalPlayTimeText;    // 총 게임 진행 시간 텍스트
     #endregion
 
     #region State
@@ -60,8 +68,23 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     private void StartGame()
     {
-        ProceedPhase();
-        timer = StartCoroutine(TrackGameTime());
+        // FadeIn 후 게임 로직 실행
+        GameModeManager.UIManager.FadeIn(() => 
+        {
+            GameModeManager.UIManager.ClearPopupHistory();  // UIManager의 PopupHistory 스택 초기화
+            ProceedPhase();
+            timer = StartCoroutine(TrackGameTime());
+        });
+    }
+
+    /// <summary>
+    /// 게임 종료 로직을 실행하는 메서드
+    /// </summary>
+    public void GameOver()
+    {
+        StopCoroutine(timer);   // 타이머 종류
+        totalPlayTimeText.text = $"{time / 60:D2} : {time % 60:D2}";    // 총 플레이 시간 텍스트 설정
+        gameOverUI.SetActive(true);     // 게임 오버 UI 활성화
     }
     #endregion
 
@@ -78,7 +101,7 @@ public class GameLogicManager : MonoBehaviour
         else
         {
             Debug.Log("게임 페이즈 로직이 전부 종료되었습니다.");
-            StopCoroutine(timer);   // 타이머 종류
+            GameOver();     // 게임 종료 로직 실행
         }
     }
     #endregion
@@ -86,25 +109,62 @@ public class GameLogicManager : MonoBehaviour
     #region Check Time
     private IEnumerator TrackGameTime()
     {
-        sec = 0;
-        min = 0;
+        time = 0;
 
         while (!isFinish)
         {
             yield return new WaitForSeconds(1f);
 
-            if (sec == 60)
-            {
-                min++;
-                sec = 0;
-            }
-            else if (sec < 60)
-            {
-                sec++;
-            }
-
-            Debug.Log($"{min} : {sec}");
+            timeText.text = $"{time / 60:D2} : {time % 60:D2}";
+            time++;
         }
+    }
+    #endregion
+
+    #region After Game Over
+    /// <summary>
+    /// 페이드 아웃 후 게임을 다시 시작하는 메서드
+    /// </summary>
+    public void GameRetry()
+    {
+        GameModeManager.UIManager.FadeOut(() =>
+        {
+            GameModeManager.UIManager.ClearPopupHistory();      // UIManager의 ClearPopupHistory 스택 초기화
+            SceneManager.LoadScene("Game Scene");
+        });
+    }
+
+    /// <summary>
+    /// 페이드 아웃 후 게임 메인 메뉴 화면으로 이동하는 메서드
+    /// </summary>
+    public void GoToMainMenu()
+    {
+        GameModeManager.UIManager.LoadIntoLoadoutUI = false;
+        GameModeManager.UIManager.FadeOut(() => 
+        { 
+            SceneManager.LoadScene("Main Menu & Loadout Scene");
+        });
+    }
+
+    /// <summary>
+    /// 페이드 아웃 후 로드아웃 화면으로 이동하는 메서드
+    /// </summary>
+    public void GoToLoadout()
+    {
+        GameModeManager.UIManager.LoadIntoLoadoutUI = true;
+        GameModeManager.UIManager.FadeOut(() =>
+        {
+            SceneManager.LoadScene("Main Menu & Loadout Scene");
+        });
+    }
+
+    /// <summary>
+    /// 게임을 종료하는 메서드
+    /// 플랫폼에 맞는 종료 처리 수행
+    /// </summary>
+    public void ExitGame()
+    {
+        GameModeManager.ExitGame();
     }
     #endregion
 }
