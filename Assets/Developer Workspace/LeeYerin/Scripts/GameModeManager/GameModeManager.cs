@@ -40,4 +40,24 @@ public static class GameModeManager
     /// 모든 필수 매니저가 준비된 상태인지 반환
     /// </summary>
     public static bool IsReady => MapTileManager.IsReady && EnemyManager.IsReady;
+    #endregion
+
+    #region ExitGame
+    /// <summary>
+    /// 애플리케이션을 종료하는 메서드
+    /// 
+    /// - 빌드된 게임에서는 Application.Quit()를 호출하여 게임을 종료
+    /// - 유니티 에디터 환경에서는 Application.Quit()가 동작하지 않으므로,
+    ///   에디터 재생 모드를 중지시키는 코드가 별도로 포함되어 있음
+    /// </summary>
+    public static void ExitGame()
+    {
+        Application.Quit();
+
+        // 에디터에서는 Quit이 작동하지 않기 때문에, 아래 코드는 디버깅용
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+    #endregion
 }
