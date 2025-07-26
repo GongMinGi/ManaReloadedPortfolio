@@ -14,6 +14,12 @@ using UnityEngine;
 public class ElementalRangedAttackController : MonoBehaviour
 {
     [SerializeField] ElementPriorityData elementPriorityData;
+    [SerializeField] Animator playerAnim;
+    public Animator PlayerAnim 
+    {
+        get => playerAnim;
+        set => playerAnim = value; 
+    }
 
     private Dictionary<E_CastingType, int> castedElementCount = new();
 
@@ -177,6 +183,8 @@ public class ElementalRangedAttackController : MonoBehaviour
     /// <param name="castingType">실행할 속성</param>
     private void ConeAttack(E_CastingType castingType)
     {
+
+        playerAnim.SetTrigger("RangedConeAttack");
         switch (castingType)
         {
             case E_CastingType.Fire:

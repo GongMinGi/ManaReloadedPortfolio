@@ -7,6 +7,8 @@ public class PlayerLookAt : MonoBehaviour
 {
     [SerializeField] Camera playerCamera;
     [SerializeField] float turnSmoothTime = 0.05f;
+    private bool isDie = false;
+
 
     private void Awake()
     {
@@ -18,13 +20,11 @@ public class PlayerLookAt : MonoBehaviour
         PlayerRotate();   
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void PlayerRotate()
     {
+        if (isDie) return;
+
+
         Vector3 screenPos = Mouse.current.position.ReadValue();
         screenPos.z = playerCamera.WorldToScreenPoint(transform.position).z;
         //Vector3 mousePos  = Camera.main.ScreenToWorldPoint(screenPos);
@@ -42,4 +42,9 @@ public class PlayerLookAt : MonoBehaviour
 
     }
     
+    public void OnDie()
+    {
+        isDie = true;
+    }
+
 }

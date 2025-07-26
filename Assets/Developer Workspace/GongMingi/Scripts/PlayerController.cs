@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] bool isSprint;
     [SerializeField] bool isMove;
-
+    [SerializeField] bool isDie;
 
     [Header("Casting Settings")]
     [SerializeField] private int maxInputCount = 6;                         // 조합 길이
@@ -83,6 +83,10 @@ public class PlayerController : MonoBehaviour
             GameModeManager.MapTileManager.UpdateCurrentPos();
     }
 
+    private void Awake()
+    {
+    }
+
     private void Start()
     {
         Debug.Log("start 진입");
@@ -92,6 +96,9 @@ public class PlayerController : MonoBehaviour
         // 원거리 공격을 위한 초기 세팅 작업
         foreach (var mapping in castingKeyMapping)                              
             rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
+
+        rangedAttackController.PlayerAnim = playerAnim;                 // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
+
     }
     #endregion
 
@@ -137,7 +144,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        if (keyboard.leftCtrlKey.isPressed)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
+        if (keyboard.leftCtrlKey.isPressed || isDie == true)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
         {
             Debug.Log("컨트롤 눌림");
 
@@ -163,6 +170,16 @@ public class PlayerController : MonoBehaviour
         //controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);    // 상하 방향 플레이어 이동
     }
     #endregion
+
+
+    public void OnDie()
+    {
+        isDie = true;
+
+        playerAnim.SetBool("isDie", true);
+        Debug.Log("사망");
+    }
+
 
 
 
