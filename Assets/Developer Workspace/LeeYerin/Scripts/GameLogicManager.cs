@@ -60,8 +60,13 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     private void StartGame()
     {
-        ProceedPhase();
-        timer = StartCoroutine(TrackGameTime());
+        // FadeIn 후 게임 로직 실행
+        GameModeManager.UIManager.FadeIn(() => 
+        {
+            GameModeManager.UIManager.ClearPopupHistory();  // UIManager의 PopupHistory 스택 초기화
+            ProceedPhase();
+            timer = StartCoroutine(TrackGameTime());
+        });
     }
     #endregion
 
