@@ -22,8 +22,6 @@ public class SkillCastingManager : MonoBehaviour
     // 싱글톤
     private static SkillCastingManager instance;
 
-    public static SkillCastingManager Instance => instance; // get 프로퍼티
-
     // 인스펙터에서 ScriptableObject 목록을 직접 넣어두는 공간
     public List<SkillHashTable> allSkilltable = null;
 
@@ -40,7 +38,8 @@ public class SkillCastingManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            GameModeManager.SkillCastingManager = instance;
+            //DontDestroyOnLoad(this.gameObject);
         }
         else
         {
@@ -62,17 +61,17 @@ public class SkillCastingManager : MonoBehaviour
     /// </summary>
     public static int GetCastTypeHashTable(List<E_CastingType> playerCast)
     {
-        if (playerCast.Count <= 0)                      // 캐스팅이 비어있으면 0을 반환해 에러 표시
+        if (playerCast.Count <= 0)                      // 입력한 원소 조합이 비어있으면 0을 반환해 에러 표시
             return 0;
 
-        string tempString = "";
+        string tempString = "";                         // 입력으로 들어온 원소 데이터를 문자로 바꿔 저장할 변수
 
         foreach(var item in playerCast)
         {
-            tempString += item.ToString() + "|";        // 불|물|...| 의 형태로 변환시킨다
+            tempString += item.ToString() + "|";        // 불|물|...| 의 형태의 문자열로 변환시킨다
         }
 
-        return tempString.GetHashCode();
+        return tempString.GetHashCode();                // 변환한 문자열에 대한 고유한 번호를 만들어 해당 번호를 반환한다.
     }
 
 
@@ -86,17 +85,17 @@ public class SkillCastingManager : MonoBehaviour
     /// <returns></returns>
     public BaseSkill GetSkill( List<E_CastingType> playerCast)
     {
-        int hashValue = GetCastTypeHashTable(playerCast); 
+        int hashValue = GetCastTypeHashTable(playerCast);       // 플레이어가 입력한 원소 조합을 해당 조합에 대응되는 고유값으로 반환한다.
 
-        if( hashValue == 0)
+        if( hashValue == 0)                                     // 원소 조합이 비어있는 경우 오류를 표시한다.
         {
             Debug.LogError("값 이상함 확인 요망");
         }
 
 
-        if(allSkillTableDict.ContainsKey(hashValue))
+        if(allSkillTableDict.ContainsKey(hashValue))            // 플레이어가 입력한 원소 조합에 해당하는 고유번호가 조합 마법 리스트에 존재하는지 판단
         {
-            return allSkillTableDict[hashValue].castSkill;
+            return allSkillTableDict[hashValue].castSkill;      // 마법이 존재한다면, 해당 조합에 할당된 스킬을 실행한다.
         }
 
 
@@ -117,10 +116,11 @@ public class SkillCastingManager : MonoBehaviour
 
         isInit = true;
 
-        allSkillTableDict.Clear();
+        allSkillTableDict.Clear();                          // 게임 실행 중에 원소조합을 저장해놓을 변수를 초기화 시킨다
+
         foreach(var item in allSkilltable)
         {
-            allSkillTableDict.Add(item.currentHashID, item);
+            allSkillTableDict.Add(item.currentHashID, item);    // 에디터에서 입력해놓은 조합 마법의 고유값과 대응되는 스킬을 게임 실행 중에 사용할 변수로 복사해 온다.
         }
     }
 }

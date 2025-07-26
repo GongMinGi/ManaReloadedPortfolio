@@ -1,18 +1,19 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
 /// 개발자: 이예린
 /// 
 /// 적을 관리하는 싱글톤 매니저 클래스
-/// 적 오브젝트 풀 생성, 적 생성 위치 및 주기 관리, 적 생성 로직을 담당
+/// 적 오브젝트 풀 생성, 적 생성 위치 및 주기 관리, 적 생성 및 각 페이즈 로직을 담당
 /// </summary>
 public class EnemyManager : MonoBehaviour
 {
     #region Fields and Properties
     #region Singleton
     private static EnemyManager instance;
-    public static EnemyManager Instance => instance;
     #endregion
 
     #region Enemy Object Pool Settings
@@ -25,7 +26,8 @@ public class EnemyManager : MonoBehaviour
     #region Enemy Spawn Settings
     [Header("Enemy Spawn Settings")]
     [SerializeField] PlayerController player;
-    public PlayerController Player => player;
+    public PlayerController Player { get { return player; } set { player = value; } }
+    private int phaseEnemyTypeCount;    // 현재 페이즈 내 등장하는 적 종류 개수
 
     #region Initialized from ScriptableObject
     [Tooltip("Spawn distance from player")]
@@ -40,20 +42,36 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #endregion
+
+    #region Phase Progress Tracking
+    private int clearedEnemyTypeCount = 0;  // 페이즈 내 처치가 완료된 적 종류 개수
+    #endregion
+
+    #region State Flags
+    private bool isReady;
+
+    public bool IsReady => isReady;
+    #endregion
     #endregion
 
     #region Unity Event
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameModeManager.Player != null);   // 플레이어를 알 수 있을 때까지 대기
+
+        GameModeManager.GameLogicManager.Initialization(mapEnemyData.Phases.Count);     // 게임 전체 로직을 관리하는 매니저에 페이즈 수 전달
+
         if (instance == null)
+        {
             instance = this;
+            GameModeManager.EnemyManager = instance;
+        }
         else
             Destroy(instance);
 
-        Initialization();
+        yield return new WaitUntil(() => player != null);   // 플레이어가 할당된 후 진행
 
-            // 적 생성 코루틴 시작
-        StartCoroutine(SpawnEnemyLoop(0));  // TODO... 페이즈와 연결
+        isReady = Initialization();
     }
     #endregion
 
@@ -61,11 +79,11 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 적 Pool 생성 및 스폰 설정값 초기화
     /// </summary>
-    private void Initialization()
+    private bool Initialization()
     {
         // MapEnemyData 내 적 프리팹 목록을 순회하며 각각 Pool 생성
         foreach (var enemy in mapEnemyData.Enemies)
-            PoolManager.Instance.CreatePool(enemy, size, capacity);
+            GameModeManager.PoolManager.CreateEnemyPool(enemy, size, capacity);
 
         // MapEnemyData에 정의된 스폰 설정값을 필드에 복사
         mapEnemyData.Initialization(
@@ -73,10 +91,67 @@ public class EnemyManager : MonoBehaviour
             ref spawnRange, 
             ref minSpawnTime, 
             ref maxSpawnTime);
+
+        return true;
     }
     #endregion
 
     #region Spawn Enemys
+    /// <summary>
+    /// 각 페이즈 적 생성 로직을 구현된 코루틴 실행하는 메서드
+    /// </summary>
+    /// <param name="phase">실행할 페이즈 단계</param>
+    public void StartSpawnEnemyLoop(int phase)
+    {
+        // 적 생성 코루틴 시작
+        StartCoroutine(SpawnEnemyLoop(phase));
+    }
+
+    /// <summary>
+    /// 일정 시간 간격으로 적을 반복 생성하는 코루틴
+    /// 생성 대기 시간은 최소/최대 생성 시간 사이에서 랜덤으로 결정
+    /// </summary>
+    /// <param name="phase">현재 페이즈 넘버</param>
+    /// <returns></returns>
+    IEnumerator SpawnEnemyLoop(int phase)
+    {
+        // 현재 진행 중인 페이즈 번호(phase)를 기준으로
+        // 해당 페이즈의 적 프리팹 및 등장 수 정보를 보관한 데이터(PhaseEnemyData)를 추출
+        List<EnemyPooledObject> enemyTypes = new List<EnemyPooledObject>(mapEnemyData.Phases[phase].enemies);
+        phaseEnemyTypeCount = enemyTypes.Count;
+
+        for (int i = 0; i < phaseEnemyTypeCount; i++)
+        {
+            // i번째 적 프리팹에 해당하는 EnemyPool을 찾아,
+            // 그에 연결된 EnemySpawnTracker에 해당 적의 등장 수(phaseData.enemiesNum[i])를 설정
+            GameModeManager.PoolManager.FindEnemyPoolDic((enemyTypes[i]))
+                .Tracker.Set(mapEnemyData.Phases[phase].enemiesNum[i]);
+        }
+
+
+        while (enemyTypes.Count != 0)  // TODO... 아후 게임 종료 여부 관리하는 변수 연결할 예정
+        {
+            // 최소 ~ 최대 스폰 시간 사이에서 랜덤 대기
+            yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
+
+            for (int i = 0; i < enemyTypes.Count; i++)
+            {
+                if (!GameModeManager.PoolManager.FindEnemyPoolDic(enemyTypes[i]).Tracker.CanSpawn)
+                {
+                    enemyTypes.Remove(enemyTypes[i]);
+                    continue;
+                }
+
+                SpawnEnemy(
+                    enemyTypes[i], 
+                    player.MoveDir
+                    );
+            }
+        }
+
+        Debug.Log($"{phase}번째 페이즈의 적 스폰 로직 종료");
+    }
+
     /// <summary>
     /// 지정한 수만큼 적을 특정 방향으로 스폰하는 메서드
     /// 플레이어 위치 기준으로 spawnDis 거리만큼 이동 방향으로 이동하고, 
@@ -85,7 +160,7 @@ public class EnemyManager : MonoBehaviour
     /// <param name="enemyPrefab">생성할 적 프리팹</param>
     /// <param name="moveDir">생성 방향(단위 벡터)</param>
     /// <param name="enemyNum">생성할 적 수</param>
-    public void SpawnEnemy(PooledObject enemyPrefab, Vector3 moveDir, int enemyNum)
+    private void SpawnEnemy(EnemyPooledObject enemyPrefab, Vector3 moveDir, int enemyNum = 1)
     {
         // 플레이어 시야에서 적 생성 방지
         if (moveDir == Vector3.zero)
@@ -100,32 +175,33 @@ public class EnemyManager : MonoBehaviour
             spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
 
             // Pool에서 적 오브젝트 위치 지정 및 활성화
-            PooledObject newEnemy = PoolManager.Instance.GetPool(enemyPrefab, spawnPos, Quaternion.identity);
+            EnemyPooledObject newEnemy = GameModeManager.PoolManager.GetEnemyPool(enemyPrefab, spawnPos, Quaternion.identity);
 
             // 생성 위치 방향을 바라보도록 회전 설정
             newEnemy.transform.LookAt(spawnPos);
         }
     }
+    #endregion
 
+    #region Try Advance Phase
     /// <summary>
-    /// 일정 시간 간격으로 적을 반복 생성하는 코루틴
-    /// 생성 대기 시간은 최소/최대 생성 시간 사이에서 랜덤으로 결정
+    /// 페이즈 전환 조건을 평가하고 트리거하는 메서드
+    /// 
+    /// 현재 페이즈에서 처치 완료된 적 종류 수를 하나 증가시킴
+    /// 모든 종류가 처치된 경우 다음 페이즈로 진행을 요청함
     /// </summary>
-    /// <param name="phase">현재 페이즈 넘버</param>
-    /// <returns></returns>
-    IEnumerator SpawnEnemyLoop(int phase)
+    public void TryAdvancePhase()
     {
-        while (true)  // TODO... 아후 게임 종료 여부 관리하는 변수 연결할 예정
+        // 현재 페이즈에서 처치 완료된 적 종류 수를 하나 증가
+        clearedEnemyTypeCount++;
+
+        // 모든 적 종류가 처치된 경우
+        if (clearedEnemyTypeCount >= phaseEnemyTypeCount)
         {
-            // 최소 ~ 최대 스폰 시간 사이에서 랜덤 대기
-            yield return new WaitForSeconds(1f);
-                // Random.Range(minSpawnTime, maxSpawnTime));
-            for (int i = 0; i < mapEnemyData.Phases[phase].enemies.Count; i++)
-                SpawnEnemy(
-                    mapEnemyData.Phases[phase].enemies[i], 
-                    player.MoveDir,
-                    mapEnemyData.Phases[phase].enemiesPerSec[i]
-                    );
+            // 카운터 초기화
+            clearedEnemyTypeCount = 0;
+            // 다음 페이즈 진행 요청
+            GameModeManager.GameLogicManager.ProceedPhase();
         }
     }
     #endregion

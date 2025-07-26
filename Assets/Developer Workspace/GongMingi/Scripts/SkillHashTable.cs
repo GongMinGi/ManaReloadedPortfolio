@@ -9,11 +9,17 @@ using UnityEngine;
 public enum E_CastingType
 {
     Earth,
-    Lightning,
-    Lumina,
+    Thunder,
+    Light,
     Darkness, 
     Fire,
-    Frost,
+    Cold,
+
+
+    None,
+    // 미구현
+    
+
 }
 
 
@@ -27,7 +33,7 @@ public enum E_CastingType
 public class SkillHashTable : ScriptableObject
 {
 
-    public int currentHashID;                       // Editor에서 계산 - 저장해놓는 해시 값 (중복되지 않음)
+    public int currentHashID;                       // Editor에서 계산 - 저장해놓는 해시(고유) 값 (중복되지 않음)
 
     [Header("기획용 스킬 제조기")]
     public List<E_CastingType> CastList;            // 주문 조합
@@ -47,19 +53,19 @@ public class SkillHashTable : ScriptableObject
     [ContextMenu("[코드 업데이트]")]
     private void UpdateSetHash()
     {
-        if( CastList.Count <0)
+        if( CastList.Count <0)              // 현재 스크립터블 오브젝트의 캐스팅 된 원소가 없으면
         {
-            currentHashID = 0;
+            currentHashID = 0;              // 조합마법이 만들어질 수 없으므로 고유번호를 0으로 할당
         }
 
 
-        currentHashID = SkillCastingManager.GetCastTypeHashTable(CastList);
+        currentHashID = SkillCastingManager.GetCastTypeHashTable(CastList);     // 등록한 원소 조합 리스트를 매니저에게 넘겨서 고유번호를 받아온다.
 
 
         // CastSkill 누락 시 경고 표시
-        if(!castSkill)
+        if(!castSkill)                                          // 해당 조합으로 발동시킬 스킬이 할당되어 있지 않은 경우 오류를 출력한다. 
         {
-            Debug.LogError("스킬 없음. 맞는지 확인하기");
+            Debug.LogError("스킬 없음. 맞는지 확인하기");      
         }
 
     }

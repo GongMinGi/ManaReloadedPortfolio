@@ -16,7 +16,6 @@ public class MapTileManager : MonoBehaviour
     #region Fields and Properties
     #region Singleton
     private static MapTileManager instance;
-    public static MapTileManager Instance => instance;
     #endregion
 
     #region Map Object Pool Settings
@@ -42,20 +41,33 @@ public class MapTileManager : MonoBehaviour
     // 현재 활성화된 타일을 저장해두는 딕셔너리
     private Dictionary<Vector2Int, PooledObject> activeTiles = new();
     #endregion
+
+    #region State Flags
+    private bool isReady;
+
+    public bool IsReady => isReady;
+    #endregion
     #endregion
 
     #region Unity Event
     private IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameModeManager.Player != null);   // 플레이어를 알 수 있을 때까지 대기
+
         if (instance == null)
+        {
             instance = this;
+            GameModeManager.MapTileManager = instance;
+        }
         else
             Destroy(instance);
 
-        yield return new WaitUntil(() => player != null);
+        yield return new WaitUntil(() => player != null);   // 플레이어가 할당된 후 진행
 
-        PoolManager.Instance.CreatePool(tilePrefab, size, capacity);
+        GameModeManager.PoolManager.CreatePool(tilePrefab, size, capacity);
         UpdateCurrentPos();
+
+        isReady = true;
     }
     #endregion
 
@@ -110,7 +122,7 @@ public class MapTileManager : MonoBehaviour
                 if (!activeTiles.ContainsKey(tilePos))
                 {
                     Vector3 worldPos = new Vector3(tilePos.x * tileSize, 0f, tilePos.y *  tileSize);
-                    PooledObject tile = PoolManager.Instance.GetPool(tilePrefab, worldPos, Quaternion.identity);
+                    PooledObject tile = GameModeManager.PoolManager.GetPool(tilePrefab, worldPos, Quaternion.identity);
                     activeTiles.Add(tilePos, tile);
                 }
             }
