@@ -24,7 +24,7 @@ public class EnemySpawnTracker
     /// <summary>
     /// 해당 타입의 적을 정해진 수만큼 생성했고, 그 모두가 사망했는가를 판단하는 속성
     /// </summary>
-    public bool IsCleared => spawnedEnemyCount == maxEnemyCount && currentAliveCount == 0;
+    private bool IsCleared => !CanSpawn && currentAliveCount == 0;
 
     /// <summary>
     /// 현재까지 스폰한 해당 타입의 적 및 생존 적 수량을 업데이트하는 메서드
@@ -36,7 +36,13 @@ public class EnemySpawnTracker
         currentAliveCount++;
     }
 
-    public void NotifyDied() => currentAliveCount--;
+    public void NotifyDied()
+    {
+        currentAliveCount--;
+
+        if (IsCleared)  // 현재 페이즈에서 해당 타입의 모든 적이 사망했을 경우
+            GameModeManager.EnemyManager.TryAdvancePhase(); // 이를 EnemyManager에 알림
+    }
 
     /// <summary>
     /// EnemyPoolLimiter의 최대 적 생성 수를 설정하고,
