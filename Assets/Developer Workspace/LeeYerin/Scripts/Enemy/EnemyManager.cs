@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// 개발자: 이예린
@@ -173,6 +174,14 @@ public class EnemyManager : MonoBehaviour
         {
             // 랜덤 범위 내 위치 오프셋 추가(x, z 축)
             spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
+
+            // 지정된 위치(spawnPos) 근처에서 유효한 NavMesh 위치를 탐색 (최대 반경 4m)
+            // 유효한 위치를 찾으면 해당 위치(hit.position)로 보정하여 에이전트 생성 오류 방지
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(spawnPos, out hit, 4f, NavMesh.AllAreas))
+            {
+                spawnPos = hit.position;
+            }
 
             // Pool에서 적 오브젝트 위치 지정 및 활성화
             EnemyPooledObject newEnemy = GameModeManager.PoolManager.GetEnemyPool(enemyPrefab, spawnPos, Quaternion.identity);
