@@ -126,6 +126,7 @@ MonoBehaviour:
   isBoss: 0
   enemyPooeledObj: {fileID: 3615020991037302410}
   animator: {fileID: 1559048359488138400}
+  dieAnimDuration: 2
 --- !u!114 &5997972177266655409
 MonoBehaviour:
   m_ObjectHideFlags: 0
