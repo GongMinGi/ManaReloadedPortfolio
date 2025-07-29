@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     [Header("Enemy Movement Setting")]
     [Tooltip("NavMeshAgent component used for enemy movement")]
     [SerializeField] NavMeshAgent agent;    // 적 이동에 사용하는 NavMeshAgent 컴포넌트
+    private Transform player;   // 플레이어의 Transform
 
     [Header("Enemy Attack Setting")]
     [SerializeField] LayerMask PlayerLayer;
@@ -39,11 +40,13 @@ public class EnemyController : MonoBehaviour
                 Debug.LogError("PooledObject is null");
 
         yield return new WaitUntil(() => GameModeManager.EnemyManager.Player != null);
+        player = GameModeManager.EnemyManager.Player.transform;
 
         attackDis = attackRange.size.z;
     }
     private void Update()
     {
+        if (player == null) return;     // 플레이어의 Transform이 null이면 리턴
         TryTracking();
     }
     #endregion
@@ -58,17 +61,37 @@ public class EnemyController : MonoBehaviour
     {
         if (agent.isOnNavMesh)
         {
+            float distance = Vector3.Distance(player.position, transform.position);
+
             // isAttack이 true인데 플레이어와 적의 거리가 공격 가능한 거리보다 멀 경우
-            if (isAttack && Vector3.Distance(GameModeManager.EnemyManager.Player.transform.position, transform.position) > attackDis)
+            if (isAttack && distance > attackDis)
                 isAttack = false;
 
-            agent.SetDestination(GameModeManager.EnemyManager.Player.transform.position);
+            agent.SetDestination(player.position);
 
             // 이동 상태가 아니면 이동 상태로 전환하고, Animator에 이동 트리거 전달
             if (!isMove)    
             {
                 isMove = true;
                 animator.SetTrigger("IsMove");
+            }
+
+            // 목적지에 도착했는지 확인
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                // 플레이어를 향한 방향 벡터 계산 (수평 방향만)
+                Vector3 dirToPlayer = (player.position - transform.position).normalized;
+                dirToPlayer.y = 0f; // 수직 요소 제거하여 수평 회전만 수행
+
+                // 방향 벡터가 유효한 경우에만 회전 수행
+                if (dirToPlayer != Vector3.zero)
+                {
+                    // 목표 방향을 쿼터니언으로 변환
+                    Quaternion lookRotation = Quaternion.LookRotation(dirToPlayer);
+
+                    // 현재 회전에서 목표 회전으로 부드럽게 보간하여 회전
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+                }
             }
         }
         else
