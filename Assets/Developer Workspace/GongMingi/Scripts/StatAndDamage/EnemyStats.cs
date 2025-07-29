@@ -4,6 +4,7 @@ using UnityEngine.Events;
 public class EnemyStats : MonoBehaviour, IDamageable
 {
     [field: SerializeField] public float HP { get; set; } = 500f;
+    [SerializeField] private UnityEvent OnDamaged = new();
     [SerializeField] private UnityEvent OnDie = new();
 
     /// <summary>
@@ -18,5 +19,7 @@ public class EnemyStats : MonoBehaviour, IDamageable
 
         if (HP <= 0f)
             OnDie?.Invoke();
+        else
+            OnDamaged?.Invoke();
     }
 }
