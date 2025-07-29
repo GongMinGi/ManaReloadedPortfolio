@@ -13,6 +13,9 @@ public class PreGameFlowManager : MonoBehaviour
     [SerializeField] GameObject gameMenuUI;     // 게임 메뉴 UI
     [SerializeField] GameObject loadOutUI;      // 로드아웃 UI
 
+    [Tooltip("Game scene name string")]
+    [SerializeField] string gameSceneName = "Game Scene";
+
     #region Unity Event
     private IEnumerator Start()
     {
@@ -60,7 +63,7 @@ public class PreGameFlowManager : MonoBehaviour
 
         GameModeManager.UIManager.FadeOut(() =>
         {
-            SceneManager.LoadScene("Game Scene");
+            SceneManager.LoadScene(gameSceneName);
         });
     }
 
