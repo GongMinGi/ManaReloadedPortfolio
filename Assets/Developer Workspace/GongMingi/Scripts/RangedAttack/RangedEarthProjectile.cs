@@ -97,7 +97,11 @@ public class RangedEarthProjectile : AbstractProjectile
     void Explode()
     {
         
-        Collider[] hits = Physics.OverlapSphere(transform.position, radius, enemyLayer);    // Æø¹ß ¹üÀ§ ³» Àû Å½»ö
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position, 
+            radius, 
+            enemyLayer, 
+            QueryTriggerInteraction.Ignore);    // Æø¹ß ¹üÀ§ ³» Àû Å½»ö
         foreach (var hit in hits)
         {
             Debug.Log("Æø¹ß ÇÇÇØ Àû¿ë");

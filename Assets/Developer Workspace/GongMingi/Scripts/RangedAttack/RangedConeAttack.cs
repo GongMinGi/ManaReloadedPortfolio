@@ -1,4 +1,3 @@
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 
 
@@ -44,7 +43,11 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
 
         cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad);             // 부채꼴 공격범위의 절반을 감지범위로 결정
 
-        Collider[] hits = Physics.OverlapSphere(transform.position, radius, enemyLayer);     // 구체 형태의 범위에 들어가 있는 적 개체를 감지
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position, 
+            radius, 
+            enemyLayer, 
+            QueryTriggerInteraction.Ignore);     // 구체 형태의 범위에 들어가 있는 적 개체를 감지
 
         Debug.Log($"적 개체 {hits.Length} 개 감지");
         
@@ -76,22 +79,5 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack
     public void Stop() { }
 
     #endregion
-
-
-#if UNITY_EDITOR                                        // Scene 뷰에서 공격 범위 시각화
-    void OnDrawGizmosSelected()
-    {
-        if (!enabled) return;
-
-        Gizmos.color = new Color(1, 0.5f, 0, 0.25f);
-        UnityEditor.Handles.color = Gizmos.color;
-        UnityEditor.Handles.DrawSolidArc(
-            transform.position,
-            flatCone ? Vector3.up : transform.up,
-            Quaternion.Euler(0, -angle * 0.5f, 0) * transform.forward,
-            angle, radius
-            );
-    }
-#endif
 
 }

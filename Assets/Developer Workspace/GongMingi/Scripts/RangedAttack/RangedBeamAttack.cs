@@ -68,10 +68,21 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
 
     #endregion
 
+
+
+
+    //Action<IRangedAttack> m_CallFN = null;
+
     #region Beam Implementation
 
     IEnumerator FireBeam()
     {
+
+
+        //if(m_CallFN != null)
+        //{
+        //    m_CallFN(this);
+        //}
 
         isFiring = true;                                    // 발사 상태 ON
         lr.enabled = true;                                  // 라인 표시 ON
