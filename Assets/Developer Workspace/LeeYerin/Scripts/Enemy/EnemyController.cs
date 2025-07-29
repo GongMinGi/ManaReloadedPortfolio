@@ -151,7 +151,7 @@ public class EnemyController : MonoBehaviour
             {
                 animator.SetTrigger("Reset");   // 애니메이션 상태 초기화
                 isDie = false;
-                enemyPooeledObj.IsDie = isDie;  // 죽어 Release됨을 알림
+                enemyPooeledObj.IsDie = true;  // 죽어 Release됨을 알림
                 enemyPooeledObj.Release();  // Pool에 반납
             });
     }
