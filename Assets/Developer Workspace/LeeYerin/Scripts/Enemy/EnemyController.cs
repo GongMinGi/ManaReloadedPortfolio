@@ -122,6 +122,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Damage & Death Handling
+    public void OnDamaged() => animator.SetTrigger("IsDamaged");    // 피격 애니메이션 실행
 
     [ContextMenu("OnDie")]
     /// <summary>
