@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -88,7 +89,16 @@ public class GameLogicManager : MonoBehaviour
         IsGameOver = true;
         StopCoroutine(timer);   // 타이머 종류
         totalPlayTimeText.text = $"{time / 60:D2} : {time % 60:D2}";    // 총 플레이 시간 텍스트 설정
-        gameOverUI.SetActive(true);     // 게임 오버 UI 활성화
+
+        Sequence gameOverUISequence = DOTween.Sequence();
+
+        gameOverUISequence.AppendInterval(1.2f);    // 플레이어 사망 애니메이션만큼 시간차를 둔 후
+
+        gameOverUISequence.AppendCallback(() => 
+        {
+            gameOverUI.SetActive(true);     // 게임 오버 UI 활성화
+        });
+
     }
     #endregion
 
