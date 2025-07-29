@@ -1,6 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.UI;
@@ -104,7 +102,11 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
     /// </summary>
     void FireConeDamage()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, radius, enemyLayer);    // 구체 범위 내에 적 감지
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position, 
+            radius, 
+            enemyLayer, 
+            QueryTriggerInteraction.Ignore);    // 구체 범위 내에 적 감지
         Vector3 forward = transform.forward;                                                // 플레이어의 정면 벡터 추출
         if (flatcone) forward.y = 0;                                                        // y축 값 무시
         forward.Normalize();                                                                // 벡터 정규화
@@ -129,19 +131,5 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
     }
 
     #endregion 
-
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = new Color(0.3f, 0.8f, 1f, 0.25f);
-        UnityEditor.Handles.color = Gizmos.color;
-        UnityEditor.Handles.DrawSolidArc(
-            transform.position,
-            flatcone ? Vector3.up : transform.up,
-            Quaternion.Euler(0f, -angle * 0.5f, 0f) * transform.forward,
-            angle,
-            radius
-            );
-    }
 
 }

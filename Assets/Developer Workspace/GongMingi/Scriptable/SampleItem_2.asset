@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   type: "\uAC80"
-  name: "\uC624\uB798\uB41C \uAC80"
+  sampleName: "\uC624\uB798\uB41C \uAC80"
   discription: "\uCE7C\uC774\uB2E4"
   attack: 10
   deffense: 0
