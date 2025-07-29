@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,10 +9,18 @@ using UnityEngine.InputSystem;
 ///  - 마우스 좌클릭을 누르는 동안 차지하고 때는 순간 투사체를 발사한다
 ///  - 풀링으로 관리
 /// </summary>
-public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack
+public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
 {
 
     #region Field and Property
+
+    private RangedAttackContext _ctx;
+
+    public event Action Started;
+    public event Action<float> Progress;
+    public event Action Ended;
+    public event Action Interrupted;
+
 
     [Header("Projectile Pool / Muzzle")]
     [SerializeField] private RangedEarthProjectile projectilePrefab;    // 원거리 공격 시 발사할 바위 프리팹
@@ -54,6 +63,9 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack
     }
 
     #endregion
+
+
+    public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
 
 
     #region Interface Implementation
@@ -99,6 +111,7 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack
         currentDamage = baseDamage;                                     // 초기 데미지 설정
         float timer = 0f;                                               // 차지 간격 타이머
 
+        Started?.Invoke();              // 차지 시작
 
         while (Mouse.current.leftButton.isPressed)                      // 마우스를 누르고 있는 동안
         {
@@ -110,13 +123,19 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack
                 // Todo: 차지 단계벌 VFX / UI 게이지 업데이트
             }
 
+            //진행중 처리
+            float denom = Mathf.Max(1, maxDamage - baseDamage);
+            float t = Mathf.Clamp01((currentDamage - baseDamage) / (float)denom);
+            Progress?.Invoke(t);
+
+
             yield return null;                                          // 다음 프레임까지 대기
         }
 
         FireProjectile();                                               // 버튼을 놓는 순간 발사
         isCharging = false;                                             // 차지 종료
-
-    }
+        Ended?.Invoke();        // 발사 후 종료
+    }   
 
 
     /// <summary>

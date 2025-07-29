@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 /// <summary>
@@ -34,6 +36,122 @@ public class ElementalRangedAttackController : MonoBehaviour
     [SerializeField] RangedChargeProjectileAttack chargeProjectileAttack;
     [SerializeField] RangedBeamAttack beamAttack;
     [SerializeField] RangedConeAttack coneAttack;
+
+
+    private IAnimationDriver _anim;                                         // Animator를 감싼 추상 드라이버
+    private RangedAttackContext _ctx;                                       // 공격 공용 컨텍스트..(Ow
+    private readonly List<AttackBinding> attackBindings = new();            // 이벤트 구독 핸들 보관
+
+
+    private void Awake()
+    {
+        playerAnim = GetComponent<Animator>();
+
+        //Debug.Log($"playerAnim (_anim 할당전) : {playerAnim}");            // awake보다 먼저 실행돼는 버그..,????
+
+        //if(playerAnim == null)
+        //    Debug.Log($"playerAnim 연산 1회진행 후 : {playerAnim}");
+
+        //playerAnim.SetTrigger("RangedConeAttack");
+        //Debug.Log($"playerAnim 트리거 연산 진행후 : {playerAnim}");
+
+
+        _anim = new AnimatorDriver(playerAnim);                             // Animator를 드라이버로 감싸기
+        Debug.Log($"playerAnim (_anim 할당후) : {playerAnim}");
+
+        if (_anim != null) Debug.Log("할당됨");
+        else Debug.Log("할당 안됌");
+
+
+        _ctx = new RangedAttackContext(transform, transform, _anim);        // 공격 공용 컨텍스트 ( Owner/ DefaultMuzzle/ Anim) 구성
+
+
+        // 공격 바인딩 ( 시그널 -> Animator 파라미터 매핑) 
+        //  - 지속형은 boolHash로, 차지 / 채널링이면 useProgress = true 로 진행도 연결
+        attackBindings.Add(WireAttack(beamAttack, boolHash: AnimParams.Beam, useProgress: false));
+        attackBindings.Add(WireAttack(chargeProjectileAttack, boolHash: AnimParams.ChargeProjectile, useProgress: false));
+        attackBindings.Add(WireAttack(chargeConeAttack, boolHash: AnimParams.ChargeCone, useProgress: false));
+
+
+    }
+
+
+
+
+    private void OnDestroy()
+    {
+        // 생성한 모든 바인딩 Dispose => 이벤트 구독 안전 해제
+        foreach (var binding in attackBindings) binding.Dispose();
+        attackBindings.Clear();
+    }
+
+
+
+    // 바인딩
+    private AttackBinding WireAttack(
+        MonoBehaviour rangedAttack,
+        int? boolHash = null,
+        bool useProgress = false,
+        int? triggerHash = null)
+    {
+        if (rangedAttack == null) return AttackBinding.Empty;   // 
+
+        if (rangedAttack is IRequireAttackContext needCtx)      // 필요한 공격만 컨텍스트 주입
+            needCtx.BindContext(_ctx);
+
+        if ( rangedAttack is not IAttackSignals signal)         // 시그널 없는 공격이면 바인딩 불필요
+            return AttackBinding.Empty;
+
+        AttackBinding binding = new AttackBinding(signal);      // 구독 해제를 캡슐화
+
+        // 지속형(bool 파라미터) 매핑
+        if ( boolHash.HasValue)
+        {
+            int parameterHashValue = boolHash.Value;
+            binding.Started     = () => _anim.SetBool(parameterHashValue, true);
+            binding.Ended       = () => _anim.SetBool(parameterHashValue, false);
+            binding.Interrupted = () => _anim.SetBool(parameterHashValue, false);
+
+            if (useProgress)
+                binding.Progress = attackProgressedRate => _anim.SetFloat(parameterHashValue, attackProgressedRate);
+        }
+
+        binding.Subscribe();
+        return binding;
+    }
+
+    private sealed class AttackBinding : IDisposable
+    {
+        public static readonly AttackBinding Empty = new(null);
+
+        private readonly IAttackSignals rangedAttackSignal;
+        public Action Started;
+        public Action Ended;
+        public Action Interrupted;
+        public Action<float> Progress;
+
+        public AttackBinding(IAttackSignals signal) => rangedAttackSignal = signal;
+
+        public void Subscribe()
+        {
+            if (rangedAttackSignal == null) return;
+            if (Started != null) rangedAttackSignal.Started         += Started;
+            if (Ended != null) rangedAttackSignal.Ended             += Ended;
+            if (Interrupted != null) rangedAttackSignal.Interrupted += Interrupted;
+            if (Progress != null) rangedAttackSignal.Progress       += Progress;
+        }
+
+        public void Dispose()
+        {
+            if (rangedAttackSignal == null) return;
+            if (Started != null) rangedAttackSignal.Started         -= Started;
+            if (Ended != null) rangedAttackSignal.Ended             -= Ended;
+            if (Interrupted != null) rangedAttackSignal.Interrupted -= Interrupted;
+            if (Progress != null) rangedAttackSignal.Progress       -= Progress;
+            Started = Ended = Interrupted = null;
+            Progress = null;
+        }
+    }
 
 
     #region Casted Element Count Clear
