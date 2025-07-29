@@ -129,7 +129,7 @@ public class EnemyManager : MonoBehaviour
         }
 
 
-        while (enemyTypes.Count != 0)  // TODO... 아후 게임 종료 여부 관리하는 변수 연결할 예정
+        while (enemyTypes.Count != 0 && !GameModeManager.GameLogicManager.IsGameOver)  // TODO... 아후 게임 종료 여부 관리하는 변수 연결할 예정
         {
             // 최소 ~ 최대 스폰 시간 사이에서 랜덤 대기
             yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
