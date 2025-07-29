@@ -10,8 +10,10 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class PreGameFlowManager : MonoBehaviour
 {
+    [Header("")]
     [SerializeField] GameObject gameMenuUI;     // 게임 메뉴 UI
     [SerializeField] GameObject loadOutUI;      // 로드아웃 UI
+    [SerializeField] Animator playerAnimator;   // 로드아웃의 플레이어 애니메이터
 
     [Tooltip("Game scene name string")]
     [SerializeField] string gameSceneName = "Game Scene";
@@ -60,6 +62,7 @@ public class PreGameFlowManager : MonoBehaviour
     public void GameStart()
     {
         GameModeManager.SoundManager.StopBGM();      // PreGameFlow의 BGM 종료
+        playerAnimator.SetTrigger("IsCompete");    // 캐릭터 출전 애니메이션 트리거
 
         GameModeManager.UIManager.FadeOut(() =>
         {
