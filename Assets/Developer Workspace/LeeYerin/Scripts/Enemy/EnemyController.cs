@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("Pool Object Setting")]
     [SerializeField] protected bool isBoss;
-    [SerializeField] PooledObject enemyPooeledObj;
+    [SerializeField] EnemyPooledObject enemyPooeledObj;
 
     [Header("Animation Setting")]
     [SerializeField] Animator animator;
@@ -35,6 +35,10 @@ public class EnemyController : MonoBehaviour
     private bool isDie;
 
     #region Unity Event
+    private void OnEnable()
+    {
+        agent.isStopped = false;
+    }
 
     protected virtual IEnumerator Start()
     {
@@ -122,8 +126,6 @@ public class EnemyController : MonoBehaviour
     [ContextMenu("OnDie")]
     /// <summary>
     /// 적이 사망했을 경우 호출되는 메서드
-    /// 
-    /// TODO... 게임 흐름과 연계가 필요한 작업은 이후 예정
     /// </summary>
     public void OnDie()
     {
@@ -149,7 +151,7 @@ public class EnemyController : MonoBehaviour
             {
                 animator.SetTrigger("Reset");   // 애니메이션 상태 초기화
                 isDie = false;
-                agent.isStopped = false;   // 다시 이동 가능하게
+                enemyPooeledObj.IsDie = isDie;  // 죽어 Release됨을 알림
                 enemyPooeledObj.Release();  // Pool에 반납
             });
     }
