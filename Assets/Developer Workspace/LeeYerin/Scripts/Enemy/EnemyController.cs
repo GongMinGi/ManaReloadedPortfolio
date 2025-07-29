@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -29,7 +30,9 @@ public class EnemyController : MonoBehaviour
 
     [Header("Animation Setting")]
     [SerializeField] Animator animator;
-    private bool isMove;
+    [SerializeField] float dieAnimDuration = 2f;
+    [SerializeField]private bool isMove;
+    private bool isDie;
 
     #region Unity Event
 
@@ -47,6 +50,18 @@ public class EnemyController : MonoBehaviour
     private void Update()
     {
         if (player == null) return;     // 플레이어의 Transform이 null이면 리턴
+
+        if (isDie)  // 죽은 상태일 때
+        {
+            if (!agent.isStopped)   // agent가 작동 중이라면
+            {
+                agent.isStopped = true;     // 즉시 정지
+                agent.ResetPath();          // 경로도 완전히 제거
+            }
+            
+            return;
+        }
+
         TryTracking();
     }
     #endregion
@@ -104,6 +119,7 @@ public class EnemyController : MonoBehaviour
 
     #region Damage & Death Handling
 
+    [ContextMenu("OnDie")]
     /// <summary>
     /// 적이 사망했을 경우 호출되는 메서드
     /// 
@@ -111,6 +127,8 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     public void OnDie()
     {
+        isDie = true;
+
         if (attackLoop != null)
             StopCoroutine(attackLoop);
 
@@ -120,15 +138,20 @@ public class EnemyController : MonoBehaviour
 
         animator.SetTrigger("IsDie");   // Die 애니메이션 실행
 
-        //Sequence seq = DOTween.Sequence();
+        Sequence seq = DOTween.Sequence();
 
-        //// 서서히 축소 → 풀로 반납
-        //seq.Append(transform.DOScale(Vector3.zero, 0.7f)
-        //    .SetEase(Ease.InBack)) // 부드러운 축소 이펙트
-        //    .OnComplete(() =>
-        //    {
-        //        enemyPooeledObj.Release();  // Pool에 반납
-        //    });
+        seq.AppendInterval(dieAnimDuration);
+
+        //서서히 축소 → 풀로 반납
+        seq.Append(transform.DOScale(Vector3.zero, 0.7f)
+            .SetEase(Ease.InBack)) // 부드러운 축소 이펙트
+            .OnComplete(() =>
+            {
+                animator.SetTrigger("Reset");   // 애니메이션 상태 초기화
+                isDie = false;
+                agent.isStopped = false;   // 다시 이동 가능하게
+                enemyPooeledObj.Release();  // Pool에 반납
+            });
     }
     #endregion
 
@@ -169,6 +192,8 @@ public class EnemyController : MonoBehaviour
     {
         if (PlayerLayer.Contain(other.gameObject.layer))    // 만약 충돌한 객체가 플레이어라면
         {
+            if (isDie) return;
+
             if (!isAttack)  // isAttack이 현재 false일 때만 실행
                 StartAttack();
 
