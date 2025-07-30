@@ -32,6 +32,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
     /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
+        if (CurrentHp < 0) return;
+
         CurrentHp -= damage;
 
         playerHPBar.value = CurrentHp;
@@ -40,6 +42,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
         {
             CurrentHp = 0;
             OnDie?.Invoke();
+            return;
         }
         Debug.Log($"남은 체력: {CurrentHp}");
 

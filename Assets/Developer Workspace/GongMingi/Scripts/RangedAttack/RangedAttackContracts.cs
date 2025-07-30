@@ -57,7 +57,7 @@ public static class AnimParams                            // Animator 파라미터 �
     public static readonly int Beam = Animator.StringToHash("isRangedBeamAttack");                      // bool : 빔 공격 상태 제어
     public static readonly int ChargeProjectile = Animator.StringToHash("isRangedProjectileAttack");    // bool : 차지 투사체 상태 제어
     public static readonly int ChargeCone = Animator.StringToHash("isRangedChargeConeAttack");          // bool : 차지 콘 상태 제어
-    public static readonly int ConeAttack = Animator.StringToHash("RangedConeAttack");                  // trigger : 즉발 콘 공격 트리거
+    public static readonly int HoldConeAttack = Animator.StringToHash("isRangedConeAttack");                  // trigger : 즉발 콘 공격 트리거
 
     // 차지/ 채널링 진행도 (필요하면)
     public static readonly int RangedProgress = Animator.StringToHash("RangedProgress");                // float : 진행도(0..1) 바인딩용
