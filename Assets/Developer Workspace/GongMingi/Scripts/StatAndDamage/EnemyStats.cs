@@ -14,8 +14,10 @@ public class EnemyStats : MonoBehaviour, IDamageable
     [SerializeField] private UnityEvent OnDamaged = new();
     [SerializeField] private UnityEvent OnDie = new();
 
+    private bool isDie = false;
+
     #region Unity Event
-    private void Awake()
+    private void OnEnable()
     {
         CurrentHp = MaxHp;
     }
@@ -28,6 +30,8 @@ public class EnemyStats : MonoBehaviour, IDamageable
     /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
+        if (CurrentHp <= 0f) return;
+
         CurrentHp -= damage;
         Debug.Log($"남은 체력: {CurrentHp}");
 

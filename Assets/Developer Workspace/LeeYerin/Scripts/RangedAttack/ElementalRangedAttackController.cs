@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 /// <summary>
@@ -71,7 +70,7 @@ public class ElementalRangedAttackController : MonoBehaviour
         attackBindings.Add(WireAttack(beamAttack, boolHash: AnimParams.Beam, useProgress: false));
         attackBindings.Add(WireAttack(chargeProjectileAttack, boolHash: AnimParams.ChargeProjectile, useProgress: false));
         attackBindings.Add(WireAttack(chargeConeAttack, boolHash: AnimParams.ChargeCone, useProgress: false));
-
+        attackBindings.Add(WireAttack(coneAttack, boolHash: AnimParams.HoldConeAttack, useProgress: false));
 
     }
 
@@ -302,7 +301,6 @@ public class ElementalRangedAttackController : MonoBehaviour
     private void ConeAttack(E_CastingType castingType)
     {
 
-        playerAnim.SetTrigger("RangedConeAttack");
         switch (castingType)
         {
             case E_CastingType.Fire:
