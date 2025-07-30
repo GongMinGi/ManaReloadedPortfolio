@@ -3529,7 +3529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popupUI: {fileID: 490932667}
-  backdrop: {fileID: 0}
+  backdrop: {fileID: 2115059350}
 --- !u!1 &886764167
 GameObject:
   m_ObjectHideFlags: 0
@@ -6572,7 +6572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popupUI: {fileID: 646807346}
-  backdrop: {fileID: 0}
+  backdrop: {fileID: 2115059350}
 --- !u!1 &1765632638
 GameObject:
   m_ObjectHideFlags: 0
