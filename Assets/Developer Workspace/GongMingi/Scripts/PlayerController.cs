@@ -295,6 +295,8 @@ public class PlayerController : MonoBehaviour
     {
         if(!ctx.started) return;
 
+
+
         if (currentCastingList.Count != 0)
         {
             TryEnchant();

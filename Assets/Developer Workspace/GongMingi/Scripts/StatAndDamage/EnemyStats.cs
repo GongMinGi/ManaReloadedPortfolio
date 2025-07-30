@@ -14,8 +14,10 @@ public class EnemyStats : MonoBehaviour, IDamageable
     [SerializeField] private UnityEvent OnDamaged = new();
     [SerializeField] private UnityEvent OnDie = new();
 
+    private bool isDie = false;
+
     #region Unity Event
-    private void Awake()
+    private void OnEnable()
     {
         CurrentHp = MaxHp;
     }

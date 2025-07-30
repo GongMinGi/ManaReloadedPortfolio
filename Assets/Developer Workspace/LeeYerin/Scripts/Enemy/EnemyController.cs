@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,6 +24,9 @@ public class EnemyController : MonoBehaviour
     protected Coroutine attackLoop;
     [SerializeField] bool isAttack = false;
     [SerializeField] float attackDamage = 10;
+
+    [Header("Damage Setting")]
+    [SerializeField] SphereCollider hitSphere;
 
     [Header("Pool Object Setting")]
     [SerializeField] protected bool isBoss;
@@ -122,7 +126,21 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Damage & Death Handling
-    public void OnDamaged() => animator.SetTrigger("IsDamaged");    // 피격 애니메이션 실행
+    public void OnDamaged()
+    {
+        hitSphere.enabled = false;
+
+        animator.SetTrigger("IsDamaged");    // 피격 애니메이션 실행
+
+        Sequence damagedSequence = DOTween.Sequence();
+
+        damagedSequence.AppendInterval(1.0f);    // 플레이어 피격 애니메이션만큼 시간차를 둔 후
+
+        damagedSequence.AppendCallback(() =>
+        {
+            hitSphere.enabled = true;
+        });
+    }
 
     [ContextMenu("OnDie")]
     /// <summary>
