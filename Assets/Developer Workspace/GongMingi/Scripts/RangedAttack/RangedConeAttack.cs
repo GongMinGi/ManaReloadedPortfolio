@@ -115,7 +115,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     private IEnumerator FireCone()
     {
         isFiring = true;
-        lr.enabled = true;
+        //lr.enabled = true;
         Started?.Invoke();
         fireVFX.Play();         // ºÒ VFX ½ÇÇà
 
