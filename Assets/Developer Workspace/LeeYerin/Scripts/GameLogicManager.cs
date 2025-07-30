@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -27,9 +28,10 @@ public class GameLogicManager : MonoBehaviour
     Coroutine timer;            // 게임 시간 추적용 코루틴 핸들
     #endregion
 
-    #region Game Over UI Setting
+    #region Game Over Setting
     [SerializeField] GameObject gameOverUI;     // 게임 오버 UI 오브젝트
     [SerializeField] TMP_Text totalPlayTimeText;    // 총 게임 진행 시간 텍스트
+    public bool IsGameOver { get; set; } = false;
     #endregion
 
     #region State
@@ -84,9 +86,19 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     public void GameOver()
     {
+        IsGameOver = true;
         StopCoroutine(timer);   // 타이머 종류
         totalPlayTimeText.text = $"{time / 60:D2} : {time % 60:D2}";    // 총 플레이 시간 텍스트 설정
-        gameOverUI.SetActive(true);     // 게임 오버 UI 활성화
+
+        Sequence gameOverUISequence = DOTween.Sequence();
+
+        gameOverUISequence.AppendInterval(1.2f);    // 플레이어 사망 애니메이션만큼 시간차를 둔 후
+
+        gameOverUISequence.AppendCallback(() => 
+        {
+            gameOverUI.SetActive(true);     // 게임 오버 UI 활성화
+        });
+
     }
     #endregion
 

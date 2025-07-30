@@ -178,6 +178,8 @@ public class PlayerController : MonoBehaviour
 
         playerAnim.SetBool("isDie", true);
         Debug.Log("»ç¸Á");
+
+        GameModeManager.GameLogicManager.GameOver();
     }
 
 

@@ -10,8 +10,14 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class PreGameFlowManager : MonoBehaviour
 {
+    [Header("UI Setting")]
+    [SerializeField] PopupController controlGuideUI; // 조작 법 설명 UI
     [SerializeField] GameObject gameMenuUI;     // 게임 메뉴 UI
     [SerializeField] GameObject loadOutUI;      // 로드아웃 UI
+    [SerializeField] Animator playerAnimator;   // 로드아웃의 플레이어 애니메이터
+
+    [Tooltip("Game scene name string")]
+    [SerializeField] string gameSceneName = "Game Scene";
 
     #region Unity Event
     private IEnumerator Start()
@@ -21,7 +27,12 @@ public class PreGameFlowManager : MonoBehaviour
         GameModeManager.SoundManager.PlayBGM(bgmClip.title);    // PreGameFlow의 BGM 실행
 
         if (GameModeManager.UIManager.IsFirstLaunch)    // 게임 실행 후 첫 진입일 경우
+        {
+            GameModeManager.UIManager.OpenPopup(controlGuideUI);    // 조작 법 설명 UI를 팝업 스택에 Push
             yield break;
+        }
+
+        controlGuideUI.Backdrop.SetActive(false);   //  // 조작 법 설명 UI 비활성화
 
         GameModeManager.UIManager.ClearPopupHistory();      // UIManager의 ClearPopupHistory 스택 초기화
 
@@ -57,10 +68,11 @@ public class PreGameFlowManager : MonoBehaviour
     public void GameStart()
     {
         GameModeManager.SoundManager.StopBGM();      // PreGameFlow의 BGM 종료
+        playerAnimator.SetTrigger("IsCompete");    // 캐릭터 출전 애니메이션 트리거
 
         GameModeManager.UIManager.FadeOut(() =>
         {
-            SceneManager.LoadScene("Game Scene");
+            SceneManager.LoadScene(gameSceneName);
         });
     }
 

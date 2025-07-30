@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 5755689176921220501}
   - component: {fileID: 5981485489234978053}
   - component: {fileID: 4227302262060818511}
+  - component: {fileID: 6766282891042374190}
   - component: {fileID: 6888355102072993155}
   - component: {fileID: 4774140633900817400}
   - component: {fileID: 5234456885860537038}
@@ -179,6 +180,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.08, z: 1.5}
   m_Center: {x: 0, y: 0.56, z: 1.5}
+--- !u!135 &6766282891042374190
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472247519073409312}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.36, z: 0}
 --- !u!114 &6888355102072993155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +223,8 @@ MonoBehaviour:
   isBoss: 0
   enemyPooeledObj: {fileID: 5234456885860537038}
   animator: {fileID: 5981485489234978053}
+  dieAnimDuration: 2
+  isMove: 0
 --- !u!114 &4774140633900817400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +238,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <HP>k__BackingField: 500
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6888355102072993155}
+        m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
+        m_MethodName: OnDamaged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDie:
     m_PersistentCalls:
       m_Calls:

@@ -12,9 +12,17 @@ using UnityEngine.InputSystem;
 ///   - 계속 홀드하고 있더라도 마법 시전시간이 끝나면 공격이 끝난다.
 /// </summary>
 [RequireComponent(typeof(LineRenderer))]
-public class RangedBeamAttack : MonoBehaviour, IRangedAttack
+public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
 {
     #region Field and Property
+
+    private RangedAttackContext _ctx;        // 변수 이름 수정 필요
+
+    public event Action Started;
+    public event Action<float> Progress;
+    public event Action Ended;
+    public event Action Interrupted;
+
 
     [Header("Beam Settings")]
     [SerializeField] private float maxDistance = 15f;       // 빔 최대 사거리
@@ -46,6 +54,10 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
 
     #endregion
 
+
+    public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
+
+
     #region IRangedAttack Implementation
 
     public void ExecuteAttack(E_CastingType type)
@@ -64,17 +76,24 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
         StopCoroutine(beamRoutine);                         // 코루틴 종료
         lr.enabled = false;                                 // 라인 숨김
         isFiring = false;                                   // 상태 리셋
+        Interrupted?.Invoke();          // 애니메이션 강제취소 신호
     }
-
     #endregion
+
+
 
     #region Beam Implementation
 
     IEnumerator FireBeam()
     {
+        //if(m_CallFN != null)
+        //{
+        //    m_CallFN(this);
+        //}
 
         isFiring = true;                                    // 발사 상태 ON
         lr.enabled = true;                                  // 라인 표시 ON
+        Started?.Invoke();      // 시작 신호
 
         float startTime = Time.time;                        // 현재 시간을 시작 시간으로 설정
 
@@ -93,13 +112,15 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
                 hits,                                       // 결과를 담을 배열         
                 maxDistance,                                // 최대 거리
                 enemyLayer | obstacleLayer,                 // 탐지할 레이어 마스크
-                QueryTriggerInteraction.Ignore);            // 트리거 Collider 무시 ?? 
+                QueryTriggerInteraction.Collide);            // 트리거 Collider 무시 ?? 
 
             float beamLength = maxDistance;                 // 최종 빔 길이 초기값.
 
             for (int i = 0;  i < hitCount; ++i)             // 빔에 맞은 개수만큼 순회
             {
+                Debug.Log("충돌확인");
                 RaycastHit hit = hits[i];
+                if (hit.collider.isTrigger) continue;
 
                 if (hit.distance < beamLength)              // 더 가까운 무언가에 맞으면
                     beamLength = hit.distance;              // 빔 길이 단축
@@ -118,6 +139,9 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
             lr.SetPosition(1, origin + dir * beamLength);   // 충돌지점( 혹은 최대 사거리 지점)
 
 
+            float t = Mathf.InverseLerp(0f, maxDuration, Time.time - startTime);
+            Progress?.Invoke(t);
+
             yield return new WaitForSeconds(tickInterval);  // 다음 틱(피해주기)까지 대기
 
         }
@@ -125,7 +149,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
         //종료 처리
         lr.enabled = false;                                 //빔 숨김
         isFiring = false;                                   // 상태 리셋 ( 빔 발사 중 false 변경)            
-
+        Ended?.Invoke();            // 애니메이션 정상 종료
     }
 
     #endregion
@@ -137,6 +161,8 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(muzzle.position, muzzle.position + muzzle.forward * maxDistance);
     }
+
+
 #endif
 
 }

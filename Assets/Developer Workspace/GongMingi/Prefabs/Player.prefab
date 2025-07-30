@@ -107,7 +107,8 @@ GameObject:
   - component: {fileID: 6594813169555038415}
   - component: {fileID: 615164460722870291}
   - component: {fileID: 8908258677197631033}
-  m_Layer: 0
+  - component: {fileID: 3315628065819876268}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +146,7 @@ Animator:
   m_GameObject: {fileID: 96983193637290781}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: bed7a092d53e7c748bd65db98cebf9d6, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2890c9060ce4f6b45b4082d87f47b27e, type: 2}
+  m_Controller: {fileID: 9100000, guid: a56eef636e66b2044ad33ac3fe07e24c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -323,6 +324,7 @@ MonoBehaviour:
   rb: {fileID: 8908258677197631033}
   isSprint: 0
   isMove: 0
+  isDie: 0
   maxInputCount: 6
   rangedAttackController: {fileID: 6594813169555038415}
   meleeConeAttack: {fileID: 9057220776059448736}
@@ -331,7 +333,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UICastingDisplay, Assembly-CSharp
-        m_MethodName: UpdateSlot
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -346,7 +348,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UICastingDisplay, Assembly-CSharp
-        m_MethodName: ResetAll
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -356,7 +358,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  playerAnim: {fileID: 0}
+  playerAnim: {fileID: 3438707642310244192}
 --- !u!114 &6594813169555038415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementPriorityData: {fileID: 11400000, guid: 930bab5c1a6bac2439b9149a4d75ae0b, type: 2}
+  playerAnim: {fileID: 0}
   chargeConeAttack: {fileID: 4589941921222664725}
   chargeProjectileAttack: {fileID: 757839793598104617}
   beamAttack: {fileID: 7104882218061390602}
@@ -386,7 +389,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a3f2542fdd21b44bbbe98a4049181c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <HP>k__BackingField: 100
+  <MaxHp>k__BackingField: 100
+  <CurrentHp>k__BackingField: 0
+  OnDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4618563446745205528}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnDie
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3315628065819876268}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnDie
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  playerHPBar: {fileID: 0}
 --- !u!54 &8908258677197631033
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -414,6 +446,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &3315628065819876268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96983193637290781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa37ecd702d2a64a90883f6c0358aa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  turnSmoothTime: 0.05
 --- !u!1 &124098524948726447
 GameObject:
   m_ObjectHideFlags: 0
@@ -2611,7 +2657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 6
   angle: 60
-  damage: 12
+  damage: 500
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -2998,7 +3044,7 @@ Transform:
   m_GameObject: {fileID: 8495330105713431003}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.13999999, z: -4.07}
+  m_LocalPosition: {x: 0, y: -0.13, z: -4.07}
   m_LocalScale: {x: 20, y: 1, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3275,7 +3321,7 @@ Transform:
   m_GameObject: {fileID: 9063916466103561950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

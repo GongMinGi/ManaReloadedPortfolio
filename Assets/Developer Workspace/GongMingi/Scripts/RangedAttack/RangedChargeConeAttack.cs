@@ -1,6 +1,5 @@
+using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.UI;
@@ -12,9 +11,16 @@ using UnityEngine.Rendering.UI;
 ///   - 마우스 좌클릭을 누르는 동안 충전하고 때는 순간에 마법을 발사한다
 ///   
 /// </summary>
-public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
+public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
 {
     #region Field and Property
+
+    private RangedAttackContext _ctx;
+
+    public event Action Started;
+    public event Action<float> Progress;
+    public event Action Ended;
+    public event Action Interrupted;
 
     [Header("Cone Parameters")]
     [SerializeField] private float radius = 6f;                 // 적 탐지 반경
@@ -48,6 +54,8 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
 
     #endregion
 
+    public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
+
 
     #region Interface Implementation
     public void ExecuteAttack(E_CastingType type)
@@ -63,7 +71,7 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
         if(!isCharging) return;                                  // 차지 취소
         StopCoroutine(chargeRoutine);
         isCharging = false;
-
+        Interrupted?.Invoke();          // 애니메이션 강제취소   
     }
     #endregion
 
@@ -74,6 +82,8 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
         isCharging = true;                                        // 차지 중 여부 true 로 전환
         currentDamage = baseDamage;                               // 초기 데미지 설정
         float elapsed = 0f;                                       // 차지 간격 타이머
+
+        Started?.Invoke();              // 차지 시작
 
         // 차지 단계
         while (Mouse.current.leftButton.isPressed)                // 버튼 홀드 감지
@@ -87,13 +97,19 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
                 Debug.Log("차지단계 증가");
                 //추후 차지 단계별 사운드, vfx 업데이트
             }
-                
+
+            float denom = Mathf.Max(1, maxDamage - baseDamage); 
+            float t = Mathf.Clamp01((currentDamage - baseDamage) / (float)denom);
+            Progress?.Invoke(t);
+
+
             yield return null;                                    // 다음 프레임까지 대기
         }
 
 
         FireConeDamage();                                         // 마우스를 땠을 때 격발
         isCharging = false;                                       // 차지 중 여부 false로 전환
+        Ended?.Invoke();            // 발사 후 종료
     }
 
 
@@ -104,7 +120,11 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
     /// </summary>
     void FireConeDamage()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, radius, enemyLayer);    // 구체 범위 내에 적 감지
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position, 
+            radius, 
+            enemyLayer, 
+            QueryTriggerInteraction.Ignore);    // 구체 범위 내에 적 감지
         Vector3 forward = transform.forward;                                                // 플레이어의 정면 벡터 추출
         if (flatcone) forward.y = 0;                                                        // y축 값 무시
         forward.Normalize();                                                                // 벡터 정규화
@@ -129,19 +149,5 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
     }
 
     #endregion 
-
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = new Color(0.3f, 0.8f, 1f, 0.25f);
-        UnityEditor.Handles.color = Gizmos.color;
-        UnityEditor.Handles.DrawSolidArc(
-            transform.position,
-            flatcone ? Vector3.up : transform.up,
-            Quaternion.Euler(0f, -angle * 0.5f, 0f) * transform.forward,
-            angle,
-            radius
-            );
-    }
 
 }

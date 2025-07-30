@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,6 +14,7 @@ public class EnemyController : MonoBehaviour
     [Header("Enemy Movement Setting")]
     [Tooltip("NavMeshAgent component used for enemy movement")]
     [SerializeField] NavMeshAgent agent;    // 적 이동에 사용하는 NavMeshAgent 컴포넌트
+    private Transform player;   // 플레이어의 Transform
 
     [Header("Enemy Attack Setting")]
     [SerializeField] LayerMask PlayerLayer;
@@ -24,13 +26,19 @@ public class EnemyController : MonoBehaviour
 
     [Header("Pool Object Setting")]
     [SerializeField] protected bool isBoss;
-    [SerializeField] PooledObject enemyPooeledObj;
+    [SerializeField] EnemyPooledObject enemyPooeledObj;
 
     [Header("Animation Setting")]
     [SerializeField] Animator animator;
-    private bool isMove;
+    [SerializeField] float dieAnimDuration = 2f;
+    [SerializeField]private bool isMove;
+    private bool isDie;
 
     #region Unity Event
+    private void OnEnable()
+    {
+        agent.isStopped = false;
+    }
 
     protected virtual IEnumerator Start()
     {
@@ -39,11 +47,25 @@ public class EnemyController : MonoBehaviour
                 Debug.LogError("PooledObject is null");
 
         yield return new WaitUntil(() => GameModeManager.EnemyManager.Player != null);
+        player = GameModeManager.EnemyManager.Player.transform;
 
         attackDis = attackRange.size.z;
     }
     private void Update()
     {
+        if (player == null) return;     // 플레이어의 Transform이 null이면 리턴
+
+        if (isDie)  // 죽은 상태일 때
+        {
+            if (!agent.isStopped)   // agent가 작동 중이라면
+            {
+                agent.isStopped = true;     // 즉시 정지
+                agent.ResetPath();          // 경로도 완전히 제거
+            }
+            
+            return;
+        }
+
         TryTracking();
     }
     #endregion
@@ -58,17 +80,37 @@ public class EnemyController : MonoBehaviour
     {
         if (agent.isOnNavMesh)
         {
+            float distance = Vector3.Distance(player.position, transform.position);
+
             // isAttack이 true인데 플레이어와 적의 거리가 공격 가능한 거리보다 멀 경우
-            if (isAttack && Vector3.Distance(GameModeManager.EnemyManager.Player.transform.position, transform.position) > attackDis)
+            if (isAttack && distance > attackDis)
                 isAttack = false;
 
-            agent.SetDestination(GameModeManager.EnemyManager.Player.transform.position);
+            agent.SetDestination(player.position);
 
             // 이동 상태가 아니면 이동 상태로 전환하고, Animator에 이동 트리거 전달
             if (!isMove)    
             {
                 isMove = true;
                 animator.SetTrigger("IsMove");
+            }
+
+            // 목적지에 도착했는지 확인
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                // 플레이어를 향한 방향 벡터 계산 (수평 방향만)
+                Vector3 dirToPlayer = (player.position - transform.position).normalized;
+                dirToPlayer.y = 0f; // 수직 요소 제거하여 수평 회전만 수행
+
+                // 방향 벡터가 유효한 경우에만 회전 수행
+                if (dirToPlayer != Vector3.zero)
+                {
+                    // 목표 방향을 쿼터니언으로 변환
+                    Quaternion lookRotation = Quaternion.LookRotation(dirToPlayer);
+
+                    // 현재 회전에서 목표 회전으로 부드럽게 보간하여 회전
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+                }
             }
         }
         else
@@ -80,14 +122,16 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Damage & Death Handling
+    public void OnDamaged() => animator.SetTrigger("IsDamaged");    // 피격 애니메이션 실행
 
+    [ContextMenu("OnDie")]
     /// <summary>
     /// 적이 사망했을 경우 호출되는 메서드
-    /// 
-    /// TODO... 게임 흐름과 연계가 필요한 작업은 이후 예정
     /// </summary>
     public void OnDie()
     {
+        isDie = true;
+
         if (attackLoop != null)
             StopCoroutine(attackLoop);
 
@@ -97,15 +141,20 @@ public class EnemyController : MonoBehaviour
 
         animator.SetTrigger("IsDie");   // Die 애니메이션 실행
 
-        //Sequence seq = DOTween.Sequence();
+        Sequence seq = DOTween.Sequence();
 
-        //// 서서히 축소 → 풀로 반납
-        //seq.Append(transform.DOScale(Vector3.zero, 0.7f)
-        //    .SetEase(Ease.InBack)) // 부드러운 축소 이펙트
-        //    .OnComplete(() =>
-        //    {
-        //        enemyPooeledObj.Release();  // Pool에 반납
-        //    });
+        seq.AppendInterval(dieAnimDuration);
+
+        //서서히 축소 → 풀로 반납
+        seq.Append(transform.DOScale(Vector3.zero, 0.7f)
+            .SetEase(Ease.InBack)) // 부드러운 축소 이펙트
+            .OnComplete(() =>
+            {
+                animator.SetTrigger("Reset");   // 애니메이션 상태 초기화
+                isDie = false;
+                enemyPooeledObj.IsDie = true;  // 죽어 Release됨을 알림
+                enemyPooeledObj.Release();  // Pool에 반납
+            });
     }
     #endregion
 
@@ -146,6 +195,8 @@ public class EnemyController : MonoBehaviour
     {
         if (PlayerLayer.Contain(other.gameObject.layer))    // 만약 충돌한 객체가 플레이어라면
         {
+            if (isDie) return;
+
             if (!isAttack)  // isAttack이 현재 false일 때만 실행
                 StartAttack();
 

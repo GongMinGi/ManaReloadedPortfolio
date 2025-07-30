@@ -7,6 +7,8 @@ public class EnemyPooledObject : PooledObject
     private EnemyPool enemyPool;
     private Vector3 defaultSize;    // 오브젝트의 기본 사이즈
 
+    public bool IsDie { get; set; } = false;    // 죽어서 풀에 반납하는지 여부
+
     #region Unity Evemt
     private IEnumerator Start()
     {
@@ -40,9 +42,10 @@ public class EnemyPooledObject : PooledObject
 
     protected override void OnDeactivated()
     {
+        if (!IsDie) return;
+
         tracker.NotifyDied();
 
-        if (tracker.IsCleared)  // 현재 페이즈에서 해당 타입의 모든 적이 사망했을 경우
-            GameModeManager.EnemyManager.TryAdvancePhase(); // 이를 EnemyManager에 알림
+        IsDie = false;
     }
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   type: "\uC9C0\uD321\uC774"
-  name: "\uC81C\uC2DD \uC9C0\uD321\uC774"
+  sampleName: "\uC81C\uC2DD \uC9C0\uD321\uC774"
   discription: "\uC9C0\uD321\uC774\uB2E4"
   attack: 0
   deffense: 0

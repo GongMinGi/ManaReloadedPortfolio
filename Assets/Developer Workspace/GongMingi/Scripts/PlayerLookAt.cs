@@ -25,7 +25,7 @@ public class PlayerLookAt : MonoBehaviour
         if (isDie) return;
 
 
-        Vector3 screenPos = Mouse.current.position.ReadValue();
+        Vector3 screenPos = Mouse.current.position.ReadValue();             
         screenPos.z = playerCamera.WorldToScreenPoint(transform.position).z;
         //Vector3 mousePos  = Camera.main.ScreenToWorldPoint(screenPos);
         Vector3 mousePos = playerCamera.ScreenToWorldPoint(screenPos);
