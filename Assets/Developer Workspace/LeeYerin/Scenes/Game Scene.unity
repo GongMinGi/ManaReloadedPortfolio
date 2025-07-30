@@ -3683,6 +3683,14 @@ PrefabInstance:
       propertyPath: playerHPBar
       value: 
       objectReference: {fileID: 1291285782}
+    - target: {fileID: 757839793598104617, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
+      propertyPath: maxDamage
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 757839793598104617, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
+      propertyPath: damageStep
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 3974701883712897950, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.051
@@ -3723,6 +3731,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4589941921222664725, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
+      propertyPath: baseDamage
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4618563446745205528, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
       propertyPath: onCastAdded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3731,6 +3743,10 @@ PrefabInstance:
       propertyPath: onCastReset.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 110074648}
+    - target: {fileID: 7104882218061390602, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
+      propertyPath: tickInterval
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
