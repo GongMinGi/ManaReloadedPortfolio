@@ -939,7 +939,7 @@ MonoBehaviour:
   size: 25
   capacity: 50
   player: {fileID: 0}
-  tileSize: 29
+  tileSize: 30
   tileRange: 2
 --- !u!4 &252126575
 Transform:
