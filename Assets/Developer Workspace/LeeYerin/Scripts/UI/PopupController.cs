@@ -11,6 +11,7 @@ using UnityEngine;
 public class PopupController : MonoBehaviour
 {
     [SerializeField] GameObject popupUI;    // 실제 팝업 UI GameObject (Canvas 하위)
+    [SerializeField] GameObject backdrop;
 
     /// <summary>
     /// 팝업 UI GameObject
@@ -20,7 +21,7 @@ public class PopupController : MonoBehaviour
     /// <summary>
     /// 반투명 블러 처리된 Backdrop의 GameObject
     /// </summary>
-    public GameObject Backdrop => popupUI.gameObject.transform.parent.parent.gameObject;
+    public GameObject Backdrop => backdrop;
 
     #region Request Open / Close
     /// <summary>
