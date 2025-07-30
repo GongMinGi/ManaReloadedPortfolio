@@ -28,6 +28,8 @@ public class EnemyStats : MonoBehaviour, IDamageable
     /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
+        if (CurrentHp <= 0f) return;
+
         CurrentHp -= damage;
         Debug.Log($"남은 체력: {CurrentHp}");
 
