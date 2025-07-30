@@ -15,6 +15,8 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 {
 
     #region Field And Property
+    [Header("VFX Setting")]     // 구현: 이예린
+    [SerializeField] VFXObject fireVFX;
 
     [Header("Cone Parameters")]
     [SerializeField] private float radius = 6f;         // 탐지 반경
@@ -115,6 +117,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         isFiring = true;
         lr.enabled = true;
         Started?.Invoke();
+        fireVFX.Play();         // 불 VFX 실행
 
         float startTime = Time.time;
 
@@ -173,6 +176,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
         lr.enabled = false; // 시각화 끄기
         isFiring = false;       // 상태 해제
+        fireVFX.Stop();         // 불 VFX 종료
         Ended?.Invoke();
     }
 
