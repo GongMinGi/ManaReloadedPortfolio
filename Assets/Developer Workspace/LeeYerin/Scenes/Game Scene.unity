@@ -3691,6 +3691,14 @@ PrefabInstance:
       propertyPath: damageStep
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 1677093843945389770, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
+      propertyPath: tickInterval
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677093843945389770, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
+      propertyPath: damagePerTick
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 3974701883712897950, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.051

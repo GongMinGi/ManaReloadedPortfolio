@@ -220,6 +220,7 @@ MonoBehaviour:
   attackRange: {fileID: 4227302262060818511}
   isAttack: 0
   attackDamage: 15
+  hitSphere: {fileID: 6766282891042374190}
   isBoss: 0
   enemyPooeledObj: {fileID: 5234456885860537038}
   animator: {fileID: 5981485489234978053}
