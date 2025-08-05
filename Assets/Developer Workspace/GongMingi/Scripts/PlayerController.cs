@@ -58,10 +58,10 @@ public class PlayerController : MonoBehaviour
 
     private static readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()
     {
-        {Key.W, E_CastingType.Fire },
-        {Key.A, E_CastingType.Light },
-        {Key.S, E_CastingType.Thunder },
-        {Key.D, E_CastingType.Earth },
+        {Key.UpArrow, E_CastingType.Fire },
+        {Key.LeftArrow, E_CastingType.Light },
+        {Key.DownArrow, E_CastingType.Thunder },
+        {Key.RightArrow, E_CastingType.Earth },
     };
 
 
