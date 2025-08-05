@@ -72,6 +72,11 @@ public class ElementalRangedAttackController : MonoBehaviour
         attackBindings.Add(WireAttack(chargeConeAttack, boolHash: AnimParams.ChargeCone, useProgress: false));
         attackBindings.Add(WireAttack(coneAttack, boolHash: AnimParams.HoldConeAttack, useProgress: false));
 
+
+        //Animator ani;
+        //ani.GetBehaviour
+
+
     }
 
 
@@ -86,68 +91,78 @@ public class ElementalRangedAttackController : MonoBehaviour
 
 
 
-    // 바인딩
+    /// <summary>
+    /// * AttackBinding 클래스에서 이벤트에 연결한 액션을 구체적으로 구현하는 메서드
+    ///  - 각 액션을 animator의 파라미터메서드와 결합시킨다.
+    ///  - 어떤 스크립트인지 몰라도 Monobehavior라면 받아서 인터페이스 구현 여부만 보고 바인딩을 한다
+    /// </summary>
+    /// <param name="rangedAttack"></param>
+    /// <param name="boolHash"></param>
+    /// <param name="useProgress"></param>
+    /// <param name="triggerHash"></param>
+    /// <returns></returns>
     private AttackBinding WireAttack(
-        MonoBehaviour rangedAttack,
-        int? boolHash = null,
-        bool useProgress = false,
-        int? triggerHash = null)
+        MonoBehaviour rangedAttack,                                                     // 모든 공격 클래스가 Monobehavior상속 => 특정 클래스 이름을 알 필요없이 어떤 공격이든 전달가능
+        int? boolHash = null,                                                           // 지속형 공격이면 Animator Bool 해시
+        bool useProgress = false,                                                       // 차지, 채널링 진행도를 사용할 지 여부
+        int? triggerHash = null)                                                        // 즉발형 공격일 때 trigger파리미터 사용
     {
-        if (rangedAttack == null) return AttackBinding.Empty;   // 
+        if (rangedAttack == null) return AttackBinding.Empty;                           // 인스펙터에 원거리공격 컴포넌트가 할당되지 않았다면 더미 바인딩 반환
 
-        if (rangedAttack is IRequireAttackContext needCtx)      // 필요한 공격만 컨텍스트 주입
+        if (rangedAttack is IRequireAttackContext needCtx)                              // 공격이 컨텍스트를 요구하면(인터페이스를 구현했으면) 주입
             needCtx.BindContext(_ctx);
 
-        if ( rangedAttack is not IAttackSignals signal)         // 시그널 없는 공격이면 바인딩 불필요
+        if ( rangedAttack is not IAttackSignals signal)                                 // 시그널 없는 공격(ex: 즉발)이면 바인딩 불필요
             return AttackBinding.Empty;
 
-        AttackBinding binding = new AttackBinding(signal);      // 구독 해제를 캡슐화
+        AttackBinding binding = new AttackBinding(signal);                              // 실제 구독/해제를 관리할 AttackBinding 인스턴스 생성
 
         // 지속형(bool 파라미터) 매핑
         if ( boolHash.HasValue)
         {
-            int parameterHashValue = boolHash.Value;
-            binding.Started     = () => _anim.SetBool(parameterHashValue, true);
-            binding.Ended       = () => _anim.SetBool(parameterHashValue, false);
-            binding.Interrupted = () => _anim.SetBool(parameterHashValue, false);
+            int parameterHashValue = boolHash.Value;                                    // 해시 캐싱
+            binding.Started     = () => _anim.SetBool(parameterHashValue, true);        // 공격 시작 => bool ON
+            binding.Ended       = () => _anim.SetBool(parameterHashValue, false);       // 정상 종료 => Bool OFF
+            binding.Interrupted = () => _anim.SetBool(parameterHashValue, false);       // 강제 취소 => Bool OFF
 
-            if (useProgress)
+            if (useProgress)                                                            // 차지, 채널링 진행도 매핑
                 binding.Progress = attackProgressedRate => _anim.SetFloat(parameterHashValue, attackProgressedRate);
         }
 
-        binding.Subscribe();
-        return binding;
+        binding.Subscribe();                                                            // AttackBinding에서 실제 event와 실행할 Action을 연결
+        return binding;                                                                 // 컨트롤러에서 Dispose 할 수 있도록 반환
     }
 
-    private sealed class AttackBinding : IDisposable
+
+    private sealed class AttackBinding : IDisposable                                    // IDisposable을 구현한 이벤트 - 바인딩 한 덩어리 를 나타내는 내부 전용(sealed) 클래스
     {
-        public static readonly AttackBinding Empty = new(null);
+        public static readonly AttackBinding Empty = new(null);                         // 시그널이 아예 없는 경우에 쓰는 싱글턴 더미 객체 
 
-        private readonly IAttackSignals rangedAttackSignal;
-        public Action Started;
-        public Action Ended;
-        public Action Interrupted;
-        public Action<float> Progress;
+        private readonly IAttackSignals rangedAttackSignal;                             // 실제로 구독할 공격 시그널(started, end 등 )을 보관하는 읽기 전용 참조
+        public Action Started;                                                          // 공격이 시작될 때 호출될 델리게이트(Action)
+        public Action Ended;                                                            // 공격이 정상 종료될 때 호출
+        public Action Interrupted;                                                      // 외부 요인(Stop 등)으로 끊겼을때 호출
+        public Action<float> Progress;                                                  // 차지, 채널링 진행도(0~1)를 전달 ( 필요시 사용) 
 
-        public AttackBinding(IAttackSignals signal) => rangedAttackSignal = signal;
+        public AttackBinding(IAttackSignals signal) => rangedAttackSignal = signal;     // 생성자. 컨트롤러가 전달한 signal을 받아온다.
 
-        public void Subscribe()
+        public void Subscribe()                                                         // signal(이벤트)과 그 이벤트에서 호출할 함수(Acition)을 묶는다.
         {
-            if (rangedAttackSignal == null) return;
-            if (Started != null) rangedAttackSignal.Started         += Started;
-            if (Ended != null) rangedAttackSignal.Ended             += Ended;
-            if (Interrupted != null) rangedAttackSignal.Interrupted += Interrupted;
-            if (Progress != null) rangedAttackSignal.Progress       += Progress;
+            if (rangedAttackSignal == null) return;                                     // signal(이벤트)이 없으면 아무것도 하지 않음
+            if (Started != null) rangedAttackSignal.Started         += Started;         // 시작 이벤트 연결
+            if (Ended != null) rangedAttackSignal.Ended             += Ended;           // 종료 이벤트 연결
+            if (Interrupted != null) rangedAttackSignal.Interrupted += Interrupted;     // 취소 이벤트 연결    
+            if (Progress != null) rangedAttackSignal.Progress       += Progress;        // 진행도 이벤트 연결
         }
 
-        public void Dispose()
+        public void Dispose()                                                           // IDisposeable을 이용하여 안전하게 구독 해제 
         {
-            if (rangedAttackSignal == null) return;
-            if (Started != null) rangedAttackSignal.Started         -= Started;
-            if (Ended != null) rangedAttackSignal.Ended             -= Ended;
-            if (Interrupted != null) rangedAttackSignal.Interrupted -= Interrupted;
-            if (Progress != null) rangedAttackSignal.Progress       -= Progress;
-            Started = Ended = Interrupted = null;
+            if (rangedAttackSignal == null) return;                                     // 이미 해제된 경우 바로 종료 
+            if (Started != null) rangedAttackSignal.Started         -= Started;         // 시작 이벤트 해제
+            if (Ended != null) rangedAttackSignal.Ended             -= Ended;           // 종료 이벤트 해제
+            if (Interrupted != null) rangedAttackSignal.Interrupted -= Interrupted;     // 취소 이벤트 해제
+            if (Progress != null) rangedAttackSignal.Progress       -= Progress;        // 진행도 이벤트 해제
+            Started = Ended = Interrupted = null;                                       // 델리게이트 참조를 제거해 GC 대상화
             Progress = null;
         }
     }
