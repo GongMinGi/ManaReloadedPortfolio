@@ -35,8 +35,8 @@ public class EnemyController : MonoBehaviour
     [Header("Animation Setting")]
     [SerializeField] Animator animator;
     [SerializeField] float dieAnimDuration = 2f;
-    [SerializeField]private bool isMove;
-    private bool isDie;
+    [SerializeField] private bool isMove;
+    [SerializeField] private bool isDie;
 
     #region Unity Event
     private void OnEnable()
@@ -92,12 +92,9 @@ public class EnemyController : MonoBehaviour
 
             agent.SetDestination(player.position);
 
-            // 이동 상태가 아니면 이동 상태로 전환하고, Animator에 이동 트리거 전달
-            if (!isMove)    
-            {
+            // 이동 상태가 아니면 이동 상태로 전환
+            if (!isMove)
                 isMove = true;
-                animator.SetTrigger("IsMove");
-            }
 
             // 목적지에 도착했는지 확인
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
@@ -168,7 +165,6 @@ public class EnemyController : MonoBehaviour
             .SetEase(Ease.InBack)) // 부드러운 축소 이펙트
             .OnComplete(() =>
             {
-                animator.SetTrigger("Reset");   // 애니메이션 상태 초기화
                 isDie = false;
                 enemyPooeledObj.IsDie = true;  // 죽어 Release됨을 알림
                 enemyPooeledObj.Release();  // Pool에 반납
