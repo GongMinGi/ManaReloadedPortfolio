@@ -37,7 +37,7 @@ public class SkillHashTable : ScriptableObject
 
     [Header("기획용 스킬 제조기")]
     public List<E_CastingType> CastList;            // 주문 조합
-    public BaseSkill castSkill;                     // 이 조합으로 발동될 실제 스킬
+    public BaseCombinationMagic castSkill;                     // 이 조합으로 발동될 실제 스킬
 
 
 

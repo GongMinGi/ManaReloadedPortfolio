@@ -1,21 +1,20 @@
 using UnityEngine;
 
-public class BaseSkill : MonoBehaviour
+public class BaseCombinationMagic : MonoBehaviour
 {
-
 
 
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        
+
     }
 
-    public void ExecuteSkill()
+    public virtual void ExecuteSkill()
     {
         Debug.Log("스킬 실행");
     }
