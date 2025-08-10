@@ -12,8 +12,8 @@ public class RangedEarthProjectile : AbstractProjectile
 
     float speed;                                        // 이동속도
     float maxRange;                                     // 최대 사거리
-    int damage;                                         // 피해량
-    float radius;                                       // 폭발 반경
+    float damage;                                         // 피해량
+    float explosionRadius;                                       // 폭발 반경
     LayerMask enemyLayer;                               // 적 레이어
     LayerMask obstacleLayer;                            // 장애물 레이어
 
@@ -33,7 +33,7 @@ public class RangedEarthProjectile : AbstractProjectile
     #region Unity Event
     void Awake()
     {
-        onSetup = new OnSetup(Setup);
+        //onSetup = new OnSetup(Setup);
     }
 
 
@@ -59,15 +59,15 @@ public class RangedEarthProjectile : AbstractProjectile
     /// <param name="damage"></param>
     /// <param name="enemyL"></param>
     /// <param name="obstacleL"></param>
-    public override void Setup(float speed, float range, float radius, int damage, LayerMask enemyL, LayerMask obstacleL)
+    public override void Setup(ProjectileParams param)
     {
 
-        this.speed = speed;
-        this.maxRange = range;
-        this.damage = damage;
-        this.radius = radius;
-        enemyLayer = enemyL;
-        obstacleLayer = obstacleL;
+        this.speed = param.speed;
+        this.maxRange = param.maxRange;
+        this.damage = param.damage;
+        this.explosionRadius = param.radius;
+        enemyLayer = param.enemyL;
+        obstacleLayer = param.obstacleL;
         
         startPos = transform.position;                      // 시작 지점 기록
         initialized = true;                                 // 활성화 true로 변경
@@ -99,7 +99,7 @@ public class RangedEarthProjectile : AbstractProjectile
         
         Collider[] hits = Physics.OverlapSphere(
             transform.position, 
-            radius, 
+            explosionRadius, 
             enemyLayer, 
             QueryTriggerInteraction.Ignore);    // 폭발 범위 내 적 탐색
         foreach (var hit in hits)

@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 630765677016618408}
-  - component: {fileID: 7662755353031341690}
+  - component: {fileID: 6106207415105691648}
   m_Layer: 0
-  m_Name: SampleSkill
+  m_Name: MeteorStrike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7662755353031341690
+--- !u!114 &6106207415105691648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,6 +41,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 7260839441518385189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b2a707cd0c20c1459811f0044ddda0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 21958fcefb0997f4a9101f999dad43a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 5011789713464017756, guid: 79dfe37bfb7efe241b15408d3b804aba, type: 3}
+  spawnHeight: 12
+  travleTime: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  maxRayDistance: 1000
+  fallbackPlaneY: 0
+  impactRadius: 3
+  damage: 2000
+  impactVfxPrefab: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128

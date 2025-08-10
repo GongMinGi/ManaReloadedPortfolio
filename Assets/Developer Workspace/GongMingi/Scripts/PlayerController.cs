@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
 
     #region FieldAndProperty
 
-    //[SerializeField] CharacterController controller;
     [SerializeField] float moveSpeed;
     [SerializeField] float sprintMultiplier = 2f;
     [SerializeField] Rigidbody rb;
@@ -42,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
 
     [SerializeField] Animator playerAnim;                                   // 플레이어 애니메이션
+    [SerializeField] float animDamp = 0.15f;                                // 애니메이션 전환 시의 보간 값 
 
     Vector3 moveDir = new();
 
@@ -150,24 +150,19 @@ public class PlayerController : MonoBehaviour
 
             rb.linearVelocity = new Vector3(0, 0, 0);                       // 플레이어 즉시 정지
 
-            playerAnim.SetFloat("Horizontal", 0);                           // 플레이어 이동 애니메이션 정지
-            playerAnim.SetFloat("Speed", 0);
+            playerAnim.SetFloat("Horizontal", 0, animDamp, Time.deltaTime);                           // 플레이어 이동 애니메이션 정지
+            playerAnim.SetFloat("Speed", 0, animDamp, Time.deltaTime);
             return;                                                         
-
         }
 
         float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);       // 이동속도 변수에 달리는 중이면, 다른 숫자를 곱해주고, 아니면  1을 곱해준다
 
-
-        playerAnim.SetFloat("Horizontal", moveDir.x);
-        playerAnim.SetFloat("Speed", moveDir.z);
+        playerAnim.SetFloat("Horizontal", moveDir.x, animDamp, Time.deltaTime);
+        playerAnim.SetFloat("Speed", moveDir.z, animDamp, Time.deltaTime);
         
-
         Vector3 targetVelocity = moveDir.normalized * speed;
         rb.linearVelocity = new Vector3(targetVelocity.x,0, targetVelocity.z);
 
-        //controller.Move(transform.right * moveDir.x * speed * Time.deltaTime);      // 좌우 방향 플레이어 이동 
-        //controller.Move(transform.forward * moveDir.z * speed * Time.deltaTime);    // 상하 방향 플레이어 이동
     }
     #endregion
 
@@ -266,7 +261,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentCastingList.Count == 0) return;      // 현재 캐스팅된 원소가 없으면 스킬을 실행하지 않는다.
 
-        BaseSkill skill = GameModeManager.SkillCastingManager.GetSkill(currentCastingList);    // 스킬관리자에게 캐스팅된 원소리스트를 보내서 그에 해당하는 스킬의 고유번호를 받는다.
+        BaseCombinationMagic skill = GameModeManager.SkillCastingManager.GetSkill(currentCastingList);    // 스킬관리자에게 캐스팅된 원소리스트를 보내서 그에 해당하는 스킬의 고유번호를 받는다.
 
         if (skill != null)              // 스킬이 존재한다면
         {
@@ -294,8 +289,6 @@ public class PlayerController : MonoBehaviour
     public void OnMeleeAttack(InputAction.CallbackContext ctx)
     {
         if(!ctx.started) return;
-
-
 
         if (currentCastingList.Count != 0)
         {

@@ -83,7 +83,7 @@ public class SkillCastingManager : MonoBehaviour
     /// </summary>
     /// <param name="playerCast">플레이어가 입력한 원소 캐스팅 목록</param>
     /// <returns></returns>
-    public BaseSkill GetSkill( List<E_CastingType> playerCast)
+    public BaseCombinationMagic GetSkill( List<E_CastingType> playerCast)
     {
         int hashValue = GetCastTypeHashTable(playerCast);       // 플레이어가 입력한 원소 조합을 해당 조합에 대응되는 고유값으로 반환한다.
 
@@ -121,6 +121,7 @@ public class SkillCastingManager : MonoBehaviour
         foreach(var item in allSkilltable)
         {
             allSkillTableDict.Add(item.currentHashID, item);    // 에디터에서 입력해놓은 조합 마법의 고유값과 대응되는 스킬을 게임 실행 중에 사용할 변수로 복사해 온다.
+
         }
     }
 }
