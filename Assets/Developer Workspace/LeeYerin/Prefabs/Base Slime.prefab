@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2218047226800509573}
   - component: {fileID: 8781613484388262224}
   - component: {fileID: 8902627596157376604}
+  - component: {fileID: 5263008266915621972}
   - component: {fileID: 5997972177266655409}
   - component: {fileID: 3615020991037302410}
   - component: {fileID: 3651009812892655141}
@@ -116,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2197419e5e5ed43a927be3884e63f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 5263008266915621972}
   agent: {fileID: 3651009812892655141}
   PlayerLayer:
     serializedVersion: 2
@@ -130,6 +132,19 @@ MonoBehaviour:
   dieAnimDuration: 2
   isMove: 0
   isDie: 0
+--- !u!114 &5263008266915621972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550999319805392650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffaad8cfc22ab8640857039d838dc381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyStatsData: {fileID: 11400000, guid: fa074d9b7634dde43912c8b16c22310a, type: 2}
 --- !u!114 &5997972177266655409
 MonoBehaviour:
   m_ObjectHideFlags: 0

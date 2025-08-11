@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Game.Combat.Stats;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -12,6 +13,9 @@ using UnityEngine.AI;
 /// </summary>
 public class EnemyController : MonoBehaviour
 {
+    [Header("Stats Setting")]
+    [SerializeField] UnitStats stats;   // 현재 스탯을 관리하는 컴포넌트
+
     [Header("Enemy Movement Setting")]
     [Tooltip("NavMeshAgent component used for enemy movement")]
     [SerializeField] NavMeshAgent agent;    // 적 이동에 사용하는 NavMeshAgent 컴포넌트
@@ -54,6 +58,7 @@ public class EnemyController : MonoBehaviour
         player = GameModeManager.EnemyManager.Player.transform;
 
         attackDis = attackRange.size.z;
+        agent.speed = stats.MoveSpeed;      // stats의 MoveSpeed 데이터 기반으로 agent의 speed 세팅
     }
     private void Update()
     {
