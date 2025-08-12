@@ -13,6 +13,7 @@ public class MeteorStrike : BaseCombinationMagic
 {
 
     [Header("Projectile")]
+    [SerializeField] private BurningGroundProjectile addtionalProjectilePrefab;     // 충돌 이후 추가로 소환할 불장판 프리팹
     [SerializeField] private MeteorProjectile projectilePrefab;   // 투사체로 사용할 프리팹 변수
     private MeteorProjectile projectileInstance;                  // 풀에서 가져온 오브젝트를 다운 캐스팅 하기 위한 인스턴스 변수
 
@@ -31,6 +32,12 @@ public class MeteorStrike : BaseCombinationMagic
     [SerializeField] private GameObject impactVfxPrefab;          // 착탄 이펙트
     [SerializeField] private LayerMask enemyLayer;                // 적 탐지 레이어
 
+
+    [Header("BurningGround")]
+    [SerializeField] public float groundDuration = 2f;                           // 불장판 지속시간
+    [SerializeField] public float groundAttackTickInterval = 0.5f;               // 불장판 도트데미지 틱 간격
+    [SerializeField] public float groundAttackDamage = 50f;                      // 불장판 도트메미지 
+
     //[Header("Arc (Optional)")]
     //[SerializeField] private bool useArc = true;                // 포물선 느낌 추가 여부
     //[SerializeField] private float arcHeight = 4f;              // 곡선 최대 높이
@@ -39,31 +46,42 @@ public class MeteorStrike : BaseCombinationMagic
     private Camera cam;                                           // 마우스 기준 카메라
     private bool poolCreated = false;
 
-    void Awake()
-    {
-    }
+
     public void Init()
     {
+        Debug.Log("init 들어옴");
         GameModeManager.PoolManager.CreatePool(projectilePrefab, 5, 10);   // 풀매니저에 투사체 풀 생성 (초기5개, 최대 10개) 
-
-        this.caster = GameModeManager.Player.transform;
-        this.cam = Camera.main;
+        GameModeManager.PoolManager.CreatePool(addtionalProjectilePrefab, 5, 10);   // 충돌 이후 불장판을 위한 풀 생성
 
         poolCreated = true;
+        Debug.Log("init 마지막줄");
+
     }
 
+
+    /// <summary>
+    /// - 소환할 운석의 시작점과 착탄 지점을 연산 
+    /// - 운석과 후속으로 소환될 불장판에 필요한 변수값 projectile param에 저장
+    /// - 운석 투사체 스크립트의 setup 함수 호출
+    /// </summary>
     public override void ExecuteSkill()
     {
-        if (!poolCreated)
+        Debug.Log("execute skill 들어옴");
+
+        if (!caster)
         {
             Init();
         }
 
-        //if (cam == null || caster == null)
-        //{
-        //    Debug.LogWarning("[MeteorStrike] 카메라 / 캐스터가 없습니다.");
-        //    return;
-        //}
+        this.caster = GameModeManager.Player.transform;
+        this.cam = Camera.main;
+
+
+        if (cam == null || caster == null)
+        {
+            Debug.LogWarning("[MeteorStrike] 카메라 / 캐스터가 없습니다.");
+            return;
+        }
 
         Vector2 mousePos = Mouse.current.position.ReadValue();              // 마우스 스크린 좌표 획득 
         if (mousePos == null) Debug.LogWarning("[MeteorStrike] 마우스 위치가 null 입니다.");
@@ -85,7 +103,7 @@ public class MeteorStrike : BaseCombinationMagic
         }
 
 
-        Vector3 start = targetPoint + Vector3.up * spawnHeight;             // 시작 위치 : 시전자 머리 위
+        Vector3 start = targetPoint + Vector3.up * spawnHeight;             // 시작 위치 : 착탄 지점 상공
 
 
         PooledObject go = GameModeManager.PoolManager.GetPool(
@@ -94,13 +112,21 @@ public class MeteorStrike : BaseCombinationMagic
 
         var projectileParams = new MeteorParams
         {
+            // < 공통 파라미터 >
             radius = impactRadius,                                          // 착탄 폭발 반경
             damage = damage,                                                // 주는 데미지
             enemyL = enemyLayer,                                            // 적 레이어
-            //전용
+
+            // < 운석 투사체 전용 파라미터 >
             start = start,                                                  // 운석 시작지점
             target = targetPoint,                                           // 운석 충돌지점
-            travelTime = travleTime                                         // 운석 낙하시간(속도)
+            travelTime = travleTime,                                         // 운석 낙하시간(속도)
+
+            // < 후속 장판 파라미터 >
+            addtionalProjectilePrefab = this.addtionalProjectilePrefab,
+            groundDuration = this.groundDuration,
+            groundAttackTickInterval  = this.groundAttackTickInterval,
+            groundAttackDamage = this.groundAttackDamage,
         };
 
         projectileInstance.Setup(projectileParams);

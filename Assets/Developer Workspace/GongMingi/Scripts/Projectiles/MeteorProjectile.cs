@@ -12,6 +12,12 @@ public class MeteorParams : ProjectileParams
     public Vector3 start;           // 운석 소환 위치
     public Vector3 target;          // 착탄 지점 (월드)
     public float travelTime;        // 이동 시간
+
+    // 충돌이후 장판소환을 위한 파라미터
+    public BurningGroundProjectile addtionalProjectilePrefab;
+    public float groundDuration;                           // 불장판 지속시간
+    public float groundAttackTickInterval;                 // 불장판 도트데미지 틱 간격
+    public float groundAttackDamage;                       // 불장판 도트메미지
 }
 
 
@@ -22,16 +28,22 @@ public class MeteorParams : ProjectileParams
 /// </summary>
 public class MeteorProjectile : AbstractProjectile
 {
-    private MeteorParams meteorParams;
 
+    #region Field_And_Projectile
+
+    private MeteorParams meteorParams;
+    private BurningGroundProjectile burningGroundInstance;
 
     public override void Setup(ProjectileParams p)
     {
         meteorParams = p as MeteorParams;
-
         transform.position = meteorParams.start;
         StartCoroutine(MeteorRoutine()); 
     }
+
+    #endregion
+
+    #region Skill_Implementation
 
     private IEnumerator MeteorRoutine()
     {
@@ -45,10 +57,8 @@ public class MeteorProjectile : AbstractProjectile
 
         while( time < 1f)
         {
-            Debug.Log("while 문 들어옴"); 
             time += Time.deltaTime / duration;
 
-            // 선형 보간
             Vector3 pos = Vector3.Lerp(start, target, time);    // 선형 보간을 통해 부드럽게 떨어짐 => 추후 dotween으로 시작은 빨리 갈수록 감속하게 수정
 
             transform.position = pos;                           // 현재 운석 위치 갱신
@@ -66,7 +76,36 @@ public class MeteorProjectile : AbstractProjectile
             }
         }
 
+        // 운석충돌 이후 후속으로 깔릴 불장판에 필요한 변수 초기화 및 호출
+        #region following_Projectile
+
+        PooledObject pooledGo = GameModeManager.PoolManager.GetPool(
+            meteorParams.addtionalProjectilePrefab,
+            target, Quaternion.identity);
+        burningGroundInstance = pooledGo as BurningGroundProjectile;
+
+        var burningGroundParm = new BurningGroundParams
+        {
+            // < 공통 파라미터 >
+            radius = meteorParams.radius,
+            damage = meteorParams.groundAttackDamage,
+            enemyL = meteorParams.enemyL,
+
+            // < 불장판 전용 파라미터 > 
+            center = target,
+            duration = meteorParams.groundDuration,
+            tickInterval = meteorParams.groundAttackTickInterval,
+            yOffset = 0.03f,
+
+        };
+
+        burningGroundInstance.Setup(burningGroundParm);
+
+        #endregion
+
         Release();
     }
+
+    #endregion
 
 }

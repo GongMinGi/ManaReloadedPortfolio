@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21958fcefb0997f4a9101f999dad43a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  addtionalProjectilePrefab: {fileID: 6968842181683009008, guid: 4957a99b781478b4b83bcefa87a08b2a, type: 3}
   projectilePrefab: {fileID: 5011789713464017756, guid: 79dfe37bfb7efe241b15408d3b804aba, type: 3}
   spawnHeight: 12
   travleTime: 2
@@ -58,3 +59,6 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  groundDuration: 5
+  groundAttackTickInterval: 0.5
+  groundAttackDamage: 50
