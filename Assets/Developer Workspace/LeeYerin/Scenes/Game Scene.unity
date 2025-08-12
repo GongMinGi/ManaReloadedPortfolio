@@ -970,6 +970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allSkilltable:
   - {fileID: 11400000, guid: 9a02d59d262bcf24e819f137035d4201, type: 2}
+  - {fileID: 11400000, guid: 9b2ae1772ad56d340b765128a7fe476b, type: 2}
 --- !u!114 &252126577
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -48,6 +48,15 @@ public class EnemyManager : MonoBehaviour
     private int clearedEnemyTypeCount = 0;  // 페이즈 내 처치가 완료된 적 종류 개수
     #endregion
 
+    #region Active Enemies
+    private List<EnemyController> enemies = new();
+
+    /// <summary>
+    /// 활성 적 리스트
+    /// </summary>
+    public List<EnemyController> Enemies => enemies;
+    #endregion
+
     #region State Flags
     private bool isReady;
 
