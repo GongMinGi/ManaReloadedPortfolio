@@ -83,7 +83,8 @@ public class ThornPooledObject : PooledObject
                 enemy.Stats.EffectHandler.AddStatusEffect(effect);
 
                 // 틱마다 피해를 입히는 델리게이트 등록
-                effect.TickAction += ApplyTickDamage;
+                effect.RegisterTickAction(ApplyTickDamage);
+                // effect.tickAction += ApplyTickDamage;
             }
         }
     }
