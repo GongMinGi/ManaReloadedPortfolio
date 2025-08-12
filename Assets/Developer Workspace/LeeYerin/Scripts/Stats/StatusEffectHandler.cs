@@ -39,6 +39,9 @@ namespace Game.Combat.Stats
                     Debug.Log("버프 종료");
                     activeEffects.RemoveAt(i);
                     effectDurations.Remove(effect.EffectId);
+                    activeEffectMap.Remove(effect.EffectId);
+
+                    // 효과 종료 처리
                     effect.OnExpire(UnitStats);
                 }
             }
@@ -51,24 +54,22 @@ namespace Game.Combat.Stats
         /// </summary>
         public void AddStatusEffect(StatusEffect newEffect)
         {
-            if (activeEffectMap.TryGetValue(newEffect.EffectId, out var existingEffect))
+            if (activeEffectMap.ContainsKey(newEffect.EffectId))
             {
                 // 이미 동일한 효과가 있으면 지속 시간만 갱신
-                effectDurations[newEffect.EffectId] = existingEffect.Duration;
+                effectDurations[newEffect.EffectId] = newEffect.Duration;
                 return;
             }
-            else
+
+            // 무한 지속(-1)이 아니면 목록에 추가
+            if (newEffect.Duration != -1)
             {
-                // 무한 지속(-1)이 아니면 목록에 추가
-                if (newEffect.Duration != -1)
-                {
-                    activeEffectMap[newEffect.EffectId] = newEffect;
-                    activeEffects.Add(newEffect.EffectId);
-                    effectDurations.Add(newEffect.EffectId, newEffect.Duration);
-                }
-                // 효과 즉시 적용
-                newEffect.OnApply(UnitStats);
+                activeEffectMap[newEffect.EffectId] = newEffect;
+                activeEffects.Add(newEffect.EffectId);
+                effectDurations.Add(newEffect.EffectId, newEffect.Duration);
             }
+            // 효과 즉시 적용
+            newEffect.OnApply(UnitStats);
         }
     }
 }
