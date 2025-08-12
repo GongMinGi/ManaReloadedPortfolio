@@ -84,7 +84,6 @@ public class ThornPooledObject : PooledObject
 
                 // 틱마다 피해를 입히는 델리게이트 등록
                 effect.RegisterTickAction(ApplyTickDamage);
-                // effect.tickAction += ApplyTickDamage;
             }
         }
     }

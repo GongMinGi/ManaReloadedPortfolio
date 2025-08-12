@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffaad8cfc22ab8640857039d838dc381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStatsData: {fileID: 11400000, guid: fa074d9b7634dde43912c8b16c22310a, type: 2}
+  statsData: {fileID: 11400000, guid: fa074d9b7634dde43912c8b16c22310a, type: 2}
   hp: 0
   moveSpeed: 0
   effectHandler: {fileID: 336111260888615720}

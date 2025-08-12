@@ -18,7 +18,8 @@ namespace Game.Combat.Stats
     {
         #region Base Stats
         [Tooltip("Default staff data (UnitStatsData)")]
-        [SerializeField] UnitStatsData enemyStatsData;      // 기본 스탯 데이터 참조 (ScriptableObject)
+        [SerializeField] UnitStatsData statsData;      // 기본 스탯 데이터 참조 (ScriptableObject)
+        public UnitStatsData StatsData => statsData;
 
         [SerializeField] private float hp;           // 현재 적 체력
         [SerializeField] private float moveSpeed;    // 현재 이동 속도 값
@@ -30,12 +31,12 @@ namespace Game.Combat.Stats
 
         /// <summary>
         /// 현재 체력 
-        /// 0 미만으로 내려가지 않도록 제한
+        /// 0 미만으로, 최대 체력(BaseHP)을 넘지 않도록 제한
         /// </summary>
         public float HP
         {
             get => hp;
-            set => hp = Mathf.Max(0, value);
+            set => hp = Mathf.Min(Mathf.Max(0, value), statsData.BaseHP);
         }
 
         /// <summary>
@@ -70,6 +71,8 @@ namespace Game.Combat.Stats
         /// </summary>
         public void AddModifier(StatModifier mod)
         {
+            if (mod.Mode == ModifierMode.TickOnly) return;
+
             modifiers.Add(mod);
             MarkDirty(mod.Type);
         }
@@ -81,6 +84,8 @@ namespace Game.Combat.Stats
         /// </summary>
         public void RemoveModifier(StatModifier mod)
         {
+            if (mod.Mode == ModifierMode.TickOnly) return;
+
             MarkDirty(mod.Type, false);
         }
         #endregion
@@ -112,9 +117,9 @@ namespace Game.Combat.Stats
         private void Awake()
         {
             // 기본 스탯 데이터에서 값 할당
-            HP = enemyStatsData.BaseHP;
-            MoveSpeed = enemyStatsData.BaseMoveSpeed;
-            Defense = enemyStatsData.BaseDefense;
+            HP = statsData.BaseHP;
+            MoveSpeed = statsData.BaseMoveSpeed;
+            Defense = statsData.BaseDefense;
 
             // StatusEffectHandler에 자신 참조 전달
             effectHandler.UnitStats = this;
