@@ -71,6 +71,7 @@ namespace Game.Combat.Stats
     {
         Add,        // 스탯에 값을 더함
         Multiply,   // 스탯에 값을 곱함
-        Override    // 스탯 값을 특정 값으로 덮어씀
+        Override,    // 스탯 값을 특정 값으로 덮어씀
+        TickOnly    // 틱 효과만 실행하며 스탯 값에는 직접 영향 없음
     }
 }
