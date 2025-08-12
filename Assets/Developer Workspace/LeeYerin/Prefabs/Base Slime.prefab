@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8781613484388262224}
   - component: {fileID: 8902627596157376604}
   - component: {fileID: 5263008266915621972}
+  - component: {fileID: 336111260888615720}
   - component: {fileID: 5997972177266655409}
   - component: {fileID: 3615020991037302410}
   - component: {fileID: 3651009812892655141}
@@ -145,6 +146,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStatsData: {fileID: 11400000, guid: fa074d9b7634dde43912c8b16c22310a, type: 2}
+  hp: 0
+  moveSpeed: 0
+  effectHandler: {fileID: 336111260888615720}
+--- !u!114 &336111260888615720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550999319805392650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60574f1ab99b27648a70381cbcb5f785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5997972177266655409
 MonoBehaviour:
   m_ObjectHideFlags: 0

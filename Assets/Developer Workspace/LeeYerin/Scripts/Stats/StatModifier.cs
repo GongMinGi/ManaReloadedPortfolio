@@ -61,6 +61,7 @@ namespace Game.Combat.Stats
     {
         MoveSpeed,  // 이동 속도
         Defense,    // 방어력
+        HP,         // 체력
     }
 
     /// <summary>

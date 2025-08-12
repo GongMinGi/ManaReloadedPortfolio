@@ -12,8 +12,11 @@ namespace Game.Combat.Stats
     [CreateAssetMenu(fileName = "UnitStatsData", menuName = "Scriptable Objects/UnitStatsData")]
     public class UnitStatsData : ScriptableObject
     {
+        [SerializeField] private float baseHP;
         [SerializeField] private float baseMoveSpeed;
         [SerializeField] private float baseDefense;
+
+        public float BaseHP => baseHP;
 
         /// <summary>
         /// 기본 이동 속도

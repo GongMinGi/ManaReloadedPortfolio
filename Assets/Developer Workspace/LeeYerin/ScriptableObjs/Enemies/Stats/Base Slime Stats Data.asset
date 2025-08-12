@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: caa2658a35aabc743ba988f127894cae, type: 3}
-  m_Name: Spiny Slime Stats Data
+  m_Name: Base Slime Stats Data
   m_EditorClassIdentifier: 
-  baseMoveSpeed: 3
+  baseHP: 1000
+  baseMoveSpeed: 4
   baseDefense: 1
