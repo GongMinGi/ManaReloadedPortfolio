@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 5263008266915621972}
   agent: {fileID: 3651009812892655141}
+  isMove: 0
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -128,10 +129,9 @@ MonoBehaviour:
   attackDamage: 10
   hitSphere: {fileID: 8781613484388262224}
   isBoss: 0
-  enemyPooeledObj: {fileID: 3615020991037302410}
+  enemyPooledObj: {fileID: 3615020991037302410}
   animator: {fileID: 1559048359488138400}
   dieAnimDuration: 2
-  isMove: 0
   isDie: 0
 --- !u!114 &5263008266915621972
 MonoBehaviour:
