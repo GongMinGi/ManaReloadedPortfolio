@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
@@ -20,6 +21,12 @@ public class PlayerController : MonoBehaviour
     Keyboard keyboard = Keyboard.current;               // 현재 키보드에 대한 제어를 들고 있음?
 
     #region FieldAndProperty
+
+    #region Stats
+    [Header("Stats Setting")]
+    [SerializeField] UnitStats stats;   // 플레이어의 현재 스탯을 관리하는 컴포넌트
+    public UnitStats Stats => stats;
+    #endregion
 
     [SerializeField] float moveSpeed;
     [SerializeField] float sprintMultiplier = 2f;
