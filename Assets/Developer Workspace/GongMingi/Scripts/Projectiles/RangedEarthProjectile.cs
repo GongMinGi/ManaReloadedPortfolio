@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using UnityEngine;
 
 
@@ -105,7 +106,7 @@ public class RangedEarthProjectile : AbstractProjectile
         foreach (var hit in hits)
         {
             Debug.Log("폭발 피해 적용");
-            if (hit.TryGetComponent(out IDamageable target))
+            if (hit.TryGetComponent(out UnitStats target))
                 target.TakeDamage(damage);
         }
 

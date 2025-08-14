@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Game.Combat.Stats
 {
@@ -18,16 +19,19 @@ namespace Game.Combat.Stats
     {
         #region Base Stats
         [Tooltip("Default staff data (UnitStatsData)")]
-        [SerializeField] UnitStatsData statsData;      // 기본 스탯 데이터 참조 (ScriptableObject)
-        public UnitStatsData StatsData => statsData;
-
-        [SerializeField] private float hp;           // 현재 적 체력
-        [SerializeField] private float moveSpeed;    // 현재 이동 속도 값
-        private float defense;      // 현재 방어력
+        [SerializeField] UnitStatsData statsData;                // 기본 스탯 데이터 참조 (ScriptableObject)
+        [SerializeField] private UnityEvent OnDamaged = new();
+        [SerializeField] private UnityEvent OnDie = new();
+        [SerializeField] private float curHp;                    // 현재 적 체력
+        [SerializeField] private float moveSpeed;                // 현재 이동 속도 값
+        private float defense;                                   // 현재 방어력
+        public event Action<float, float> OnHpChanged;           // hp 변경시 (cur, max) ui변경용
 
         // 스탯 값이 변경되어 다시 계산이 필요할 때 true
         private bool moveSpeedDirty = false;
         private bool defenseDirty = false;
+
+        public UnitStatsData StatsData => statsData;            // 기본 스텟 데이터 프로퍼티 
 
         /// <summary>
         /// 현재 체력 
@@ -35,8 +39,8 @@ namespace Game.Combat.Stats
         /// </summary>
         public float HP
         {
-            get => hp;
-            set => hp = Mathf.Min(Mathf.Max(0, value), statsData.BaseHP);
+            get => curHp;
+            set => curHp = Mathf.Min(Mathf.Max(0, value), statsData.BaseHP);
         }
 
         /// <summary>
@@ -114,12 +118,21 @@ namespace Game.Combat.Stats
         #endregion
 
         #region Unity Event
+
+        private void OnEnable()
+        {
+            curHp = statsData.BaseHP;   // 비활성화되어 풀로 들어간 다음 재소환 되었을때 체력을 최대로 채워준다.
+            OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 초기 Hp 최대값  Slider ui 에 전달
+        }
+
         private void Awake()
         {
             // 기본 스탯 데이터에서 값 할당
             HP = statsData.BaseHP;
             MoveSpeed = statsData.BaseMoveSpeed;
             Defense = statsData.BaseDefense;
+
+            OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 초기 Hp 최대값  Slider ui 에 전달
 
             // StatusEffectHandler에 자신 참조 전달
             effectHandler.UnitStats = this;
@@ -133,7 +146,16 @@ namespace Game.Combat.Stats
         /// <param name="damage">데미지</param>
         public void TakeDamage(float damage)
         {
+            if (HP <= 0f) return;
+
             HP -= damage;
+            OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 데미지 적용후 hp 슬라이더 적용
+            Debug.Log($"남은 체력: {curHp}");
+
+            if (HP <= 0f)
+                OnDie?.Invoke();
+            else
+                OnDamaged?.Invoke();
         }
 
         /// <summary>

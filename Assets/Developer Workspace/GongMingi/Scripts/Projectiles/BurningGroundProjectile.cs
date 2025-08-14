@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using System.Collections;
 using UnityEngine;
 
@@ -78,7 +79,7 @@ public class BurningGroundProjectile : AbstractProjectile
             burnParam.enemyL, QueryTriggerInteraction.Ignore);      // tickInterval 마다 overlapsphere 실행
         foreach ( var col in hits)
         {
-            if (col.TryGetComponent(out IDamageable enemy))
+            if (col.TryGetComponent(out UnitStats enemy))
                 enemy.TakeDamage(burnParam.damage);
         }
     }
