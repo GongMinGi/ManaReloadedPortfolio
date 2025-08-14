@@ -242,7 +242,7 @@ public class EnemyController : MonoBehaviour
                 StartAttack();
 
             Debug.Log("단순 근접 공격 범위 내에 플레이어 들어옴");
-            if (other.TryGetComponent(out IDamageable target))
+            if (other.TryGetComponent(out UnitStats target))
             {
                 animator.SetTrigger("IsAttack");    // 기본 근접 공격 애니메이션 실행
                 target.TakeDamage(attackDamage);

@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -71,7 +72,7 @@ public class MeteorProjectile : AbstractProjectile
                 target, impactRadius, enemyLayer, QueryTriggerInteraction.Ignore);  // 착탄지점에 구체모양의 콜라이더로 데미지 적용
             foreach (var col in hits)
             {
-                if (col.TryGetComponent(out IDamageable enemy))
+                if (col.TryGetComponent(out UnitStats enemy))
                     enemy.TakeDamage(damage);
             }
         }

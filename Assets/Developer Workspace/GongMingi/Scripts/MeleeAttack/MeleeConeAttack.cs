@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using UnityEngine;
 
 
@@ -66,7 +67,7 @@ public class MeleeConeAttack : MonoBehaviour
                 Debug.Log("원거리 원뿔 공격 데미지 적용");
 
                 // 데미지 적용
-                if (hit.TryGetComponent(out IDamageable target))
+                if (hit.TryGetComponent(out UnitStats target))
                     target.TakeDamage(damage);
             }
 

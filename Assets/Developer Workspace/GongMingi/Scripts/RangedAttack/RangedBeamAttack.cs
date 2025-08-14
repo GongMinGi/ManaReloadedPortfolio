@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using System;
 using System.Collections;
 using Unity.VisualScripting;
@@ -133,7 +134,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
                 if(enemyLayer.Contain(hit.collider.gameObject.layer))       // 확장메서드를 이용하여 레이어 마스크 판단.
                 {
                     Debug.Log("데미지 적용");
-                    if (hit.collider.TryGetComponent(out IDamageable target))
+                    if (hit.collider.TryGetComponent(out UnitStats target))
                         target.TakeDamage(damagePerTick);
                 }
             }

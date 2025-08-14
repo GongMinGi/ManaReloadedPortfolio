@@ -107,7 +107,6 @@ GameObject:
   - component: {fileID: 6594813169555038415}
   - component: {fileID: 339908038149689468}
   - component: {fileID: 5827740171549540368}
-  - component: {fileID: 615164460722870291}
   - component: {fileID: 8908258677197631033}
   - component: {fileID: 3315628065819876268}
   m_Layer: 6
@@ -337,7 +336,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UICastingDisplay, Assembly-CSharp
-        m_MethodName: UpdateSlot
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -352,7 +351,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UICastingDisplay, Assembly-CSharp
-        m_MethodName: ResetAll
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -395,36 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statsData: {fileID: 11400000, guid: 9645c91d819f0504891ec9a61d098383, type: 2}
-  hp: 0
-  moveSpeed: 0
-  effectHandler: {fileID: 5827740171549540368}
---- !u!114 &5827740171549540368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96983193637290781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60574f1ab99b27648a70381cbcb5f785, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &615164460722870291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96983193637290781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3f2542fdd21b44bbbe98a4049181c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <MaxHp>k__BackingField: 100
-  <CurrentHp>k__BackingField: 0
-  OnDie:
+  OnDamaged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4618563446745205528}
@@ -439,8 +409,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnDie:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 3315628065819876268}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_TargetAssemblyTypeName: PlayerLookAt, Assembly-CSharp
         m_MethodName: OnDie
         m_Mode: 1
         m_Arguments:
@@ -451,7 +424,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  playerHPBar: {fileID: 0}
+  curHp: 100
+  moveSpeed: 0
+  effectHandler: {fileID: 5827740171549540368}
+--- !u!114 &5827740171549540368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96983193637290781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60574f1ab99b27648a70381cbcb5f785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &8908258677197631033
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3874,7 +3861,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 306893344745534762, guid: 802eb15ffa75f1541b9d28028cd520e8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.48
+      value: 5.7
       objectReference: {fileID: 0}
     - target: {fileID: 306893344745534762, guid: 802eb15ffa75f1541b9d28028cd520e8, type: 3}
       propertyPath: m_LocalRotation.w

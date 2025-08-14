@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
@@ -164,7 +165,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
                 if(Vector3.Dot(forward, targetDir) >= cosThreshold)
                 {
-                    if(detectedEnemyCollider.TryGetComponent(out IDamageable target))
+                    if(detectedEnemyCollider.TryGetComponent(out UnitStats target))
                     {
                         target.TakeDamage(damagePerTick);
                     }

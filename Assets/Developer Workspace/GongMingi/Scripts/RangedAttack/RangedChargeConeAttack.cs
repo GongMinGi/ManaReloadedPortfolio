@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -144,7 +145,7 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
 
             if (Vector3.Dot(forward, dir) >= cosThreshold)                                  // 정규화시킨 두 벡터 내적값이 특정 각도 이상일때만
             {
-                if (hit.TryGetComponent(out IDamageable target))
+                if (hit.TryGetComponent(out UnitStats target))
                     target.TakeDamage(currentDamage);
                 // 데미지 적용
             }
