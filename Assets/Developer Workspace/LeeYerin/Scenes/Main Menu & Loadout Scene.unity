@@ -9985,6 +9985,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeUI: {fileID: 1508749904}
   fadeTime: 1.5
+  dmgTextObj: {fileID: 583246289668494527, guid: 7c3029d528f577341b87a889cc7d6be6, type: 3}
+  size: 0
+  capacity: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
