@@ -20,7 +20,7 @@ namespace Game.Combat.Stats
         #region Base Stats
         [Tooltip("Default staff data (UnitStatsData)")]
         [SerializeField] UnitStatsData statsData;                // 기본 스탯 데이터 참조 (ScriptableObject)
-        [SerializeField] private UnityEvent OnDamaged = new();
+        [SerializeField] public Action<float> OnDamaged;
         [SerializeField] private UnityEvent OnDie = new();
         [SerializeField] private float curHp;                    // 현재 적 체력
         [SerializeField] private float moveSpeed;                // 현재 이동 속도 값
@@ -155,7 +155,7 @@ namespace Game.Combat.Stats
             if (HP <= 0f)
                 OnDie?.Invoke();
             else
-                OnDamaged?.Invoke();
+                OnDamaged?.Invoke(damage);
         }
 
         /// <summary>

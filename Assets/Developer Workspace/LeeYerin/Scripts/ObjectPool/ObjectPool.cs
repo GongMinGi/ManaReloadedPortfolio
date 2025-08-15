@@ -87,7 +87,10 @@ public class ObjectPool : MonoBehaviour
         if (objectPool.Count < capacity)
         {
             instance.gameObject.SetActive(false);
-            instance.transform.parent = transform;
+
+            if (!instance.IsUI)
+                instance.transform.parent = transform;
+
             objectPool.Push(instance);
         }
         else

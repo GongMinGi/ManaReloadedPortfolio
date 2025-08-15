@@ -39,6 +39,7 @@ public class EnemyController : MonoBehaviour
     #region Damage
     [Header("Damage Setting")]
     [SerializeField] SphereCollider hitSphere; // 적이 피해를 받는 판정을 위한 구체 콜라이더
+    [SerializeField] DmgFloatPooledObject activeDmgText;  // 데미지 텍스트 오브젝트
     #endregion
 
     #region Pooling
@@ -74,6 +75,8 @@ public class EnemyController : MonoBehaviour
 
         // 기본 공격 거리 초기화 (BoxCollider z 축 크기 기준)
         attackDis = attackRange.size.z;
+
+        stats.OnDamaged += OnDamaged;
 
         // 스탯 변경 시 이동 속도 갱신 핸들러 등록
         stats.StatApplyHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed());
@@ -149,11 +152,24 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Damage & Death Handling
-    public void OnDamaged()
+    public void OnDamaged(float damage)
     {
         hitSphere.enabled = false;
 
         animator.SetTrigger("IsDamaged");    // 피격 애니메이션 실행
+
+        // activeDmgText가 null이거나, 이미 활성화되어 있지 않은 경우
+        if (activeDmgText == null || !activeDmgText.gameObject.activeInHierarchy)
+        {
+            // 새로운 피해량 텍스트 객체를 요청하고, 플레이어 또는 적의 위치에 맞춰 배치
+            activeDmgText = GameModeManager.UIManager.RequestDamageText(transform);
+
+            // 생성된 피해량 텍스트의 대상(Target)을 현재 객체로 설정
+            activeDmgText.Target = transform;
+        }
+
+        // 피해량 텍스트에 실제 피해량 값을 설정
+        activeDmgText.SetDamageText(damage);
 
         Sequence damagedSequence = DOTween.Sequence();
 

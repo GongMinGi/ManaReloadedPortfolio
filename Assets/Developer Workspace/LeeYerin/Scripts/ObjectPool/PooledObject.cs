@@ -19,6 +19,11 @@ public class PooledObject : MonoBehaviour
     [SerializeField] ObjectPool pool;
     public ObjectPool Pool { get { return pool; } set { pool = value; } }
 
+    /// <summary>
+    /// 해당 PooledObject가 UI인지 여부를 관리하는 bool 변수
+    /// </summary>
+    public bool IsUI { get; set; } = false;
+
     #region Unity Event
     private void OnEnable()
     {
