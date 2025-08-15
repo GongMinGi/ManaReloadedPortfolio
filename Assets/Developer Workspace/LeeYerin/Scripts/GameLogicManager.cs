@@ -89,6 +89,7 @@ public class GameLogicManager : MonoBehaviour
         IsGameOver = true;
         StopCoroutine(timer);   // 타이머 종류
         totalPlayTimeText.text = $"{time / 60:D2} : {time % 60:D2}";    // 총 플레이 시간 텍스트 설정
+        GameModeManager.UIManager.ResetDmgTextPoolExist();      // 데미지 텍스트 풀 존재 여부 플래그를 초기화
 
         Sequence gameOverUISequence = DOTween.Sequence();
 

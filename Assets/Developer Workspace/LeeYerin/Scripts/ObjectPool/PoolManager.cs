@@ -10,6 +10,9 @@ public class PoolManager : MonoBehaviour
 {
     private static PoolManager instance;
 
+    [Tooltip("Reference to the world space canvas where the UI pooledObject will be displayed")]
+    [SerializeField] Transform worldSpaceCanvas;
+
     // 오브젝트 풀을 관리하는 딕셔너리
     private Dictionary<int, ObjectPool> poolDic = new Dictionary<int, ObjectPool>();
     // 적 오브젝트 풀을 관리하는 딕셔너리
@@ -37,10 +40,14 @@ public class PoolManager : MonoBehaviour
     /// <param name="poolObj">풀링할 대상이 되는 PooledObject 프리팹</param>
     /// <param name="size">초기 생성할 인스턴스 수</param>
     /// <param name="capacity">최대 보관 가능한 인스턴스 수</param>
-    public void CreatePool(PooledObject poolObj, int size, int capacity)
+    /// <param name="isUI">생성하는 오브젝트의 UI 여부</param>
+    public void CreatePool(PooledObject poolObj, int size, int capacity, bool isUI = false)
     {
         GameObject gameObject = new GameObject();
         gameObject.name = $"Pool_{poolObj.name}";
+
+        if (isUI)
+            gameObject.transform.SetParent(worldSpaceCanvas, worldPositionStays: false);
 
         // ObjectPool 컴포넌트 추가 및 초기화
         ObjectPool objectPool = gameObject.AddComponent<ObjectPool>();

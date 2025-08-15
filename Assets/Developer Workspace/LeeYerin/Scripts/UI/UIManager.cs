@@ -1,6 +1,8 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Xml;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +25,12 @@ public class UIManager : MonoBehaviour
 
     Sequence sequenceFadeIn;
     Sequence sequenceFadeOut;
+
+    [Header("Enemy DmgText Object Pool Settings")]
+    [SerializeField] DmgFloatPooledObject dmgTextObj;
+    [SerializeField] int size;
+    [SerializeField] int capacity;
+    private bool isDmgTextPoolExist;
 
     #region Unity Event
     private void Awake()
@@ -104,6 +112,26 @@ public class UIManager : MonoBehaviour
             sequenceFadeOut.Restart();    // 기존 시퀀스 재사용
         }
     }
+
+    /// <summary>
+    /// 텍스트를 페이드 아웃 시키는 메서드
+    /// - 지정한 시간 동안 텍스트 투명도를 0으로 변화
+    /// - 페이드 후 짧은 간격을 둠
+    /// - 완료 콜백이 있으면 실행
+    /// </summary>
+    /// <param name="text">페이드할 TMP_Text 컴포넌트</param>
+    /// <param name="duration">페이드 지속 시간</param>
+    /// <param name="seq">DOTween 시퀀스</param>
+    /// <param name="onComplete">페이드 완료 후 실행할 콜백 (선택)</param>
+    public void FadeOut(TMP_Text text, float duration, Sequence seq, Action onComplete = null)
+    {
+        seq.Join(text.DOFade(0f, duration));    // 텍스트 투명도를 0으로 페이드
+
+        seq.AppendInterval(0.5f);   // 페이드 후 잠시 대기
+
+        if (onComplete != null)
+            seq.AppendCallback(() => onComplete.Invoke());      // 완료 콜백 실행
+    }
     #endregion
 
     #region PopUI
@@ -141,5 +169,39 @@ public class UIManager : MonoBehaviour
     /// 팝업 UI 스택을 초기화하는 메서드
     /// </summary>
     public void ClearPopupHistory() => popupHistory.Clear();
+    #endregion
+
+    #region Damage Text
+    /// <summary>
+    /// 데미지 텍스트 풀에서 객체를 요청하는 메서드
+    /// 풀 생성 여부를 확인하고, 존재하지 않으면 새로 생성
+    /// </summary>
+    /// <param name="target">데미지 텍스트를 표시할 대상 Transform</param>
+    /// <returns>풀에서 가져온 DmgFloatPooledObject 객체</returns>
+    public DmgFloatPooledObject RequestDamageText(Transform target)
+    {
+        // 데미지 텍스트 풀 존재 여부를 확인
+        if (!isDmgTextPoolExist)
+        {
+            // 풀 생성 (프리팹, 초기 사이즈, 최대 용량, 초과 시 재사용 여부)
+            GameModeManager.PoolManager.CreatePool(dmgTextObj, size, capacity, true);
+
+            // 풀 생성 상태 플래그 활성화
+            isDmgTextPoolExist = true;
+        }
+
+        // 풀에서 데미지 텍스트 객체를 가져옴
+        // 위치는 대상의 현재 위치, 회전은 기본값(Quaternion.identity)
+        return GameModeManager.PoolManager.GetPool(
+            dmgTextObj,
+            target.position,
+            Quaternion.identity
+        ) as DmgFloatPooledObject;
+    }
+
+    /// <summary>
+    /// 데미지 텍스트 풀 존재 여부 플래그를 초기화합니다.
+    /// </summary>
+    public void ResetDmgTextPoolExist() => isDmgTextPoolExist = false;
     #endregion
 }
