@@ -9681,7 +9681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b671bb8cfa2b1143ab70d56b2bbc939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangedAttackVFX: {fileID: 1260262680682125493}
+  vfxObject: {fileID: 0}
 --- !u!1 &8776146644004418828
 GameObject:
   m_ObjectHideFlags: 0

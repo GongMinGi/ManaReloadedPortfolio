@@ -8,15 +8,15 @@ using UnityEngine;
 /// </summary>
 public class VFXObject : MonoBehaviour
 {
-    [SerializeField] ParticleSystem rangedAttackVFX;    // VFX
+    [SerializeField] ParticleSystem vfxObject;    // VFX
 
     /// <summary>
     /// 파티클 VFX를 재생합니다.
     /// </summary>
-    public void Play() => rangedAttackVFX.Play();
+    public void Play() => vfxObject.Play();
 
     /// <summary>
     /// 파티클 VFX를 정지시킵니다.
     /// </summary>
-    public void Stop() => rangedAttackVFX.Stop();
+    public void Stop() => vfxObject.Stop();
 }
