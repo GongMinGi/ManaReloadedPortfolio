@@ -17,6 +17,7 @@ public class LifeLightPooledObject : PooledObject
     [SerializeField] float tickInterval;        // 효과 틱 간격
 
     [SerializeField] float healingRatio;        // 체력 회복 비율 (기준: 최대 체력 대비)
+    [SerializeField] VFXObject buffVFX;         // 생명의 빛 이펙트
 
     float healPerTick;                          // 틱마다 회복할 체력량
 
@@ -30,6 +31,7 @@ public class LifeLightPooledObject : PooledObject
         // 틱 간격 설정
         effect.TickInterval = tickInterval;
         healPerTick = -1f;      // 초기값 세팅 (계산 전 상태)
+        buffVFX.Play();
     }
 
     private void Update()

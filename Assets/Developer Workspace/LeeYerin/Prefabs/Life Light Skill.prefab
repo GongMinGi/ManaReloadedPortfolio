@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02643a3533b6664b932ed62ab2ceeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeLight: {fileID: 6997506913529390438, guid: fae75ae8d30f4ef4299108521b546212, type: 3}
+  lifeLight: {fileID: 3538626291701994563, guid: fae75ae8d30f4ef4299108521b546212, type: 3}
   size: 0
   capacity: 0

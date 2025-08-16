@@ -9739,4 +9739,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b671bb8cfa2b1143ab70d56b2bbc939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangedAttackVFX: {fileID: 3716039162655868785}
+  vfx: {fileID: 3716039162655868785}
