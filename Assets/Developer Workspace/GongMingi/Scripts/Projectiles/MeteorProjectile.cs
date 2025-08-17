@@ -1,3 +1,4 @@
+using Cinemachine;
 using Game.Combat.Stats;
 using System.Collections;
 using Unity.VisualScripting;
@@ -34,7 +35,7 @@ public class MeteorProjectile : AbstractProjectile
 
     private MeteorParams meteorParams;
     private BurningGroundProjectile burningGroundInstance;
-
+    [SerializeField] private CinemachineImpulseSource impurseSource;
     public override void Setup(ProjectileParams p)
     {
         meteorParams = p as MeteorParams;
@@ -76,6 +77,11 @@ public class MeteorProjectile : AbstractProjectile
                     enemy.TakeDamage(damage);
             }
         }
+
+
+        if (impurseSource != null)
+            impurseSource.GenerateImpulse();                    // 운석 충돌 설정. cinemachine에 내제된 impulse Source를 이용한다.
+
 
         // 운석충돌 이후 후속으로 깔릴 불장판에 필요한 변수 초기화 및 호출
         #region following_Projectile

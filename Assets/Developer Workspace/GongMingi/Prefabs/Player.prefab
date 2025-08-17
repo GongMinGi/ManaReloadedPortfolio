@@ -394,36 +394,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statsData: {fileID: 11400000, guid: 9645c91d819f0504891ec9a61d098383, type: 2}
-  OnDamaged:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4618563446745205528}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnDie
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnDie:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3315628065819876268}
-        m_TargetAssemblyTypeName: PlayerLookAt, Assembly-CSharp
-        m_MethodName: OnDie
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   curHp: 100
   moveSpeed: 0
   effectHandler: {fileID: 5827740171549540368}
@@ -478,6 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa37ecd702d2a64a90883f6c0358aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 339908038149689468}
   playerCamera: {fileID: 0}
   turnSmoothTime: 0.05
 --- !u!1 &124098524948726447
@@ -3984,11 +3955,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 902737888669017459}
   m_SourcePrefab: {fileID: 100100000, guid: 287c8f36c3a540c4ea150a6477cf6d32, type: 3}
---- !u!198 &78361002738004272 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 7373644630128741146, guid: 287c8f36c3a540c4ea150a6477cf6d32, type: 3}
-  m_PrefabInstance: {fileID: 7440534084314167850}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &863449627835410880 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7834434380170384362, guid: 287c8f36c3a540c4ea150a6477cf6d32, type: 3}
@@ -4006,7 +3972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b671bb8cfa2b1143ab70d56b2bbc939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangedAttackVFX: {fileID: 78361002738004272}
+  vfxObject: {fileID: 0}
 --- !u!4 &5903882107896354093 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3939764759394070279, guid: 287c8f36c3a540c4ea150a6477cf6d32, type: 3}
