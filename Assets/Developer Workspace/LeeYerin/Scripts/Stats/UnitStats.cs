@@ -122,6 +122,7 @@ namespace Game.Combat.Stats
         private void OnEnable()
         {
             curHp = statsData.BaseHP;   // 비활성화되어 풀로 들어간 다음 재소환 되었을때 체력을 최대로 채워준다.
+            Debug.Log("curhp:" + curHp);
             OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 초기 Hp 최대값  Slider ui 에 전달
         }
 
@@ -153,7 +154,10 @@ namespace Game.Combat.Stats
             Debug.Log($"남은 체력: {curHp}");
 
             if (HP <= 0f)
+            {
+                effectHandler.RemoveAllStatusEffect();  // 사망시 부여된 버프/디버프 모두 제거
                 OnDie?.Invoke();
+            }
             else
                 OnDamaged?.Invoke(damage);
         }

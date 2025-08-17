@@ -38,9 +38,6 @@ public class MeteorStrike : BaseCombinationMagic
     [SerializeField] public float groundAttackTickInterval = 0.5f;               // 불장판 도트데미지 틱 간격
     [SerializeField] public float groundAttackDamage = 50f;                      // 불장판 도트메미지 
 
-    //[Header("Arc (Optional)")]
-    //[SerializeField] private bool useArc = true;                // 포물선 느낌 추가 여부
-    //[SerializeField] private float arcHeight = 4f;              // 곡선 최대 높이
 
     private Transform caster;                                     // 스킬 시전자 (플레이어)
     private Camera cam;                                           // 마우스 기준 카메라
