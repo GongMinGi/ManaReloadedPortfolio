@@ -19,6 +19,8 @@ public class HealthBarBinder : MonoBehaviour
     {
         if (targetStat != null)
             targetStat.OnHpChanged += HandleHpChanged;  // 활성화 시: 대상의 HP 변경 이벤트에 콜백 연결
+
+        Debug.Log("적체력 바 활성화 및 이벤트 등록");
     }
 
 
@@ -32,6 +34,8 @@ public class HealthBarBinder : MonoBehaviour
     // HP 변경 공통 처리: (1) 비율 계산해 슬라이더 갱신 (2) 파생 후크 호출
     protected void HandleHpChanged(float curHp, float maxHp)
     {
+
+        Debug.Log("curhp:" + curHp + "maxhp: " + maxHp);
         hpSlider.value = maxHp <= 0f ? 0f : curHp / maxHp;      // 0분모 방지 + 0~1 정규화
         OnRatioChanged(hpSlider.value);                         // 보이기/숨기기는 파생 클래스에서
     }

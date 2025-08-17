@@ -32,6 +32,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] int capacity;
     private bool isDmgTextPoolExist;
 
+
+    [Header("Enemy Health Bar Pool Setting")]
+    [SerializeField] EnemyHealthBarPooledObj enemyHealthBarPooledObj;
+    [SerializeField] int initialHealBarCnt;
+    [SerializeField] int maxHealthBarCnt;
+    private bool isEnemyHealthBarPoolExist;
+
     #region Unity Event
     private void Awake()
     {
@@ -204,4 +211,26 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void ResetDmgTextPoolExist() => isDmgTextPoolExist = false;
     #endregion
+
+
+    /// <summary>
+    /// * 작성자: 공민기
+    ///  - enemyController에서 호출.
+    ///  - 적 체력바 프리팹의 풀을 만들어서 풀 오브젝트를 리턴한다.
+    /// </summary>
+    public EnemyHealthBarPooledObj RequestEnemyHealthBar(Transform target)
+    {
+        if(!isEnemyHealthBarPoolExist)
+        {
+            GameModeManager.PoolManager.CreatePool(enemyHealthBarPooledObj, initialHealBarCnt, maxHealthBarCnt, true);
+            isEnemyHealthBarPoolExist = true;
+        }
+
+        return GameModeManager.PoolManager.GetPool(
+            enemyHealthBarPooledObj,                    // 가져올 풀 오브젝트 종류
+            target.position,                            // 적 위치 위치
+            Quaternion.identity
+        ) as EnemyHealthBarPooledObj;
+    }
+
 }
