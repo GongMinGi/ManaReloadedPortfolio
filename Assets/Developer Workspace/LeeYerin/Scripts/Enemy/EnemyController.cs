@@ -81,6 +81,7 @@ public class EnemyController : MonoBehaviour
         attackDis = attackRange.size.z;
 
         stats.OnDamaged += OnDamaged;
+        stats.OnDie += OnDie;
 
         // 스탯 변경 시 이동 속도 갱신 핸들러 등록
         stats.StatApplyHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed());
@@ -161,18 +162,7 @@ public class EnemyController : MonoBehaviour
         hitSphere.enabled = false;
         animator.SetTrigger("IsDamaged");    // 피격 애니메이션 실행
 
-        // activeDmgText가 null이거나, 이미 활성화되어 있지 않은 경우
-        if (activeDmgText == null || !activeDmgText.gameObject.activeInHierarchy)
-        {
-            // 새로운 피해량 텍스트 객체를 요청하고, 플레이어 또는 적의 위치에 맞춰 배치
-            activeDmgText = GameModeManager.UIManager.RequestDamageText(transform);
-
-            // 생성된 피해량 텍스트의 대상(Target)을 현재 객체로 설정
-            activeDmgText.Target = transform;
-        }
-
-        // 피해량 텍스트에 실제 피해량 값을 설정
-        activeDmgText.SetDamageText(damage);
+        DmgTextLogic(damage);
 
         Sequence damagedSequence = DOTween.Sequence();
 
@@ -188,9 +178,10 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// 적이 사망했을 경우 호출되는 메서드
     /// </summary>
-    public void OnDie()
+    public void OnDie(float damage)
     {
         isDie = true;
+        DmgTextLogic(damage);
         enemyHealthBar.Release();            // 사망 시 hpbar 풀에 반납
 
         GameModeManager.EnemyManager.Enemies.Remove(this);      // 현재 생성된 적 객체(this)를 EnemyManager의 활성 적 리스트에서 삭제
@@ -217,6 +208,27 @@ public class EnemyController : MonoBehaviour
                 enemyPooledObj.IsDie = true;  // 죽어 Release됨을 알림
                 enemyPooledObj.Release();  // Pool에 반납
             });
+    }
+
+    /// <summary>
+    /// 현재 객체에 대한 피해량 텍스트를 생성 또는 활성화하고, 
+    /// 전달된 피해량 값을 화면에 표시하는 메서드
+    /// </summary>
+    /// <param name="damage">표시할 피해량 값</param>
+    private void DmgTextLogic(float damage)
+    {
+        // activeDmgText가 null이거나, 이미 활성화되어 있지 않은 경우
+        if (activeDmgText == null || !activeDmgText.gameObject.activeInHierarchy)
+        {
+            // 새로운 피해량 텍스트 객체를 요청하고, 플레이어 또는 적의 위치에 맞춰 배치
+            activeDmgText = GameModeManager.UIManager.RequestDamageText(transform);
+
+            // 생성된 피해량 텍스트의 대상(Target)을 현재 객체로 설정
+            activeDmgText.Target = transform;
+        }
+
+        // 피해량 텍스트에 실제 피해량 값을 설정
+        activeDmgText.SetDamageText(damage);
     }
     #endregion
 
