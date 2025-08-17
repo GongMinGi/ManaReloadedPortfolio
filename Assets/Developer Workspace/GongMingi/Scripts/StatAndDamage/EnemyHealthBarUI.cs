@@ -14,10 +14,9 @@ public class EnemyHealthBarUI : HealthBarBinder
     [SerializeField] private Transform followTarget;                            // hp 바가 쫒아다닐 위치
     [SerializeField] private Camera cam;                                        // 카메라 방향을 바라보로돌고 하기위한 카메라 정보
     [SerializeField] private bool hideWhenFull = true;                          // hp가 가득차 있는 경우 표시하지 않음
-    [SerializeField] private Canvas worldCanvas;                                // 몬스터 hp바를 표시할 canvas
     [SerializeField] private CanvasGroup group;
     [SerializeField] private float hideThreshold = 0.999f;
-    [SerializeField] private float showthreshold = 0.995f; 
+    //[SerializeField] private float showthreshold = 0.995f; 
 
     public void BindTarget(UnitStats targetStatInform, Transform followingPos)
     {
@@ -62,18 +61,16 @@ public class EnemyHealthBarUI : HealthBarBinder
     {
         if (!group) return;
 
-        if (hideWhenFull && ratio >= hideThreshold)                           // 풀피 숨김 옵션이 true일때만
+        if (hideWhenFull && ratio >= hideThreshold)         // 풀피 숨김 옵션이 true일때만
         {
             group.alpha = 0f;
             group.blocksRaycasts = false;
             group.interactable = false;
-            //worldCanvas.enabled = ratio < 0.999f;   // 풀피일때는 숨김
 
         }
         else
         {
             group.alpha = 1f;
-            //worldCanvas.enabled = false;
 
         }
     }

@@ -26,6 +26,7 @@ namespace Game.Combat.Stats
             // 상태 효과 지속시간 갱신 및 만료 처리
             for (int i = activeEffects.Count - 1; i >= 0; i--)
             {
+                Debug.Log(activeEffects.Count);
                 var effect = activeEffectMap[activeEffects[i]];
                 effectDurations[effect.EffectId] -= Time.deltaTime;
 
@@ -33,8 +34,11 @@ namespace Game.Combat.Stats
                 if (effect.HasTickEffect)
                     effect.UpdateTick(Time.deltaTime, UnitStats);
 
+                // 이미 죽은 상태라면 틱 스킵(선택)
+                if (UnitStats == null || UnitStats.HP <= 0f) return;
+
                 // 지속 시간이 끝난 경우 종료 처리
-                if (effectDurations[effect.EffectId] <= 0)
+                if (effectDurations[effect.EffectId] <= 0 )
                 {
                     Debug.Log("버프 종료");
                     activeEffects.RemoveAt(i);
@@ -45,6 +49,7 @@ namespace Game.Combat.Stats
                     effect.OnExpire(UnitStats);
                 }
             }
+
         }
         #endregion
 
@@ -71,5 +76,31 @@ namespace Game.Combat.Stats
             // 효과 즉시 적용
             newEffect.OnApply(UnitStats);
         }
+
+
+
+        /// <summary>
+        /// * 적에 부여됀 버프를 모두 제거하는 메서드
+        ///  - 적이 죽었을 때 호출되어 부여중인 버프를 모두 제거한다
+        /// </summary>
+        public void RemoveAllStatusEffect()
+        {
+            Debug.Log("사망시 버프 종료 시퀀스 들어옴");
+            for (int i = activeEffects.Count - 1; i >= 0; i--)
+            {
+                var effect = activeEffectMap[activeEffects[i]];
+
+                Debug.Log("버프 종료");
+                activeEffects.RemoveAt(i);
+                effectDurations.Remove(effect.EffectId);
+                activeEffectMap.Remove(effect.EffectId);
+
+                // 효과 종료 처리
+                effect.OnExpire(UnitStats);
+            }
+            Debug.Log("남은 이펙트:" + activeEffects.Count);
+
+        }
+
     }
 }

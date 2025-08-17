@@ -14,6 +14,11 @@ public class EnemyHealthBarPooledObj : PooledObject
     [SerializeField] UnitStats targetStatus;
     [SerializeField] Transform enemyHpPos;
 
+    private void Awake()
+    {
+        IsUI = true;
+    }
+
     public void Setup(UnitStats stat, Transform follow)
     {
         targetStatus = stat;                            // 데미지를 연동할 적 스텟 정보
