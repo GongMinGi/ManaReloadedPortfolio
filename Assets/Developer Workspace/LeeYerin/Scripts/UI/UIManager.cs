@@ -178,6 +178,45 @@ public class UIManager : MonoBehaviour
     public void ClearPopupHistory() => popupHistory.Clear();
     #endregion
 
+    #region Phase Start Text Animation
+    /// <summary>
+    /// 페이즈 정보를 화면 밖에서 들어와 중앙에서 관성 애니메이션 후 
+    /// 다시 화면 밖으로 나가는 텍스트 연출하는 메서드
+    /// </summary>
+    /// <param name="text">애니메이션을 적용할 TMP_Text 객체</param>
+    public void ShowPhaseStartText(TMP_Text text)
+    {
+        // 캔버스 기준 너비 가져오기
+        float canvasWidth = ((RectTransform)text.rectTransform.parent).rect.width;
+
+        // 시작 위치: 화면 왼쪽 바깥
+        text.rectTransform.anchoredPosition =
+            new Vector2(-canvasWidth, text.rectTransform.anchoredPosition.y);
+
+        // 스케일 초기화
+        text.rectTransform.localScale = Vector3.one;
+        if (!text.gameObject.activeSelf)
+            text.gameObject.SetActive(true);
+
+        // DOTween 시퀀스
+        Sequence seq = DOTween.Sequence();
+
+        // 달려오기 (왼쪽 밖 → 중앙)
+        seq.Append(text.rectTransform.DOAnchorPosX(0, 1.0f).SetEase(Ease.OutExpo));
+
+        // 관성 변형 (대각선 늘어남 후 복원)
+        seq.Append(text.rectTransform.DOScale(new Vector3(1.2f, 0.8f, 1f), 0.25f)
+            .SetLoops(2, LoopType.Yoyo)
+            .SetEase(Ease.OutQuad));
+
+        // 3) 잠깐 멈추는 연출 (optional)
+        seq.AppendInterval(0.5f);
+
+        // 4) 다시 오른쪽 화면 밖으로 슝 나가기
+        seq.Append(text.rectTransform.DOAnchorPosX(canvasWidth, 0.8f).SetEase(Ease.InBack));
+    }
+    #endregion
+
     #region Damage Text
     /// <summary>
     /// 데미지 텍스트 풀에서 객체를 요청하는 메서드
@@ -212,7 +251,7 @@ public class UIManager : MonoBehaviour
     public void ResetDmgTextPoolExist() => isDmgTextPoolExist = false;
     #endregion
 
-
+    #region Enemy Hp Bar
     /// <summary>
     /// * 작성자: 공민기
     ///  - enemyController에서 호출.
@@ -232,5 +271,5 @@ public class UIManager : MonoBehaviour
             Quaternion.identity
         ) as EnemyHealthBarPooledObj;
     }
-
+    #endregion
 }

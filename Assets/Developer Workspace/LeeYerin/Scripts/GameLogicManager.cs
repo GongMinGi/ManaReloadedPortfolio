@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class GameLogicManager : MonoBehaviour
     #region Phase Info
     [SerializeField] int totalPhases = 0;   // 게임 전체 페이즈 수
     [SerializeField] int currentPhase = 0;  // 현재 진행 중인 페이즈 번호
+    [SerializeField] TMP_Text phaseText;    // 페이즈 텍스트
     #endregion
 
     #region Timer Info
@@ -112,7 +114,11 @@ public class GameLogicManager : MonoBehaviour
     public void ProceedPhase()
     {
         if (currentPhase < totalPhases)
+        {
             GameModeManager.EnemyManager.StartSpawnEnemyLoop(currentPhase++);
+            phaseText.text = $"{currentPhase} Phase";   // 페이즈 정보 텍스트 업데이트
+            GameModeManager.UIManager.ShowPhaseStartText(phaseText);    // 페이즈 테스트 애니메이션 실행
+        }
         else
         {
             Debug.Log("게임 페이즈 로직이 전부 종료되었습니다.");
