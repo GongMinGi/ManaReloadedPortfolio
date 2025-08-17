@@ -90,10 +90,6 @@ public class PlayerController : MonoBehaviour
             GameModeManager.MapTileManager.UpdateCurrentPos();
     }
 
-    private void Awake()
-    {
-    }
-
     private void Start()
     {
         Debug.Log("start 진입");
@@ -104,8 +100,9 @@ public class PlayerController : MonoBehaviour
         foreach (var mapping in castingKeyMapping)                              
             rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
 
-        rangedAttackController.PlayerAnim = playerAnim;                 // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
+        stats.OnDie += OnDie;
 
+        rangedAttackController.PlayerAnim = playerAnim;                 // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
     }
     #endregion
 
@@ -174,7 +171,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
-    public void OnDie()
+    public void OnDie(float tmp = 0)
     {
         isDie = true;
 

@@ -21,7 +21,7 @@ namespace Game.Combat.Stats
         [Tooltip("Default staff data (UnitStatsData)")]
         [SerializeField] UnitStatsData statsData;                // 기본 스탯 데이터 참조 (ScriptableObject)
         [SerializeField] public Action<float> OnDamaged;
-        [SerializeField] private UnityEvent OnDie = new();
+        [SerializeField] public Action<float> OnDie;
         [SerializeField] private float curHp;                    // 현재 적 체력
         [SerializeField] private float moveSpeed;                // 현재 이동 속도 값
         private float defense;                                   // 현재 방어력
@@ -156,7 +156,7 @@ namespace Game.Combat.Stats
             if (HP <= 0f)
             {
                 effectHandler.RemoveAllStatusEffect();  // 사망시 부여된 버프/디버프 모두 제거
-                OnDie?.Invoke();
+                OnDie?.Invoke(damage);
             }
             else
                 OnDamaged?.Invoke(damage);
