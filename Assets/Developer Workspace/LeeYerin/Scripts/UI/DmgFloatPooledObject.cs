@@ -57,20 +57,23 @@ public class DmgFloatPooledObject : PooledObject
     private Sequence seq = null;         // 피해 텍스트 애니메이션을 제어하는 DOTween 시퀀스
     #endregion
 
+    private Transform cam;  // 바라볼 카메라
+
     #region Unity Event
     private void Awake()
     {
         if (!IsUI)
             IsUI = true; // UI로 설정 안 되어 있으면 UI로 지정
 
-        transform.LookAt(Camera.main.transform); // 카메라 바라보도록 회전
-        transform.Rotate(0, 180f, 0); // 텍스트 정방향 조정
+        cam = Camera.main.transform;    // 바라볼 카메라 세팅
 
         transform.localScale = Vector3.one * 0.1f; // 초기 크기 설정
     }
 
     private void Update()
     {
+        if (timeLeft <= 0f) return;
+
         timeLeft -= Time.deltaTime; // 남은 시간 감소
         if (timeLeft <= 0f)
         {
@@ -82,7 +85,7 @@ public class DmgFloatPooledObject : PooledObject
                 seq,
                 () => Release()); // 페이드 아웃 후 해제 콜백
 
-            seq.Restart(); // 시퀀스 시작
+            seq.Play(); // 시퀀스 시작
         }
     }
 
@@ -90,6 +93,9 @@ public class DmgFloatPooledObject : PooledObject
     {
         if (Target == null) return; // 대상 없으면 종료
         transform.position = Target.position + Vector3.up * offsetY; // 대상 위에 위치
+
+        transform.LookAt(cam); // 카메라 바라보도록 회전
+        transform.Rotate(0, 180f, 0); // 텍스트 정방향 조정
     }
     #endregion
 
@@ -111,6 +117,7 @@ public class DmgFloatPooledObject : PooledObject
         Target = null; // 대상 제거
 
         mDamageLabel.DOKill(); // 안전하게 트윈 종료
+        seq = null; // 시퀀스 null 처리
     }
 
     /// <summary>
@@ -128,6 +135,7 @@ public class DmgFloatPooledObject : PooledObject
         if (seq != null)
         {
             seq.Kill(); // 기존 시퀀스 종료
+            seq = null; // 시퀀스 null 처리
             mDamageLabel.alpha = 1f; // 텍스트 투명도 초기화
         }
 
