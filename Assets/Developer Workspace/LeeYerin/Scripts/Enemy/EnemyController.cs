@@ -40,6 +40,8 @@ public class EnemyController : MonoBehaviour
     [Header("Damage Setting")]
     [SerializeField] SphereCollider hitSphere; // 적이 피해를 받는 판정을 위한 구체 콜라이더
     [SerializeField] DmgFloatPooledObject activeDmgText;  // 데미지 텍스트 오브젝트
+    [SerializeField] EnemyHealthBarPooledObj enemyHealthBar;    // 적 체력바 오브젝트
+    [SerializeField] Transform enemyHealthBarPos;               // 적 체력바 트랜스폼
     #endregion
 
     #region Pooling
@@ -59,7 +61,9 @@ public class EnemyController : MonoBehaviour
     private void OnEnable()
     {
         // 현재 생성된 적 객체(this)를 EnemyManager의 활성 적 리스트에 등록
-        GameModeManager.EnemyManager.Enemies.Add(this);     
+        GameModeManager.EnemyManager.Enemies.Add(this);
+        enemyHealthBar = GameModeManager.UIManager.RequestEnemyHealthBar(this.transform);   // 활성화 시 ui manager에서 hpbar를 받아옴
+        enemyHealthBar.Setup(Stats, enemyHealthBarPos);            // 몬스터의 unitstat, 체력바 위치 전달
         agent.isStopped = false;        // NavMeshAgent 동작 재개
     }
 
@@ -155,7 +159,6 @@ public class EnemyController : MonoBehaviour
     public void OnDamaged(float damage)
     {
         hitSphere.enabled = false;
-
         animator.SetTrigger("IsDamaged");    // 피격 애니메이션 실행
 
         // activeDmgText가 null이거나, 이미 활성화되어 있지 않은 경우
@@ -188,6 +191,8 @@ public class EnemyController : MonoBehaviour
     public void OnDie()
     {
         isDie = true;
+        enemyHealthBar.Release();            // 사망 시 hpbar 풀에 반납
+
         GameModeManager.EnemyManager.Enemies.Remove(this);      // 현재 생성된 적 객체(this)를 EnemyManager의 활성 적 리스트에서 삭제
 
         if (attackLoop != null)
