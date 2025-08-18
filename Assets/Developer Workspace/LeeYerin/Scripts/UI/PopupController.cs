@@ -12,6 +12,7 @@ public class PopupController : MonoBehaviour
 {
     [SerializeField] GameObject popupUI;    // 실제 팝업 UI GameObject (Canvas 하위)
     [SerializeField] GameObject backdrop;
+    [SerializeField] int sfxID;
 
     /// <summary>
     /// 팝업 UI GameObject
@@ -42,4 +43,9 @@ public class PopupController : MonoBehaviour
         GameModeManager.UIManager.ClosePopup();
     }
     #endregion
+
+    /// <summary>
+    /// 지정된 SFX ID에 해당하는 효과음을 재생
+    /// </summary>
+    public void PlaySFX() => GameModeManager.SoundManager.PlaySFX(sfxID);
 }
