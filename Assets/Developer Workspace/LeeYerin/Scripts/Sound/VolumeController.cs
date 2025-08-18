@@ -19,9 +19,9 @@ public class VolumeController : MonoBehaviour
 
         // 슬라이더의 초기값을 AudioSource의 볼륨으로 설정
         if (isBGMController)
-            volumeSlider.value = GameModeManager.SoundManager.BGMVolme;
+            volumeSlider.value = GameModeManager.SoundManager.BGMVolume;
         else
-            volumeSlider.value = GameModeManager.SoundManager.SFXVolme;
+            volumeSlider.value = GameModeManager.SoundManager.SFXVolume;
     }
     #endregion
 
@@ -34,8 +34,8 @@ public class VolumeController : MonoBehaviour
     {
         // 슬라이더 값에 따라 AudioSource의 볼륨을 변경
         if (isBGMController)
-            GameModeManager.SoundManager.BGMVolme = value;
+            GameModeManager.SoundManager.BGMVolume = value;
         else
-            GameModeManager.SoundManager.SFXVolme = value;
+            GameModeManager.SoundManager.SFXVolume = value;
     }
 }
