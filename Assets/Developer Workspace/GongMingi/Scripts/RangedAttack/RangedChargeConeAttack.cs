@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -16,6 +17,10 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
     #region Field and Property
 
     private RangedAttackContext _ctx;
+
+    [Header("VFX Setting")]     // 구현: 이예린
+    [SerializeField] VFXObject chargeVFX;
+    [SerializeField] VFXObject attackVFX;
 
     public event Action Started;
     public event Action<float> Progress;
@@ -84,6 +89,7 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
         float elapsed = 0f;                                       // 차지 간격 타이머
 
         Started?.Invoke();              // 차지 시작
+        chargeVFX.Play();               // 차징 VFX 실행
 
         // 차지 단계
         while (Mouse.current.leftButton.isPressed)                // 버튼 홀드 감지
@@ -95,17 +101,17 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
                 elapsed -= chargeInterval;                        // 타이머 초기화
                 currentDamage = Mathf.Min(currentDamage + damageStep, maxDamage);   // 데미지 강화
                 Debug.Log("차지단계 증가");
-                //추후 차지 단계별 사운드, vfx 업데이트
             }
 
             float denom = Mathf.Max(1, maxDamage - baseDamage); 
             float t = Mathf.Clamp01((currentDamage - baseDamage) / (float)denom);
             Progress?.Invoke(t);
-
-
+            
             yield return null;                                    // 다음 프레임까지 대기
         }
-
+        
+        chargeVFX.Stop();                                         // 차징 VFX 종료
+        attackVFX.Play();                                         // 범위 공격 VFX 실행
 
         FireConeDamage();                                         // 마우스를 땠을 때 격발
         isCharging = false;                                       // 차지 중 여부 false로 전환
@@ -139,7 +145,7 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
 
             if (Vector3.Dot(forward, dir) >= cosThreshold)                                  // 정규화시킨 두 벡터 내적값이 특정 각도 이상일때만
             {
-                if (hit.TryGetComponent(out IDamageable target))
+                if (hit.TryGetComponent(out UnitStats target))
                     target.TakeDamage(currentDamage);
                 // 데미지 적용
             }

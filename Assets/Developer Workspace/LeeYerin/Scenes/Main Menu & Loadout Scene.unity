@@ -9985,6 +9985,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeUI: {fileID: 1508749904}
   fadeTime: 1.5
+  dmgTextObj: {fileID: 583246289668494527, guid: 7c3029d528f577341b87a889cc7d6be6, type: 3}
+  size: 40
+  capacity: 60
+  enemyHealthBarPooledObj: {fileID: 4408056073400506447, guid: 1bf8cfdc8078a4b4790bb745be0c8f1a, type: 3}
+  initialHealBarCnt: 40
+  maxHealthBarCnt: 60
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

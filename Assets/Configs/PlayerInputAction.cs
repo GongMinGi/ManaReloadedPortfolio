@@ -173,7 +173,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""One Modifier"",
-                    ""id"": ""f188e89c-1ded-4d8d-817c-f07f8a594be7"",
+                    ""id"": ""55eea4dd-7cf9-49e7-a900-df94da4c5c42"",
                     ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -184,7 +184,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""modifier"",
-                    ""id"": ""cf912968-b483-4bb0-a4e7-a1c9f6bc6a2f"",
+                    ""id"": ""a4e6876b-7613-4d98-929b-5cbed90885db"",
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -195,7 +195,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""binding"",
-                    ""id"": ""b2bd4c28-3de6-4601-94ac-e7c7f2786a1c"",
+                    ""id"": ""614665ad-90d6-4ea6-bc6b-3aa9bcc45cdc"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -206,7 +206,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""One Modifier"",
-                    ""id"": ""3e5905f7-e051-4c13-a4f8-39c99eb5af83"",
+                    ""id"": ""d26ee60c-44fe-4a83-a322-8df3e8050a58"",
                     ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -217,7 +217,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""modifier"",
-                    ""id"": ""32558ae1-b48e-417d-a0db-55cf6e09fb53"",
+                    ""id"": ""acf3af65-e932-4fde-b97e-3df9b3ae28fc"",
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -228,7 +228,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""binding"",
-                    ""id"": ""1ceff4e6-b3b0-4c8f-8bf1-7d85d90477e4"",
+                    ""id"": ""b0d1cae0-f623-4aa0-bab8-ec5573a0c8d3"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -239,7 +239,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""One Modifier"",
-                    ""id"": ""ceb583f4-69b1-4240-b03f-4aed63d3a04a"",
+                    ""id"": ""f147e811-8efc-44c4-9d78-853a8a5b5f0b"",
                     ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -250,7 +250,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""modifier"",
-                    ""id"": ""017ef378-2d9b-4651-85d1-69a22671af62"",
+                    ""id"": ""018c567d-82db-46e9-837e-092283d3aaf9"",
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -261,7 +261,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""binding"",
-                    ""id"": ""ea39791e-1c78-4386-ac9f-5607e3224035"",
+                    ""id"": ""9ea1b534-413a-4f3f-9cf3-4d0eb648cfa4"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -272,7 +272,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""One Modifier"",
-                    ""id"": ""02069601-f323-4328-b7c8-fce7fe89500f"",
+                    ""id"": ""f4903ca7-e1fe-4307-8684-961822a06b9c"",
                     ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -283,7 +283,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""modifier"",
-                    ""id"": ""67f0f93f-d2a4-4870-a693-88e53bd74924"",
+                    ""id"": ""64d48bbd-4070-46a5-b363-5b2c524971c1"",
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -294,7 +294,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""binding"",
-                    ""id"": ""cc17ebf1-22ad-4293-91ec-0dacc2d97fe0"",
+                    ""id"": ""5fcc8291-819b-42ed-9168-87fe46539279"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",

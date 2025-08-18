@@ -147,14 +147,18 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
             projectilePrefab, muzzle.position, muzzle.rotation);        // 풀에서 오브젝트 가져오기 (위치, 회전 지정)
         projectileInstance = go as RangedEarthProjectile;               // 투사체 내부에 setup함수를 호출하기 위해서 다운캐스팅
 
-        projectileInstance.Setup(                                       // 투사체 오브젝트에 변수 전달
-            projectileSpeed,
-            projectileRange,
-            explosionRadius,
-            currentDamage,
-            enemyLayer,
-            obstacleLayer
-        );
+        var projectileParam = new ProjectileParams
+        {
+            speed = projectileSpeed,
+            maxRange = projectileRange,
+            radius = explosionRadius,
+            damage = currentDamage,
+            enemyL = enemyLayer,
+            obstacleL = obstacleLayer,
+        };
+
+
+        projectileInstance.Setup(projectileParam);                                      // 투사체 오브젝트에 변수 전
     }
 
     #endregion

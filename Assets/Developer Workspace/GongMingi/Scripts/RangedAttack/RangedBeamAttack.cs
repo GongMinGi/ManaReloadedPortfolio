@@ -1,3 +1,4 @@
+using Game.Combat.Stats;
 using System;
 using System.Collections;
 using Unity.VisualScripting;
@@ -17,6 +18,9 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     #region Field and Property
 
     private RangedAttackContext _ctx;        // 변수 이름 수정 필요
+
+    [Header("VFX Setting")]     // 구현: 이예린
+    [SerializeField] VFXObject beamVFX;
 
     public event Action Started;
     public event Action<float> Progress;
@@ -94,6 +98,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         isFiring = true;                                    // 발사 상태 ON
         lr.enabled = true;                                  // 라인 표시 ON
         Started?.Invoke();      // 시작 신호
+        beamVFX.Play();         // 빔 VFX 실행
 
         float startTime = Time.time;                        // 현재 시간을 시작 시간으로 설정
 
@@ -129,7 +134,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
                 if(enemyLayer.Contain(hit.collider.gameObject.layer))       // 확장메서드를 이용하여 레이어 마스크 판단.
                 {
                     Debug.Log("데미지 적용");
-                    if (hit.collider.TryGetComponent(out IDamageable target))
+                    if (hit.collider.TryGetComponent(out UnitStats target))
                         target.TakeDamage(damagePerTick);
                 }
             }
@@ -150,6 +155,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         lr.enabled = false;                                 //빔 숨김
         isFiring = false;                                   // 상태 리셋 ( 빔 발사 중 false 변경)            
         Ended?.Invoke();            // 애니메이션 정상 종료
+        beamVFX.Stop();         // 빔 VFX 종료
     }
 
     #endregion

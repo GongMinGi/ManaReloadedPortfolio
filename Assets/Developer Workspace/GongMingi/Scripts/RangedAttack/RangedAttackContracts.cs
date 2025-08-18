@@ -2,12 +2,6 @@ using System;
 using System.ComponentModel;
 using UnityEngine;
 
-public interface IRequireAttackContext                  // 공격이 실행 시 활용할 공통 컨텍슽르르 주입받아야 함을 나타내는 인터페이스
-{                                                       
-    void BindContext(RangedAttackContext ctx);          // 컨트롤러 생성한 RangedAttackContext 를 1회 바인딩하는 메서드 (의존성 주입)
-}
-
-
 public interface IAttackSignals                         // 공격 생명주기 시그널
 {
     event Action Started;                               // 공격 시작(차지 시작/ 빔 시작 등)
@@ -17,6 +11,24 @@ public interface IAttackSignals                         // 공격 생명주기 시그널
 }
 
 
+/// <summary>
+///  * 컨텍스트 주입
+///   - 컨트롤러의 WireAttack에서 해당 원거리 공격이 IRequireAttackContext 를 구현했는지 확인한다.
+///   - 만약 구현되어 있다면, BindContext를 통해 필요한 정보(컨텍스트)를 넘겨준다.
+///   - 공격 스크립트가 컨트롤러를 찾아다니지 않고도 플레이어 위치, 원거리 발사위치, 애니메이터를 사용할 수 있다.
+///     => 결합도 감소
+/// </summary>
+public interface IRequireAttackContext                  // 공격이 실행 시 활용할 공통 컨텍슽르르 주입받아야 함을 나타내는 인터페이스
+{                                                       
+    void BindContext(RangedAttackContext ctx);          // 컨트롤러 생성한 RangedAttackContext 를 참조하는 메서드 (의존성 주입)
+}
+
+
+/// <summary>
+///  * 컨텍스트 : 공격 로직이 공통으로 필요로 하는 의존성 묶음
+///   - 플레이어 위치, 공격 발사 위치, 애니메이터 에 대한 정보를 들고 있는 클래스
+///   - 컨트롤러의 Awake에서 한 번만 생성된다.
+/// </summary>
 public sealed class RangedAttackContext                 // 공격들이 공유하는 컨텍스트 ( Animator 직접노출 x)
 {
     public Transform Owner { get; }                     // 공격의 소유자( 플레이어 또는 무기 루트 Transform)
@@ -32,7 +44,10 @@ public sealed class RangedAttackContext                 // 공격들이 공유하는 컨�
 }
 
 
-// animator 래핑( 문자열 대신 hash 로)
+/// <summary>
+/// * Animator Wrapping
+///  - 직접적인 Animator 호출을 인터페이스 뒤로 숨겨 결합도를 늦추고 성능 최적화.
+/// </summary>
 public interface IAnimationDriver                       // Animator에 직접 의존하지 않고, 필요한 기능만 추상화한 드라이버 인터페이스
 {
     void SetBool(int hash, bool value);                

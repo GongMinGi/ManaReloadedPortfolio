@@ -1,5 +1,5 @@
 using DG.Tweening;
-using System;
+using Game.Combat.Stats;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,48 +12,82 @@ using UnityEngine.AI;
 /// </summary>
 public class EnemyController : MonoBehaviour
 {
+    #region Stats
+    [Header("Stats Setting")]
+    [SerializeField] UnitStats stats;   // 적의 현재 스탯을 관리하는 컴포넌트
+    public UnitStats Stats => stats;
+    #endregion
+
+    #region Movement
     [Header("Enemy Movement Setting")]
     [Tooltip("NavMeshAgent component used for enemy movement")]
-    [SerializeField] NavMeshAgent agent;    // 적 이동에 사용하는 NavMeshAgent 컴포넌트
-    private Transform player;   // 플레이어의 Transform
+    [SerializeField] NavMeshAgent agent;    // 적의 경로 탐색 및 이동을 제어하는 NavMeshAgent 컴포넌트
+    private Transform player;                 // 플레이어 위치 추적용 Transform 참조
+    [SerializeField] private bool isMove;     // 적의 이동 상태 여부 플래그
+    #endregion
 
+    #region Attack
     [Header("Enemy Attack Setting")]
-    [SerializeField] LayerMask PlayerLayer;
-    [SerializeField] protected BoxCollider attackRange;
-    private float attackDis;
-    protected Coroutine attackLoop;
-    [SerializeField] bool isAttack = false;
-    [SerializeField] float attackDamage = 10;
+    [SerializeField] LayerMask PlayerLayer; // 공격 대상(플레이어) 레이어 지정용 LayerMask
+    [SerializeField] protected BoxCollider attackRange; // 공격 범위를 나타내는 박스 콜라이더
+    private float attackDis;                  // 공격 범위 크기 (BoxCollider z 축 기준)
+    protected Coroutine attackLoop;           // 공격 반복 동작을 위한 코루틴 참조
+    [SerializeField] bool isAttack = false; // 현재 공격 상태 여부 플래그
+    [SerializeField] float attackDamage = 10; // 공격 시 적에게 입히는 피해량
+    #endregion
 
+    #region Damage
     [Header("Damage Setting")]
-    [SerializeField] SphereCollider hitSphere;
+    [SerializeField] SphereCollider hitSphere; // 적이 피해를 받는 판정을 위한 구체 콜라이더
+    [SerializeField] DmgFloatPooledObject activeDmgText;  // 데미지 텍스트 오브젝트
+    [SerializeField] EnemyHealthBarPooledObj enemyHealthBar;    // 적 체력바 오브젝트
+    [SerializeField] Transform enemyHealthBarPos;               // 적 체력바 트랜스폼
+    #endregion
 
+    #region Pooling
     [Header("Pool Object Setting")]
-    [SerializeField] protected bool isBoss;
-    [SerializeField] EnemyPooledObject enemyPooeledObj;
+    [SerializeField] protected bool isBoss;         // 보스 적 여부 판단용 플래그
+    [SerializeField] EnemyPooledObject enemyPooledObj; // 적 오브젝트 풀에서 관리하는 오브젝트 참조
+    #endregion
 
+    #region Animation
     [Header("Animation Setting")]
-    [SerializeField] Animator animator;
-    [SerializeField] float dieAnimDuration = 2f;
-    [SerializeField]private bool isMove;
-    private bool isDie;
+    [SerializeField] Animator animator;             // 적 애니메이션 컨트롤러
+    [SerializeField] float dieAnimDuration = 2f;   // 사망 애니메이션 재생 시간
+    [SerializeField] private bool isDie;              // 적 사망 상태 여부 플래그
+    #endregion
 
     #region Unity Event
     private void OnEnable()
     {
-        agent.isStopped = false;
+        // 현재 생성된 적 객체(this)를 EnemyManager의 활성 적 리스트에 등록
+        GameModeManager.EnemyManager.Enemies.Add(this);
+        enemyHealthBar = GameModeManager.UIManager.RequestEnemyHealthBar(this.transform);   // 활성화 시 ui manager에서 hpbar를 받아옴
+        enemyHealthBar.Setup(Stats, enemyHealthBarPos);            // 몬스터의 unitstat, 체력바 위치 전달
+        agent.isStopped = false;        // NavMeshAgent 동작 재개
     }
 
     protected virtual IEnumerator Start()
     {
-        if (enemyPooeledObj == null)
+        if (enemyPooledObj == null)
             if (!isBoss)
                 Debug.LogError("PooledObject is null");
 
+        // EnemyManager 내 플레이어가 초기화될 때까지 대기
         yield return new WaitUntil(() => GameModeManager.EnemyManager.Player != null);
         player = GameModeManager.EnemyManager.Player.transform;
 
+        // 기본 공격 거리 초기화 (BoxCollider z 축 크기 기준)
         attackDis = attackRange.size.z;
+
+        stats.OnDamaged += OnDamaged;
+        stats.OnDie += OnDie;
+
+        // 스탯 변경 시 이동 속도 갱신 핸들러 등록
+        stats.StatApplyHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed());
+        stats.StatRevertHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed(false));
+
+        agent.speed = stats.MoveSpeed;      // stats의 MoveSpeed 데이터 기반으로 agent의 speed 세팅
     }
     private void Update()
     {
@@ -92,12 +126,9 @@ public class EnemyController : MonoBehaviour
 
             agent.SetDestination(player.position);
 
-            // 이동 상태가 아니면 이동 상태로 전환하고, Animator에 이동 트리거 전달
-            if (!isMove)    
-            {
+            // 이동 상태가 아니면 이동 상태로 전환
+            if (!isMove)
                 isMove = true;
-                animator.SetTrigger("IsMove");
-            }
 
             // 목적지에 도착했는지 확인
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
@@ -120,17 +151,18 @@ public class EnemyController : MonoBehaviour
         else
         {
             isMove = false;     // 이동 상태를 false로 전환
-            enemyPooeledObj.Release();
+            enemyPooledObj.Release();
         }
     }
     #endregion
 
     #region Damage & Death Handling
-    public void OnDamaged()
+    public void OnDamaged(float damage)
     {
         hitSphere.enabled = false;
-
         animator.SetTrigger("IsDamaged");    // 피격 애니메이션 실행
+
+        DmgTextLogic(damage);
 
         Sequence damagedSequence = DOTween.Sequence();
 
@@ -146,9 +178,13 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// 적이 사망했을 경우 호출되는 메서드
     /// </summary>
-    public void OnDie()
+    public void OnDie(float damage)
     {
         isDie = true;
+        DmgTextLogic(damage);
+        enemyHealthBar.Release();            // 사망 시 hpbar 풀에 반납
+
+        GameModeManager.EnemyManager.Enemies.Remove(this);      // 현재 생성된 적 객체(this)를 EnemyManager의 활성 적 리스트에서 삭제
 
         if (attackLoop != null)
             StopCoroutine(attackLoop);
@@ -168,11 +204,31 @@ public class EnemyController : MonoBehaviour
             .SetEase(Ease.InBack)) // 부드러운 축소 이펙트
             .OnComplete(() =>
             {
-                animator.SetTrigger("Reset");   // 애니메이션 상태 초기화
                 isDie = false;
-                enemyPooeledObj.IsDie = true;  // 죽어 Release됨을 알림
-                enemyPooeledObj.Release();  // Pool에 반납
+                enemyPooledObj.IsDie = true;  // 죽어 Release됨을 알림
+                enemyPooledObj.Release();  // Pool에 반납
             });
+    }
+
+    /// <summary>
+    /// 현재 객체에 대한 피해량 텍스트를 생성 또는 활성화하고, 
+    /// 전달된 피해량 값을 화면에 표시하는 메서드
+    /// </summary>
+    /// <param name="damage">표시할 피해량 값</param>
+    private void DmgTextLogic(float damage)
+    {
+        // activeDmgText가 null이거나, 이미 활성화되어 있지 않은 경우
+        if (activeDmgText == null || !activeDmgText.gameObject.activeInHierarchy)
+        {
+            // 새로운 피해량 텍스트 객체를 요청하고, 플레이어 또는 적의 위치에 맞춰 배치
+            activeDmgText = GameModeManager.UIManager.RequestDamageText(transform);
+
+            // 생성된 피해량 텍스트의 대상(Target)을 현재 객체로 설정
+            activeDmgText.Target = transform;
+        }
+
+        // 피해량 텍스트에 실제 피해량 값을 설정
+        activeDmgText.SetDamageText(damage);
     }
     #endregion
 
@@ -219,7 +275,7 @@ public class EnemyController : MonoBehaviour
                 StartAttack();
 
             Debug.Log("단순 근접 공격 범위 내에 플레이어 들어옴");
-            if (other.TryGetComponent(out IDamageable target))
+            if (other.TryGetComponent(out UnitStats target))
             {
                 animator.SetTrigger("IsAttack");    // 기본 근접 공격 애니메이션 실행
                 target.TakeDamage(attackDamage);
