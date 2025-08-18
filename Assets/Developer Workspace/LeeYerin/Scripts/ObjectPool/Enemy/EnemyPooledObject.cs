@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -40,12 +41,14 @@ public class EnemyPooledObject : PooledObject
             Release();
     }
 
-    protected override void OnDeactivated()
+    protected override void OnDeactivated(Action onComplete = null)
     {
         if (!IsDie) return;
 
         tracker.NotifyDied();
 
         IsDie = false;
+
+        onComplete?.Invoke();
     }
 }
