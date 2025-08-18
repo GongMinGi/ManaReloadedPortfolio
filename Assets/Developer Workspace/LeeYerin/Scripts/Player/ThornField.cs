@@ -34,8 +34,9 @@ public class ThornField : BaseCombinationMagic
         // 플레이어가 바라보는 앞 방향 (정규화된 단위 벡터)
         Vector3 forwardDirection = player.transform.forward.normalized;
 
-        // 플레이어 위치에서 앞 방향으로 distance와 thorn의 Range를 더한 위치 계산
-        Vector3 targetPosition = playerPosition + forwardDirection * (distance + thorn.Range);
+        // 플레이어 위치에서 앞 방향으로 distance만큼 이동한 뒤, thorn의 Range만큼 더한 위치를 계산하고,
+        // y축 방향으로 -1만큼 내려간 위치
+        Vector3 targetPosition = playerPosition + forwardDirection * (distance + thorn.Range) + -Vector3.up;
 
         // 계산된 위치에 thorn 오브젝트를 풀에서 꺼내서 생성 (회전은 기본값)
         GameModeManager.PoolManager.GetPool(thorn, targetPosition, Quaternion.identity);

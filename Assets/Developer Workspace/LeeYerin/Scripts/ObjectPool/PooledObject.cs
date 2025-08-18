@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -46,7 +47,7 @@ public class PooledObject : MonoBehaviour
     /// 오브젝트가 반환 또는 제거될 때 호출되는 훅
     /// 서브클래스에서 재정의하여 정리 로직 구현 가능
     /// </summary>
-    protected virtual void OnDeactivated() { }
+    protected virtual void OnDeactivated(Action onComplete = null) { onComplete?.Invoke(); }
     #endregion
 
     #region Release
@@ -67,16 +68,13 @@ public class PooledObject : MonoBehaviour
     /// </summary>
     public void Release()
     {
-        OnDeactivated();
-
-        if (pool != null)
+        OnDeactivated(() =>
         {
-            pool.ReturnPool(this);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+            if (pool != null)
+                pool.ReturnPool(this);
+            else
+                Destroy(gameObject);
+        });
     }
     #endregion
 }                                                                                             
