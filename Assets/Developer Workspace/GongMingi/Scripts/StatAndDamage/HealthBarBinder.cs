@@ -35,7 +35,6 @@ public class HealthBarBinder : MonoBehaviour
     protected void HandleHpChanged(float curHp, float maxHp)
     {
 
-        Debug.Log("curhp:" + curHp + "maxhp: " + maxHp);
         hpSlider.value = maxHp <= 0f ? 0f : curHp / maxHp;      // 0분모 방지 + 0~1 정규화
         OnRatioChanged(hpSlider.value);                         // 보이기/숨기기는 파생 클래스에서
     }

@@ -36,10 +36,13 @@ public class MeteorProjectile : AbstractProjectile
     private MeteorParams meteorParams;
     private BurningGroundProjectile burningGroundInstance;
     [SerializeField] private CinemachineImpulseSource impurseSource;
+    [SerializeField] private ParticleSystem meteorFire;
+
     public override void Setup(ProjectileParams p)
     {
         meteorParams = p as MeteorParams;
         transform.position = meteorParams.start;
+        meteorFire.Play();
         StartCoroutine(MeteorRoutine()); 
     }
 
@@ -76,6 +79,7 @@ public class MeteorProjectile : AbstractProjectile
                 if (col.TryGetComponent(out UnitStats enemy))
                     enemy.TakeDamage(damage);
             }
+            meteorFire.Stop();
         }
 
 
