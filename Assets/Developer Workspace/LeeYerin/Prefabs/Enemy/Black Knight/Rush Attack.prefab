@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 509000015497472285}
   - component: {fileID: 8317323340330453910}
-  - component: {fileID: 5459832064620350961}
+  - component: {fileID: 666105861462255452}
   m_Layer: 0
-  m_Name: Default Attack
+  m_Name: Rush Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7634752201271978635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -787.26855, y: -2.2403352, z: -5.5642943}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54,7 +54,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.99, z: 1}
   m_Center: {x: 0, y: 0.52, z: 0}
---- !u!114 &5459832064620350961
+--- !u!114 &666105861462255452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,15 +63,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 7634752201271978635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be09f43780288404da2f44c9287d91c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 16bbf3726b3f04c40aca80552f11d3fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangeData: {fileID: 11400000, guid: b08590143203fa14a9bb259e55733d3e, type: 2}
-  attackInterval: 1.5
-  attackDamage: 30
+  rangeData: {fileID: 11400000, guid: d6b09924d5ebf094a800a97eae0333e0, type: 2}
+  attackInterval: 6
+  attackDamage: 500
+  coolTime: 20
+  duration: 6
   enemy: {fileID: 0}
-  attackTrigger: IsDefaultAtk
+  attackTrigger: IsRush
   hitCollider: {fileID: 8317323340330453910}
   attackLayer:
     serializedVersion: 2
     m_Bits: 64
+  prepareTrigger: IsSkillPreparing
+  stunnedTrigger: IsStunned
+  skillFinishTrigger: isSkillFinish
