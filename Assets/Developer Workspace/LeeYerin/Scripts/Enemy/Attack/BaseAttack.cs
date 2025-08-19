@@ -14,6 +14,9 @@ namespace Game.combat.EnemyAttack
     /// - 공격 범위, 데미지, 공격 간격 등을 설정할 수 있음
     /// - 실제 공격 수행은 상속받은 클래스에서 PerformAttack()을 오버라이드하여 구현
     /// - EnemyController와 연동되어 공격 시작 시 이동을 정지, 종료 시 이동 재개
+    /// 
+    /// 주의:
+    /// - namespace Game.combat.EnemyAttack 해줘야 함
     /// </summary>
     public class BaseAttack : MonoBehaviour
     {
@@ -24,6 +27,9 @@ namespace Game.combat.EnemyAttack
         [Header("Attack Properties")]
         [SerializeField] protected float attackInterval = 1.5f; // 공격 주기
         [SerializeField] protected int attackDamage = 10;       // 공격 데미지
+        [SerializeField] protected float coolTime = 0f;
+        [SerializeField] protected float duration = 0f;
+        public float CoolTime => coolTime;
 
         protected Coroutine attackLoop;   // 반복 공격 루프
         protected bool isAttacking;      // 공격 중 상태 플래그
@@ -100,14 +106,23 @@ namespace Game.combat.EnemyAttack
         {
             while (isAttacking)
             {
-                if (attackRange != null && !attackRange.IsPlayerInRange(enemy.transform, target.transform))
+                if (coolTime == 0f)
                 {
-                    StopAttack();   // 범위를 벗어나면 공격 중지
+                    if (attackRange != null && !attackRange.IsPlayerInRange(enemy.transform, target.transform))
+                    {
+                        StopAttack();   // 범위를 벗어나면 공격 중지
+                        yield break;
+                    }
+
+                    PerformAttack(target);
+                    yield return new WaitForSeconds(attackInterval);
+                }
+                else
+                {
+                    PerformAttack(target);
+                    yield return new WaitForSeconds(duration);
                     yield break;
                 }
-
-                PerformAttack(target);
-                yield return new WaitForSeconds(attackInterval);
             }
 
             attackLoop = null;

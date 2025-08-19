@@ -47,7 +47,7 @@ public class EnemyController : MonoBehaviour
 
     #region Damage
     [Header("Damage Setting")]
-    [SerializeField] SphereCollider hitSphere; // 적이 피해를 받는 판정을 위한 구체 콜라이더
+    [SerializeField] Collider hitSphere; // 적이 피해를 받는 판정을 위한 구체 콜라이더
     [SerializeField] DmgFloatPooledObject activeDmgText;  // 데미지 텍스트 오브젝트
     [SerializeField] EnemyHealthBarPooledObj enemyHealthBar;    // 적 체력바 오브젝트
     [SerializeField] Transform enemyHealthBarPos;               // 적 체력바 트랜스폼
@@ -60,7 +60,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Unity Event
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         // 현재 생성된 적 객체(this)를 EnemyManager의 활성 적 리스트에 등록
         GameModeManager.EnemyManager.Enemies.Add(this);
@@ -109,7 +109,7 @@ public class EnemyController : MonoBehaviour
         {
             // 기본 공격
             if (defaultAttack.IsPlayerInRange(player))
-                StartDefaultAttack();
+                StartAttack(defaultAttack);
             else
                 TryTracking();
         }
@@ -228,7 +228,7 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// 적이 사망했을 경우 호출되는 메서드
     /// </summary>
-    public void OnDie(float damage)
+    public virtual void OnDie(float damage)
     {
         isDie = true;
         DmgTextLogic(damage);
@@ -280,12 +280,12 @@ public class EnemyController : MonoBehaviour
 
     #region Attack Handling
     /// <summary>
-    /// 적의 기본 공격 시작
+    /// 적의 공격 시작
     /// </summary>
-    private void StartDefaultAttack()
+    protected void StartAttack(BaseAttack attack)
     {
         isAttacking = true;
-        defaultAttack?.StartAttack(); // 연결된 기본 공격 실행
+        attack?.StartAttack(); // 연결된 공격 실행
     }
     #endregion
 }
