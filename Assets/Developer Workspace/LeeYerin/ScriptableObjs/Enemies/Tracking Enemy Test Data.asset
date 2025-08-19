@@ -21,8 +21,7 @@ MonoBehaviour:
   phases:
   - enemies:
     - {fileID: 3615020991037302410, guid: b5a00063107763b45bcbc830f3fbef4a, type: 3}
-    - {fileID: 142936064559676311, guid: f15ec08bc64a152408e1c8c6b57dbbdc, type: 3}
-    enemiesNum: 0100000001000000
+    enemiesNum: 14000000
     isBossPhase: 0
     bossEnemy: {fileID: 0}
   - enemies:
