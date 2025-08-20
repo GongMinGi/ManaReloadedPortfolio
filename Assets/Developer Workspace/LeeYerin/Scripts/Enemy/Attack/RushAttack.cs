@@ -28,6 +28,7 @@ namespace Game.combat.EnemyAttack
         [SerializeField] private Rigidbody rd;
         [SerializeField] private float speed;
         private bool isRush;
+        private Vector3 rushDir;
 
         [Header("Animation Triggers")]
         [SerializeField] private string prepareTrigger;      // 공격 준비 애니메이션
@@ -57,7 +58,7 @@ namespace Game.combat.EnemyAttack
             if (isRush)     // 돌진 중이라면
             {
                 // 적이 바라보는 방향으로 돌진
-                rd.MovePosition(rd.position + enemy.transform.forward * speed * Time.fixedDeltaTime);
+                rd.MovePosition(rd.position + rushDir * speed * Time.fixedDeltaTime);
             }
         }
         #endregion
@@ -100,8 +101,11 @@ namespace Game.combat.EnemyAttack
 
             // 공격 애니메이션 및 콜라이더 활성화
             enemy.Animator.SetTrigger(attackTrigger);
+
             enemy.Agent.enabled = false;    // NavMeshAgent 비활성화
+            rushDir = enemy.transform.forward;
             hitCollider.enabled = true;
+
             isRush = true;
             yield return new WaitForSeconds(4f);
 
