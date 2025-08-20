@@ -16,12 +16,15 @@ MonoBehaviour:
   - {fileID: 5234456885860537038, guid: 8afcfe7cc953e4c498f38025e8f43da3, type: 3}
   - {fileID: 3615020991037302410, guid: b5a00063107763b45bcbc830f3fbef4a, type: 3}
   - {fileID: 142936064559676311, guid: f15ec08bc64a152408e1c8c6b57dbbdc, type: 3}
+  - {fileID: 8399470712659257399, guid: 89f4538e11ffd3c46b3bcc42f4cf392d, type: 3}
   spawnDis: 40
   spawnRange: 5
   phases:
   - enemies:
     - {fileID: 3615020991037302410, guid: b5a00063107763b45bcbc830f3fbef4a, type: 3}
-    enemiesNum: 14000000
+    - {fileID: 8399470712659257399, guid: 89f4538e11ffd3c46b3bcc42f4cf392d, type: 3}
+    - {fileID: 142936064559676311, guid: f15ec08bc64a152408e1c8c6b57dbbdc, type: 3}
+    enemiesNum: 000000000000000001000000
     isBossPhase: 0
     bossEnemy: {fileID: 0}
   - enemies:

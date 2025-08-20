@@ -150,7 +150,6 @@ public class PlayerController : MonoBehaviour
     {
         if (keyboard.leftCtrlKey.isPressed || isDie == true)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
         {
-            Debug.Log("컨트롤 눌림");
 
             rb.linearVelocity = new Vector3(0, 0, 0);                       // 플레이어 즉시 정지
 

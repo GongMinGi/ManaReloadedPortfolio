@@ -111,7 +111,7 @@ public class EnemyController : MonoBehaviour
 
         PreAttackUpdate();  // 스킬이나 추가 행동을 여기서 처리
 
-        if (!isAttacking)
+        if (!isAttacking && !isDie)     // update를 도는 도중 죽엇을때를 대비해 !isDie 조건 추가
         {
             // 기본 공격
             if (defaultAttack.IsPlayerInRange(player))
@@ -236,6 +236,7 @@ public class EnemyController : MonoBehaviour
     public virtual void OnDie(float damage)
     {
         isDie = true;
+        defaultAttack.StopAttack();          // 사망 시 공격 코루틴 전부 중지
         DmgTextLogic(damage);
         enemyHealthBar.Release();            // 사망 시 hpbar 풀에 반납
 

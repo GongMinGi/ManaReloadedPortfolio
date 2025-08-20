@@ -36,11 +36,16 @@ namespace Game.Combat.Stats
         /// <summary>
         /// 현재 체력 
         /// 0 미만으로, 최대 체력(BaseHP)을 넘지 않도록 제한
+        /// set으로 체력이 갱신될 때마다 OnHpChanged 이벤르를 통해 ui 반영 
         /// </summary>
         public float HP
         {
             get => curHp;
-            set => curHp = Mathf.Min(Mathf.Max(0, value), statsData.BaseHP);
+            set
+            {
+                curHp = Mathf.Min(Mathf.Max(0, value), statsData.BaseHP);
+                OnHpChanged?.Invoke(curHp, StatsData.BaseHP); // hp변경 후 hp 슬라이더 적용
+            }
         }
 
         /// <summary>
@@ -133,7 +138,7 @@ namespace Game.Combat.Stats
             MoveSpeed = statsData.BaseMoveSpeed;
             Defense = statsData.BaseDefense;
 
-            OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 초기 Hp 최대값  Slider ui 에 전달
+            //OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 초기 Hp 최대값  Slider ui 에 전달
 
             // StatusEffectHandler에 자신 참조 전달
             effectHandler.UnitStats = this;
@@ -150,8 +155,6 @@ namespace Game.Combat.Stats
             if (HP <= 0f) return;
 
             HP -= damage;
-            OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 데미지 적용후 hp 슬라이더 적용
-            Debug.Log($"남은 체력: {curHp}");
 
             if (HP <= 0f)
             {
