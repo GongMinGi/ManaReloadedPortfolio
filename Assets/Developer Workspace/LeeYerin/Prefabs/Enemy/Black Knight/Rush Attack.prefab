@@ -69,7 +69,7 @@ MonoBehaviour:
   rangeData: {fileID: 11400000, guid: d6b09924d5ebf094a800a97eae0333e0, type: 2}
   attackInterval: 6
   attackDamage: 500
-  coolTime: 20
+  coolTime: 10
   duration: 6
   enemy: {fileID: 0}
   attackTrigger: IsRush
@@ -77,6 +77,8 @@ MonoBehaviour:
   attackLayer:
     serializedVersion: 2
     m_Bits: 64
+  rd: {fileID: 0}
+  speed: 9
   prepareTrigger: IsSkillPreparing
   stunnedTrigger: IsStunned
   skillFinishTrigger: isSkillFinish

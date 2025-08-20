@@ -43,6 +43,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] NavMeshAgent agent;    // 적의 경로 탐색 및 이동을 제어하는 NavMeshAgent 컴포넌트
     private Transform player;                 // 플레이어 위치 추적용 Transform 참조
     [SerializeField] private bool isMove;     // 적의 이동 상태 여부 플래그
+
+    public NavMeshAgent Agent => agent;
     #endregion
 
     #region Damage
@@ -66,6 +68,10 @@ public class EnemyController : MonoBehaviour
         GameModeManager.EnemyManager.Enemies.Add(this);
         enemyHealthBar = GameModeManager.UIManager.RequestEnemyHealthBar(this.transform);   // 활성화 시 ui manager에서 hpbar를 받아옴
         enemyHealthBar.Setup(Stats, enemyHealthBarPos);            // 몬스터의 unitstat, 체력바 위치 전달
+
+        if (!agent.enabled) // NavMeshAgent가 비활성화 되어 있다면 활성화
+            agent.enabled = true;
+
         agent.isStopped = false;        // NavMeshAgent 동작 재개
     }
 
@@ -224,7 +230,6 @@ public class EnemyController : MonoBehaviour
         });
     }
 
-    [ContextMenu("OnDie")]
     /// <summary>
     /// 적이 사망했을 경우 호출되는 메서드
     /// </summary>
@@ -235,6 +240,9 @@ public class EnemyController : MonoBehaviour
         enemyHealthBar.Release();            // 사망 시 hpbar 풀에 반납
 
         GameModeManager.EnemyManager.Enemies.Remove(this);      // 현재 생성된 적 객체(this)를 EnemyManager의 활성 적 리스트에서 삭제
+
+        if (isAttacking)    // 기본 공격 중이었다면
+            defaultAttack.StopAttack();
 
         isMove = false;
         isAttacking = false;
