@@ -45,6 +45,15 @@ namespace Game.combat.EnemyAttack
             isAttacking = false;
         }
 
+        protected virtual void OnDisable()
+        {
+            if (attackLoop != null)     // 공격 중이었다면
+            {
+                StopCoroutine(attackLoop);
+                attackLoop = null;
+            }
+        }
+
         private void Awake()
         {
             // 범위 인스턴스 생성
@@ -79,18 +88,18 @@ namespace Game.combat.EnemyAttack
 
             isAttacking = true;
             enemy.StopMovement();   // 공격 시작 시 이동 정지
-            attackLoop = enemy.StartCoroutine(AttackLoop(target));
+            attackLoop = StartCoroutine(AttackLoop(target));
         }
 
         /// <summary>
         /// 공격 종료 로직을 담당하는 메서드
         /// </summary>
-        public void StopAttack()
+        public virtual void StopAttack()
         {
             isAttacking = false;
             if (attackLoop != null)
             {
-                enemy.StopCoroutine(attackLoop);
+                StopCoroutine(attackLoop);
                 attackLoop = null;
             }
             enemy.ResumeMovement();     // 공격 종료 시 이동 재개

@@ -38,6 +38,9 @@ public class EliteEnemyController : EnemyController
     /// <param name="damage">받은 피해량</param>
     public override void OnDie(float damage)
     {
+        if (canUseSkill)    // 스킬 사용 중이었다면
+            skillAttack.StopAttack();
+
         if (skillCoolTime != null)
         {
             StopCoroutine(skillCoolTime);
