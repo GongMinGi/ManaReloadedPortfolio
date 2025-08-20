@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497e638fce2a93f4f8e64d14b77a06c3, type: 3}
   m_Name: Baby Dragon AttackRange
   m_EditorClassIdentifier: 
-  radius: 0
+  radius: 8

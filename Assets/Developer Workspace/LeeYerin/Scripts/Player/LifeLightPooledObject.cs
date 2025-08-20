@@ -71,5 +71,6 @@ public class LifeLightPooledObject : PooledObject
 
         // 계산된 틱당 회복량만큼 체력 증가
         unitStats.HP += healPerTick;
+        unitStats.TakeDamage(0f);
     }
 }
