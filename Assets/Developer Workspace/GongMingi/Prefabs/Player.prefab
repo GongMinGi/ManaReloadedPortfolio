@@ -510,6 +510,7 @@ MonoBehaviour:
   muzzle: {fileID: 7113788348721157875}
   lr: {fileID: 5489275229104208660}
   arcSegments: 36
+  sfxId: 0
 --- !u!120 &5489275229104208660
 LineRenderer:
   serializedVersion: 2
@@ -5868,6 +5869,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  sfxId: 110015
 --- !u!1 &1259541605782219903
 GameObject:
   m_ObjectHideFlags: 0
@@ -23573,6 +23575,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1
+  sfxId: 0
   muzzle: {fileID: 9193716342669601049}
   lr: {fileID: 4393537661867015718}
 --- !u!1001 &481444327423342201

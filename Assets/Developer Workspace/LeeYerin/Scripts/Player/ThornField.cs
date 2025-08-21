@@ -43,6 +43,8 @@ public class ThornField : BaseCombinationMagic
         // y축 방향으로 -1만큼 내려간 위치
         Vector3 targetPosition = playerPosition + forwardDirection * (distance + thorn.Range) + -Vector3.up;
 
+        // 생성 직전 가시밭 생성 사운드 실행
+        GameModeManager.SoundManager.PlaySFX(110018);
         // 계산된 위치에 thorn 오브젝트를 풀에서 꺼내서 생성 (회전은 기본값)
         GameModeManager.PoolManager.GetPool(thorn, targetPosition, Quaternion.identity);
     }

@@ -37,14 +37,14 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     [SerializeField] private LineRenderer lr;           // 원뿔 시각화용 라인렌더러
     [SerializeField] private int arcSegments = 36;       // 호(arc) 해상도
 
+    [Header("SoundSetting")]
+    [SerializeField] int sfxId = 110017;                                                        // 재생할 사운드 리소스 아이디
 
     private RangedAttackContext _ctx;
     private Coroutine coneAttackRoutine;
     private bool isFiring;
     private float cosThreshold;                                 // cos(angle/2) 캐시
     [SerializeField] private readonly Collider[] hitObjects = new Collider[64];  // NonAlloc 버퍼
-
-
 
     public event Action Started;
     public event Action<float> Progress;
@@ -107,11 +107,9 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         isFiring = false;
         if (lr) lr.enabled = false;
         Interrupted?.Invoke();
-        
     }
 
     #endregion
-
 
     private IEnumerator FireCone()
     {
@@ -119,7 +117,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         //lr.enabled = true;
         Started?.Invoke();
         fireVFX.Play();         // 불 VFX 실행
-
+        GameModeManager.SoundManager.PlaySFX(sfxId);       // 불속성 원거리 공격 사운드
         float startTime = Time.time;
 
         //bool sendProgress = false;      // 추후 공격중 전달할 이벤트가 있으면 사용
@@ -139,14 +137,12 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
             UpdateConeLine(origin, forward, axis);                  // 시각화 업데이트
 
-
             int count = Physics.OverlapSphereNonAlloc(
                 origin,
                 radius,
                 hitObjects,
                 enemyLayer,
                 QueryTriggerInteraction.Ignore);
-
 
             for ( int i = 0; i< count; i++)
             {
@@ -162,7 +158,6 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
                 targetDir /= Mathf.Sqrt(distanceToTarget);
 
-
                 if(Vector3.Dot(forward, targetDir) >= cosThreshold)
                 {
                     if(detectedEnemyCollider.TryGetComponent(out UnitStats target))
@@ -171,25 +166,21 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
                     }
                 }
             }
-
             yield return new WaitForSeconds(tickInterval);
         }
 
         lr.enabled = false; // 시각화 끄기
         isFiring = false;       // 상태 해제
         fireVFX.Stop();         // 불 VFX 종료
+        GameModeManager.SoundManager.StopSFX();       // 불 공격 사운드 종료
         Ended?.Invoke();
     }
 
-
-
     private void UpdateConeLine(Vector3 origin, Vector3 forward, Vector3 axis)
     {
-
         int vertexCount = arcSegments + 2;        // 원점 + 호 ( arcSegments + 1 개 점 ) 
         if(lr.positionCount != vertexCount)
             lr.positionCount = vertexCount;
-
 
         lr.SetPosition(0, origin);                  // 시작점: 공격 시작점
 
