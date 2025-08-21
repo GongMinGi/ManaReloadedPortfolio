@@ -184,7 +184,8 @@ public class UIManager : MonoBehaviour
     /// 다시 화면 밖으로 나가는 텍스트 연출하는 메서드
     /// </summary>
     /// <param name="text">애니메이션을 적용할 TMP_Text 객체</param>
-    public void ShowPhaseStartText(TMP_Text text)
+    /// <param name="phaseTextOffsetX">중앙 기준으로 X축 방향의 오프셋 값 (양수: 오른쪽, 음수: 왼쪽)</param>
+    public void ShowPhaseStartText(TMP_Text text, float phaseTextOffsetX)
     {
         // 캔버스 기준 너비 가져오기
         float canvasWidth = ((RectTransform)text.rectTransform.parent).rect.width;
@@ -202,7 +203,7 @@ public class UIManager : MonoBehaviour
         Sequence seq = DOTween.Sequence();
 
         // 달려오기 (왼쪽 밖 → 중앙)
-        seq.Append(text.rectTransform.DOAnchorPosX(0, 1.0f).SetEase(Ease.OutExpo));
+        seq.Append(text.rectTransform.DOAnchorPosX(phaseTextOffsetX, 1.0f).SetEase(Ease.OutExpo));
 
         // 관성 변형 (대각선 늘어남 후 복원)
         seq.Append(text.rectTransform.DOScale(new Vector3(1.2f, 0.8f, 1f), 0.25f)

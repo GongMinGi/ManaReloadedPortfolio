@@ -21,6 +21,7 @@ public class GameLogicManager : MonoBehaviour
     [SerializeField] int totalPhases = 0;   // 게임 전체 페이즈 수
     [SerializeField] int currentPhase = 0;  // 현재 진행 중인 페이즈 번호
     [SerializeField] TMP_Text phaseText;    // 페이즈 텍스트
+    [SerializeField] float phaseTextOffsetX = 322f;
     #endregion
 
     #region Timer Info
@@ -117,7 +118,7 @@ public class GameLogicManager : MonoBehaviour
         {
             GameModeManager.EnemyManager.StartSpawnEnemyLoop(currentPhase++);
             phaseText.text = $"{currentPhase} Phase";   // 페이즈 정보 텍스트 업데이트
-            GameModeManager.UIManager.ShowPhaseStartText(phaseText);    // 페이즈 테스트 애니메이션 실행
+            GameModeManager.UIManager.ShowPhaseStartText(phaseText, phaseTextOffsetX);    // 페이즈 테스트 애니메이션 실행
         }
         else
         {
