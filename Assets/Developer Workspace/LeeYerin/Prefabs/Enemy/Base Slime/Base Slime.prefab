@@ -22,7 +22,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4117469651766285610
 Transform:
   m_ObjectHideFlags: 0
@@ -97,18 +97,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 5263008266915621972}
-  agent: {fileID: 3651009812892655141}
-  isMove: 0
-  defaultAttack: {fileID: 631645483159007889}
-  hitSphere: {fileID: 8781613484388262224}
-  activeDmgText: {fileID: 0}
-  enemyHealthBar: {fileID: 0}
-  enemyHealthBarPos: {fileID: 2867199490153533079}
   isBoss: 0
   enemyPooledObj: {fileID: 3615020991037302410}
   animator: {fileID: 1559048359488138400}
   dieAnimDuration: 2
   isDie: 0
+  agent: {fileID: 3651009812892655141}
+  isMove: 0
+  hitSphere: {fileID: 8781613484388262224}
+  activeDmgText: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
+  enemyHealthBarPos: {fileID: 2867199490153533079}
+  defaultAttack: {fileID: 631645483159007889}
 --- !u!114 &5263008266915621972
 MonoBehaviour:
   m_ObjectHideFlags: 0
