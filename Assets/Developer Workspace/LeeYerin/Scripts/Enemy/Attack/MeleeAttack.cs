@@ -15,6 +15,9 @@ namespace Game.Combat.EnemyAttack
         [SerializeField] private Collider hitCollider;
         [SerializeField] private LayerMask attackLayer;
 
+        [Header("Sound Setting")]
+        [SerializeField] int atkSfxId;
+
         /// <summary>
         /// 실제 공격 실행
         /// 애니메이션 트리거 실행 후 콜라이더 활성화
@@ -23,6 +26,7 @@ namespace Game.Combat.EnemyAttack
         protected override void PerformAttack(UnitStats target = null)
         {
             enemy.Animator.SetTrigger(attackTrigger);
+            enemy.PlaySFX(atkSfxId);   // 공격 사운드 출력
             hitCollider.enabled = true;
         }
 

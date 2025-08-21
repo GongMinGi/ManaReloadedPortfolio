@@ -30,6 +30,10 @@ namespace Game.combat.EnemyAttack
         private bool isRush;
         private Vector3 rushDir;
 
+        [Header("Sound Setting")]
+        [SerializeField] int prepareSfxId;  // 돌진 준비 사운드
+        [SerializeField] int rushSfxId;     // 돌진 사운드
+
         [Header("Animation Triggers")]
         [SerializeField] private string prepareTrigger;      // 공격 준비 애니메이션
         [SerializeField] private string stunnedTrigger;      // 스턴 애니메이션 (사용 여부 선택)
@@ -97,10 +101,12 @@ namespace Game.combat.EnemyAttack
         {
             // 준비 애니메이션 
             enemy.Animator.SetTrigger(prepareTrigger);
+            enemy.PlaySFX(prepareSfxId);   // 돌진 준비 사운드 출력
             yield return new WaitForSeconds(2f);
 
             // 공격 애니메이션 및 콜라이더 활성화
             enemy.Animator.SetTrigger(attackTrigger);
+            enemy.PlaySFX(rushSfxId);   // 돌진 사운드 출력
 
             enemy.Agent.enabled = false;    // NavMeshAgent 비활성화
             rushDir = enemy.transform.forward;
