@@ -77,13 +77,8 @@ public class SoundManager : MonoBehaviour
         isSFXReady = false;
 
         // 각 SFX ID와 오디오 클립을 딕셔너리에 매핑
-        foreach (int id in sfxIDList)
-        {
-            foreach (AudioClip clip in sfxClipList)
-            {
-                sfxClipDic.Add(id, clip);
-            }
-        }
+        for(int i = 0; i < sfxIDList.Count; i++)
+            sfxClipDic.Add(sfxIDList[i], sfxClipList[i]);
 
         isSFXReady = true;
     }
