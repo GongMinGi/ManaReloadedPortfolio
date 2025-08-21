@@ -1272,6 +1272,7 @@ GameObject:
   - component: {fileID: 442209310}
   - component: {fileID: 442209309}
   - component: {fileID: 442209308}
+  - component: {fileID: 442209311}
   - component: {fileID: 442209307}
   m_Layer: 5
   m_Name: Button
@@ -1313,7 +1314,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupUI: {fileID: 0}
   backdrop: {fileID: 2115059350}
-  sfxID: 0
 --- !u!114 &442209308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1370,8 +1370,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 442209307}
-        m_TargetAssemblyTypeName: PopupController, Assembly-CSharp
+      - m_Target: {fileID: 442209311}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 1
         m_Arguments:
@@ -1420,6 +1420,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442209305}
   m_CullTransparentMesh: 1
+--- !u!114 &442209311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442209305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16551f4e3d329940b49c4de5e080918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxID: 110001
 --- !u!1 &490932667
 GameObject:
   m_ObjectHideFlags: 0
@@ -2699,6 +2712,7 @@ GameObject:
   - component: {fileID: 618745124}
   - component: {fileID: 618745123}
   - component: {fileID: 618745122}
+  - component: {fileID: 618745125}
   m_Layer: 5
   m_Name: Game Play Button
   m_TagString: Untagged
@@ -2768,7 +2782,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 618745123}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 618745125}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &618745123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2807,6 +2833,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618745120}
   m_CullTransparentMesh: 1
+--- !u!114 &618745125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618745120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16551f4e3d329940b49c4de5e080918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxID: 110001
 --- !u!1 &646807346
 GameObject:
   m_ObjectHideFlags: 0
@@ -4137,6 +4176,7 @@ GameObject:
   - component: {fileID: 825548784}
   - component: {fileID: 825548783}
   - component: {fileID: 825548782}
+  - component: {fileID: 825548786}
   - component: {fileID: 825548785}
   m_Layer: 5
   m_Name: CreditButton
@@ -4209,6 +4249,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 825548786}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 825548785}
         m_TargetAssemblyTypeName: PopupController, Assembly-CSharp
         m_MethodName: RequestOpen
@@ -4273,7 +4325,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupUI: {fileID: 490932667}
   backdrop: {fileID: 2115059350}
-  sfxID: 0
+--- !u!114 &825548786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825548780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16551f4e3d329940b49c4de5e080918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxID: 110001
 --- !u!1 &886764167
 GameObject:
   m_ObjectHideFlags: 0
@@ -7545,6 +7609,7 @@ GameObject:
   - component: {fileID: 1740581599}
   - component: {fileID: 1740581598}
   - component: {fileID: 1740581597}
+  - component: {fileID: 1740581601}
   - component: {fileID: 1740581600}
   m_Layer: 5
   m_Name: OptionsButton
@@ -7617,6 +7682,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1740581601}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1740581600}
         m_TargetAssemblyTypeName: PopupController, Assembly-CSharp
         m_MethodName: RequestOpen
@@ -7681,7 +7758,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupUI: {fileID: 646807346}
   backdrop: {fileID: 2115059350}
-  sfxID: 0
+--- !u!114 &1740581601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740581595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16551f4e3d329940b49c4de5e080918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxID: 110001
 --- !u!1 &1765632638
 GameObject:
   m_ObjectHideFlags: 0
@@ -9041,6 +9130,7 @@ GameObject:
   - component: {fileID: 1924233772}
   - component: {fileID: 1924233771}
   - component: {fileID: 1924233770}
+  - component: {fileID: 1924233773}
   m_Layer: 5
   m_Name: 'GameStartButton '
   m_TagString: Untagged
@@ -9112,6 +9202,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1924233773}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2062851843}
         m_TargetAssemblyTypeName: PreGameFlowManager, Assembly-CSharp
         m_MethodName: OpenLoadOut
@@ -9162,6 +9264,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1924233768}
   m_CullTransparentMesh: 1
+--- !u!114 &1924233773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924233768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16551f4e3d329940b49c4de5e080918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxID: 110001
 --- !u!1 &1938350435
 GameObject:
   m_ObjectHideFlags: 0
@@ -9864,6 +9979,7 @@ GameObject:
   - component: {fileID: 2035279664}
   - component: {fileID: 2035279663}
   - component: {fileID: 2035279662}
+  - component: {fileID: 2035279665}
   - component: {fileID: 2035279661}
   m_Layer: 5
   m_Name: Control Guide Button
@@ -9905,7 +10021,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupUI: {fileID: 1473574391}
   backdrop: {fileID: 1852775964}
-  sfxID: 0
 --- !u!114 &2035279662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9950,9 +10065,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2035279661}
-        m_TargetAssemblyTypeName: PopupController, Assembly-CSharp
-        m_MethodName: RequestClose
+      - m_Target: {fileID: 2035279665}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySFX
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9964,7 +10079,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2035279661}
         m_TargetAssemblyTypeName: PopupController, Assembly-CSharp
-        m_MethodName: PlaySFX
+        m_MethodName: RequestClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10012,6 +10127,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035279659}
   m_CullTransparentMesh: 1
+--- !u!114 &2035279665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035279659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16551f4e3d329940b49c4de5e080918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxID: 110001
 --- !u!1 &2039637977
 GameObject:
   m_ObjectHideFlags: 0
