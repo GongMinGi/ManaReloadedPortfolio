@@ -41,6 +41,9 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     [SerializeField] private LayerMask enemyLayer;          // 적 레이어
     [SerializeField] private LayerMask obstacleLayer;       // 빔을 막는 지형 레이어
 
+    [Header("SoundSetting")]
+    [SerializeField] int sfxId = 110016;                                                        // 재생할 사운드 리소스 아이디
+
 
     [Header("Visual")]
     [SerializeField] private Transform muzzle;              // 빔 시작 지점
@@ -72,6 +75,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     public void ExecuteAttack(E_CastingType type)
     {       
         if (isFiring) return;                               // 이미 발사 중이면 무시
+        GameModeManager.SoundManager.PlaySFX(sfxId);       // 빔 발사 사운드
         beamRoutine = StartCoroutine(FireBeam());           // 빔 코루틴 시작
       
     }
@@ -167,8 +171,9 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         //lr.enabled = false;                                 //빔 라인 숨김 
         if (beamloopParticle) beamloopParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         if (impactParticle && impactParticle.isPlaying)
-            impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting); 
+            impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
+        //GameModeManager.SoundManager.StopSFX();
         isFiring = false;                                   // 상태 리셋 ( 빔 발사 중 false 변경)            
         Ended?.Invoke();                                    // 애니메이션 정상 종료
     }

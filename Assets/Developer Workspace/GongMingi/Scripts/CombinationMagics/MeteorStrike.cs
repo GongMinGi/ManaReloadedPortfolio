@@ -129,7 +129,9 @@ public class MeteorStrike : BaseCombinationMagic
             groundAttackDamage = this.groundAttackDamage,
         };
 
-        projectileInstance.Setup(projectileParams);
+
+        GameModeManager.SoundManager.PlaySFX(110020);                       // 운석 소환 직전 운석 낙하 사운드 재생 시작
+        projectileInstance.Setup(projectileParams);                         // 운석 소환
     }
 
 }

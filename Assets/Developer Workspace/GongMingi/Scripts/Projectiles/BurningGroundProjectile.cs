@@ -67,6 +67,7 @@ public class BurningGroundProjectile : AbstractProjectile
         }
 
         meteorExplosion.Stop();
+    
         Release();
     }
 

@@ -28,6 +28,8 @@ public class LifeLight : BaseCombinationMagic
 
         base.ExecuteSkill();    // 스킬 쿨타이머 실행
 
+        // 생명의 빛 소환 직전 사운드 재생
+        GameModeManager.SoundManager.PlaySFX(110019);
         GameModeManager.PoolManager.GetPool(lifeLight, player.transform.position, Quaternion.identity);
     }
 }

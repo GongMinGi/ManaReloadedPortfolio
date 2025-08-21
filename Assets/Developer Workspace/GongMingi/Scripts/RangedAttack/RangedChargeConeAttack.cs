@@ -42,6 +42,9 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
     [Header("Layers")]
     [SerializeField] private LayerMask enemyLayer;              // 감지할 적 레이어 
 
+    [Header("SoundSetting")]
+    [SerializeField] int sfxId = 110015;                                                        // 재생할 사운드 리소스 아이디
+
     float cosThreshold;                                         // 공격범위 부채꼴 각도
     int currentDamage;                                          // 현재 누적(스택)데미지
     bool isCharging;                                            // 차지 중 여부
@@ -126,6 +129,8 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
     /// </summary>
     void FireConeDamage()
     {
+        GameModeManager.SoundManager.PlaySFX(sfxId);                                       //전기공격 격발 사운드
+
         Collider[] hits = Physics.OverlapSphere(
             transform.position, 
             radius, 
