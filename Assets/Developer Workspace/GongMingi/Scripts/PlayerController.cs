@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     /// - 이동 중이면 <see cref="MapTileManager.UpdateCurrentPos"/>를 호출해
     ///   무한 맵 타일 위치를 갱신한다.
     /// </summary>
-    private void FixedUpdate()
+    private void Update()
     {
         Move();
         if (isMove)

@@ -93,6 +93,7 @@ public class EnemyController : MonoBehaviour
         stats.StatRevertHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed(false));
 
         agent.speed = stats.MoveSpeed;      // stats의 MoveSpeed 데이터 기반으로 agent의 speed 세팅
+        
     }
     private void Update()
     {
