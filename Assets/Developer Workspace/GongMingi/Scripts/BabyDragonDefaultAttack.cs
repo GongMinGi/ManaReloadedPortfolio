@@ -31,6 +31,9 @@ namespace Game.combat.EnemyAttack
         [SerializeField] private LayerMask enemyLayer;                          // 타겟(플레이어) 레이어 마스크
         [SerializeField] private LayerMask obstacleLayer;                       // 장애물 레이어 마스크
 
+        [Header("Sound Setting")]
+        [SerializeField] int atkSfxId;
+
         [Header("Aiming")]
         [SerializeField] private float followYawDegPerSec = 540f;               // 1초에 회전하는 최대 각도
         [SerializeField] private bool fireUsingForward = true;                  // 발사 순간에 적의 정면으로 바라봄
@@ -124,6 +127,8 @@ namespace Game.combat.EnemyAttack
         public void BabyDragonFire()
         {
             if (projectilePrefab == null || proejctileMuzzle == null) return;
+
+            enemy.PlaySFX(atkSfxId);   // 공격 사운드 출력
 
             Transform target = cachedTarget != null ? cachedTarget.transform : GameModeManager.Player.transform;
 

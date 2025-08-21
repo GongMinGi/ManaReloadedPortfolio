@@ -56,6 +56,7 @@ MonoBehaviour:
   attackLayer:
     serializedVersion: 2
     m_Bits: 64
+  atkSfxId: 110006
 --- !u!135 &1734335244198992532
 SphereCollider:
   m_ObjectHideFlags: 0

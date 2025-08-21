@@ -79,6 +79,8 @@ MonoBehaviour:
     m_Bits: 64
   rd: {fileID: 0}
   speed: 9
+  prepareSfxId: 110004
+  rushSfxId: 110011
   prepareTrigger: IsSkillPreparing
   stunnedTrigger: IsStunned
   skillFinishTrigger: isSkillFinish

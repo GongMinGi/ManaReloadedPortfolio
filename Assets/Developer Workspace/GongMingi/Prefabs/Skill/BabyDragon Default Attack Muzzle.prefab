@@ -62,3 +62,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1
+  atkSfxId: 110005
+  followYawDegPerSec: 540
+  fireUsingForward: 1
+  stopFollowDelayAfterFire: 0.05
