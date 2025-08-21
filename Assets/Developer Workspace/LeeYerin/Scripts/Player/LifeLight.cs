@@ -23,6 +23,11 @@ public class LifeLight : BaseCombinationMagic
             player = GameModeManager.Player;
         }
 
+        if (!canUseSkill)   // 스킬 쿨타임이 끝났는지 확인
+            return;
+
+        base.ExecuteSkill();    // 스킬 쿨타이머 실행
+
         GameModeManager.PoolManager.GetPool(lifeLight, player.transform.position, Quaternion.identity);
     }
 }
