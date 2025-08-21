@@ -424,12 +424,12 @@ GameObject:
   - component: {fileID: 69794837}
   - component: {fileID: 69794836}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Cool Time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &69794835
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1209,6 +1209,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9b2ae1772ad56d340b765128a7fe476b, type: 2}
   - {fileID: 11400000, guid: 4087ec91da11c484b99e349dd557c7a1, type: 2}
   - {fileID: 11400000, guid: e1f8f537456fcba48ac23eb743da3f2a, type: 2}
+  skillIDList: 86841e0089841e008a841e00
+  skillUIInfoList:
+  - coolTimeUI: {fileID: 69794836}
+    coolTimeText: {fileID: 612541987}
+  - coolTimeUI: {fileID: 1026010391}
+    coolTimeText: {fileID: 1394452921}
+  - coolTimeUI: {fileID: 1321468445}
+    coolTimeText: {fileID: 231712734}
 --- !u!114 &252126577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2251,7 +2259,7 @@ GameObject:
   - component: {fileID: 648238755}
   - component: {fileID: 648238754}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2296,7 +2304,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: cbcd9a346efecae44a3b42092458d799, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4354,12 +4362,12 @@ GameObject:
   - component: {fileID: 1026010392}
   - component: {fileID: 1026010391}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Cool Time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1026010390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4430,7 +4438,7 @@ GameObject:
   - component: {fileID: 1032879738}
   - component: {fileID: 1032879737}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4475,7 +4483,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 83a0bdd502602104289146dc4ca6c34d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4561,15 +4569,15 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1020112331}
   - {fileID: 2115361914}
   - {fileID: 597433184}
-  - {fileID: 1020112331}
   m_Father: {fileID: 770201674}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 66.2, y: 240.8}
-  m_SizeDelta: {x: 100, y: 400}
+  m_AnchoredPosition: {x: 250, y: 123.49}
+  m_SizeDelta: {x: 500, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1090224671
 MonoBehaviour:
@@ -4580,7 +4588,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1090224669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -4588,8 +4596,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0
+  m_ChildAlignment: 4
+  m_Spacing: -125.37
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -5427,12 +5435,12 @@ GameObject:
   - component: {fileID: 1321468446}
   - component: {fileID: 1321468445}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Cool Time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1321468444
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7460,7 +7468,7 @@ GameObject:
   - component: {fileID: 1928223544}
   - component: {fileID: 1928223543}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7505,7 +7513,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 74616024d3324a844a4dd042f4921ad0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

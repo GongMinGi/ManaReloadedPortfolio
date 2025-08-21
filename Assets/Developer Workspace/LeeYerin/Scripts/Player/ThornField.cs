@@ -29,6 +29,11 @@ public class ThornField : BaseCombinationMagic
             player = GameModeManager.Player;
         }
 
+        if (!canUseSkill)   // 스킬 쿨타임이 끝났는지 확인
+            return;
+
+        base.ExecuteSkill();    // 스킬 쿨타이머 실행
+
         // 플레이어 현재 위치
         Vector3 playerPosition = player.transform.position;
         // 플레이어가 바라보는 앞 방향 (정규화된 단위 벡터)

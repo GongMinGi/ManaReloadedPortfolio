@@ -63,12 +63,15 @@ public class MeteorStrike : BaseCombinationMagic
     /// </summary>
     public override void ExecuteSkill()
     {
-        Debug.Log("execute skill 들어옴");
-
         if (!caster)
         {
             Init();
         }
+
+        if (!canUseSkill)   // 스킬 쿨타임이 끝났는지 확인
+            return;
+
+        base.ExecuteSkill();    // 스킬 쿨타이머 실행
 
         this.caster = GameModeManager.Player.transform;
         this.cam = Camera.main;

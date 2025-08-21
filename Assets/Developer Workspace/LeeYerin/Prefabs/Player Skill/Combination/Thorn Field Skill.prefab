@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1ca04c4e26deb4d9a405e4d08a71ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill_ID: 2000009
+  coolTime: 10
   thorn: {fileID: 3658035536038523324, guid: 0ade4a4b2a656b1499d118104b070d2c, type: 3}
   size: 3
   capacity: 5
