@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Base Slime Stats Data
   m_EditorClassIdentifier: 
   baseHP: 1000
-  baseMoveSpeed: 4
+  baseMoveSpeed: 8
   baseDefense: 1

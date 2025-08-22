@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa2658a35aabc743ba988f127894cae, type: 3}
   m_Name: Spiny Slime Stats Data
   m_EditorClassIdentifier: 
-  baseHP: 1000
-  baseMoveSpeed: 3
+  baseHP: 2000
+  baseMoveSpeed: 7
   baseDefense: 1

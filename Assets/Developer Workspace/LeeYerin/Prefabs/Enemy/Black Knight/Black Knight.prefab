@@ -2449,6 +2449,10 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 6495642282190093420}
+    - target: {fileID: 666105861462255452, guid: 0f36b152ae57c77489c6d0b509e92779, type: 3}
+      propertyPath: speed
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 7634752201271978635, guid: 0f36b152ae57c77489c6d0b509e92779, type: 3}
       propertyPath: m_Name
       value: Rush Attack

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Spider Stats Data
   m_EditorClassIdentifier: 
   baseHP: 500
-  baseMoveSpeed: 8
+  baseMoveSpeed: 11
   baseDefense: 0
