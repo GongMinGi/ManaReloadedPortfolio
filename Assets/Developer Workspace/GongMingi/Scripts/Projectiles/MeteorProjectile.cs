@@ -47,6 +47,7 @@ public class MeteorProjectile : AbstractProjectile
 
     public override void Setup(ProjectileParams p)
     {
+        Debug.Log("운석 setup 들어옴");
         meteorParams = p as MeteorParams;
         transform.position = meteorParams.start;
         meteorFire.Play();
@@ -59,6 +60,7 @@ public class MeteorProjectile : AbstractProjectile
 
     private IEnumerator MeteorRoutine()
     {
+        Debug.Log("운석 코루틴 드러옴");
         Vector3 start = transform.position;                     // 운석 생성 위치
         Vector3 target = meteorParams.target;                   // 운석 착탄 위치
         float time = 0f;                                        // 타이머 변수

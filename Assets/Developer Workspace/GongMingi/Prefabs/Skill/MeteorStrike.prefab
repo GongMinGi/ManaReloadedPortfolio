@@ -53,6 +53,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 256
   maxRayDistance: 1000
   fallbackPlaneY: 0
   impactRadius: 6

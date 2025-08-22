@@ -64,15 +64,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SpellCasting"",
-                    ""type"": ""Button"",
-                    ""id"": ""e95a547b-3bf6-411c-8e71-0f4b5d992057"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""CombinationMagicAttack"",
                     ""type"": ""Button"",
                     ""id"": ""0d0fa949-5684-461a-a96b-6a19cd270092"",
@@ -172,138 +163,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""One Modifier"",
-                    ""id"": ""55eea4dd-7cf9-49e7-a900-df94da4c5c42"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""a4e6876b-7613-4d98-929b-5cbed90885db"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""614665ad-90d6-4ea6-bc6b-3aa9bcc45cdc"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""One Modifier"",
-                    ""id"": ""d26ee60c-44fe-4a83-a322-8df3e8050a58"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""acf3af65-e932-4fde-b97e-3df9b3ae28fc"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""b0d1cae0-f623-4aa0-bab8-ec5573a0c8d3"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""One Modifier"",
-                    ""id"": ""f147e811-8efc-44c4-9d78-853a8a5b5f0b"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""018c567d-82db-46e9-837e-092283d3aaf9"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""9ea1b534-413a-4f3f-9cf3-4d0eb648cfa4"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""One Modifier"",
-                    ""id"": ""f4903ca7-e1fe-4307-8684-961822a06b9c"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""64d48bbd-4070-46a5-b363-5b2c524971c1"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""5fcc8291-819b-42ed-9168-87fe46539279"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpellCasting"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""f25efe17-d607-4fb6-853a-696895e1da67"",
                     ""path"": ""<Keyboard>/space"",
@@ -325,7 +184,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_player_Sprint = m_player.FindAction("Sprint", throwIfNotFound: true);
         m_player_MeleeAttack = m_player.FindAction("MeleeAttack", throwIfNotFound: true);
         m_player_RangedAttack = m_player.FindAction("RangedAttack", throwIfNotFound: true);
-        m_player_SpellCasting = m_player.FindAction("SpellCasting", throwIfNotFound: true);
         m_player_CombinationMagicAttack = m_player.FindAction("CombinationMagicAttack", throwIfNotFound: true);
     }
 
@@ -397,7 +255,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_player_Sprint;
     private readonly InputAction m_player_MeleeAttack;
     private readonly InputAction m_player_RangedAttack;
-    private readonly InputAction m_player_SpellCasting;
     private readonly InputAction m_player_CombinationMagicAttack;
     public struct PlayerActions
     {
@@ -407,7 +264,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_player_Sprint;
         public InputAction @MeleeAttack => m_Wrapper.m_player_MeleeAttack;
         public InputAction @RangedAttack => m_Wrapper.m_player_RangedAttack;
-        public InputAction @SpellCasting => m_Wrapper.m_player_SpellCasting;
         public InputAction @CombinationMagicAttack => m_Wrapper.m_player_CombinationMagicAttack;
         public InputActionMap Get() { return m_Wrapper.m_player; }
         public void Enable() { Get().Enable(); }
@@ -430,9 +286,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @RangedAttack.started += instance.OnRangedAttack;
             @RangedAttack.performed += instance.OnRangedAttack;
             @RangedAttack.canceled += instance.OnRangedAttack;
-            @SpellCasting.started += instance.OnSpellCasting;
-            @SpellCasting.performed += instance.OnSpellCasting;
-            @SpellCasting.canceled += instance.OnSpellCasting;
             @CombinationMagicAttack.started += instance.OnCombinationMagicAttack;
             @CombinationMagicAttack.performed += instance.OnCombinationMagicAttack;
             @CombinationMagicAttack.canceled += instance.OnCombinationMagicAttack;
@@ -452,9 +305,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @RangedAttack.started -= instance.OnRangedAttack;
             @RangedAttack.performed -= instance.OnRangedAttack;
             @RangedAttack.canceled -= instance.OnRangedAttack;
-            @SpellCasting.started -= instance.OnSpellCasting;
-            @SpellCasting.performed -= instance.OnSpellCasting;
-            @SpellCasting.canceled -= instance.OnSpellCasting;
             @CombinationMagicAttack.started -= instance.OnCombinationMagicAttack;
             @CombinationMagicAttack.performed -= instance.OnCombinationMagicAttack;
             @CombinationMagicAttack.canceled -= instance.OnCombinationMagicAttack;
@@ -481,7 +331,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnMeleeAttack(InputAction.CallbackContext context);
         void OnRangedAttack(InputAction.CallbackContext context);
-        void OnSpellCasting(InputAction.CallbackContext context);
         void OnCombinationMagicAttack(InputAction.CallbackContext context);
     }
 }
