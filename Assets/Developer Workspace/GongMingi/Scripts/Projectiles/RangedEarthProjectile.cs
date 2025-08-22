@@ -87,10 +87,12 @@ public class RangedEarthProjectile : AbstractProjectile
     private void OnTriggerEnter(Collider other)
     {
         // 트리거가 아니면서(적의 공격박스 등과는 충돌 무시), 적 레이어에 속하면 폭발
-        if(!other.isTrigger && enemyLayer.Contain(other.gameObject.layer))
+        if (!other.isTrigger && enemyLayer.Contain(other.gameObject.layer))
         {
             Explode();
         }
+        else if (obstacleLayer.Contain(other.gameObject.layer))
+            Release();
     }
 
 
