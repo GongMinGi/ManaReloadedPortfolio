@@ -17,7 +17,7 @@ public class BaseCombinationMagic : MonoBehaviour
 
     public virtual void ExecuteSkill()
     {
-        Debug.Log("in");
+        canUseSkill = false;
         // 스킬 쿨타임 실행
         skillCoolTime = GameModeManager.Player.StartCoroutine(SkillCoolTimer());
     }
