@@ -1,5 +1,6 @@
 using Cinemachine;
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -41,11 +42,19 @@ public class MeteorStrike : BaseCombinationMagic
 
     private Transform caster;                                     // 스킬 시전자 (플레이어)
     private Camera cam;                                           // 마우스 기준 카메라
-    private bool poolCreated = false;
+    [System.NonSerialized] private bool poolCreated = false;        // SO의 변수는 런타임중에 변경된 값이 저장될 수 있으므로 nonserialzable
 
+
+    public void OnEnable()                                          // 확실하게 활성화될때마다 false로 전환
+    {
+        poolCreated = false;
+    }
 
     public void Init()
     {
+        Debug.Log("poolcreated:" + poolCreated);
+        if (poolCreated) return; 
+
         Debug.Log("init 들어옴");
         GameModeManager.PoolManager.CreatePool(projectilePrefab, 5, 10);   // 풀매니저에 투사체 풀 생성 (초기5개, 최대 10개) 
         GameModeManager.PoolManager.CreatePool(addtionalProjectilePrefab, 5, 10);   // 충돌 이후 불장판을 위한 풀 생성
@@ -63,11 +72,10 @@ public class MeteorStrike : BaseCombinationMagic
     /// </summary>
     public override void ExecuteSkill()
     {
-        if (!caster)
-        {
-            Init();
-        }
 
+        Init();
+
+        Debug.Log("canuseSkill:" + canUseSkill);
         if (!canUseSkill)   // 스킬 쿨타임이 끝났는지 확인
             return;
 

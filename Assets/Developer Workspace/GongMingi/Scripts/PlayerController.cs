@@ -88,6 +88,9 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Move();
+
+        OnCastingSpell();
+
         if (isMove)
             GameModeManager.MapTileManager.UpdateCurrentPos();
     }
@@ -167,7 +170,6 @@ public class PlayerController : MonoBehaviour
         
         Vector3 targetVelocity = moveDir.normalized * speed;
         rb.linearVelocity = new Vector3(targetVelocity.x,0, targetVelocity.z);
-
     }
     #endregion
 
@@ -182,33 +184,44 @@ public class PlayerController : MonoBehaviour
         GameModeManager.GameLogicManager.GameOver();
     }
 
-
-
-
     #region 속성 캐스팅
 
     /// <summary>
     /// 속성 키(WASD) 입력 처리.
-    /// - 키보드 키를 <see cref="E_CastingType"/>로 매핑해 <see cref="AddCasting"/> 호출.  
-    /// - 홀드/릴리스 구분 없이 ctx.started 상태에서만 동작.
+    /// - update에서 ctrl을 누르고 있을 때만처리
+    /// - wasd를 빠르게 입력해도 딜레이 없이 처리 가능
     /// </summary>
-    public void OnCastingSpell(InputAction.CallbackContext ctx)
+    public void OnCastingSpell()
     {
-        if (!ctx.performed) return;                       // 버튼 누름(performed)만 처리
-
-        // 게임패드, 마우스 등 키보드가 아닐 경우 리턴
-        if (ctx.control is not KeyControl keyControl) return;
-
-        Key key = keyControl.keyCode;                   // 새 인풋 시스템의 키 열거형
-
-        // Ctrl 키가 눌린 상태에서만 캐스팅 처리
-        if (Keyboard.current.leftCtrlKey.isPressed && 
-            castingKeyMapping.TryGetValue(key, out var castingType))
+        if (keyboard.leftCtrlKey.isPressed)
         {
-            AddCasting(castingType);
+            if (keyboard.wKey.wasPressedThisFrame)
+            {
+                castingKeyMapping.TryGetValue(Key.W, out var value);
+                Debug.Log(value);                                           // 이거 로그없으면 리스트에 안들어감 ㅋㅋㅋ 미친 새기
+                AddCasting(value);
+            }
+            if (keyboard.aKey.wasPressedThisFrame)
+            {
+                castingKeyMapping.TryGetValue(Key.A, out var value);
+                Debug.Log(value);
+                AddCasting(value);
+            }
+            if (keyboard.sKey.wasPressedThisFrame)
+            {
+                castingKeyMapping.TryGetValue(Key.S, out var value);
+                Debug.Log(value);
+                AddCasting(value);
+            }
+            if (keyboard.dKey.wasPressedThisFrame)
+            {
+                castingKeyMapping.TryGetValue(Key.D, out var value);
+                Debug.Log(value);
+                AddCasting(value);
+            }
+
         }
     }
-
 
     /// <summary>
     /// 캐스팅 리스트에 새 속성을 추가하고 UI 이벤트를 발행한다.
@@ -251,7 +264,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
     {
-        if (!ctx.started) return;       // space 를 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.
+        if (!ctx.performed) return;       // space 를 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.
         Debug.Log("조합마법 공격");
 
         TryCastSkill();                 // 스킬 실행
@@ -268,6 +281,7 @@ public class PlayerController : MonoBehaviour
     private void TryCastSkill()
     {
         if (currentCastingList.Count == 0) return;      // 현재 캐스팅된 원소가 없으면 스킬을 실행하지 않는다.
+
 
         BaseCombinationMagic skill = GameModeManager.SkillCastingManager.GetSkill(currentCastingList);    // 스킬관리자에게 캐스팅된 원소리스트를 보내서 그에 해당하는 스킬의 고유번호를 받는다.
 

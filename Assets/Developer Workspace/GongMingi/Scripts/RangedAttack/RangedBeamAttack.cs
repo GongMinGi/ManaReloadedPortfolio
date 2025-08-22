@@ -173,7 +173,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         if (impactParticle && impactParticle.isPlaying)
             impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
-        //GameModeManager.SoundManager.StopSFX();
+        GameModeManager.SoundManager.StopSFX();
         isFiring = false;                                   // 상태 리셋 ( 빔 발사 중 false 변경)            
         Ended?.Invoke();                                    // 애니메이션 정상 종료
     }

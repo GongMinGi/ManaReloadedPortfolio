@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6705004724301443607
 Transform:
   m_ObjectHideFlags: 0
@@ -129,6 +129,8 @@ MonoBehaviour:
   pool: {fileID: 0}
   impurseSource: {fileID: 7998200405073131513}
   meteorFire: {fileID: 1251341496898927274, guid: 8fa5143051527e949b0ae174c8430414, type: 3}
+  meteorExplosionSfxID: 110021
+  burningGroundSfxID: 110022
 --- !u!54 &-5047269518904374460
 Rigidbody:
   m_ObjectHideFlags: 0
