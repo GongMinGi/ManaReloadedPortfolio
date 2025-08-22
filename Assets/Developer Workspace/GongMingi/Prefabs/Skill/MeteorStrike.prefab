@@ -55,8 +55,8 @@ MonoBehaviour:
     m_Bits: 1
   maxRayDistance: 1000
   fallbackPlaneY: 0
-  impactRadius: 3
-  damage: 2000
+  impactRadius: 6
+  damage: 5000
   impactVfxPrefab: {fileID: 0}
   enemyLayer:
     serializedVersion: 2
