@@ -75,7 +75,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     public void ExecuteAttack(E_CastingType type)
     {       
         if (isFiring) return;                               // 이미 발사 중이면 무시
-        GameModeManager.SoundManager.PlaySFX(sfxId);       // 빔 발사 사운드
+        GameModeManager.SoundManager.PlaySFX(110016);       // 빔 발사 사운드 , 하드코딩으로 빌드용 버그 없이 수정
         beamRoutine = StartCoroutine(FireBeam());           // 빔 코루틴 시작
       
     }

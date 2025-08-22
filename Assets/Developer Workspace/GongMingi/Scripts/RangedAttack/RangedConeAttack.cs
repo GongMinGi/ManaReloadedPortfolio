@@ -117,7 +117,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         //lr.enabled = true;
         Started?.Invoke();
         fireVFX.Play();         // 불 VFX 실행
-        GameModeManager.SoundManager.PlaySFX(sfxId);       // 불속성 원거리 공격 사운드
+        GameModeManager.SoundManager.PlaySFX(110017);       // 불속성 원거리 공격 사운드 현재는 하드코딩으로 버그없이. 추후 serialzable 버그 수정
         float startTime = Time.time;
 
         //bool sendProgress = false;      // 추후 공격중 전달할 이벤트가 있으면 사용
