@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class BaseCombinationMagic : MonoBehaviour
     [SerializeField] int skill_ID;
     [SerializeField] protected float coolTime = 10f;
     protected Coroutine skillCoolTime;
-    protected bool canUseSkill = true;
+    [NonSerialized]protected bool canUseSkill = true;
 
     public struct Context
     {
