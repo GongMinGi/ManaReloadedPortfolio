@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statsData: {fileID: 11400000, guid: a28fee71fd4913c44902dc41257e9cbd, type: 2}
-  curHp: 700
+  curHp: 800
   moveSpeed: 7
   effectHandler: {fileID: 4927517413914317051}
 --- !u!114 &8399470712659257399
@@ -1955,16 +1955,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 599662054164844079}
     - target: {fileID: 7882152954184670875, guid: 63a1313481b979541b2730293388cde2, type: 3}
+      propertyPath: attackDamage
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7882152954184670875, guid: 63a1313481b979541b2730293388cde2, type: 3}
       propertyPath: attackTrigger
       value: PlayAttackAnim
       objectReference: {fileID: 0}
     - target: {fileID: 7882152954184670875, guid: 63a1313481b979541b2730293388cde2, type: 3}
       propertyPath: attackInterval
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7882152954184670875, guid: 63a1313481b979541b2730293388cde2, type: 3}
       propertyPath: projectileSpeed
-      value: 12
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7882152954184670875, guid: 63a1313481b979541b2730293388cde2, type: 3}
       propertyPath: projectileRadius
@@ -1972,7 +1976,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7882152954184670875, guid: 63a1313481b979541b2730293388cde2, type: 3}
       propertyPath: projectileMaxRange
-      value: 16
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 7882152954184670875, guid: 63a1313481b979541b2730293388cde2, type: 3}
       propertyPath: obstacleLayer.m_Bits
