@@ -194,14 +194,16 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnCastingSpell(InputAction.CallbackContext ctx)
     {
-        if (!ctx.started) return;                       // 버튼을 눌렀을 때만 .. 홀드.. 땔때는 모두 리턴
+        if (!ctx.performed) return;                       // 버튼 누름(performed)만 처리
 
-        var keyControl = ctx.control as KeyControl;
-        if (keyControl == null) return;                 // 게임패드, 마우스 등 키보드가 아닐 경우 리턴
+        // 게임패드, 마우스 등 키보드가 아닐 경우 리턴
+        if (ctx.control is not KeyControl keyControl) return;
 
         Key key = keyControl.keyCode;                   // 새 인풋 시스템의 키 열거형
 
-        if (castingKeyMapping.TryGetValue(key, out var castingType))
+        // Ctrl 키가 눌린 상태에서만 캐스팅 처리
+        if (Keyboard.current.leftCtrlKey.isPressed && 
+            castingKeyMapping.TryGetValue(key, out var castingType))
         {
             AddCasting(castingType);
         }
