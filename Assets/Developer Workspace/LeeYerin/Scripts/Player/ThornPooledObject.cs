@@ -82,7 +82,7 @@ public class ThornPooledObject : PooledObject
         {
             ApplyDebuffInRange(transform.position);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             time += 1f;
         }
     }

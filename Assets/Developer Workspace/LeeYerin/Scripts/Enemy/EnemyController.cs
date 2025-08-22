@@ -182,6 +182,9 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void FacePlayer()
     {
+        if (Agent.enabled == false)
+            Agent.enabled = true;
+
         Vector3 dirToPlayer = (player.position - transform.position).normalized;
         dirToPlayer.y = 0f; // 수직 방향 제거
 
@@ -199,6 +202,9 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     public void StopMovement()
     {
+        if (Agent.enabled == false)
+            Agent.enabled = true;
+
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = true;
@@ -247,6 +253,9 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     public virtual void OnDie(float damage)
     {
+        if (Agent.enabled == false)
+            Agent.enabled = true;
+
         isDie = true;
         defaultAttack.StopAttack();          // 사망 시 공격 코루틴 전부 중지
         DmgTextLogic(damage);
