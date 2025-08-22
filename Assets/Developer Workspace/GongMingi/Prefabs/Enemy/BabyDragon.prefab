@@ -1974,6 +1974,10 @@ PrefabInstance:
       propertyPath: projectileMaxRange
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 7882152954184670875, guid: 63a1313481b979541b2730293388cde2, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
