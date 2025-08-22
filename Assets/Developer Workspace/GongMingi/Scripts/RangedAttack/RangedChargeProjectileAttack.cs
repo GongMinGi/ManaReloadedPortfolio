@@ -59,7 +59,7 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
 
     void Start()
     {
-        GameModeManager.PoolManager.CreatePool(projectilePrefab, 5, 10);   // 풀매니저에 투사체 풀 생성 (초기5개, 최대 10개) 
+        GameModeManager.PoolManager.CreatePool(projectilePrefab, 20, 30);   // 풀매니저에 투사체 풀 생성 (초기20개, 최대 30개) 
     }
 
     #endregion

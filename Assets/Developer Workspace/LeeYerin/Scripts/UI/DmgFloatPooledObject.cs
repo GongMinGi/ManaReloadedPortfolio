@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -111,13 +112,14 @@ public class DmgFloatPooledObject : PooledObject
     }
 
     // 비활성화 시 처리
-    protected override void OnDeactivated()
+    protected override void OnDeactivated(Action onComplete = null)
     {
         damage = 0f; // 피해량 초기화
         Target = null; // 대상 제거
 
         mDamageLabel.DOKill(); // 안전하게 트윈 종료
         seq = null; // 시퀀스 null 처리
+        onComplete?.Invoke();
     }
 
     /// <summary>

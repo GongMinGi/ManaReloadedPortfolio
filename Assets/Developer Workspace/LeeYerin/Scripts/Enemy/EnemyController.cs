@@ -1,14 +1,18 @@
 using DG.Tweening;
+using Game.combat.EnemyAttack;
 using Game.Combat.Stats;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-//using DG.Tweening;
 
 /// <summary>
 /// 개발자: 이예린
 /// 
 /// 적 캐릭터의 동작 및 네이게이션 이동 등을 관리하는 컨트롤러
+/// 
+/// 주의:
+/// - 이 클래스는 일반 적(기본 적)을 위한 기본 동작을 제공함
+/// - 엘리트나 보스와 같은 상위 적은 이 클래스를 상속받아 스킬이나 추가 행동을 구현해야 함
 /// </summary>
 public class EnemyController : MonoBehaviour
 {
@@ -16,32 +20,6 @@ public class EnemyController : MonoBehaviour
     [Header("Stats Setting")]
     [SerializeField] UnitStats stats;   // 적의 현재 스탯을 관리하는 컴포넌트
     public UnitStats Stats => stats;
-    #endregion
-
-    #region Movement
-    [Header("Enemy Movement Setting")]
-    [Tooltip("NavMeshAgent component used for enemy movement")]
-    [SerializeField] NavMeshAgent agent;    // 적의 경로 탐색 및 이동을 제어하는 NavMeshAgent 컴포넌트
-    private Transform player;                 // 플레이어 위치 추적용 Transform 참조
-    [SerializeField] private bool isMove;     // 적의 이동 상태 여부 플래그
-    #endregion
-
-    #region Attack
-    [Header("Enemy Attack Setting")]
-    [SerializeField] LayerMask PlayerLayer; // 공격 대상(플레이어) 레이어 지정용 LayerMask
-    [SerializeField] protected BoxCollider attackRange; // 공격 범위를 나타내는 박스 콜라이더
-    private float attackDis;                  // 공격 범위 크기 (BoxCollider z 축 기준)
-    protected Coroutine attackLoop;           // 공격 반복 동작을 위한 코루틴 참조
-    [SerializeField] bool isAttack = false; // 현재 공격 상태 여부 플래그
-    [SerializeField] float attackDamage = 10; // 공격 시 적에게 입히는 피해량
-    #endregion
-
-    #region Damage
-    [Header("Damage Setting")]
-    [SerializeField] SphereCollider hitSphere; // 적이 피해를 받는 판정을 위한 구체 콜라이더
-    [SerializeField] DmgFloatPooledObject activeDmgText;  // 데미지 텍스트 오브젝트
-    [SerializeField] EnemyHealthBarPooledObj enemyHealthBar;    // 적 체력바 오브젝트
-    [SerializeField] Transform enemyHealthBarPos;               // 적 체력바 트랜스폼
     #endregion
 
     #region Pooling
@@ -55,15 +33,56 @@ public class EnemyController : MonoBehaviour
     [SerializeField] Animator animator;             // 적 애니메이션 컨트롤러
     [SerializeField] float dieAnimDuration = 2f;   // 사망 애니메이션 재생 시간
     [SerializeField] private bool isDie;              // 적 사망 상태 여부 플래그
+
+    public Animator Animator => animator;
+    #endregion
+
+    #region Sound
+    [Header("Sound Setting")]
+    [SerializeField] AudioSource source;
+    [SerializeField] int deathSfxId = 110009;
+    /// <summary>
+    /// 지정된 사운드 ID에 해당하는 효과음을 재생하는 메서드
+    /// </summary>
+    /// <param name="id">재생할 사운드의 고유 ID</param>
+    public void PlaySFX(int id) => GameModeManager.SoundManager.PlaySFX(id, source);
+    #endregion
+
+    #region Movement
+    [Header("Enemy Movement Setting")]
+    [Tooltip("NavMeshAgent component used for enemy movement")]
+    [SerializeField] NavMeshAgent agent;    // 적의 경로 탐색 및 이동을 제어하는 NavMeshAgent 컴포넌트
+    private Transform player;                 // 플레이어 위치 추적용 Transform 참조
+    [SerializeField] private bool isMove;     // 적의 이동 상태 여부 플래그
+
+    public NavMeshAgent Agent => agent;
+    #endregion
+
+    #region Damage
+    [Header("Damage Setting")]
+    [SerializeField] Collider hitSphere; // 적이 피해를 받는 판정을 위한 구체 콜라이더
+    [SerializeField] DmgFloatPooledObject activeDmgText;  // 데미지 텍스트 오브젝트
+    [SerializeField] EnemyHealthBarPooledObj enemyHealthBar;    // 적 체력바 오브젝트
+    [SerializeField] Transform enemyHealthBarPos;               // 적 체력바 트랜스폼
+    #endregion
+
+    #region Attack
+    [Header("Enemy Attack Setting")]
+    [SerializeField] private BaseAttack defaultAttack;
+    private bool isAttacking;
     #endregion
 
     #region Unity Event
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         // 현재 생성된 적 객체(this)를 EnemyManager의 활성 적 리스트에 등록
         GameModeManager.EnemyManager.Enemies.Add(this);
         enemyHealthBar = GameModeManager.UIManager.RequestEnemyHealthBar(this.transform);   // 활성화 시 ui manager에서 hpbar를 받아옴
         enemyHealthBar.Setup(Stats, enemyHealthBarPos);            // 몬스터의 unitstat, 체력바 위치 전달
+
+        if (!agent.enabled) // NavMeshAgent가 비활성화 되어 있다면 활성화
+            agent.enabled = true;
+
         agent.isStopped = false;        // NavMeshAgent 동작 재개
     }
 
@@ -77,9 +96,6 @@ public class EnemyController : MonoBehaviour
         yield return new WaitUntil(() => GameModeManager.EnemyManager.Player != null);
         player = GameModeManager.EnemyManager.Player.transform;
 
-        // 기본 공격 거리 초기화 (BoxCollider z 축 크기 기준)
-        attackDis = attackRange.size.z;
-
         stats.OnDamaged += OnDamaged;
         stats.OnDie += OnDie;
 
@@ -88,6 +104,7 @@ public class EnemyController : MonoBehaviour
         stats.StatRevertHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed(false));
 
         agent.speed = stats.MoveSpeed;      // stats의 MoveSpeed 데이터 기반으로 agent의 speed 세팅
+        
     }
     private void Update()
     {
@@ -104,8 +121,19 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        TryTracking();
+        PreAttackUpdate();  // 스킬이나 추가 행동을 여기서 처리
+
+        if (!isAttacking && !isDie)     // update를 도는 도중 죽엇을때를 대비해 !isDie 조건 추가
+        {
+            // 기본 공격
+            if (defaultAttack.IsPlayerInRange(player))
+                StartAttack(defaultAttack);
+            else
+                TryTracking();
+        }
     }
+
+    protected virtual void PreAttackUpdate() { }
     #endregion
 
     #region Tracking Player
@@ -116,43 +144,83 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void TryTracking()
     {
-        if (agent.isOnNavMesh)
+        if (!agent.isOnNavMesh)
         {
-            float distance = Vector3.Distance(player.position, transform.position);
-
-            // isAttack이 true인데 플레이어와 적의 거리가 공격 가능한 거리보다 멀 경우
-            if (isAttack && distance > attackDis)
-                isAttack = false;
-
-            agent.SetDestination(player.position);
-
-            // 이동 상태가 아니면 이동 상태로 전환
-            if (!isMove)
-                isMove = true;
-
-            // 목적지에 도착했는지 확인
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-            {
-                // 플레이어를 향한 방향 벡터 계산 (수평 방향만)
-                Vector3 dirToPlayer = (player.position - transform.position).normalized;
-                dirToPlayer.y = 0f; // 수직 요소 제거하여 수평 회전만 수행
-
-                // 방향 벡터가 유효한 경우에만 회전 수행
-                if (dirToPlayer != Vector3.zero)
-                {
-                    // 목표 방향을 쿼터니언으로 변환
-                    Quaternion lookRotation = Quaternion.LookRotation(dirToPlayer);
-
-                    // 현재 회전에서 목표 회전으로 부드럽게 보간하여 회전
-                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-                }
-            }
-        }
-        else
-        {
-            isMove = false;     // 이동 상태를 false로 전환
+            isMove = false;
             enemyPooledObj.Release();
+            return;
         }
+
+        // 공격 중이라면 이동하지 않음
+        if (isAttacking)
+        {
+            agent.isStopped = true;
+            isMove = false;
+
+            // 회전은 공격할 때도 플레이어를 향하게 유지
+            FacePlayer();
+            return;
+        }
+
+        float distance = Vector3.Distance(player.position, transform.position);
+
+        // 플레이어를 추적
+        agent.isStopped = false;
+        agent.SetDestination(player.position);
+
+        // 이동 플래그 갱신
+        if (!isMove) isMove = true;
+
+        // 도착 시 회전 보정
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            FacePlayer();
+    }
+
+    /// <summary>
+    /// 플레이어를 바라보도록 회전 처리하는 메서드
+    /// Y축 회전만 적용하여 수직 회전 없이 수평 방향만 회전
+    /// </summary>
+    private void FacePlayer()
+    {
+        Vector3 dirToPlayer = (player.position - transform.position).normalized;
+        dirToPlayer.y = 0f; // 수직 방향 제거
+
+        if (dirToPlayer != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(dirToPlayer);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
+    }
+
+    /// <summary>
+    /// 적의 이동을 정지시키는 메서드
+    /// NavMeshAgent가 활성화되어 있을 경우 즉시 경로를 제거하고 이동 플래그를 갱신
+    /// 공격 상태(isAttacking)를 true로 설정하여 이동 중 공격 제한
+    /// </summary>
+    public void StopMovement()
+    {
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+        }
+        isMove = false;
+        isAttacking = true;
+    }
+
+    /// <summary>
+    /// 적의 이동을 재개하는 메서드
+    /// NavMeshAgent가 활성화되어 있고, 적이 사망 상태가 아닐 경우 이동 허용
+    /// 이동 플래그(isMove)를 true로 갱신하고 공격 상태(isAttacking)를 false로 설정
+    /// </summary>
+    public void ResumeMovement()
+    {
+        if (agent != null && agent.isOnNavMesh && !isDie)
+            agent.isStopped = false;
+
+        isMove = true;
+        if (isAttacking)
+            isAttacking = false;
     }
     #endregion
 
@@ -174,26 +242,26 @@ public class EnemyController : MonoBehaviour
         });
     }
 
-    [ContextMenu("OnDie")]
     /// <summary>
     /// 적이 사망했을 경우 호출되는 메서드
     /// </summary>
-    public void OnDie(float damage)
+    public virtual void OnDie(float damage)
     {
         isDie = true;
+        defaultAttack.StopAttack();          // 사망 시 공격 코루틴 전부 중지
         DmgTextLogic(damage);
         enemyHealthBar.Release();            // 사망 시 hpbar 풀에 반납
 
         GameModeManager.EnemyManager.Enemies.Remove(this);      // 현재 생성된 적 객체(this)를 EnemyManager의 활성 적 리스트에서 삭제
 
-        if (attackLoop != null)
-            StopCoroutine(attackLoop);
+        if (isAttacking)    // 기본 공격 중이었다면
+            defaultAttack.StopAttack();
 
-        isAttack = false;
         isMove = false;
-        attackRange.enabled = true;
+        isAttacking = false;
 
         animator.SetTrigger("IsDie");   // Die 애니메이션 실행
+        PlaySFX(deathSfxId);   // Die 사운드 출력
 
         Sequence seq = DOTween.Sequence();
 
@@ -234,55 +302,12 @@ public class EnemyController : MonoBehaviour
 
     #region Attack Handling
     /// <summary>
-    /// 기본 근접 공격 루틴 코루틴(MeleeAttackLoop)을 실행하는 메서드
+    /// 적의 공격 시작
     /// </summary>
-    protected virtual void StartAttack()
+    protected void StartAttack(BaseAttack attack)
     {
-        isMove = false;     // 이동 상태를 false로 전환
-        attackLoop = StartCoroutine(MeleeAttackLoop());
-    }
-
-    /// <summary>
-    /// 기본 근접 공격 루틴을 구현한 코루틴
-    /// 
-    /// isAttack가 true인 동안 1.5초 간격으로 공격 범위 판정용 콜라이더를 활성화함
-    /// isAttack이 false가 되면 attackLoop를 null로 초기화하고,
-    /// 콜라이더를 활성 상태로 유지하며 코루틴을 종료
-    /// </summary>
-    /// <returns></returns>
-    protected virtual IEnumerator MeleeAttackLoop()
-    {
-        isAttack = true;
-
-        while (isAttack)
-        {
-            attackRange.enabled = true;
-
-            yield return new WaitForSeconds(1f);
-        }
-
-        attackLoop = null;
-        attackRange.enabled = true;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (PlayerLayer.Contain(other.gameObject.layer))    // 만약 충돌한 객체가 플레이어라면
-        {
-            if (isDie) return;
-
-            if (!isAttack)  // isAttack이 현재 false일 때만 실행
-                StartAttack();
-
-            Debug.Log("단순 근접 공격 범위 내에 플레이어 들어옴");
-            if (other.TryGetComponent(out UnitStats target))
-            {
-                animator.SetTrigger("IsAttack");    // 기본 근접 공격 애니메이션 실행
-                target.TakeDamage(attackDamage);
-            }
-
-            attackRange.enabled = false;    // 공격 판정용 콜라이더 비활성화
-        }
+        isAttacking = true;
+        attack?.StartAttack(); // 연결된 공격 실행
     }
     #endregion
 }

@@ -46,9 +46,11 @@ public class PlayerController : MonoBehaviour
     public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
     public UnityEvent onCastReset;
 
-
     [SerializeField] Animator playerAnim;                                   // 플레이어 애니메이션
     [SerializeField] float animDamp = 0.15f;                                // 애니메이션 전환 시의 보간 값 
+
+
+    
 
     Vector3 moveDir = new();
 
@@ -83,7 +85,7 @@ public class PlayerController : MonoBehaviour
     /// - 이동 중이면 <see cref="MapTileManager.UpdateCurrentPos"/>를 호출해
     ///   무한 맵 타일 위치를 갱신한다.
     /// </summary>
-    private void FixedUpdate()
+    private void Update()
     {
         Move();
         if (isMove)
@@ -150,7 +152,6 @@ public class PlayerController : MonoBehaviour
     {
         if (keyboard.leftCtrlKey.isPressed || isDie == true)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
         {
-            Debug.Log("컨트롤 눌림");
 
             rb.linearVelocity = new Vector3(0, 0, 0);                       // 플레이어 즉시 정지
 
@@ -199,7 +200,6 @@ public class PlayerController : MonoBehaviour
         if (keyControl == null) return;                 // 게임패드, 마우스 등 키보드가 아닐 경우 리턴
 
         Key key = keyControl.keyCode;                   // 새 인풋 시스템의 키 열거형
-        Debug.Log(key);
 
         if (castingKeyMapping.TryGetValue(key, out var castingType))
         {
@@ -216,6 +216,8 @@ public class PlayerController : MonoBehaviour
     private void AddCasting(E_CastingType castingType)
     {
         if (currentCastingList.Count >= maxInputCount) return;          //초과 입력 무시
+
+        GameModeManager.SoundManager.PlaySFX(110013);                       // 속성 장전 사운드 sfx
 
         currentCastingList.Add(castingType);                            // 현재 캐스팅된 원소 목록에 지금 누른 원소를 추가한다.
         rangedAttackController.CastedElementCount[castingType]++;       // 현재 캐스팅된 속성 개수 업데이트

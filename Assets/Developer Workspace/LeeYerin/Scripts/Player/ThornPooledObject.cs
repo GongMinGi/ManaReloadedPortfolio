@@ -1,6 +1,8 @@
 using Game.Combat.Stats;
 using System.Collections;
 using UnityEngine;
+using DG.Tweening;
+using System;
 
 /// <summary>
 /// 개발자: 이예린
@@ -24,6 +26,8 @@ public class ThornPooledObject : PooledObject
     [SerializeField] float damage;              // 슬로우 효과 틱당 피해량
 
     private SlowEffect effect;                   // 슬로우 상태 효과 객체
+
+    Sequence seq;
 
     /// <summary>
     /// 효과 적용 범위 반경
@@ -51,9 +55,22 @@ public class ThornPooledObject : PooledObject
 
     protected override IEnumerator OnActivated()
     {
+        seq = DOTween.Sequence();
+        seq.Join(transform.DOMoveY(transform.position.y + 1f, 0.3f));   // 위로 올라오는 애니메이션 실행
+
         // 오브젝트 활성화 시 스킬 동작 코루틴 시작
         StartCoroutine(SkillCoroutine());
         yield break;
+    }
+
+    protected override void OnDeactivated(Action onComplete = null)
+    {
+        seq = DOTween.Sequence();
+        seq.Join(transform.DOMoveY(transform.position.y - 1f, 0.3f))    // 아래로 내려가는 애니메이션 실행
+            .OnComplete(() =>
+            {
+                onComplete?.Invoke();  // 시퀀스 끝났을 때 반납 로직 호출
+            });
     }
 
     private IEnumerator SkillCoroutine()

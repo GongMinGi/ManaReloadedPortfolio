@@ -36,10 +36,20 @@ public class MeteorProjectile : AbstractProjectile
     private MeteorParams meteorParams;
     private BurningGroundProjectile burningGroundInstance;
     [SerializeField] private CinemachineImpulseSource impurseSource;
+    [SerializeField] private ParticleSystem meteorFire;
+
+    [Header("SFX Setting")]
+    [SerializeField] private int meteorExplosionSfxID = 110021;
+    [SerializeField] private int burningGroundSfxID = 110022;
+
+
+
+
     public override void Setup(ProjectileParams p)
     {
         meteorParams = p as MeteorParams;
         transform.position = meteorParams.start;
+        meteorFire.Play();
         StartCoroutine(MeteorRoutine()); 
     }
 
@@ -69,6 +79,7 @@ public class MeteorProjectile : AbstractProjectile
 
         if(impactRadius > 0f)
         {
+            GameModeManager.SoundManager.PlaySFX(meteorExplosionSfxID);
             Collider[] hits = Physics.OverlapSphere( 
                 target, impactRadius, enemyLayer, QueryTriggerInteraction.Ignore);  // 착탄지점에 구체모양의 콜라이더로 데미지 적용
             foreach (var col in hits)
@@ -76,6 +87,7 @@ public class MeteorProjectile : AbstractProjectile
                 if (col.TryGetComponent(out UnitStats enemy))
                     enemy.TakeDamage(damage);
             }
+            meteorFire.Stop();
         }
 
 
@@ -106,6 +118,8 @@ public class MeteorProjectile : AbstractProjectile
 
         };
 
+
+        GameModeManager.SoundManager.PlaySFX(burningGroundSfxID); // 불장판 사운드
         burningGroundInstance.Setup(burningGroundParm);
 
         #endregion

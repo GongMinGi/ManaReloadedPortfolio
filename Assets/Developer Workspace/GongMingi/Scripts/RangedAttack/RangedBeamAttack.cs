@@ -1,6 +1,7 @@
 using Game.Combat.Stats;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,7 +21,11 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     private RangedAttackContext _ctx;        // 변수 이름 수정 필요
 
     [Header("VFX Setting")]     // 구현: 이예린
-    [SerializeField] VFXObject beamVFX;
+    //[SerializeField] VFXObject beamVFX;
+    //[SerializeField] ParticleSystem vfxObjects;
+    [SerializeField] private ParticleSystem beamloopParticle;   // 
+    [SerializeField] private ParticleSystem impactParticle;     // 충돌지점 이펙트
+    [SerializeField] private float surfaceOffset = 0.02f;       // z-fighting 방지 
 
     public event Action Started;
     public event Action<float> Progress;
@@ -35,6 +40,9 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     [SerializeField] private int damagePerTick = 6;         // 틱당 피해량
     [SerializeField] private LayerMask enemyLayer;          // 적 레이어
     [SerializeField] private LayerMask obstacleLayer;       // 빔을 막는 지형 레이어
+
+    [Header("SoundSetting")]
+    [SerializeField] int sfxId = 110016;                                                        // 재생할 사운드 리소스 아이디
 
 
     [Header("Visual")]
@@ -67,6 +75,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     public void ExecuteAttack(E_CastingType type)
     {       
         if (isFiring) return;                               // 이미 발사 중이면 무시
+        GameModeManager.SoundManager.PlaySFX(110016);       // 빔 발사 사운드 , 하드코딩으로 빌드용 버그 없이 수정
         beamRoutine = StartCoroutine(FireBeam());           // 빔 코루틴 시작
       
     }
@@ -90,72 +99,83 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
     IEnumerator FireBeam()
     {
-        //if(m_CallFN != null)
-        //{
-        //    m_CallFN(this);
-        //}
 
         isFiring = true;                                    // 발사 상태 ON
-        lr.enabled = true;                                  // 라인 표시 ON
-        Started?.Invoke();      // 시작 신호
-        beamVFX.Play();         // 빔 VFX 실행
+        //lr.enabled = true;                                // 라인 표시 ON
+        Started?.Invoke();                                  // 시작 신호
 
-        float startTime = Time.time;                        // 현재 시간을 시작 시간으로 설정
+        if(beamloopParticle) beamloopParticle.Play(true);
 
-        RaycastHit[] hits = new RaycastHit[8];              // RaycastNonAlloc 용 버퍼 (GC 방지) => 변수 위치 조정 필요
+        float startTime = Time.time;                        // 현재 시간을 시작 시간으로 설정 
+        float nextTickTime = 0f;                            // 다음 데미지 틱 시간 (쿨다운 타이머)
 
         // 좌클릭이 눌려 있고, 최대 지속 시간을 넘지 않을 때까지 루프
         while (Mouse.current.leftButton.isPressed && Time.time -startTime < maxDuration)
         {
             Vector3 origin = muzzle.position;               // 레이 시작점
             Vector3 dir = muzzle.forward;                   // 발사 방향( transform.forward)
-
-            // 장애물, 적 탐지 레이케스트 ( 할당 없는 NonAlloc 버전) => deprecated  됨 다른거로 바꿔야 할듯
-            int hitCount = Physics.RaycastNonAlloc(
-                origin,                                     // 시작점
-                dir,                                        // 방향
-                hits,                                       // 결과를 담을 배열         
-                maxDistance,                                // 최대 거리
-                enemyLayer | obstacleLayer,                 // 탐지할 레이어 마스크
-                QueryTriggerInteraction.Collide);            // 트리거 Collider 무시 ?? 
-
+            
             float beamLength = maxDistance;                 // 최종 빔 길이 초기값.
+            RaycastHit hit;                                 // 단일 Raycast 결과 저장용
 
-            for (int i = 0;  i < hitCount; ++i)             // 빔에 맞은 개수만큼 순회
+            // 장애물 / 적 레이어에만 충돌 검사 (트리거는 무시)
+            if (Physics.Raycast(origin, dir, out hit, maxDistance,
+                enemyLayer | obstacleLayer , QueryTriggerInteraction.Ignore))
             {
-                Debug.Log("충돌확인");
-                RaycastHit hit = hits[i];
-                if (hit.collider.isTrigger) continue;
+                beamLength = hit.distance;                                      // 빔 길이를 충돌지점까지로 줄임
 
-                if (hit.distance < beamLength)              // 더 가까운 무언가에 맞으면
-                    beamLength = hit.distance;              // 빔 길이 단축
-
-                // 적 레이어에 맞았는지 판단
-                if(enemyLayer.Contain(hit.collider.gameObject.layer))       // 확장메서드를 이용하여 레이어 마스크 판단.
+                // 빔이 적/ 장애물을 맞췄을 때 위치/회전 갱신 
+                if(impactParticle)
                 {
-                    Debug.Log("데미지 적용");
-                    if (hit.collider.TryGetComponent(out UnitStats target))
-                        target.TakeDamage(damagePerTick);
+                    impactParticle.transform.SetPositionAndRotation(
+                        hit.point + hit.normal * surfaceOffset,                 // 충돌 지점
+                        Quaternion.LookRotation(hit.normal)                     // 표면 법선 방향으로 회전
+                    );
+                    if (!impactParticle.isPlaying) impactParticle.Play(true);   // 꺼져 있으면 킨다
                 }
+
+                // 데미지는 틱 간격 으로만 적용 ( 프레임마다가 아님)
+                bool hitEnemy = enemyLayer.Contain(hit.collider.gameObject.layer);
+                if( hitEnemy && Time.time >= nextTickTime )
+                {
+                    if (hit.collider.TryGetComponent(out UnitStats target))
+                        target.TakeDamage(damagePerTick);                       // 데미지 1틱 적용
+
+                    nextTickTime = Time.time + tickInterval;                    // 다음 틱 시간 갱신
+                }
+
+            }
+            else
+            {
+                // 히트가 없으면 임팩트 파티클 끄기 ( 잔상 없이 자연스럽게)
+                if( impactParticle && impactParticle.isPlaying)
+                    impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting );
             }
 
-            // 라인 렌더러 길이 갱신
-            lr.SetPosition(0, origin);                      // 시작점
-            lr.SetPosition(1, origin + dir * beamLength);   // 충돌지점( 혹은 최대 사거리 지점)
+
+            //// 라인 렌더러 길이 갱신
+            //lr.SetPosition(0, origin);                      // 시작점
+            //lr.SetPosition(1, origin + dir * beamLength);   // 충돌지점( 혹은 최대 사거리 지점)
 
 
+
+            // 전체 지속시간 대비 진행률 이벤트 ( UI 게이지 등에서 활용 가능)
             float t = Mathf.InverseLerp(0f, maxDuration, Time.time - startTime);
             Progress?.Invoke(t);
 
-            yield return new WaitForSeconds(tickInterval);  // 다음 틱(피해주기)까지 대기
 
+            yield return null;
         }
 
         //종료 처리
-        lr.enabled = false;                                 //빔 숨김
+        //lr.enabled = false;                                 //빔 라인 숨김 
+        if (beamloopParticle) beamloopParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        if (impactParticle && impactParticle.isPlaying)
+            impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        //GameModeManager.SoundManager.StopSFX();
         isFiring = false;                                   // 상태 리셋 ( 빔 발사 중 false 변경)            
-        Ended?.Invoke();            // 애니메이션 정상 종료
-        beamVFX.Stop();         // 빔 VFX 종료
+        Ended?.Invoke();                                    // 애니메이션 정상 종료
     }
 
     #endregion

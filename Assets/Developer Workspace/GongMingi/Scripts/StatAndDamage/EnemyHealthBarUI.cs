@@ -26,7 +26,7 @@ public class EnemyHealthBarUI : HealthBarBinder
         if (targetStat != null)
             targetStat.OnHpChanged += HandleHpChanged;  // 활성화 시: 대상의 HP 변경 이벤트에 콜백 연결
 
-        Debug.Log("적체력 바 활성화 및 이벤트 등록");
+        //Debug.Log("적체력 바 활성화 및 이벤트 등록");
 
     }
 

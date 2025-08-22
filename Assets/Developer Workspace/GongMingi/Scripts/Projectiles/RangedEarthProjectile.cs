@@ -28,6 +28,9 @@ public class RangedEarthProjectile : AbstractProjectile
                   LayerMask enemyL, LayerMask obstacleL);
     public static OnSetup onSetup;                      // 델리게이트 (아직 테스트용)
 
+    [Header("SoundSetting")]
+    [SerializeField] int sfxId = 110014;                                                        // 재생할 사운드 리소스 아이디
+
     #endregion
 
 
@@ -84,10 +87,12 @@ public class RangedEarthProjectile : AbstractProjectile
     private void OnTriggerEnter(Collider other)
     {
         // 트리거가 아니면서(적의 공격박스 등과는 충돌 무시), 적 레이어에 속하면 폭발
-        if(!other.isTrigger && enemyLayer.Contain(other.gameObject.layer))
+        if (!other.isTrigger && enemyLayer.Contain(other.gameObject.layer))
         {
             Explode();
         }
+        else if (obstacleLayer.Contain(other.gameObject.layer))
+            Release();
     }
 
 
@@ -97,7 +102,9 @@ public class RangedEarthProjectile : AbstractProjectile
     /// </summary>
     void Explode()
     {
-        
+        GameModeManager.SoundManager.PlaySFX(sfxId);       // 돌 원거리 투사체 폭발 사운드
+
+
         Collider[] hits = Physics.OverlapSphere(
             transform.position, 
             explosionRadius, 
@@ -105,7 +112,6 @@ public class RangedEarthProjectile : AbstractProjectile
             QueryTriggerInteraction.Ignore);    // 폭발 범위 내 적 탐색
         foreach (var hit in hits)
         {
-            Debug.Log("폭발 피해 적용");
             if (hit.TryGetComponent(out UnitStats target))
                 target.TakeDamage(damage);
         }

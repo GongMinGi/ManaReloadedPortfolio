@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: eca0310483800e345ae1652b3230292e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - pool: {instanceID: 0}
+  - impurseSource: {instanceID: 0}
+  - meteorFire: {instanceID: 0}
+  - meteorExplosion: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -30,7 +30,7 @@ public class BurningGroundProjectile : AbstractProjectile
 
     private BurningGroundParams burnParam;                                   // 불장판 파라미터를 가지고 있는 구조체
     private Coroutine burningGroundCoroutine;
-
+    [SerializeField] private ParticleSystem meteorExplosion;
 
     /// <summary>
     /// - 불장판 소환에 필요한 매개변수가 담긴 구조체를 받아온다.
@@ -39,6 +39,7 @@ public class BurningGroundProjectile : AbstractProjectile
     {
         burnParam = param as BurningGroundParams;
         transform.position = burnParam.center;                        // 불장판의 소환지점은 운석 충돌의 중심지
+        meteorExplosion.Play();
         burningGroundCoroutine = StartCoroutine(TickRoutine()); 
     }
 
@@ -65,6 +66,8 @@ public class BurningGroundProjectile : AbstractProjectile
             DoDamage();
         }
 
+        meteorExplosion.Stop();
+    
         Release();
     }
 
