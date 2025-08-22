@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa2658a35aabc743ba988f127894cae, type: 3}
   m_Name: Knght StatsData
   m_EditorClassIdentifier: 
-  baseHP: 3500
-  baseMoveSpeed: 4.5
+  baseHP: 5000
+  baseMoveSpeed: 6
   baseDefense: 1
