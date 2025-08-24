@@ -8,6 +8,6 @@
 ## 🧑‍💻 개발 환경
 
 - 프로젝트 기간 : 2025.07.04 ~ In progress
-- 인원: 4인(기획 2인, 개발 2인)
-- 사용 툴 : **Unity(6000.0.23f1)**, Visual Studio 2022, Fork, Notion, Jira
+- 인원: 6인(기획 2인, 개발 3인, 사운드 1인)
+- 사용 툴 : **Unity(6000.0.23f1)**, Visual Studio 2022, Fork, Notion, Jira, Wwise
 <br/> <br/> 
