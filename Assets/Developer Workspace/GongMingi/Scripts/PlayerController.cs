@@ -1,4 +1,4 @@
-using Game.Combat.Stats;
+ï»¿using Game.Combat.Stats;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
@@ -10,21 +10,21 @@ using UnityEngine.InputSystem.Controls;
 
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°, °ø¹Î±â
+/// ê°œë°œì: ì´ì˜ˆë¦°, ê³µë¯¼ê¸°
 /// 
-/// ÇÃ·¹ÀÌ¾î Á¶ÀÛÀ» °ü¸®ÇÏ´Â Å¬·¡½º
+/// í”Œë ˆì´ì–´ ì¡°ì‘ì„ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
 /// 
-/// ÇöÀç´Â ¹«ÇÑ ¸Ê ±¸ÇöÀ» À§ÇØ Ä³¸¯ÅÍ ÀÌµ¿ °ü·Ã ±â´ÉÀÌ ±¸ÇöµÇ¾î ÀÖÀ½
+/// í˜„ì¬ëŠ” ë¬´í•œ ë§µ êµ¬í˜„ì„ ìœ„í•´ ìºë¦­í„° ì´ë™ ê´€ë ¨ ê¸°ëŠ¥ì´ êµ¬í˜„ë˜ì–´ ìˆìŒ
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    Keyboard keyboard = Keyboard.current;               // ÇöÀç Å°º¸µå¿¡ ´ëÇÑ Á¦¾î¸¦ µé°í ÀÖÀ½?
+    Keyboard keyboard = Keyboard.current;               // í˜„ì¬ í‚¤ë³´ë“œì— ëŒ€í•œ ì œì–´ë¥¼ ë“¤ê³  ìˆìŒ?
 
     #region FieldAndProperty
 
     #region Stats
     [Header("Stats Setting")]
-    [SerializeField] UnitStats stats;   // ÇÃ·¹ÀÌ¾îÀÇ ÇöÀç ½ºÅÈÀ» °ü¸®ÇÏ´Â ÄÄÆ÷³ÍÆ®
+    [SerializeField] UnitStats stats;   // í”Œë ˆì´ì–´ì˜ í˜„ì¬ ìŠ¤íƒ¯ì„ ê´€ë¦¬í•˜ëŠ” ì»´í¬ë„ŒíŠ¸
     public UnitStats Stats => stats;
     #endregion
 
@@ -37,17 +37,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool isDie;
 
     [Header("Casting Settings")]
-    [SerializeField] private int maxInputCount = 6;                         // Á¶ÇÕ ±æÀÌ
+    [SerializeField] private int maxInputCount = 6;                         // ì¡°í•© ê¸¸ì´
 
-    [SerializeField] ElementalRangedAttackController rangedAttackController;    // ¿ø°Å¸® °ø°İÀ» Á¦¾îÇÏ´Â ÄÁÆ®·Ñ·¯
-    [SerializeField] MeleeConeAttack meleeConeAttack;                           // ±ÙÁ¢°ø°İÀ» ½ÇÇàÇÏ±â À§ÇÑ º¯¼ö
+    [SerializeField] ElementalRangedAttackController rangedAttackController;    // ì›ê±°ë¦¬ ê³µê²©ì„ ì œì–´í•˜ëŠ” ì»¨íŠ¸ë¡¤ëŸ¬
+    [SerializeField] MeleeConeAttack meleeConeAttack;                           // ê·¼ì ‘ê³µê²©ì„ ì‹¤í–‰í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
 
-    [Header("Event -> UI ¿¬°á")]
-    public UnityEvent<E_CastingType, int> onCastAdded;                      // (Å¸ÀÔ, index)
+    [Header("Event -> UI ì—°ê²°")]
+    public UnityEvent<E_CastingType, int> onCastAdded;                      // (íƒ€ì…, index)
     public UnityEvent onCastReset;
 
-    [SerializeField] Animator playerAnim;                                   // ÇÃ·¹ÀÌ¾î ¾Ö´Ï¸ŞÀÌ¼Ç
-    [SerializeField] float animDamp = 0.15f;                                // ¾Ö´Ï¸ŞÀÌ¼Ç ÀüÈ¯ ½ÃÀÇ º¸°£ °ª 
+    [SerializeField] Animator playerAnim;                                   // í”Œë ˆì´ì–´ ì• ë‹ˆë©”ì´ì…˜
+    [SerializeField] float animDamp = 0.15f;                                // ì• ë‹ˆë©”ì´ì…˜ ì „í™˜ ì‹œì˜ ë³´ê°„ ê°’ 
 
 
     
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDir = new();
 
     /// <summary>
-    /// ¿ÜºÎ ¸ó½ºÅÍ¿¡¼­ Á¢±ÙÇÏ±â À§ÇØ¼­ moveDir ÇÁ·ÎÆÛÆ¼È­
+    /// ì™¸ë¶€ ëª¬ìŠ¤í„°ì—ì„œ ì ‘ê·¼í•˜ê¸° ìœ„í•´ì„œ moveDir í”„ë¡œí¼í‹°í™”
     /// </summary>
     public Vector3 MoveDir
     {
@@ -80,10 +80,10 @@ public class PlayerController : MonoBehaviour
     #region Unity Update
 
     /// <summary>
-    /// ¹°¸® ÇÁ·¹ÀÓ¸¶´Ù È£Ãâ.
-    /// - <see cref="Move"/>·Î ½ÇÁ¦ ÀÌµ¿À» ¼öÇàÇÏ°í  
-    /// - ÀÌµ¿ ÁßÀÌ¸é <see cref="MapTileManager.UpdateCurrentPos"/>¸¦ È£ÃâÇØ
-    ///   ¹«ÇÑ ¸Ê Å¸ÀÏ À§Ä¡¸¦ °»½ÅÇÑ´Ù.
+    /// ë¬¼ë¦¬ í”„ë ˆì„ë§ˆë‹¤ í˜¸ì¶œ.
+    /// - <see cref="Move"/>ë¡œ ì‹¤ì œ ì´ë™ì„ ìˆ˜í–‰í•˜ê³   
+    /// - ì´ë™ ì¤‘ì´ë©´ <see cref="MapTileManager.UpdateCurrentPos"/>ë¥¼ í˜¸ì¶œí•´
+    ///   ë¬´í•œ ë§µ íƒ€ì¼ ìœ„ì¹˜ë¥¼ ê°±ì‹ í•œë‹¤.
     /// </summary>
     private void Update()
     {
@@ -97,49 +97,49 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("start ÁøÀÔ");
-        GameModeManager.Player = this;                                  // ÇöÀç ÇÃ·¹ÀÌ¾î ÀÎ½ºÅÏ½º¸¦ GameModeManager¿¡ µî·Ï
-        Debug.Log("player ÇÒ´ç");
+        Debug.Log("start ì§„ì…");
+        GameModeManager.Player = this;                                  // í˜„ì¬ í”Œë ˆì´ì–´ ì¸ìŠ¤í„´ìŠ¤ë¥¼ GameModeManagerì— ë“±ë¡
+        Debug.Log("player í• ë‹¹");
 
-        // ¿ø°Å¸® °ø°İÀ» À§ÇÑ ÃÊ±â ¼¼ÆÃ ÀÛ¾÷
+        // ì›ê±°ë¦¬ ê³µê²©ì„ ìœ„í•œ ì´ˆê¸° ì„¸íŒ… ì‘ì—…
         foreach (var mapping in castingKeyMapping)                              
             rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
 
         stats.OnDie += OnDie;
 
-        rangedAttackController.PlayerAnim = playerAnim;                 // Awake ½Ã¿¡ ElmentalRangedAttackController·Î ¾Ö´Ï¸ŞÀÌÅÍ ³Ñ°ÜÁÜ
+        rangedAttackController.PlayerAnim = playerAnim;                 // Awake ì‹œì— ElmentalRangedAttackControllerë¡œ ì• ë‹ˆë©”ì´í„° ë„˜ê²¨ì¤Œ
     }
     #endregion
 
 
     #region Move
     /// <summary>
-    /// ½ºÇÁ¸°Æ®(Shift) ÀÔ·Â Ã³¸®.
-    /// - <paramref name="ctx"/>.started ¡æ isSprint = true
-    /// - <paramref name="ctx"/>.canceled ¡æ isSprint = false
+    /// ìŠ¤í”„ë¦°íŠ¸(Shift) ì…ë ¥ ì²˜ë¦¬.
+    /// - <paramref name="ctx"/>.started â†’ isSprint = true
+    /// - <paramref name="ctx"/>.canceled â†’ isSprint = false
     /// </summary>
     public void OnSprint(InputAction.CallbackContext ctx)
     {
-        if (ctx.started) isSprint = true;           // shift¸¦ ´©¸£±â ½ÃÀÛÇßÀ»¶§ ´Ş¸®±â »óÅÂ·Î µé¾î°£´Ù.
-        if (ctx.canceled) isSprint = false;         // shift¿¡¼­ ¼ÕÀ» ¶ª ¶§ °È±â »óÅÂ·Î µ¹¾Æ°£´Ù.
+        if (ctx.started) isSprint = true;           // shiftë¥¼ ëˆ„ë¥´ê¸° ì‹œì‘í–ˆì„ë•Œ ë‹¬ë¦¬ê¸° ìƒíƒœë¡œ ë“¤ì–´ê°„ë‹¤.
+        if (ctx.canceled) isSprint = false;         // shiftì—ì„œ ì†ì„ ë•” ë•Œ ê±·ê¸° ìƒíƒœë¡œ ëŒì•„ê°„ë‹¤.
         else return;
     }
 
 
     /// <summary>
-    /// WASD ÀÌµ¿ ÀÔ·Â Ã³¸®.
-    /// - ÀÔ·Â º¤ÅÍ¸¦ moveDir¿¡ ÀúÀåÇÏ°í 
-    /// - 0,0 ¿©ºÎ¿¡ µû¶ó isMove ÇÃ·¡±×¸¦ °»½ÅÇÑ´Ù.
+    /// WASD ì´ë™ ì…ë ¥ ì²˜ë¦¬.
+    /// - ì…ë ¥ ë²¡í„°ë¥¼ moveDirì— ì €ì¥í•˜ê³  
+    /// - 0,0 ì—¬ë¶€ì— ë”°ë¼ isMove í”Œë˜ê·¸ë¥¼ ê°±ì‹ í•œë‹¤.
     /// </summary>
-    /// <param name="value">InputAction Äİ¹éÀ¸·Î Àü´ŞµÈ Vector2 °ª</param>
+    /// <param name="value">InputAction ì½œë°±ìœ¼ë¡œ ì „ë‹¬ëœ Vector2 ê°’</param>
     public void OnMove(InputAction.CallbackContext value)
     {
-        Vector2 input = value.ReadValue<Vector2>();    // wasd·Î ÀÌµ¿°ªÀ» ÀÔ·Â¹ŞÀ½ 
+        Vector2 input = value.ReadValue<Vector2>();    // wasdë¡œ ì´ë™ê°’ì„ ì…ë ¥ë°›ìŒ 
 
-        moveDir.x = input.x;                    // xÃàÀÌ ÀÔ·Â¹Ş°í ÀÕ´ÂÁö , ¿À¸¥ÂÊ == 1, ¿ŞÂÊ == -1, Á¤Áö == 0
-        moveDir.z = input.y;                    // yÃàÀÌ ÀÔ·Â¹Ş°í ÀÕ´ÂÁö , À§ÂÊ == 1, ¾Æ·¡ÂÊ == -1, Á¤Áö == 0
+        moveDir.x = input.x;                    // xì¶•ì´ ì…ë ¥ë°›ê³  ì‡ëŠ”ì§€ , ì˜¤ë¥¸ìª½ == 1, ì™¼ìª½ == -1, ì •ì§€ == 0
+        moveDir.z = input.y;                    // yì¶•ì´ ì…ë ¥ë°›ê³  ì‡ëŠ”ì§€ , ìœ„ìª½ == 1, ì•„ë˜ìª½ == -1, ì •ì§€ == 0
 
-        if (input.x == 0 && input.y == 0)       // xÃà yÃà ¸ğµÎ ¿òÁ÷ÀÌÁö ¾Ê´Â´Ù¸é, ¿òÁ÷ÀÓÀ» ÆÇ´ÜÇÏ´Â º¯¼ö¸¦ false·Î ¼³Á¤
+        if (input.x == 0 && input.y == 0)       // xì¶• yì¶• ëª¨ë‘ ì›€ì§ì´ì§€ ì•ŠëŠ”ë‹¤ë©´, ì›€ì§ì„ì„ íŒë‹¨í•˜ëŠ” ë³€ìˆ˜ë¥¼ falseë¡œ ì„¤ì •
             isMove = false;
         else
             isMove = true;
@@ -147,23 +147,23 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// ½ÇÁ¦ CharacterController ÀÌµ¿ ·ÎÁ÷.
-    /// - ÁÂ CtrlÀÌ ´­·Á ÀÖÀ¸¸é ÀÌµ¿À» Áß´ÜÇÑ´Ù.  
-    /// - ½ºÇÁ¸°Æ® ÁßÀÌ¸é sprintMultiplier ¸¦ speed¿¡ °öÇØÁÖ¾î ¼Óµµ¸¦ Áõ°¡½ÃÅ²´Ù.
+    /// ì‹¤ì œ CharacterController ì´ë™ ë¡œì§.
+    /// - ì¢Œ Ctrlì´ ëˆŒë ¤ ìˆìœ¼ë©´ ì´ë™ì„ ì¤‘ë‹¨í•œë‹¤.  
+    /// - ìŠ¤í”„ë¦°íŠ¸ ì¤‘ì´ë©´ sprintMultiplier ë¥¼ speedì— ê³±í•´ì£¼ì–´ ì†ë„ë¥¼ ì¦ê°€ì‹œí‚¨ë‹¤.
     /// </summary>
     private void Move()
     {
-        if (keyboard.leftCtrlKey.isPressed || isDie == true)                                  // ¿ŞÂÊ ÄÁÆ®·Ñ Å°°¡ ´­¸° »óÅÂ¸é ¹Ù·Î ÀÌµ¿ ºÒ°¡
+        if (keyboard.leftCtrlKey.isPressed || isDie == true)                                  // ì™¼ìª½ ì»¨íŠ¸ë¡¤ í‚¤ê°€ ëˆŒë¦° ìƒíƒœë©´ ë°”ë¡œ ì´ë™ ë¶ˆê°€
         {
 
-            rb.linearVelocity = new Vector3(0, 0, 0);                       // ÇÃ·¹ÀÌ¾î Áï½Ã Á¤Áö
+            rb.linearVelocity = new Vector3(0, 0, 0);                       // í”Œë ˆì´ì–´ ì¦‰ì‹œ ì •ì§€
 
-            playerAnim.SetFloat("Horizontal", 0, animDamp, Time.deltaTime);                           // ÇÃ·¹ÀÌ¾î ÀÌµ¿ ¾Ö´Ï¸ŞÀÌ¼Ç Á¤Áö
+            playerAnim.SetFloat("Horizontal", 0, animDamp, Time.deltaTime);                           // í”Œë ˆì´ì–´ ì´ë™ ì• ë‹ˆë©”ì´ì…˜ ì •ì§€
             playerAnim.SetFloat("Speed", 0, animDamp, Time.deltaTime);
             return;                                                         
         }
 
-        float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);       // ÀÌµ¿¼Óµµ º¯¼ö¿¡ ´Ş¸®´Â ÁßÀÌ¸é, ´Ù¸¥ ¼ıÀÚ¸¦ °öÇØÁÖ°í, ¾Æ´Ï¸é  1À» °öÇØÁØ´Ù
+        float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);       // ì´ë™ì†ë„ ë³€ìˆ˜ì— ë‹¬ë¦¬ëŠ” ì¤‘ì´ë©´, ë‹¤ë¥¸ ìˆ«ìë¥¼ ê³±í•´ì£¼ê³ , ì•„ë‹ˆë©´  1ì„ ê³±í•´ì¤€ë‹¤
 
         playerAnim.SetFloat("Horizontal", moveDir.x, animDamp, Time.deltaTime);
         playerAnim.SetFloat("Speed", moveDir.z, animDamp, Time.deltaTime);
@@ -179,17 +179,17 @@ public class PlayerController : MonoBehaviour
         isDie = true;
 
         playerAnim.SetBool("isDie", true);
-        Debug.Log("»ç¸Á");
+        Debug.Log("ì‚¬ë§");
 
         GameModeManager.GameLogicManager.GameOver();
     }
 
-    #region ¼Ó¼º Ä³½ºÆÃ
+    #region ì†ì„± ìºìŠ¤íŒ…
 
     /// <summary>
-    /// ¼Ó¼º Å°(WASD) ÀÔ·Â Ã³¸®.
-    /// - update¿¡¼­ ctrlÀ» ´©¸£°í ÀÖÀ» ¶§¸¸Ã³¸®
-    /// - wasd¸¦ ºü¸£°Ô ÀÔ·ÂÇØµµ µô·¹ÀÌ ¾øÀÌ Ã³¸® °¡´É
+    /// ì†ì„± í‚¤(WASD) ì…ë ¥ ì²˜ë¦¬.
+    /// - updateì—ì„œ ctrlì„ ëˆ„ë¥´ê³  ìˆì„ ë•Œë§Œì²˜ë¦¬
+    /// - wasdë¥¼ ë¹ ë¥´ê²Œ ì…ë ¥í•´ë„ ë”œë ˆì´ ì—†ì´ ì²˜ë¦¬ ê°€ëŠ¥
     /// </summary>
     public void OnCastingSpell()
     {
@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
             if (keyboard.wKey.wasPressedThisFrame)
             {
                 castingKeyMapping.TryGetValue(Key.W, out var value);
-                Debug.Log(value);                                           // ÀÌ°Å ·Î±×¾øÀ¸¸é ¸®½ºÆ®¿¡ ¾Èµé¾î°¨ ¤»¤»¤» ¹ÌÄ£ »õ±â
+                Debug.Log(value);                                           // ì´ê±° ë¡œê·¸ì—†ìœ¼ë©´ ë¦¬ìŠ¤íŠ¸ì— ì•ˆë“¤ì–´ê° ã…‹ã…‹ã…‹ ë¯¸ì¹œ ìƒˆê¸°
                 AddCasting(value);
             }
             if (keyboard.aKey.wasPressedThisFrame)
@@ -224,89 +224,89 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Ä³½ºÆÃ ¸®½ºÆ®¿¡ »õ ¼Ó¼ºÀ» Ãß°¡ÇÏ°í UI ÀÌº¥Æ®¸¦ ¹ßÇàÇÑ´Ù.
-    /// - maxInputCount ÃÊ°ú ½Ã ¹«½Ã.  
-    /// - <see cref="onCastAdded"/> (Å¸ÀÔ, ÀÎµ¦½º) ÀÌº¥Æ® È£Ãâ.
+    /// ìºìŠ¤íŒ… ë¦¬ìŠ¤íŠ¸ì— ìƒˆ ì†ì„±ì„ ì¶”ê°€í•˜ê³  UI ì´ë²¤íŠ¸ë¥¼ ë°œí–‰í•œë‹¤.
+    /// - maxInputCount ì´ˆê³¼ ì‹œ ë¬´ì‹œ.  
+    /// - <see cref="onCastAdded"/> (íƒ€ì…, ì¸ë±ìŠ¤) ì´ë²¤íŠ¸ í˜¸ì¶œ.
     /// </summary>
     private void AddCasting(E_CastingType castingType)
     {
-        if (currentCastingList.Count >= maxInputCount) return;          //ÃÊ°ú ÀÔ·Â ¹«½Ã
+        if (currentCastingList.Count >= maxInputCount) return;          //ì´ˆê³¼ ì…ë ¥ ë¬´ì‹œ
 
-        GameModeManager.SoundManager.PlaySFX(110013);                       // ¼Ó¼º ÀåÀü »ç¿îµå sfx
+        GameModeManager.SoundManager.PlaySFX(110013);                       // ì†ì„± ì¥ì „ ì‚¬ìš´ë“œ sfx
 
-        currentCastingList.Add(castingType);                            // ÇöÀç Ä³½ºÆÃµÈ ¿ø¼Ò ¸ñ·Ï¿¡ Áö±İ ´©¸¥ ¿ø¼Ò¸¦ Ãß°¡ÇÑ´Ù.
-        rangedAttackController.CastedElementCount[castingType]++;       // ÇöÀç Ä³½ºÆÃµÈ ¼Ó¼º °³¼ö ¾÷µ¥ÀÌÆ®
+        currentCastingList.Add(castingType);                            // í˜„ì¬ ìºìŠ¤íŒ…ëœ ì›ì†Œ ëª©ë¡ì— ì§€ê¸ˆ ëˆ„ë¥¸ ì›ì†Œë¥¼ ì¶”ê°€í•œë‹¤.
+        rangedAttackController.CastedElementCount[castingType]++;       // í˜„ì¬ ìºìŠ¤íŒ…ëœ ì†ì„± ê°œìˆ˜ ì—…ë°ì´íŠ¸
         onCastAdded.Invoke(castingType, currentCastingList.Count - 1);  // unity event
     }
 
 
 
     /// <summary>
-    /// Ä³½ºÆÃ ÀÔ·ÂÀ» ÃÊ±âÈ­ÇÏ°í UI ¸®¼Â ÀÌº¥Æ®(<see cref="onCastReset"/>)¸¦ È£ÃâÇÑ´Ù.
+    /// ìºìŠ¤íŒ… ì…ë ¥ì„ ì´ˆê¸°í™”í•˜ê³  UI ë¦¬ì…‹ ì´ë²¤íŠ¸(<see cref="onCastReset"/>)ë¥¼ í˜¸ì¶œí•œë‹¤.
     /// 
-    /// => ÀÌºÎºĞ Ãß°¡·Î °øºÎÇÊ¿ä ¾îÄÉÀÛµ¿ÇÏ´ÂÁö ¾ÆÁ÷ÀÌÇØ¸øÇÔ ¤Ğ
+    /// => ì´ë¶€ë¶„ ì¶”ê°€ë¡œ ê³µë¶€í•„ìš” ì–´ì¼€ì‘ë™í•˜ëŠ”ì§€ ì•„ì§ì´í•´ëª»í•¨ ã… 
     /// 
     /// </summary>
     private void ResetCasting()
     {
-        currentCastingList.Clear();     // ÇöÀç Ä³½ºÆÃ µÈ ¿ø¼ÒµéÀ» Áö¿î´Ù
-        onCastReset?.Invoke();          // ui¿¡ Ç¥½ÃµÈ ¿ø¼Ò¸¦ ÀüºÎ °ËÁ¤»öÀ¸·Î ¹Ù²Û´Ù. (ºñ¿î´Ù)
+        currentCastingList.Clear();     // í˜„ì¬ ìºìŠ¤íŒ… ëœ ì›ì†Œë“¤ì„ ì§€ìš´ë‹¤
+        onCastReset?.Invoke();          // uiì— í‘œì‹œëœ ì›ì†Œë¥¼ ì „ë¶€ ê²€ì •ìƒ‰ìœ¼ë¡œ ë°”ê¾¼ë‹¤. (ë¹„ìš´ë‹¤)
     }
 
     #endregion
 
 
-    #region Á¶ÇÕ ¸¶¹ı °ø°İ
+    #region ì¡°í•© ë§ˆë²• ê³µê²©
 
     /// <summary>
-    /// ¡®Á¶ÇÕ ¸¶¹ı °ø°İ¡¯ ÀÔ·Â Æ®¸®°Å.
-    /// - ctx.started »óÅÂ¿¡¼­ <see cref="TryCastSkill"/>À» È£ÃâÇÑ´Ù.
+    /// â€˜ì¡°í•© ë§ˆë²• ê³µê²©â€™ ì…ë ¥ íŠ¸ë¦¬ê±°.
+    /// - ctx.started ìƒíƒœì—ì„œ <see cref="TryCastSkill"/>ì„ í˜¸ì¶œí•œë‹¤.
     /// </summary>
     public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
     {
-        if (!ctx.performed) return;       // space ¸¦ ´­·¶À»¶§°¡ ¾Æ´Ï¸é (hold½Ã È¤Àº ¶®À»¶§) ½ÇÇàÇÏÁö ¾Ê´Â´Ù.
-        Debug.Log("Á¶ÇÕ¸¶¹ı °ø°İ");
+        if (!ctx.performed) return;       // space ë¥¼ ëˆŒë €ì„ë•Œê°€ ì•„ë‹ˆë©´ (holdì‹œ í˜¹ì€ ë• ì„ë•Œ) ì‹¤í–‰í•˜ì§€ ì•ŠëŠ”ë‹¤.
+        Debug.Log("ì¡°í•©ë§ˆë²• ê³µê²©");
 
-        TryCastSkill();                 // ½ºÅ³ ½ÇÇà
+        TryCastSkill();                 // ìŠ¤í‚¬ ì‹¤í–‰
     }
 
 
 
     /// <summary>
-    /// ÇöÀç Ä³½ºÆÃ ¸®½ºÆ®¿Í ¸ÅÄªµÇ´Â ½ºÅ³À» Ã£¾Æ ½ÇÇàÇÑ´Ù.
-    /// - <see cref="SkillCastingManager.GetSkill"/>·Î Á¶È¸.  
-    /// - ¼º°ø ½Ã ExecuteSkill() È£Ãâ, ¾øÀ¸¸é ¿À·ù ·Î±×.  
-    /// - Ã³¸® ÈÄ <see cref="ResetCasting"/> ¼öÇà.
+    /// í˜„ì¬ ìºìŠ¤íŒ… ë¦¬ìŠ¤íŠ¸ì™€ ë§¤ì¹­ë˜ëŠ” ìŠ¤í‚¬ì„ ì°¾ì•„ ì‹¤í–‰í•œë‹¤.
+    /// - <see cref="SkillCastingManager.GetSkill"/>ë¡œ ì¡°íšŒ.  
+    /// - ì„±ê³µ ì‹œ ExecuteSkill() í˜¸ì¶œ, ì—†ìœ¼ë©´ ì˜¤ë¥˜ ë¡œê·¸.  
+    /// - ì²˜ë¦¬ í›„ <see cref="ResetCasting"/> ìˆ˜í–‰.
     /// </summary>
     private void TryCastSkill()
     {
-        if (currentCastingList.Count == 0) return;      // ÇöÀç Ä³½ºÆÃµÈ ¿ø¼Ò°¡ ¾øÀ¸¸é ½ºÅ³À» ½ÇÇàÇÏÁö ¾Ê´Â´Ù.
+        if (currentCastingList.Count == 0) return;      // í˜„ì¬ ìºìŠ¤íŒ…ëœ ì›ì†Œê°€ ì—†ìœ¼ë©´ ìŠ¤í‚¬ì„ ì‹¤í–‰í•˜ì§€ ì•ŠëŠ”ë‹¤.
 
 
-        BaseCombinationMagic skill = GameModeManager.SkillCastingManager.GetSkill(currentCastingList);    // ½ºÅ³°ü¸®ÀÚ¿¡°Ô Ä³½ºÆÃµÈ ¿ø¼Ò¸®½ºÆ®¸¦ º¸³»¼­ ±×¿¡ ÇØ´çÇÏ´Â ½ºÅ³ÀÇ °íÀ¯¹øÈ£¸¦ ¹Ş´Â´Ù.
+        BaseCombinationMagic skill = GameModeManager.SkillCastingManager.GetSkill(currentCastingList);    // ìŠ¤í‚¬ê´€ë¦¬ìì—ê²Œ ìºìŠ¤íŒ…ëœ ì›ì†Œë¦¬ìŠ¤íŠ¸ë¥¼ ë³´ë‚´ì„œ ê·¸ì— í•´ë‹¹í•˜ëŠ” ìŠ¤í‚¬ì˜ ê³ ìœ ë²ˆí˜¸ë¥¼ ë°›ëŠ”ë‹¤.
 
-        if (skill != null)              // ½ºÅ³ÀÌ Á¸ÀçÇÑ´Ù¸é
+        if (skill != null)              // ìŠ¤í‚¬ì´ ì¡´ì¬í•œë‹¤ë©´
         {
-            skill.ExecuteSkill();       // ½ºÅ³À» ½ÇÇàÇÑ´Ù.
+            skill.ExecuteSkill();       // ìŠ¤í‚¬ì„ ì‹¤í–‰í•œë‹¤.
         }
         else
         {
-            Debug.LogWarning("ÇØ´ç Á¶ÇÕ¿¡ ¸ÅÄªµÇ´Â ½ºÅ³ÀÌ ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("í•´ë‹¹ ì¡°í•©ì— ë§¤ì¹­ë˜ëŠ” ìŠ¤í‚¬ì´ ì—†ìŠµë‹ˆë‹¤.");
         }
 
-        ResetCasting();                 // Ä³½ºÆÃÇÑ ¼Ó¼ºÀ» ÀüºÎ ºñ¿î´Ù.
+        ResetCasting();                 // ìºìŠ¤íŒ…í•œ ì†ì„±ì„ ì „ë¶€ ë¹„ìš´ë‹¤.
 
     }
     #endregion
 
 
-    #region ±ÙÁ¢ °ø°İ
+    #region ê·¼ì ‘ ê³µê²©
 
 
     /// <summary>
-    /// ±ÙÁ¢ °ø°İ ÀÔ·Â Æ®¸®°Å.
-    /// - Ä³½ºÆÃÀÌ Á¸ÀçÇÏ¸é <see cref="TryEnchant"/>¸¦ È£ÃâÇØ ÀÎÃ¾Æ® ½Ãµµ.  
-    /// - ¾øÀ¸¸é ÀÏ¹İ ±ÙÁ¢ °ø°İ(ÈÄ¼Ó ±¸Çö ÇÊ¿ä) ·Î±× Ãâ·Â.
+    /// ê·¼ì ‘ ê³µê²© ì…ë ¥ íŠ¸ë¦¬ê±°.
+    /// - ìºìŠ¤íŒ…ì´ ì¡´ì¬í•˜ë©´ <see cref="TryEnchant"/>ë¥¼ í˜¸ì¶œí•´ ì¸ì²¸íŠ¸ ì‹œë„.  
+    /// - ì—†ìœ¼ë©´ ì¼ë°˜ ê·¼ì ‘ ê³µê²©(í›„ì† êµ¬í˜„ í•„ìš”) ë¡œê·¸ ì¶œë ¥.
     /// </summary>
     public void OnMeleeAttack(InputAction.CallbackContext ctx)
     {
@@ -318,19 +318,19 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        meleeConeAttack.ExecuteAttack(E_CastingType.None);      // ¹«¼Ó¼º ¹°¸® °ø°İ ½ÇÇà
+        meleeConeAttack.ExecuteAttack(E_CastingType.None);      // ë¬´ì†ì„± ë¬¼ë¦¬ ê³µê²© ì‹¤í–‰
 
-        Debug.Log("±ÙÁ¢ °ø°İ ");
+        Debug.Log("ê·¼ì ‘ ê³µê²© ");
     }
 
 
     /// <summary>
-    /// ±ÙÁ¢ ¹«±â ÀÎÃ¾Æ® ½Ãµµ.
-    /// * ½ÇÁ¦ ÀÎÃ¾Æ® È¿°ú´Â ÃßÈÄ ±¸Çö ¿¹Á¤.
+    /// ê·¼ì ‘ ë¬´ê¸° ì¸ì²¸íŠ¸ ì‹œë„.
+    /// * ì‹¤ì œ ì¸ì²¸íŠ¸ íš¨ê³¼ëŠ” ì¶”í›„ êµ¬í˜„ ì˜ˆì •.
     /// </summary>
     private void TryEnchant()
     {
-        Debug.Log("ÀÎÃ¾Æ® ½ÇÇà");
+        Debug.Log("ì¸ì²¸íŠ¸ ì‹¤í–‰");
 
         ResetCasting();
     }
@@ -338,27 +338,27 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
-    #region ¿ø°Å¸® °ø°İ
+    #region ì›ê±°ë¦¬ ê³µê²©
 
 
     /// <summary>
-    /// ¿ø°Å¸® °ø°İ ÀÔ·Â Æ®¸®°Å.
-    /// - Ä³½ºÆÃ ¸®½ºÆ®°¡ ºñ¾î ÀÖÀ¸¸é ¾Æ¹« ÀÛ¾÷µµ ÇÏÁö ¾Ê´Â´Ù.  
-    /// - ÇöÀç´Â ·Î±× Ãâ·Â ÈÄ Ä³½ºÆÃÀ» ÃÊ±âÈ­ÇÑ´Ù.
+    /// ì›ê±°ë¦¬ ê³µê²© ì…ë ¥ íŠ¸ë¦¬ê±°.
+    /// - ìºìŠ¤íŒ… ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ ìˆìœ¼ë©´ ì•„ë¬´ ì‘ì—…ë„ í•˜ì§€ ì•ŠëŠ”ë‹¤.  
+    /// - í˜„ì¬ëŠ” ë¡œê·¸ ì¶œë ¥ í›„ ìºìŠ¤íŒ…ì„ ì´ˆê¸°í™”í•œë‹¤.
     /// </summary>
     public void OnRangedAttack(InputAction.CallbackContext ctx)
     {
-        if (!ctx.started) return;       // ¸¶¿ì½º ÁÂÅ¬¸¯À» ´­·¶À»¶§°¡ ¾Æ´Ï¸é (hold½Ã È¤Àº ¶®À»¶§) ½ÇÇàÇÏÁö ¾Ê´Â´Ù.            
+        if (!ctx.started) return;       // ë§ˆìš°ìŠ¤ ì¢Œí´ë¦­ì„ ëˆŒë €ì„ë•Œê°€ ì•„ë‹ˆë©´ (holdì‹œ í˜¹ì€ ë• ì„ë•Œ) ì‹¤í–‰í•˜ì§€ ì•ŠëŠ”ë‹¤.            
 
 
-        if (currentCastingList.Count == 0)  // ÇöÀç Ä³½ºÆÃµÈ ¿ø¼ÒÀÇ ¼ö°¡ ¾ø´Ù¸é, ¸®ÅÏÇÑ´Ù
+        if (currentCastingList.Count == 0)  // í˜„ì¬ ìºìŠ¤íŒ…ëœ ì›ì†Œì˜ ìˆ˜ê°€ ì—†ë‹¤ë©´, ë¦¬í„´í•œë‹¤
             return;
 
-        Debug.Log("¿ø°Å¸® °ø°İ");
+        Debug.Log("ì›ê±°ë¦¬ ê³µê²©");
 
-        rangedAttackController.TryElementalRangedAttack();  // ¿ø°Å¸® °ø°İ ½Ãµµ
+        rangedAttackController.TryElementalRangedAttack();  // ì›ê±°ë¦¬ ê³µê²© ì‹œë„
 
-        ResetCasting();                     // Ä³½ºÆÃÇÑ ¼Ó¼ºÀ» ÀüºÎ ºñ¿î´Ù.
+        ResetCasting();                     // ìºìŠ¤íŒ…í•œ ì†ì„±ì„ ì „ë¶€ ë¹„ìš´ë‹¤.
 
     }
 
