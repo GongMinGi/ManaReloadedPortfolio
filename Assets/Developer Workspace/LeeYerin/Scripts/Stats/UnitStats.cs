@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,36 +7,36 @@ using UnityEngine.UI;
 namespace Game.Combat.Stats
 {
     /// <summary>
-    /// °³¹ßÀÚ: ÀÌ¿¹¸°
+    /// ê°œë°œì: ì´ì˜ˆë¦°
     /// 
-    /// À¯´ÖÀÇ ÇöÀç ½ºÅÈÀ» °ü¸®ÇÏ´Â Å¬·¡½º
-    /// ±âº» ½ºÅÈÀº UnitStatsData¿¡¼­ ºÒ·¯¿À¸ç, 
-    /// ½ºÅÈ º¯°æÀ» À§ÇÑ ´Ù¾çÇÑ Modifier¸¦ Àû¿ëÇÒ ¼ö ÀÖ´Â È®Àå °¡´ÉÇÑ ±¸Á¶¸¦ Á¦°ø
+    /// ìœ ë‹›ì˜ í˜„ì¬ ìŠ¤íƒ¯ì„ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
+    /// ê¸°ë³¸ ìŠ¤íƒ¯ì€ UnitStatsDataì—ì„œ ë¶ˆëŸ¬ì˜¤ë©°, 
+    /// ìŠ¤íƒ¯ ë³€ê²½ì„ ìœ„í•œ ë‹¤ì–‘í•œ Modifierë¥¼ ì ìš©í•  ìˆ˜ ìˆëŠ” í™•ì¥ ê°€ëŠ¥í•œ êµ¬ì¡°ë¥¼ ì œê³µ
     /// 
-    /// Modifier¸¦ ÅëÇØ Ãß°¡, °ö¼À, µ¤¾î¾²±â ¹æ½ÄÀ¸·Î µ¿ÀûÀ¸·Î º¯È­¸¦ Àû¿ë
+    /// Modifierë¥¼ í†µí•´ ì¶”ê°€, ê³±ì…ˆ, ë®ì–´ì“°ê¸° ë°©ì‹ìœ¼ë¡œ ë™ì ìœ¼ë¡œ ë³€í™”ë¥¼ ì ìš©
     /// </summary>
     public class UnitStats : MonoBehaviour
     {
         #region Base Stats
         [Tooltip("Default staff data (UnitStatsData)")]
-        [SerializeField] UnitStatsData statsData;                // ±âº» ½ºÅÈ µ¥ÀÌÅÍ ÂüÁ¶ (ScriptableObject)
+        [SerializeField] UnitStatsData statsData;                // ê¸°ë³¸ ìŠ¤íƒ¯ ë°ì´í„° ì°¸ì¡° (ScriptableObject)
         [SerializeField] public Action<float> OnDamaged;
         [SerializeField] public Action<float> OnDie;
-        [SerializeField] private float curHp;                    // ÇöÀç Àû Ã¼·Â
-        [SerializeField] private float moveSpeed;                // ÇöÀç ÀÌµ¿ ¼Óµµ °ª
-        private float defense;                                   // ÇöÀç ¹æ¾î·Â
-        public event Action<float, float> OnHpChanged;           // hp º¯°æ½Ã (cur, max) uiº¯°æ¿ë
+        [SerializeField] private float curHp;                    // í˜„ì¬ ì  ì²´ë ¥
+        [SerializeField] private float moveSpeed;                // í˜„ì¬ ì´ë™ ì†ë„ ê°’
+        private float defense;                                   // í˜„ì¬ ë°©ì–´ë ¥
+        public event Action<float, float> OnHpChanged;           // hp ë³€ê²½ì‹œ (cur, max) uië³€ê²½ìš©
 
-        // ½ºÅÈ °ªÀÌ º¯°æµÇ¾î ´Ù½Ã °è»êÀÌ ÇÊ¿äÇÒ ¶§ true
+        // ìŠ¤íƒ¯ ê°’ì´ ë³€ê²½ë˜ì–´ ë‹¤ì‹œ ê³„ì‚°ì´ í•„ìš”í•  ë•Œ true
         private bool moveSpeedDirty = false;
         private bool defenseDirty = false;
 
-        public UnitStatsData StatsData => statsData;            // ±âº» ½ºÅİ µ¥ÀÌÅÍ ÇÁ·ÎÆÛÆ¼ 
+        public UnitStatsData StatsData => statsData;            // ê¸°ë³¸ ìŠ¤í…Ÿ ë°ì´í„° í”„ë¡œí¼í‹° 
 
         /// <summary>
-        /// ÇöÀç Ã¼·Â 
-        /// 0 ¹Ì¸¸À¸·Î, ÃÖ´ë Ã¼·Â(BaseHP)À» ³ÑÁö ¾Êµµ·Ï Á¦ÇÑ
-        /// setÀ¸·Î Ã¼·ÂÀÌ °»½ÅµÉ ¶§¸¶´Ù OnHpChanged ÀÌº¥¸£¸¦ ÅëÇØ ui ¹İ¿µ 
+        /// í˜„ì¬ ì²´ë ¥ 
+        /// 0 ë¯¸ë§Œìœ¼ë¡œ, ìµœëŒ€ ì²´ë ¥(BaseHP)ì„ ë„˜ì§€ ì•Šë„ë¡ ì œí•œ
+        /// setìœ¼ë¡œ ì²´ë ¥ì´ ê°±ì‹ ë  ë•Œë§ˆë‹¤ OnHpChanged ì´ë²¤ë¥´ë¥¼ í†µí•´ ui ë°˜ì˜ 
         /// </summary>
         public float HP
         {
@@ -44,13 +44,13 @@ namespace Game.Combat.Stats
             set
             {
                 curHp = Mathf.Min(Mathf.Max(0, value), statsData.BaseHP);
-                OnHpChanged?.Invoke(curHp, StatsData.BaseHP); // hpº¯°æ ÈÄ hp ½½¶óÀÌ´õ Àû¿ë
+                OnHpChanged?.Invoke(curHp, StatsData.BaseHP); // hpë³€ê²½ í›„ hp ìŠ¬ë¼ì´ë” ì ìš©
             }
         }
 
         /// <summary>
-        /// ÀÌµ¿ ¼Óµµ ÇÁ·ÎÆÛÆ¼
-        /// 0 ¹Ì¸¸À¸·Î ³»·Á°¡Áö ¾Êµµ·Ï Á¦ÇÑ
+        /// ì´ë™ ì†ë„ í”„ë¡œí¼í‹°
+        /// 0 ë¯¸ë§Œìœ¼ë¡œ ë‚´ë ¤ê°€ì§€ ì•Šë„ë¡ ì œí•œ
         /// </summary>
         public float MoveSpeed
         {
@@ -59,8 +59,8 @@ namespace Game.Combat.Stats
         }
 
         /// <summary>
-        /// ¹æ¾î·Â ÇÁ·ÎÆÛÆ¼
-        /// 0 ¹Ì¸¸À¸·Î ³»·Á°¡Áö ¾Êµµ·Ï Á¦ÇÑ
+        /// ë°©ì–´ë ¥ í”„ë¡œí¼í‹°
+        /// 0 ë¯¸ë§Œìœ¼ë¡œ ë‚´ë ¤ê°€ì§€ ì•Šë„ë¡ ì œí•œ
         /// </summary>
         public float Defense
         {
@@ -70,13 +70,13 @@ namespace Game.Combat.Stats
         #endregion
 
         #region StatModifier
-        // ÇöÀç Àû¿ë ÁßÀÎ ½ºÅÈ Modifier ¸®½ºÆ®
+        // í˜„ì¬ ì ìš© ì¤‘ì¸ ìŠ¤íƒ¯ Modifier ë¦¬ìŠ¤íŠ¸
         private List<StatModifier> modifiers = new();
-        // Á¦°Å ´ë±â »óÅÂÀÎ Modifier ¸®½ºÆ®
+        // ì œê±° ëŒ€ê¸° ìƒíƒœì¸ Modifier ë¦¬ìŠ¤íŠ¸
         private List<StatModifier> removeModifiers = new();
 
         /// <summary>
-        /// »õ·Î¿î Modifier Ãß°¡ ÈÄ Dirty ÇÃ·¡±× ¼³Á¤
+        /// ìƒˆë¡œìš´ Modifier ì¶”ê°€ í›„ Dirty í”Œë˜ê·¸ ì„¤ì •
         /// </summary>
         public void AddModifier(StatModifier mod)
         {
@@ -87,9 +87,9 @@ namespace Game.Combat.Stats
         }
 
         /// <summary>
-        /// Modifier Á¦°Å ¿äÃ» 
+        /// Modifier ì œê±° ìš”ì²­ 
         /// 
-        /// Áï½Ã Á¦°ÅÇÏÁö ¾Ê°í Dirty ÇÃ·¡±× ¼³Á¤ ÈÄ Ã³¸®
+        /// ì¦‰ì‹œ ì œê±°í•˜ì§€ ì•Šê³  Dirty í”Œë˜ê·¸ ì„¤ì • í›„ ì²˜ë¦¬
         /// </summary>
         public void RemoveModifier(StatModifier mod)
         {
@@ -100,65 +100,70 @@ namespace Game.Combat.Stats
         #endregion
 
         #region Status Effect
-        // »óÅÂ È¿°ú °ü¸® Å¬·¡½º ÂüÁ¶
+        // ìƒíƒœ íš¨ê³¼ ê´€ë¦¬ í´ë˜ìŠ¤ ì°¸ì¡°
         [SerializeField] private StatusEffectHandler effectHandler;
         /// <summary>
-        /// »óÅÂ È¿°ú °ü¸® Å¬·¡½º
+        /// ìƒíƒœ íš¨ê³¼ ê´€ë¦¬ í´ë˜ìŠ¤
         /// </summary>
         public StatusEffectHandler EffectHandler => effectHandler;
 
-        // ½ºÅÈ Àû¿ë ½Ã ½ÇÇàÇÒ Ãß°¡ ·ÎÁ÷ ÀúÀå
+        // ìŠ¤íƒ¯ ì ìš© ì‹œ ì‹¤í–‰í•  ì¶”ê°€ ë¡œì§ ì €ì¥
         private Dictionary<StatType, Action> statApplyHandlers = new();
-        // ½ºÅÈ ÇØÁ¦ ½Ã ½ÇÇàÇÒ Ãß°¡ ·ÎÁ÷ ÀúÀå
+        // ìŠ¤íƒ¯ í•´ì œ ì‹œ ì‹¤í–‰í•  ì¶”ê°€ ë¡œì§ ì €ì¥
         private Dictionary<StatType, Action> statRevertHandlers = new();
 
         /// <summary>
-        /// ½ºÅÈ Àû¿ë ½Ã ½ÇÇàÇÒ Ãß°¡ ·ÎÁ÷ ÀúÀå
+        /// ìŠ¤íƒ¯ ì ìš© ì‹œ ì‹¤í–‰í•  ì¶”ê°€ ë¡œì§ ì €ì¥
         /// </summary>
         public Dictionary<StatType, Action> StatApplyHandlers => statApplyHandlers;
         /// <summary>
-        /// ½ºÅÈ ÇØÁ¦ ½Ã ½ÇÇàÇÒ Ãß°¡ ·ÎÁ÷ ÀúÀå
+        /// ìŠ¤íƒ¯ í•´ì œ ì‹œ ì‹¤í–‰í•  ì¶”ê°€ ë¡œì§ ì €ì¥
         /// </summary>
         public Dictionary<StatType, Action> StatRevertHandlers => statRevertHandlers;
         #endregion
 
-        #region Unity Event
+        #region DEV_MODE_CONFIGURATION
+        [Tooltip("Player only: No damage taken when enabled.")]
+        public bool IS_DEV_MODE;
+        #endregion
 
+        #region Unity Event
         private void OnEnable()
         {
-            curHp = statsData.BaseHP;   // ºñÈ°¼ºÈ­µÇ¾î Ç®·Î µé¾î°£ ´ÙÀ½ Àç¼ÒÈ¯ µÇ¾úÀ»¶§ Ã¼·ÂÀ» ÃÖ´ë·Î Ã¤¿öÁØ´Ù.
+            curHp = statsData.BaseHP;   // ë¹„í™œì„±í™”ë˜ì–´ í’€ë¡œ ë“¤ì–´ê°„ ë‹¤ìŒ ì¬ì†Œí™˜ ë˜ì—ˆì„ë•Œ ì²´ë ¥ì„ ìµœëŒ€ë¡œ ì±„ì›Œì¤€ë‹¤.
             Debug.Log("curhp:" + curHp);
-            OnHpChanged?.Invoke(HP, statsData.BaseHP);  // ÃÊ±â Hp ÃÖ´ë°ª  Slider ui ¿¡ Àü´Ş
+            OnHpChanged?.Invoke(HP, statsData.BaseHP);  // ì´ˆê¸° Hp ìµœëŒ€ê°’  Slider ui ì— ì „ë‹¬
         }
 
         private void Awake()
         {
-            // ±âº» ½ºÅÈ µ¥ÀÌÅÍ¿¡¼­ °ª ÇÒ´ç
+            // ê¸°ë³¸ ìŠ¤íƒ¯ ë°ì´í„°ì—ì„œ ê°’ í• ë‹¹
             HP = statsData.BaseHP;
             MoveSpeed = statsData.BaseMoveSpeed;
             Defense = statsData.BaseDefense;
 
-            //OnHpChanged?.Invoke(HP, statsData.BaseHP);  // ÃÊ±â Hp ÃÖ´ë°ª  Slider ui ¿¡ Àü´Ş
+            //OnHpChanged?.Invoke(HP, statsData.BaseHP);  // ì´ˆê¸° Hp ìµœëŒ€ê°’  Slider ui ì— ì „ë‹¬
 
-            // StatusEffectHandler¿¡ ÀÚ½Å ÂüÁ¶ Àü´Ş
+            // StatusEffectHandlerì— ìì‹  ì°¸ì¡° ì „ë‹¬
             effectHandler.UnitStats = this;
         }
         #endregion
 
         #region Stat Getters
         /// <summary>
-        /// ÁöÁ¤µÈ µ¥¹ÌÁö¸¸Å­ Ã¼·Â °¨¼Ò
+        /// ì§€ì •ëœ ë°ë¯¸ì§€ë§Œí¼ ì²´ë ¥ ê°ì†Œ
         /// </summary>
-        /// <param name="damage">µ¥¹ÌÁö</param>
+        /// <param name="damage">ë°ë¯¸ì§€</param>
         public void TakeDamage(float damage)
         {
             if (HP <= 0f) return;
 
-            HP -= damage;
+            if (!IS_DEV_MODE)    // ê°œë°œì ëª¨ë“œì¼ ê²½ìš° ë°ë¯¸ì§€ë¥¼ ì…ì§€ ì•ŠìŒ(í”Œë ˆì´ì–´ì—ì„œ ì‚¬ìš©)
+                HP -= damage;
 
             if (HP <= 0f)
             {
-                effectHandler.RemoveAllStatusEffect();  // »ç¸Á½Ã ºÎ¿©µÈ ¹öÇÁ/µğ¹öÇÁ ¸ğµÎ Á¦°Å
+                effectHandler.RemoveAllStatusEffect();  // ì‚¬ë§ì‹œ ë¶€ì—¬ëœ ë²„í”„/ë””ë²„í”„ ëª¨ë‘ ì œê±°
                 OnDie?.Invoke(damage);
             }
             else
@@ -166,23 +171,23 @@ namespace Game.Combat.Stats
         }
 
         /// <summary>
-        /// ÇöÀç ÀÌµ¿ ¼Óµµ ¹İÈ¯ (Dirty »óÅÂ¸é Modifier Àû¿ë ÈÄ °»½Å)
+        /// í˜„ì¬ ì´ë™ ì†ë„ ë°˜í™˜ (Dirty ìƒíƒœë©´ Modifier ì ìš© í›„ ê°±ì‹ )
         /// </summary>
-        /// <param name="apply">true¸é Modifier¸¦ Àû¿ë, false¸é Modifier ÇØÁ¦</param>
-        /// <returns>Modifier°¡ Àû¿ëµÈ ÃÖÁ¾ ÀÌµ¿ ¼Óµµ °ª</returns>
+        /// <param name="apply">trueë©´ Modifierë¥¼ ì ìš©, falseë©´ Modifier í•´ì œ</param>
+        /// <returns>Modifierê°€ ì ìš©ëœ ìµœì¢… ì´ë™ ì†ë„ ê°’</returns>
         public float GetMoveSpeed(bool apply = true)
         {
             if (moveSpeedDirty)
             {
-                // Modifier Àû¿ë ¶Ç´Â ÇØÁ¦¿¡ µû¶ó °ª °è»ê
+                // Modifier ì ìš© ë˜ëŠ” í•´ì œì— ë”°ë¼ ê°’ ê³„ì‚°
                 float value = apply ? 
                     ApplyModifiers(moveSpeed, StatType.MoveSpeed) : 
                     RevertModifiers(moveSpeed, StatType.MoveSpeed);
 
-                // À¯È¿ÇÑ °ªÀÌ¸é MoveSpeed °»½Å
+                // ìœ íš¨í•œ ê°’ì´ë©´ MoveSpeed ê°±ì‹ 
                 if (value != -1) MoveSpeed = value;
 
-                // Dirty »óÅÂ ÇØÁ¦
+                // Dirty ìƒíƒœ í•´ì œ
                 moveSpeedDirty = false;
             }
 
@@ -190,23 +195,23 @@ namespace Game.Combat.Stats
         }
 
         /// <summary>
-        /// ÇöÀç ¹æ¾î·Â ¹İÈ¯ (Dirty »óÅÂ¸é Modifier Àû¿ë ÈÄ °»½Å)
+        /// í˜„ì¬ ë°©ì–´ë ¥ ë°˜í™˜ (Dirty ìƒíƒœë©´ Modifier ì ìš© í›„ ê°±ì‹ )
         /// </summary>
-        /// <param name="apply">true¸é Modifier¸¦ Àû¿ë, false¸é Modifier ÇØÁ¦</param>
-        /// <returns>Modifier°¡ Àû¿ëµÈ ÃÖÁ¾ ¹æ¾î·Â °ª</returns>
+        /// <param name="apply">trueë©´ Modifierë¥¼ ì ìš©, falseë©´ Modifier í•´ì œ</param>
+        /// <returns>Modifierê°€ ì ìš©ëœ ìµœì¢… ë°©ì–´ë ¥ ê°’</returns>
         public float GetDefense(bool apply = true)
         {
             if (defenseDirty)
             {
-                // Modifier Àû¿ë ¶Ç´Â ÇØÁ¦¿¡ µû¶ó °ª °è»ê
+                // Modifier ì ìš© ë˜ëŠ” í•´ì œì— ë”°ë¼ ê°’ ê³„ì‚°
                 float value = apply ?
                     ApplyModifiers(defense, StatType.Defense) :
                     RevertModifiers(defense, StatType.Defense);
 
-                // À¯È¿ÇÑ °ªÀÌ¸é Defense °»½Å
+                // ìœ íš¨í•œ ê°’ì´ë©´ Defense ê°±ì‹ 
                 if (value != -1) Defense = value;
 
-                // Dirty »óÅÂ ÇØÁ¦
+                // Dirty ìƒíƒœ í•´ì œ
                 defenseDirty = false;
             }
 
@@ -216,15 +221,15 @@ namespace Game.Combat.Stats
 
         #region Modifier Application and Reversion
         /// <summary>
-        /// ±âº» °ª¿¡ ´ëÇØ ÇØ´ç ½ºÅÈ Å¸ÀÔ¿¡ Àû¿ëµÇ´Â ¸ğµç Modifier¸¦ Ã³¸®ÇÏ¿© ÃÖÁ¾ °ªÀ» ¹İÈ¯
-        /// - Add: °ªÀ» ´õÇÔ
-        /// - Multiply: °ö¼À ¹æ½ÄÀ¸·Î Àû¿ë
-        /// - Override: °ªÀ» µ¤¾î¾¸ (°¡Àå ¿ì¼±¼øÀ§°¡ ³ôÀ½)
-        /// ÃÖÁ¾ °á°ú´Â 0 ¹Ì¸¸ÀÌ µÇÁö ¾Êµµ·Ï º¸Àå
+        /// ê¸°ë³¸ ê°’ì— ëŒ€í•´ í•´ë‹¹ ìŠ¤íƒ¯ íƒ€ì…ì— ì ìš©ë˜ëŠ” ëª¨ë“  Modifierë¥¼ ì²˜ë¦¬í•˜ì—¬ ìµœì¢… ê°’ì„ ë°˜í™˜
+        /// - Add: ê°’ì„ ë”í•¨
+        /// - Multiply: ê³±ì…ˆ ë°©ì‹ìœ¼ë¡œ ì ìš©
+        /// - Override: ê°’ì„ ë®ì–´ì”€ (ê°€ì¥ ìš°ì„ ìˆœìœ„ê°€ ë†’ìŒ)
+        /// ìµœì¢… ê²°ê³¼ëŠ” 0 ë¯¸ë§Œì´ ë˜ì§€ ì•Šë„ë¡ ë³´ì¥
         /// </summary>
-        /// <param name="baseValue">Modifier°¡ Àû¿ëµÉ ±âº» ½ºÅÈ °ª</param>
-        /// <param name="statType">Àû¿ë ´ë»óÀÎ ½ºÅÈ Å¸ÀÔ</param>
-        /// <returns>Modifier°¡ Àû¿ëµÈ ÃÖÁ¾ ½ºÅÈ °ª (0 ÀÌ»ó)</returns>
+        /// <param name="baseValue">Modifierê°€ ì ìš©ë  ê¸°ë³¸ ìŠ¤íƒ¯ ê°’</param>
+        /// <param name="statType">ì ìš© ëŒ€ìƒì¸ ìŠ¤íƒ¯ íƒ€ì…</param>
+        /// <returns>Modifierê°€ ì ìš©ëœ ìµœì¢… ìŠ¤íƒ¯ ê°’ (0 ì´ìƒ)</returns>
         private float ApplyModifiers (float baseValue, StatType statType)
         {
             float finalValue = baseValue;
@@ -232,37 +237,37 @@ namespace Game.Combat.Stats
 
             foreach (var mod in modifiers)
             {
-                // ÇöÀç ½ºÅÈ Å¸ÀÔ¿¡ ÇØ´çÇÏ´Â Modifier¸¸ Ã³¸®
+                // í˜„ì¬ ìŠ¤íƒ¯ íƒ€ì…ì— í•´ë‹¹í•˜ëŠ” Modifierë§Œ ì²˜ë¦¬
                 if (mod.Type != statType) continue;
 
                 switch (mod.Mode)
                 {
                     case ModifierMode.Add:
-                        finalValue += mod.Value;    // µ¡¼À Àû¿ë
+                        finalValue += mod.Value;    // ë§ì…ˆ ì ìš©
                         break;
 
                     case ModifierMode.Multiply:
-                        multiplier *= mod.Value;     // °ö¼À ´©Àû
+                        multiplier *= mod.Value;     // ê³±ì…ˆ ëˆ„ì 
                         break;
 
                     case ModifierMode.Override:
-                        // ¿ì¼±¼øÀ§ ÃÖ°í, °ª µ¤¾î¾²±â ¹× °ö¼À ÃÊ±âÈ­
+                        // ìš°ì„ ìˆœìœ„ ìµœê³ , ê°’ ë®ì–´ì“°ê¸° ë° ê³±ì…ˆ ì´ˆê¸°í™”
                         finalValue = mod.Value;
                         multiplier = 1f;
                         break;
                 }
             }
 
-            // 0 ¹Ì¸¸ ¹æÁö ÈÄ ÃÖÁ¾ °ª ¹İÈ¯
+            // 0 ë¯¸ë§Œ ë°©ì§€ í›„ ìµœì¢… ê°’ ë°˜í™˜
             return Mathf.Max(0, finalValue * multiplier);
         }
 
         /// <summary>
-        /// Modifier ÇØÁ¦ ·ÎÁ÷ (Add, Multiply¸¸ µÇµ¹¸² / Override´Â -1 ¹İÈ¯)
+        /// Modifier í•´ì œ ë¡œì§ (Add, Multiplyë§Œ ë˜ëŒë¦¼ / OverrideëŠ” -1 ë°˜í™˜)
         /// </summary>
-        /// <param name="baseValue">Modifier°¡ ÇØÁ¦µÉ ±âº» ½ºÅÈ °ª</param>
-        /// <param name="statType">Àû¿ë ´ë»óÀÎ ½ºÅÈ Å¸ÀÔ</param>
-        /// <returns>Modifier°¡ Àû¿ëµÈ ÃÖÁ¾ ½ºÅÈ °ª (0 ÀÌ»ó)</returns>
+        /// <param name="baseValue">Modifierê°€ í•´ì œë  ê¸°ë³¸ ìŠ¤íƒ¯ ê°’</param>
+        /// <param name="statType">ì ìš© ëŒ€ìƒì¸ ìŠ¤íƒ¯ íƒ€ì…</param>
+        /// <returns>Modifierê°€ ì ìš©ëœ ìµœì¢… ìŠ¤íƒ¯ ê°’ (0 ì´ìƒ)</returns>
         private float RevertModifiers(float baseValue, StatType statType)
         {
             float finalValue = baseValue;
@@ -270,46 +275,46 @@ namespace Game.Combat.Stats
 
             foreach (var mod in modifiers)
             {
-                // ÇöÀç ½ºÅÈ Å¸ÀÔ¿¡ ÇØ´çÇÏ´Â Modifier¸¸ Ã³¸®
+                // í˜„ì¬ ìŠ¤íƒ¯ íƒ€ì…ì— í•´ë‹¹í•˜ëŠ” Modifierë§Œ ì²˜ë¦¬
                 if (mod.Type != statType) continue;
 
                 switch (mod.Mode)
                 {
                     case ModifierMode.Add:
-                        finalValue -= mod.Value;    // µ¡¼À È¿°ú µÇµ¹¸®±â
+                        finalValue -= mod.Value;    // ë§ì…ˆ íš¨ê³¼ ë˜ëŒë¦¬ê¸°
                         break;
 
                     case ModifierMode.Multiply:
-                        multiplier /= mod.Value;    // °ö¼À È¿°ú µÇµ¹¸®±â
+                        multiplier /= mod.Value;    // ê³±ì…ˆ íš¨ê³¼ ë˜ëŒë¦¬ê¸°
                         break;
 
                     case ModifierMode.Override:
-                        // Override´Â µÇµ¹¸± ¼ö ¾øÀ¸¹Ç·Î -1 ¹İÈ¯ÇÏ¿© ¹«½Ã
+                        // OverrideëŠ” ë˜ëŒë¦´ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ -1 ë°˜í™˜í•˜ì—¬ ë¬´ì‹œ
                         return -1;
                 }
 
-                // µÇµ¹¸° Modifier´Â Á¦°Å ¸®½ºÆ®¿¡ Ãß°¡
+                // ë˜ëŒë¦° ModifierëŠ” ì œê±° ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
                 removeModifiers.Add(mod);
             }
 
-            // Á¦°Å ´ë»ó Modifier ¸ğµÎ »èÁ¦ ÈÄ ¸®½ºÆ® ÃÊ±âÈ­
+            // ì œê±° ëŒ€ìƒ Modifier ëª¨ë‘ ì‚­ì œ í›„ ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™”
             foreach (var mod in removeModifiers)
                 modifiers.Remove(mod);
 
             removeModifiers.Clear();
 
-            // 0 ¹Ì¸¸ ¹æÁö ÈÄ ÃÖÁ¾ °ª ¹İÈ¯
+            // 0 ë¯¸ë§Œ ë°©ì§€ í›„ ìµœì¢… ê°’ ë°˜í™˜
             return Mathf.Max(0, finalValue * multiplier);
         }
 
         /// <summary>
-        /// ÇØ´ç ½ºÅÈ Å¸ÀÔÀÇ Dirty ÇÃ·¡±× ¼³Á¤ ¹× °ü·Ã ÇÚµé·¯ ½ÇÇà
+        /// í•´ë‹¹ ìŠ¤íƒ¯ íƒ€ì…ì˜ Dirty í”Œë˜ê·¸ ì„¤ì • ë° ê´€ë ¨ í•¸ë“¤ëŸ¬ ì‹¤í–‰
         /// </summary>
-        /// <param name="type">Dirty ÇÃ·¡±× ¼³Á¤ÇÒ ½ºÅÈ Å¸ÀÔ</param>
-        /// <param name="apply">true¸é Modifier¸¦ Àû¿ë, false¸é Modifier ÇØÁ¦</param>
+        /// <param name="type">Dirty í”Œë˜ê·¸ ì„¤ì •í•  ìŠ¤íƒ¯ íƒ€ì…</param>
+        /// <param name="apply">trueë©´ Modifierë¥¼ ì ìš©, falseë©´ Modifier í•´ì œ</param>
         private void MarkDirty(StatType type, bool apply = true)
         {
-            // Dirty ÇÃ·¡±× ¼³Á¤
+            // Dirty í”Œë˜ê·¸ ì„¤ì •
             switch (type)
             {
                 case StatType.MoveSpeed:
@@ -320,7 +325,7 @@ namespace Game.Combat.Stats
                     break;
             }
 
-            // ÇØ´ç µ¿ÀÛ¿¡ ¸Â´Â ÇÚµé·¯ È£Ãâ
+            // í•´ë‹¹ ë™ì‘ì— ë§ëŠ” í•¸ë“¤ëŸ¬ í˜¸ì¶œ
             Action handler;
 
             if (apply)
