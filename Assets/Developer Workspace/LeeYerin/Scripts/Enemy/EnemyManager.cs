@@ -1,14 +1,14 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// ÀûÀ» °ü¸®ÇÏ´Â ½Ì±ÛÅæ ¸Å´ÏÀú Å¬·¡½º
-/// Àû ¿ÀºêÁ§Æ® Ç® »ı¼º, Àû »ı¼º À§Ä¡ ¹× ÁÖ±â °ü¸®, Àû »ı¼º ¹× °¢ ÆäÀÌÁî ·ÎÁ÷À» ´ã´ç
+/// ì ì„ ê´€ë¦¬í•˜ëŠ” ì‹±ê¸€í†¤ ë§¤ë‹ˆì € í´ë˜ìŠ¤
+/// ì  ì˜¤ë¸Œì íŠ¸ í’€ ìƒì„±, ì  ìƒì„± ìœ„ì¹˜ ë° ì£¼ê¸° ê´€ë¦¬, ì  ìƒì„± ë° ê° í˜ì´ì¦ˆ ë¡œì§ì„ ë‹´ë‹¹
 /// </summary>
 public class EnemyManager : MonoBehaviour
 {
@@ -28,31 +28,31 @@ public class EnemyManager : MonoBehaviour
     [Header("Enemy Spawn Settings")]
     [SerializeField] PlayerController player;
     public PlayerController Player { get { return player; } set { player = value; } }
-    private int phaseEnemyTypeCount;    // ÇöÀç ÆäÀÌÁî ³» µîÀåÇÏ´Â Àû Á¾·ù °³¼ö
+    private int phaseEnemyTypeCount;    // í˜„ì¬ í˜ì´ì¦ˆ ë‚´ ë“±ì¥í•˜ëŠ” ì  ì¢…ë¥˜ ê°œìˆ˜
 
     #region Initialized from ScriptableObject
     [Tooltip("Spawn distance from player")]
-    [SerializeField] float spawnDis; // ÇÃ·¹ÀÌ¾î·ÎºÎÅÍÀÇ »ı¼º °Å¸®
+    [SerializeField] float spawnDis; // í”Œë ˆì´ì–´ë¡œë¶€í„°ì˜ ìƒì„± ê±°ë¦¬
     [Tooltip("Random generation range")]
-    [SerializeField] float spawnRange; // ·£´ı »ı¼º ¹üÀ§
+    [SerializeField] float spawnRange; // ëœë¤ ìƒì„± ë²”ìœ„
 
     [Tooltip("Minimum time to create enemy objects (sec)")]
-    [SerializeField] float minSpawnTime;    // Àû ¿ÀºêÁ§Æ® »ı¼º ÃÖ¼Ò ½Ã°£
+    [SerializeField] float minSpawnTime;    // ì  ì˜¤ë¸Œì íŠ¸ ìƒì„± ìµœì†Œ ì‹œê°„
     [Tooltip("Maximum time to spawn enemy objects (sec)")]
-    [SerializeField] float maxSpawnTime;    // Àû ¿ÀºêÁ§Æ® »ı¼º ÃÖ´ë ½Ã°£
+    [SerializeField] float maxSpawnTime;    // ì  ì˜¤ë¸Œì íŠ¸ ìƒì„± ìµœëŒ€ ì‹œê°„
     #endregion
 
     #endregion
 
     #region Phase Progress Tracking
-    private int clearedEnemyTypeCount = 0;  // ÆäÀÌÁî ³» Ã³Ä¡°¡ ¿Ï·áµÈ Àû Á¾·ù °³¼ö
+    private int clearedEnemyTypeCount = 0;  // í˜ì´ì¦ˆ ë‚´ ì²˜ì¹˜ê°€ ì™„ë£Œëœ ì  ì¢…ë¥˜ ê°œìˆ˜
     #endregion
 
     #region Active Enemies
     private List<EnemyController> enemies = new();
 
     /// <summary>
-    /// È°¼º Àû ¸®½ºÆ®
+    /// í™œì„± ì  ë¦¬ìŠ¤íŠ¸
     /// </summary>
     public List<EnemyController> Enemies => enemies;
     #endregion
@@ -67,9 +67,9 @@ public class EnemyManager : MonoBehaviour
     #region Unity Event
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => GameModeManager.Player != null);   // ÇÃ·¹ÀÌ¾î¸¦ ¾Ë ¼ö ÀÖÀ» ¶§±îÁö ´ë±â
+        yield return new WaitUntil(() => GameModeManager.Player != null);   // í”Œë ˆì´ì–´ë¥¼ ì•Œ ìˆ˜ ìˆì„ ë•Œê¹Œì§€ ëŒ€ê¸°
 
-        GameModeManager.GameLogicManager.Initialization(mapEnemyData.Phases.Count);     // °ÔÀÓ ÀüÃ¼ ·ÎÁ÷À» °ü¸®ÇÏ´Â ¸Å´ÏÀú¿¡ ÆäÀÌÁî ¼ö Àü´Ş
+        GameModeManager.GameLogicManager.Initialization(mapEnemyData.Phases.Count);     // ê²Œì„ ì „ì²´ ë¡œì§ì„ ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì €ì— í˜ì´ì¦ˆ ìˆ˜ ì „ë‹¬
 
         if (instance == null)
         {
@@ -79,7 +79,7 @@ public class EnemyManager : MonoBehaviour
         else
             Destroy(instance);
 
-        yield return new WaitUntil(() => player != null);   // ÇÃ·¹ÀÌ¾î°¡ ÇÒ´çµÈ ÈÄ ÁøÇà
+        yield return new WaitUntil(() => player != null);   // í”Œë ˆì´ì–´ê°€ í• ë‹¹ëœ í›„ ì§„í–‰
 
         isReady = Initialization();
     }
@@ -87,15 +87,15 @@ public class EnemyManager : MonoBehaviour
 
     #region Initialization
     /// <summary>
-    /// Àû Pool »ı¼º ¹× ½ºÆù ¼³Á¤°ª ÃÊ±âÈ­
+    /// ì  Pool ìƒì„± ë° ìŠ¤í° ì„¤ì •ê°’ ì´ˆê¸°í™”
     /// </summary>
     private bool Initialization()
     {
-        // MapEnemyData ³» Àû ÇÁ¸®ÆÕ ¸ñ·ÏÀ» ¼øÈ¸ÇÏ¸ç °¢°¢ Pool »ı¼º
+        // MapEnemyData ë‚´ ì  í”„ë¦¬íŒ¹ ëª©ë¡ì„ ìˆœíšŒí•˜ë©° ê°ê° Pool ìƒì„±
         foreach (var enemy in mapEnemyData.Enemies)
             GameModeManager.PoolManager.CreateEnemyPool(enemy, size, capacity);
 
-        // MapEnemyData¿¡ Á¤ÀÇµÈ ½ºÆù ¼³Á¤°ªÀ» ÇÊµå¿¡ º¹»ç
+        // MapEnemyDataì— ì •ì˜ëœ ìŠ¤í° ì„¤ì •ê°’ì„ í•„ë“œì— ë³µì‚¬
         mapEnemyData.Initialization(
             ref spawnDis, 
             ref spawnRange, 
@@ -108,94 +108,88 @@ public class EnemyManager : MonoBehaviour
 
     #region Spawn Enemys
     /// <summary>
-    /// °¢ ÆäÀÌÁî Àû »ı¼º ·ÎÁ÷À» ±¸ÇöµÈ ÄÚ·çÆ¾ ½ÇÇàÇÏ´Â ¸Ş¼­µå
+    /// ê° í˜ì´ì¦ˆ ì  ìƒì„± ë¡œì§ì„ êµ¬í˜„ëœ ì½”ë£¨í‹´ ì‹¤í–‰í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
-    /// <param name="phase">½ÇÇàÇÒ ÆäÀÌÁî ´Ü°è</param>
+    /// <param name="phase">ì‹¤í–‰í•  í˜ì´ì¦ˆ ë‹¨ê³„</param>
     public void StartSpawnEnemyLoop(int phase)
     {
-        // Àû »ı¼º ÄÚ·çÆ¾ ½ÃÀÛ
+        // ì  ìƒì„± ì½”ë£¨í‹´ ì‹œì‘
         StartCoroutine(SpawnEnemyLoop(phase));
     }
 
     /// <summary>
-    /// ÀÏÁ¤ ½Ã°£ °£°İÀ¸·Î ÀûÀ» ¹İº¹ »ı¼ºÇÏ´Â ÄÚ·çÆ¾
-    /// »ı¼º ´ë±â ½Ã°£Àº ÃÖ¼Ò/ÃÖ´ë »ı¼º ½Ã°£ »çÀÌ¿¡¼­ ·£´ıÀ¸·Î °áÁ¤
+    /// ì¼ì • ì‹œê°„ ê°„ê²©ìœ¼ë¡œ ì ì„ ë°˜ë³µ ìƒì„±í•˜ëŠ” ì½”ë£¨í‹´
+    /// ìƒì„± ëŒ€ê¸° ì‹œê°„ì€ ìµœì†Œ/ìµœëŒ€ ìƒì„± ì‹œê°„ ì‚¬ì´ì—ì„œ ëœë¤ìœ¼ë¡œ ê²°ì •
     /// </summary>
-    /// <param name="phase">ÇöÀç ÆäÀÌÁî ³Ñ¹ö</param>
+    /// <param name="phase">í˜„ì¬ í˜ì´ì¦ˆ ë„˜ë²„</param>
     /// <returns></returns>
     IEnumerator SpawnEnemyLoop(int phase)
     {
-        // ÇöÀç ÁøÇà ÁßÀÎ ÆäÀÌÁî ¹øÈ£(phase)¸¦ ±âÁØÀ¸·Î
-        // ÇØ´ç ÆäÀÌÁîÀÇ Àû ÇÁ¸®ÆÕ ¹× µîÀå ¼ö Á¤º¸¸¦ º¸°üÇÑ µ¥ÀÌÅÍ(PhaseEnemyData)¸¦ ÃßÃâ
+        // í˜„ì¬ ì§„í–‰ ì¤‘ì¸ í˜ì´ì¦ˆ ë²ˆí˜¸(phase)ë¥¼ ê¸°ì¤€ìœ¼ë¡œ
+        // í•´ë‹¹ í˜ì´ì¦ˆì˜ ì  í”„ë¦¬íŒ¹ ë° ë“±ì¥ ìˆ˜ ì •ë³´ë¥¼ ë³´ê´€í•œ ë°ì´í„°(PhaseEnemyData)ë¥¼ ì¶”ì¶œ
         List<EnemyPooledObject> enemyTypes = new List<EnemyPooledObject>(mapEnemyData.Phases[phase].enemies);
         phaseEnemyTypeCount = enemyTypes.Count;
 
         for (int i = 0; i < phaseEnemyTypeCount; i++)
         {
-            // i¹øÂ° Àû ÇÁ¸®ÆÕ¿¡ ÇØ´çÇÏ´Â EnemyPoolÀ» Ã£¾Æ,
-            // ±×¿¡ ¿¬°áµÈ EnemySpawnTracker¿¡ ÇØ´ç ÀûÀÇ µîÀå ¼ö(phaseData.enemiesNum[i])¸¦ ¼³Á¤
+            // ië²ˆì§¸ ì  í”„ë¦¬íŒ¹ì— í•´ë‹¹í•˜ëŠ” EnemyPoolì„ ì°¾ì•„,
+            // ê·¸ì— ì—°ê²°ëœ EnemySpawnTrackerì— í•´ë‹¹ ì ì˜ ë“±ì¥ ìˆ˜(phaseData.enemiesNum[i])ë¥¼ ì„¤ì •
             GameModeManager.PoolManager.FindEnemyPoolDic((enemyTypes[i]))
                 .Tracker.Set(mapEnemyData.Phases[phase].enemiesNum[i]);
         }
 
-
-        while (enemyTypes.Count != 0 && !GameModeManager.GameLogicManager.IsGameOver)  // TODO... ¾ÆÈÄ °ÔÀÓ Á¾·á ¿©ºÎ °ü¸®ÇÏ´Â º¯¼ö ¿¬°áÇÒ ¿¹Á¤
+        // ê²Œì„ ì¢…ë£Œ ì „ê¹Œì§€ ë°˜ë³µ, CanSpawnì´ trueì¸ ì ë§Œ ìŠ¤í°
+        while (!GameModeManager.GameLogicManager.IsGameOver)
         {
-            // ÃÖ¼Ò ~ ÃÖ´ë ½ºÆù ½Ã°£ »çÀÌ¿¡¼­ ·£´ı ´ë±â
+            // ìµœì†Œ ~ ìµœëŒ€ ìŠ¤í° ì‹œê°„ ì‚¬ì´ì—ì„œ ëœë¤ ëŒ€ê¸°
             yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
 
             for (int i = 0; i < enemyTypes.Count; i++)
             {
                 if (!GameModeManager.PoolManager.FindEnemyPoolDic(enemyTypes[i]).Tracker.CanSpawn)
-                {
-                    enemyTypes.Remove(enemyTypes[i]);
                     continue;
-                }
 
-                SpawnEnemy(
-                    enemyTypes[i], 
-                    player.MoveDir
-                    );
+                SpawnEnemy(enemyTypes[i], player.MoveDir);
             }
         }
 
-        Debug.Log($"{phase}¹øÂ° ÆäÀÌÁîÀÇ Àû ½ºÆù ·ÎÁ÷ Á¾·á");
+        Debug.Log($"{phase}ë²ˆì§¸ í˜ì´ì¦ˆì˜ ì  ìŠ¤í° ë¡œì§ ì¢…ë£Œ");
     }
 
     /// <summary>
-    /// ÁöÁ¤ÇÑ ¼ö¸¸Å­ ÀûÀ» Æ¯Á¤ ¹æÇâÀ¸·Î ½ºÆùÇÏ´Â ¸Ş¼­µå
-    /// ÇÃ·¹ÀÌ¾î À§Ä¡ ±âÁØÀ¸·Î spawnDis °Å¸®¸¸Å­ ÀÌµ¿ ¹æÇâÀ¸·Î ÀÌµ¿ÇÏ°í, 
-    /// ·£´ı ¹üÀ§ ³» À§Ä¡ º¸Á¤ Àû¿ë
+    /// ì§€ì •í•œ ìˆ˜ë§Œí¼ ì ì„ íŠ¹ì • ë°©í–¥ìœ¼ë¡œ ìŠ¤í°í•˜ëŠ” ë©”ì„œë“œ
+    /// í”Œë ˆì´ì–´ ìœ„ì¹˜ ê¸°ì¤€ìœ¼ë¡œ spawnDis ê±°ë¦¬ë§Œí¼ ì´ë™ ë°©í–¥ìœ¼ë¡œ ì´ë™í•˜ê³ , 
+    /// ëœë¤ ë²”ìœ„ ë‚´ ìœ„ì¹˜ ë³´ì • ì ìš©
     /// </summary>
-    /// <param name="enemyPrefab">»ı¼ºÇÒ Àû ÇÁ¸®ÆÕ</param>
-    /// <param name="moveDir">»ı¼º ¹æÇâ(´ÜÀ§ º¤ÅÍ)</param>
-    /// <param name="enemyNum">»ı¼ºÇÒ Àû ¼ö</param>
+    /// <param name="enemyPrefab">ìƒì„±í•  ì  í”„ë¦¬íŒ¹</param>
+    /// <param name="moveDir">ìƒì„± ë°©í–¥(ë‹¨ìœ„ ë²¡í„°)</param>
+    /// <param name="enemyNum">ìƒì„±í•  ì  ìˆ˜</param>
     private void SpawnEnemy(EnemyPooledObject enemyPrefab, Vector3 moveDir, int enemyNum = 1)
     {
-        // ÇÃ·¹ÀÌ¾î ½Ã¾ß¿¡¼­ Àû »ı¼º ¹æÁö
+        // í”Œë ˆì´ì–´ ì‹œì•¼ì—ì„œ ì  ìƒì„± ë°©ì§€
         if (moveDir == Vector3.zero)
             moveDir = Vector3.forward;
 
-        // ÇÃ·¹ÀÌ¾î À§Ä¡ + ÀÌµ¿ ¹æÇâ * »ı¼º °Å¸®
+        // í”Œë ˆì´ì–´ ìœ„ì¹˜ + ì´ë™ ë°©í–¥ * ìƒì„± ê±°ë¦¬
         Vector3 spawnPos = player.transform.position + moveDir * spawnDis;
 
         for (int i = 0; i < enemyNum; i++)
         {
-            // ·£´ı ¹üÀ§ ³» À§Ä¡ ¿ÀÇÁ¼Â Ãß°¡(x, z Ãà)
+            // ëœë¤ ë²”ìœ„ ë‚´ ìœ„ì¹˜ ì˜¤í”„ì…‹ ì¶”ê°€(x, z ì¶•)
             spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
 
-            // ÁöÁ¤µÈ À§Ä¡(spawnPos) ±ÙÃ³¿¡¼­ À¯È¿ÇÑ NavMesh À§Ä¡¸¦ Å½»ö (ÃÖ´ë ¹İ°æ 4m)
-            // À¯È¿ÇÑ À§Ä¡¸¦ Ã£À¸¸é ÇØ´ç À§Ä¡(hit.position)·Î º¸Á¤ÇÏ¿© ¿¡ÀÌÀüÆ® »ı¼º ¿À·ù ¹æÁö
+            // ì§€ì •ëœ ìœ„ì¹˜(spawnPos) ê·¼ì²˜ì—ì„œ ìœ íš¨í•œ NavMesh ìœ„ì¹˜ë¥¼ íƒìƒ‰ (ìµœëŒ€ ë°˜ê²½ 4m)
+            // ìœ íš¨í•œ ìœ„ì¹˜ë¥¼ ì°¾ìœ¼ë©´ í•´ë‹¹ ìœ„ì¹˜(hit.position)ë¡œ ë³´ì •í•˜ì—¬ ì—ì´ì „íŠ¸ ìƒì„± ì˜¤ë¥˜ ë°©ì§€
             NavMeshHit hit;
             if (NavMesh.SamplePosition(spawnPos, out hit, 4f, NavMesh.AllAreas))
             {
                 spawnPos = hit.position;
             }
 
-            // Pool¿¡¼­ Àû ¿ÀºêÁ§Æ® À§Ä¡ ÁöÁ¤ ¹× È°¼ºÈ­
+            // Poolì—ì„œ ì  ì˜¤ë¸Œì íŠ¸ ìœ„ì¹˜ ì§€ì • ë° í™œì„±í™”
             EnemyPooledObject newEnemy = GameModeManager.PoolManager.GetEnemyPool(enemyPrefab, spawnPos, Quaternion.identity);
 
-            // »ı¼º À§Ä¡ ¹æÇâÀ» ¹Ù¶óº¸µµ·Ï È¸Àü ¼³Á¤
+            // ìƒì„± ìœ„ì¹˜ ë°©í–¥ì„ ë°”ë¼ë³´ë„ë¡ íšŒì „ ì„¤ì •
             newEnemy.transform.LookAt(spawnPos);
         }
     }
@@ -203,22 +197,22 @@ public class EnemyManager : MonoBehaviour
 
     #region Try Advance Phase
     /// <summary>
-    /// ÆäÀÌÁî ÀüÈ¯ Á¶°ÇÀ» Æò°¡ÇÏ°í Æ®¸®°ÅÇÏ´Â ¸Ş¼­µå
+    /// í˜ì´ì¦ˆ ì „í™˜ ì¡°ê±´ì„ í‰ê°€í•˜ê³  íŠ¸ë¦¬ê±°í•˜ëŠ” ë©”ì„œë“œ
     /// 
-    /// ÇöÀç ÆäÀÌÁî¿¡¼­ Ã³Ä¡ ¿Ï·áµÈ Àû Á¾·ù ¼ö¸¦ ÇÏ³ª Áõ°¡½ÃÅ´
-    /// ¸ğµç Á¾·ù°¡ Ã³Ä¡µÈ °æ¿ì ´ÙÀ½ ÆäÀÌÁî·Î ÁøÇàÀ» ¿äÃ»ÇÔ
+    /// í˜„ì¬ í˜ì´ì¦ˆì—ì„œ ì²˜ì¹˜ ì™„ë£Œëœ ì  ì¢…ë¥˜ ìˆ˜ë¥¼ í•˜ë‚˜ ì¦ê°€ì‹œí‚´
+    /// ëª¨ë“  ì¢…ë¥˜ê°€ ì²˜ì¹˜ëœ ê²½ìš° ë‹¤ìŒ í˜ì´ì¦ˆë¡œ ì§„í–‰ì„ ìš”ì²­í•¨
     /// </summary>
     public void TryAdvancePhase()
     {
-        // ÇöÀç ÆäÀÌÁî¿¡¼­ Ã³Ä¡ ¿Ï·áµÈ Àû Á¾·ù ¼ö¸¦ ÇÏ³ª Áõ°¡
+        // í˜„ì¬ í˜ì´ì¦ˆì—ì„œ ì²˜ì¹˜ ì™„ë£Œëœ ì  ì¢…ë¥˜ ìˆ˜ë¥¼ í•˜ë‚˜ ì¦ê°€
         clearedEnemyTypeCount++;
 
-        // ¸ğµç Àû Á¾·ù°¡ Ã³Ä¡µÈ °æ¿ì
+        // ëª¨ë“  ì  ì¢…ë¥˜ê°€ ì²˜ì¹˜ëœ ê²½ìš°
         if (clearedEnemyTypeCount >= phaseEnemyTypeCount)
         {
-            // Ä«¿îÅÍ ÃÊ±âÈ­
+            // ì¹´ìš´í„° ì´ˆê¸°í™”
             clearedEnemyTypeCount = 0;
-            // ´ÙÀ½ ÆäÀÌÁî ÁøÇà ¿äÃ»
+            // ë‹¤ìŒ í˜ì´ì¦ˆ ì§„í–‰ ìš”ì²­
             GameModeManager.GameLogicManager.ProceedPhase();
         }
     }
