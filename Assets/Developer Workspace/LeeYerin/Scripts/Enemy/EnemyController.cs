@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using Game.combat.EnemyAttack;
 using Game.Combat.Stats;
 using System.Collections;
@@ -6,33 +6,33 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// Àû Ä³¸¯ÅÍÀÇ µ¿ÀÛ ¹× ³×ÀÌ°ÔÀÌ¼Ç ÀÌµ¿ µîÀ» °ü¸®ÇÏ´Â ÄÁÆ®·Ñ·¯
+/// ì  ìºë¦­í„°ì˜ ë™ì‘ ë° ë„¤ì´ê²Œì´ì…˜ ì´ë™ ë“±ì„ ê´€ë¦¬í•˜ëŠ” ì»¨íŠ¸ë¡¤ëŸ¬
 /// 
-/// ÁÖÀÇ:
-/// - ÀÌ Å¬·¡½º´Â ÀÏ¹İ Àû(±âº» Àû)À» À§ÇÑ ±âº» µ¿ÀÛÀ» Á¦°øÇÔ
-/// - ¿¤¸®Æ®³ª º¸½º¿Í °°Àº »óÀ§ ÀûÀº ÀÌ Å¬·¡½º¸¦ »ó¼Ó¹Ş¾Æ ½ºÅ³ÀÌ³ª Ãß°¡ Çàµ¿À» ±¸ÇöÇØ¾ß ÇÔ
+/// ì£¼ì˜:
+/// - ì´ í´ë˜ìŠ¤ëŠ” ì¼ë°˜ ì (ê¸°ë³¸ ì )ì„ ìœ„í•œ ê¸°ë³¸ ë™ì‘ì„ ì œê³µí•¨
+/// - ì—˜ë¦¬íŠ¸ë‚˜ ë³´ìŠ¤ì™€ ê°™ì€ ìƒìœ„ ì ì€ ì´ í´ë˜ìŠ¤ë¥¼ ìƒì†ë°›ì•„ ìŠ¤í‚¬ì´ë‚˜ ì¶”ê°€ í–‰ë™ì„ êµ¬í˜„í•´ì•¼ í•¨
 /// </summary>
 public class EnemyController : MonoBehaviour
 {
     #region Stats
     [Header("Stats Setting")]
-    [SerializeField] UnitStats stats;   // ÀûÀÇ ÇöÀç ½ºÅÈÀ» °ü¸®ÇÏ´Â ÄÄÆ÷³ÍÆ®
+    [SerializeField] UnitStats stats;   // ì ì˜ í˜„ì¬ ìŠ¤íƒ¯ì„ ê´€ë¦¬í•˜ëŠ” ì»´í¬ë„ŒíŠ¸
     public UnitStats Stats => stats;
     #endregion
 
     #region Pooling
     [Header("Pool Object Setting")]
-    [SerializeField] protected bool isBoss;         // º¸½º Àû ¿©ºÎ ÆÇ´Ü¿ë ÇÃ·¡±×
-    [SerializeField] EnemyPooledObject enemyPooledObj; // Àû ¿ÀºêÁ§Æ® Ç®¿¡¼­ °ü¸®ÇÏ´Â ¿ÀºêÁ§Æ® ÂüÁ¶
+    [SerializeField] protected bool isBoss;         // ë³´ìŠ¤ ì  ì—¬ë¶€ íŒë‹¨ìš© í”Œë˜ê·¸
+    [SerializeField] EnemyPooledObject enemyPooledObj; // ì  ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ ê´€ë¦¬í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ ì°¸ì¡°
     #endregion
 
     #region Animation
     [Header("Animation Setting")]
-    [SerializeField] Animator animator;             // Àû ¾Ö´Ï¸ŞÀÌ¼Ç ÄÁÆ®·Ñ·¯
-    [SerializeField] float dieAnimDuration = 2f;   // »ç¸Á ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı ½Ã°£
-    [SerializeField] private bool isDie;              // Àû »ç¸Á »óÅÂ ¿©ºÎ ÇÃ·¡±×
+    [SerializeField] Animator animator;             // ì  ì• ë‹ˆë©”ì´ì…˜ ì»¨íŠ¸ë¡¤ëŸ¬
+    [SerializeField] float dieAnimDuration = 2f;   // ì‚¬ë§ ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒ ì‹œê°„
+    [SerializeField] private bool isDie;              // ì  ì‚¬ë§ ìƒíƒœ ì—¬ë¶€ í”Œë˜ê·¸
 
     public Animator Animator => animator;
     #endregion
@@ -42,28 +42,28 @@ public class EnemyController : MonoBehaviour
     [SerializeField] AudioSource source;
     [SerializeField] int deathSfxId = 110009;
     /// <summary>
-    /// ÁöÁ¤µÈ »ç¿îµå ID¿¡ ÇØ´çÇÏ´Â È¿°úÀ½À» Àç»ıÇÏ´Â ¸Ş¼­µå
+    /// ì§€ì •ëœ ì‚¬ìš´ë“œ IDì— í•´ë‹¹í•˜ëŠ” íš¨ê³¼ìŒì„ ì¬ìƒí•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
-    /// <param name="id">Àç»ıÇÒ »ç¿îµåÀÇ °íÀ¯ ID</param>
+    /// <param name="id">ì¬ìƒí•  ì‚¬ìš´ë“œì˜ ê³ ìœ  ID</param>
     public void PlaySFX(int id) => GameModeManager.SoundManager.PlaySFX(id, source);
     #endregion
 
     #region Movement
     [Header("Enemy Movement Setting")]
     [Tooltip("NavMeshAgent component used for enemy movement")]
-    [SerializeField] NavMeshAgent agent;    // ÀûÀÇ °æ·Î Å½»ö ¹× ÀÌµ¿À» Á¦¾îÇÏ´Â NavMeshAgent ÄÄÆ÷³ÍÆ®
-    private Transform player;                 // ÇÃ·¹ÀÌ¾î À§Ä¡ ÃßÀû¿ë Transform ÂüÁ¶
-    [SerializeField] private bool isMove;     // ÀûÀÇ ÀÌµ¿ »óÅÂ ¿©ºÎ ÇÃ·¡±×
+    [SerializeField] NavMeshAgent agent;    // ì ì˜ ê²½ë¡œ íƒìƒ‰ ë° ì´ë™ì„ ì œì–´í•˜ëŠ” NavMeshAgent ì»´í¬ë„ŒíŠ¸
+    private Transform player;                 // í”Œë ˆì´ì–´ ìœ„ì¹˜ ì¶”ì ìš© Transform ì°¸ì¡°
+    [SerializeField] private bool isMove;     // ì ì˜ ì´ë™ ìƒíƒœ ì—¬ë¶€ í”Œë˜ê·¸
 
     public NavMeshAgent Agent => agent;
     #endregion
 
     #region Damage
     [Header("Damage Setting")]
-    [SerializeField] Collider hitSphere; // ÀûÀÌ ÇÇÇØ¸¦ ¹Ş´Â ÆÇÁ¤À» À§ÇÑ ±¸Ã¼ Äİ¶óÀÌ´õ
-    [SerializeField] DmgFloatPooledObject activeDmgText;  // µ¥¹ÌÁö ÅØ½ºÆ® ¿ÀºêÁ§Æ®
-    [SerializeField] EnemyHealthBarPooledObj enemyHealthBar;    // Àû Ã¼·Â¹Ù ¿ÀºêÁ§Æ®
-    [SerializeField] Transform enemyHealthBarPos;               // Àû Ã¼·Â¹Ù Æ®·£½ºÆû
+    [SerializeField] Collider hitSphere; // ì ì´ í”¼í•´ë¥¼ ë°›ëŠ” íŒì •ì„ ìœ„í•œ êµ¬ì²´ ì½œë¼ì´ë”
+    [SerializeField] DmgFloatPooledObject activeDmgText;  // ë°ë¯¸ì§€ í…ìŠ¤íŠ¸ ì˜¤ë¸Œì íŠ¸
+    [SerializeField] EnemyHealthBarPooledObj enemyHealthBar;    // ì  ì²´ë ¥ë°” ì˜¤ë¸Œì íŠ¸
+    [SerializeField] Transform enemyHealthBarPos;               // ì  ì²´ë ¥ë°” íŠ¸ëœìŠ¤í¼
     #endregion
 
     #region Attack
@@ -75,57 +75,44 @@ public class EnemyController : MonoBehaviour
     #region Unity Event
     protected virtual void OnEnable()
     {
-        // ÇöÀç »ı¼ºµÈ Àû °´Ã¼(this)¸¦ EnemyManagerÀÇ È°¼º Àû ¸®½ºÆ®¿¡ µî·Ï
-        GameModeManager.EnemyManager.Enemies.Add(this);
-        enemyHealthBar = GameModeManager.UIManager.RequestEnemyHealthBar(this.transform);   // È°¼ºÈ­ ½Ã ui manager¿¡¼­ hpbar¸¦ ¹Ş¾Æ¿È
-        enemyHealthBar.Setup(Stats, enemyHealthBarPos);            // ¸ó½ºÅÍÀÇ unitstat, Ã¼·Â¹Ù À§Ä¡ Àü´Ş
-
-        if (!agent.enabled) // NavMeshAgent°¡ ºñÈ°¼ºÈ­ µÇ¾î ÀÖ´Ù¸é È°¼ºÈ­
-            agent.enabled = true;
-
-        agent.isStopped = false;        // NavMeshAgent µ¿ÀÛ Àç°³
+        RegisterWithManager();  // ì ì„ EnemyManagerì˜ í™œì„± ì  ë¦¬ìŠ¤íŠ¸ì— ë“±ë¡
+        SetupHealthBar();       // ì  ì²´ë ¥ë°”(UI)ë¥¼ ìš”ì²­í•˜ê³  ì´ˆê¸° ìœ„ì¹˜/ìŠ¤íƒ¯ ì„¤ì •
+        EnableAgent();          // NavMeshAgentë¥¼ í™œì„±í™”í•˜ê³  ì´ë™ì„ ì¬ê°œ
     }
 
     protected virtual IEnumerator Start()
     {
-        if (enemyPooledObj == null)
-            if (!isBoss)
-                Debug.LogError("PooledObject is null");
+        // í’€ ì˜¤ë¸Œì íŠ¸ ìœ íš¨ì„± ê²€ì‚¬, ìœ íš¨í•˜ì§€ ì•Šìœ¼ë©´ ì´ˆê¸°í™” ì¤‘ë‹¨
+        if (!ValidatePoolObject()) yield break;
 
-        // EnemyManager ³» ÇÃ·¹ÀÌ¾î°¡ ÃÊ±âÈ­µÉ ¶§±îÁö ´ë±â
+        // EnemyManager ë‚´ í”Œë ˆì´ì–´ê°€ ì´ˆê¸°í™”ë  ë•Œê¹Œì§€ ëŒ€ê¸°
         yield return new WaitUntil(() => GameModeManager.EnemyManager.Player != null);
-        player = GameModeManager.EnemyManager.Player.transform;
+        CachePlayer();  // í”Œë ˆì´ì–´ Transform ìºì‹±
 
-        stats.OnDamaged += OnDamaged;
-        stats.OnDie += OnDie;
+        SubscribeToEvents();    // í”¼í•´ ë° ì‚¬ë§ ì´ë²¤íŠ¸ êµ¬ë…
+        SetupStatHandlers();    // ìŠ¤íƒ¯ ë³€ê²½ í•¸ë“¤ëŸ¬ ë“±ë¡ ë° ì´ë™ ì†ë„ ì´ˆê¸°í™”
 
-        // ½ºÅÈ º¯°æ ½Ã ÀÌµ¿ ¼Óµµ °»½Å ÇÚµé·¯ µî·Ï
-        stats.StatApplyHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed());
-        stats.StatRevertHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed(false));
-
-        agent.speed = stats.MoveSpeed;      // statsÀÇ MoveSpeed µ¥ÀÌÅÍ ±â¹İÀ¸·Î agentÀÇ speed ¼¼ÆÃ
-        
     }
     private void Update()
     {
-        if (player == null) return;     // ÇÃ·¹ÀÌ¾îÀÇ TransformÀÌ nullÀÌ¸é ¸®ÅÏ
+        if (player == null) return;     // í”Œë ˆì´ì–´ì˜ Transformì´ nullì´ë©´ ë¦¬í„´
 
-        if (isDie)  // Á×Àº »óÅÂÀÏ ¶§
+        if (isDie)  // ì£½ì€ ìƒíƒœì¼ ë•Œ
         {
-            if (!agent.isStopped)   // agent°¡ ÀÛµ¿ ÁßÀÌ¶ó¸é
+            if (!agent.isStopped)   // agentê°€ ì‘ë™ ì¤‘ì´ë¼ë©´
             {
-                agent.isStopped = true;     // Áï½Ã Á¤Áö
-                agent.ResetPath();          // °æ·Îµµ ¿ÏÀüÈ÷ Á¦°Å
+                agent.isStopped = true;     // ì¦‰ì‹œ ì •ì§€
+                agent.ResetPath();          // ê²½ë¡œë„ ì™„ì „íˆ ì œê±°
             }
-            
+
             return;
         }
 
-        PreAttackUpdate();  // ½ºÅ³ÀÌ³ª Ãß°¡ Çàµ¿À» ¿©±â¼­ Ã³¸®
+        PreAttackUpdate();  // ìŠ¤í‚¬ì´ë‚˜ ì¶”ê°€ í–‰ë™ì„ ì—¬ê¸°ì„œ ì²˜ë¦¬
 
-        if (!isAttacking && !isDie)     // update¸¦ µµ´Â µµÁß Á×¾ùÀ»¶§¸¦ ´ëºñÇØ !isDie Á¶°Ç Ãß°¡
+        if (!isAttacking && !isDie)     // updateë¥¼ ë„ëŠ” ë„ì¤‘ ì£½ì—‡ì„ë•Œë¥¼ ëŒ€ë¹„í•´ !isDie ì¡°ê±´ ì¶”ê°€
         {
-            // ±âº» °ø°İ
+            // ê¸°ë³¸ ê³µê²©
             if (defaultAttack.IsPlayerInRange(player))
                 StartAttack(defaultAttack);
             else
@@ -136,11 +123,77 @@ public class EnemyController : MonoBehaviour
     protected virtual void PreAttackUpdate() { }
     #endregion
 
+    #region Enemy Initialization
+    /// <summary>
+    /// EnemyManagerì˜ í™œì„± ì  ë¦¬ìŠ¤íŠ¸ì— í˜„ì¬ ì  ê°ì²´ë¥¼ ë“±ë¡í•˜ëŠ” ë©”ì„œë“œ
+    /// </summary>
+    private void RegisterWithManager() => GameModeManager.EnemyManager.Enemies.Add(this);
+
+    /// <summary>
+    /// UI ë§¤ë‹ˆì €ë¥¼ í†µí•´ ì ì˜ ì²´ë ¥ë°”ë¥¼ ìš”ì²­í•˜ê³  ì´ˆê¸° ìœ„ì¹˜ ë° ìŠ¤íƒ¯ì„ ì„¤ì •í•˜ëŠ” ë©”ì„œë“œ
+    /// </summary>
+    private void SetupHealthBar()
+    {
+        enemyHealthBar = GameModeManager.UIManager.RequestEnemyHealthBar(transform);
+        enemyHealthBar.Setup(Stats, enemyHealthBarPos);
+    }
+
+    /// <summary>
+    /// NavMeshAgentë¥¼ í™œì„±í™”í•˜ê³  ì´ë™ì„ ì¬ê°œí•  ìˆ˜ ìˆë„ë¡ ì´ˆê¸°í™”í•˜ëŠ” ë©”ì„œë“œ
+    /// </summary>
+    private void EnableAgent()
+    {
+        if (!agent.enabled) agent.enabled = true;
+        agent.isStopped = false;
+    }
+    #endregion
+
+    #region Enemy Start Setup
+    /// <summary>
+    /// EnemyPooledObjectê°€ ìœ íš¨í•œì§€ í™•ì¸í•˜ëŠ” ë©”ì„œë“œ
+    /// enemyPooledObjê°€ nullì´ê³  ë³´ìŠ¤ê°€ ì•„ë‹Œ ê²½ìš° ì˜¤ë¥˜ë¥¼ ì¶œë ¥í•˜ê³  ì´ˆê¸°í™”ë¥¼ ì¤‘ë‹¨í•¨
+    /// </summary>
+    private bool ValidatePoolObject()
+    {
+        if (enemyPooledObj == null && !isBoss)
+        {
+            Debug.LogError("PooledObject is null");
+            return false;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// EnemyManagerì—ì„œ í”Œë ˆì´ì–´ Transformì„ ê°€ì ¸ì™€ ìºì‹±í•˜ëŠ” ë©”ì„œë“œ
+    /// </summary>
+    private void CachePlayer() => player = GameModeManager.EnemyManager.Player.transform;
+
+    /// <summary>
+    /// ìŠ¤íƒ¯ ì´ë²¤íŠ¸ë¥¼ êµ¬ë…í•˜ì—¬ í”¼í•´ ë° ì‚¬ë§ ì‹œ ì²˜ë¦¬ ë©”ì„œë“œë¥¼ ì—°ê²°í•˜ëŠ” ë©”ì„œë“œ
+    /// </summary>
+    private void SubscribeToEvents()
+    {
+        stats.OnDamaged += OnDamaged;
+        stats.OnDie += OnDie;
+    }
+
+    /// <summary>
+    /// ìŠ¤íƒ¯ ë³€ê²½ì— ë”°ë¥¸ ì´ë™ ì†ë„ ì ìš© í•¸ë“¤ëŸ¬ë¥¼ ë“±ë¡í•˜ê³  ì´ˆê¸° ì´ë™ ì†ë„ë¥¼ ì„¤ì •í•˜ëŠ” ë©”ì„œë“œ
+    /// </summary>
+    private void SetupStatHandlers()
+    {
+        stats.StatApplyHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed());
+        stats.StatRevertHandlers.Add(StatType.MoveSpeed, () => agent.speed = stats.GetMoveSpeed(false));
+
+        agent.speed = stats.MoveSpeed;
+    }
+    #endregion
+
     #region Tracking Player
     /// <summary>
-    /// ÀûÀÇ ÇÃ·¹ÀÌ¾î ÃßÀûÀ» ½ÃµµÇÏ´Â ¸Ş¼­µå
-    /// NavMesh À§¿¡ ÀÖÀ» °æ¿ì ÇÃ·¹ÀÌ¾î À§Ä¡¸¦ ¸ñÀûÁö·Î ¼³Á¤ÇÏ¿© ÃßÀû,
-    /// NavMesh°¡ ¾Æ´Ò °æ¿ì ºñÈ°¼ºÈ­ ÈÄ ¿ÀºêÁ§Æ® Ç®¿¡ ¹İÈ¯ÇÑ´Ù
+    /// ì ì˜ í”Œë ˆì´ì–´ ì¶”ì ì„ ì‹œë„í•˜ëŠ” ë©”ì„œë“œ
+    /// NavMesh ìœ„ì— ìˆì„ ê²½ìš° í”Œë ˆì´ì–´ ìœ„ì¹˜ë¥¼ ëª©ì ì§€ë¡œ ì„¤ì •í•˜ì—¬ ì¶”ì ,
+    /// NavMeshê°€ ì•„ë‹ ê²½ìš° ë¹„í™œì„±í™” í›„ ì˜¤ë¸Œì íŠ¸ í’€ì— ë°˜í™˜í•œë‹¤
     /// </summary>
     private void TryTracking()
     {
@@ -151,34 +204,32 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        // °ø°İ ÁßÀÌ¶ó¸é ÀÌµ¿ÇÏÁö ¾ÊÀ½
+        // ê³µê²© ì¤‘ì´ë¼ë©´ ì´ë™í•˜ì§€ ì•ŠìŒ
         if (isAttacking)
         {
             agent.isStopped = true;
             isMove = false;
 
-            // È¸ÀüÀº °ø°İÇÒ ¶§µµ ÇÃ·¹ÀÌ¾î¸¦ ÇâÇÏ°Ô À¯Áö
+            // íšŒì „ì€ ê³µê²©í•  ë•Œë„ í”Œë ˆì´ì–´ë¥¼ í–¥í•˜ê²Œ ìœ ì§€
             FacePlayer();
             return;
         }
 
-        float distance = Vector3.Distance(player.position, transform.position);
-
-        // ÇÃ·¹ÀÌ¾î¸¦ ÃßÀû
+        // í”Œë ˆì´ì–´ë¥¼ ì¶”ì 
         agent.isStopped = false;
         agent.SetDestination(player.position);
 
-        // ÀÌµ¿ ÇÃ·¡±× °»½Å
+        // ì´ë™ í”Œë˜ê·¸ ê°±ì‹ 
         if (!isMove) isMove = true;
 
-        // µµÂø ½Ã È¸Àü º¸Á¤
+        // ë„ì°© ì‹œ íšŒì „ ë³´ì •
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             FacePlayer();
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº¸µµ·Ï È¸Àü Ã³¸®ÇÏ´Â ¸Ş¼­µå
-    /// YÃà È¸Àü¸¸ Àû¿ëÇÏ¿© ¼öÁ÷ È¸Àü ¾øÀÌ ¼öÆò ¹æÇâ¸¸ È¸Àü
+    /// í”Œë ˆì´ì–´ë¥¼ ë°”ë¼ë³´ë„ë¡ íšŒì „ ì²˜ë¦¬í•˜ëŠ” ë©”ì„œë“œ
+    /// Yì¶• íšŒì „ë§Œ ì ìš©í•˜ì—¬ ìˆ˜ì§ íšŒì „ ì—†ì´ ìˆ˜í‰ ë°©í–¥ë§Œ íšŒì „
     /// </summary>
     private void FacePlayer()
     {
@@ -186,7 +237,7 @@ public class EnemyController : MonoBehaviour
             Agent.enabled = true;
 
         Vector3 dirToPlayer = (player.position - transform.position).normalized;
-        dirToPlayer.y = 0f; // ¼öÁ÷ ¹æÇâ Á¦°Å
+        dirToPlayer.y = 0f; // ìˆ˜ì§ ë°©í–¥ ì œê±°
 
         if (dirToPlayer != Vector3.zero)
         {
@@ -196,37 +247,40 @@ public class EnemyController : MonoBehaviour
     }
 
     /// <summary>
-    /// ÀûÀÇ ÀÌµ¿À» Á¤Áö½ÃÅ°´Â ¸Ş¼­µå
-    /// NavMeshAgent°¡ È°¼ºÈ­µÇ¾î ÀÖÀ» °æ¿ì Áï½Ã °æ·Î¸¦ Á¦°ÅÇÏ°í ÀÌµ¿ ÇÃ·¡±×¸¦ °»½Å
-    /// °ø°İ »óÅÂ(isAttacking)¸¦ true·Î ¼³Á¤ÇÏ¿© ÀÌµ¿ Áß °ø°İ Á¦ÇÑ
+    /// ì ì˜ ì´ë™ì„ ì •ì§€ì‹œí‚¤ëŠ” ë©”ì„œë“œ
+    /// NavMeshAgentê°€ í™œì„±í™”ë˜ì–´ ìˆì„ ê²½ìš° ì¦‰ì‹œ ê²½ë¡œë¥¼ ì œê±°í•˜ê³  ì´ë™ í”Œë˜ê·¸ë¥¼ ê°±ì‹ 
+    /// ê³µê²© ìƒíƒœ(isAttacking)ë¥¼ trueë¡œ ì„¤ì •í•˜ì—¬ ì´ë™ ì¤‘ ê³µê²© ì œí•œ
     /// </summary>
     public void StopMovement()
     {
-        if (Agent.enabled == false)
-            Agent.enabled = true;
-
-        if (agent != null && agent.isOnNavMesh)
+        if (agent != null && agent.enabled)
         {
-            agent.isStopped = true;
-            agent.ResetPath();
+            // NavMeshì— ì˜¬ë¼ì™€ ìˆì„ ë•Œë§Œ ì‹¤ì œ ì •ì§€ ì²˜ë¦¬
+            if (agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+                agent.ResetPath();
+            }
         }
+
         isMove = false;
         isAttacking = true;
     }
 
     /// <summary>
-    /// ÀûÀÇ ÀÌµ¿À» Àç°³ÇÏ´Â ¸Ş¼­µå
-    /// NavMeshAgent°¡ È°¼ºÈ­µÇ¾î ÀÖ°í, ÀûÀÌ »ç¸Á »óÅÂ°¡ ¾Æ´Ò °æ¿ì ÀÌµ¿ Çã¿ë
-    /// ÀÌµ¿ ÇÃ·¡±×(isMove)¸¦ true·Î °»½ÅÇÏ°í °ø°İ »óÅÂ(isAttacking)¸¦ false·Î ¼³Á¤
+    /// ì ì˜ ì´ë™ì„ ì¬ê°œí•˜ëŠ” ë©”ì„œë“œ
+    /// NavMeshAgentê°€ í™œì„±í™”ë˜ì–´ ìˆê³ , ì ì´ ì‚¬ë§ ìƒíƒœê°€ ì•„ë‹ ê²½ìš° ì´ë™ í—ˆìš©
+    /// ì´ë™ í”Œë˜ê·¸(isMove)ë¥¼ trueë¡œ ê°±ì‹ í•˜ê³  ê³µê²© ìƒíƒœ(isAttacking)ë¥¼ falseë¡œ ì„¤ì •
     /// </summary>
     public void ResumeMovement()
     {
-        if (agent != null && agent.isOnNavMesh && !isDie)
-            agent.isStopped = false;
+        if (agent == null || isDie) return;
 
+        if (!agent.enabled) agent.enabled = true;
+
+        agent.isStopped = false;
         isMove = true;
-        if (isAttacking)
-            isAttacking = false;
+        isAttacking = false;
     }
     #endregion
 
@@ -234,13 +288,13 @@ public class EnemyController : MonoBehaviour
     public void OnDamaged(float damage)
     {
         hitSphere.enabled = false;
-        animator.SetTrigger("IsDamaged");    // ÇÇ°İ ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+        animator.SetTrigger("IsDamaged");    // í”¼ê²© ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
 
         DmgTextLogic(damage);
 
         Sequence damagedSequence = DOTween.Sequence();
 
-        damagedSequence.AppendInterval(1.0f);    // ÇÃ·¹ÀÌ¾î ÇÇ°İ ¾Ö´Ï¸ŞÀÌ¼Ç¸¸Å­ ½Ã°£Â÷¸¦ µĞ ÈÄ
+        damagedSequence.AppendInterval(1.0f);    // í”Œë ˆì´ì–´ í”¼ê²© ì• ë‹ˆë©”ì´ì…˜ë§Œí¼ ì‹œê°„ì°¨ë¥¼ ë‘” í›„
 
         damagedSequence.AppendCallback(() =>
         {
@@ -249,7 +303,7 @@ public class EnemyController : MonoBehaviour
     }
 
     /// <summary>
-    /// ÀûÀÌ »ç¸ÁÇßÀ» °æ¿ì È£ÃâµÇ´Â ¸Ş¼­µå
+    /// ì ì´ ì‚¬ë§í–ˆì„ ê²½ìš° í˜¸ì¶œë˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     public virtual void OnDie(float damage)
     {
@@ -257,66 +311,66 @@ public class EnemyController : MonoBehaviour
             Agent.enabled = true;
 
         isDie = true;
-        defaultAttack.StopAttack();          // »ç¸Á ½Ã °ø°İ ÄÚ·çÆ¾ ÀüºÎ ÁßÁö
+        defaultAttack.StopAttack();          // ì‚¬ë§ ì‹œ ê³µê²© ì½”ë£¨í‹´ ì „ë¶€ ì¤‘ì§€
         DmgTextLogic(damage);
-        enemyHealthBar.Release();            // »ç¸Á ½Ã hpbar Ç®¿¡ ¹İ³³
+        enemyHealthBar.Release();            // ì‚¬ë§ ì‹œ hpbar í’€ì— ë°˜ë‚©
 
-        GameModeManager.EnemyManager.Enemies.Remove(this);      // ÇöÀç »ı¼ºµÈ Àû °´Ã¼(this)¸¦ EnemyManagerÀÇ È°¼º Àû ¸®½ºÆ®¿¡¼­ »èÁ¦
+        GameModeManager.EnemyManager.Enemies.Remove(this);      // í˜„ì¬ ìƒì„±ëœ ì  ê°ì²´(this)ë¥¼ EnemyManagerì˜ í™œì„± ì  ë¦¬ìŠ¤íŠ¸ì—ì„œ ì‚­ì œ
 
-        if (isAttacking)    // ±âº» °ø°İ ÁßÀÌ¾ú´Ù¸é
+        if (isAttacking)    // ê¸°ë³¸ ê³µê²© ì¤‘ì´ì—ˆë‹¤ë©´
             defaultAttack.StopAttack();
 
         isMove = false;
         isAttacking = false;
 
-        animator.SetTrigger("IsDie");   // Die ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
-        PlaySFX(deathSfxId);   // Die »ç¿îµå Ãâ·Â
+        animator.SetTrigger("IsDie");   // Die ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
+        PlaySFX(deathSfxId);   // Die ì‚¬ìš´ë“œ ì¶œë ¥
 
         Sequence seq = DOTween.Sequence();
 
         seq.AppendInterval(dieAnimDuration);
 
-        //¼­¼­È÷ Ãà¼Ò ¡æ Ç®·Î ¹İ³³
+        //ì„œì„œíˆ ì¶•ì†Œ â†’ í’€ë¡œ ë°˜ë‚©
         seq.Append(transform.DOScale(Vector3.zero, 0.7f)
-            .SetEase(Ease.InBack)) // ºÎµå·¯¿î Ãà¼Ò ÀÌÆåÆ®
+            .SetEase(Ease.InBack)) // ë¶€ë“œëŸ¬ìš´ ì¶•ì†Œ ì´í™íŠ¸
             .OnComplete(() =>
             {
                 isDie = false;
-                enemyPooledObj.IsDie = true;  // Á×¾î ReleaseµÊÀ» ¾Ë¸²
-                enemyPooledObj.Release();  // Pool¿¡ ¹İ³³
+                enemyPooledObj.IsDie = true;  // ì£½ì–´ Releaseë¨ì„ ì•Œë¦¼
+                enemyPooledObj.Release();  // Poolì— ë°˜ë‚©
             });
     }
 
     /// <summary>
-    /// ÇöÀç °´Ã¼¿¡ ´ëÇÑ ÇÇÇØ·® ÅØ½ºÆ®¸¦ »ı¼º ¶Ç´Â È°¼ºÈ­ÇÏ°í, 
-    /// Àü´ŞµÈ ÇÇÇØ·® °ªÀ» È­¸é¿¡ Ç¥½ÃÇÏ´Â ¸Ş¼­µå
+    /// í˜„ì¬ ê°ì²´ì— ëŒ€í•œ í”¼í•´ëŸ‰ í…ìŠ¤íŠ¸ë¥¼ ìƒì„± ë˜ëŠ” í™œì„±í™”í•˜ê³ , 
+    /// ì „ë‹¬ëœ í”¼í•´ëŸ‰ ê°’ì„ í™”ë©´ì— í‘œì‹œí•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
-    /// <param name="damage">Ç¥½ÃÇÒ ÇÇÇØ·® °ª</param>
+    /// <param name="damage">í‘œì‹œí•  í”¼í•´ëŸ‰ ê°’</param>
     private void DmgTextLogic(float damage)
     {
-        // activeDmgText°¡ nullÀÌ°Å³ª, ÀÌ¹Ì È°¼ºÈ­µÇ¾î ÀÖÁö ¾ÊÀº °æ¿ì
+        // activeDmgTextê°€ nullì´ê±°ë‚˜, ì´ë¯¸ í™œì„±í™”ë˜ì–´ ìˆì§€ ì•Šì€ ê²½ìš°
         if (activeDmgText == null || !activeDmgText.gameObject.activeInHierarchy)
         {
-            // »õ·Î¿î ÇÇÇØ·® ÅØ½ºÆ® °´Ã¼¸¦ ¿äÃ»ÇÏ°í, ÇÃ·¹ÀÌ¾î ¶Ç´Â ÀûÀÇ À§Ä¡¿¡ ¸ÂÃç ¹èÄ¡
+            // ìƒˆë¡œìš´ í”¼í•´ëŸ‰ í…ìŠ¤íŠ¸ ê°ì²´ë¥¼ ìš”ì²­í•˜ê³ , í”Œë ˆì´ì–´ ë˜ëŠ” ì ì˜ ìœ„ì¹˜ì— ë§ì¶° ë°°ì¹˜
             activeDmgText = GameModeManager.UIManager.RequestDamageText(transform);
 
-            // »ı¼ºµÈ ÇÇÇØ·® ÅØ½ºÆ®ÀÇ ´ë»ó(Target)À» ÇöÀç °´Ã¼·Î ¼³Á¤
+            // ìƒì„±ëœ í”¼í•´ëŸ‰ í…ìŠ¤íŠ¸ì˜ ëŒ€ìƒ(Target)ì„ í˜„ì¬ ê°ì²´ë¡œ ì„¤ì •
             activeDmgText.Target = transform;
         }
 
-        // ÇÇÇØ·® ÅØ½ºÆ®¿¡ ½ÇÁ¦ ÇÇÇØ·® °ªÀ» ¼³Á¤
+        // í”¼í•´ëŸ‰ í…ìŠ¤íŠ¸ì— ì‹¤ì œ í”¼í•´ëŸ‰ ê°’ì„ ì„¤ì •
         activeDmgText.SetDamageText(damage);
     }
     #endregion
 
     #region Attack Handling
     /// <summary>
-    /// ÀûÀÇ °ø°İ ½ÃÀÛ
+    /// ì ì˜ ê³µê²© ì‹œì‘
     /// </summary>
     protected void StartAttack(BaseAttack attack)
     {
         isAttacking = true;
-        attack?.StartAttack(); // ¿¬°áµÈ °ø°İ ½ÇÇà
+        attack?.StartAttack(); // ì—°ê²°ëœ ê³µê²© ì‹¤í–‰
     }
     #endregion
 }
