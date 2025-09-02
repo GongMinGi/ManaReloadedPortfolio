@@ -1,77 +1,89 @@
-using Game.Combat.Stats;
+ï»¿using Game.Combat.Stats;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///  - Àû HP¹Ù Àü¿ë UI ÄÁÆ®·Ñ·¯: º£ÀÌ½º ¹ÙÀÎ´õ(ÀÌº¥Æ® ±¸µ¶/½½¶óÀÌ´õ °»½Å)¸¦ »ó¼Ó
-///  - hp°¡ ÃÖ´ëÀÏ¶§´Â hp¸¦ Ç¥½ÃÇÏÁö ¾Ê°í µ¥¹ÌÁö¸¦ ÀÔÀº »óÅÂ¿¡¼­¸¸ ÇöÀç hp Ç¥½Ã
+/// * ì‘ì„±ì : ê³µë¯¼ê¸°
+///  - ì  HPë°” ì „ìš© UI ì»¨íŠ¸ë¡¤ëŸ¬: ë² ì´ìŠ¤ ë°”ì¸ë”(ì´ë²¤íŠ¸ êµ¬ë…/ìŠ¬ë¼ì´ë” ê°±ì‹ )ë¥¼ ìƒì†
+///  - hpê°€ ìµœëŒ€ì¼ë•ŒëŠ” hpë¥¼ í‘œì‹œí•˜ì§€ ì•Šê³  ë°ë¯¸ì§€ë¥¼ ì…ì€ ìƒíƒœì—ì„œë§Œ í˜„ì¬ hp í‘œì‹œ
 /// </summary>
 public class EnemyHealthBarUI : HealthBarBinder
 {
 
     [Header("World UI")]
-    [SerializeField] private Transform followTarget;                            // hp ¹Ù°¡ ¦i¾Æ´Ù´Ò À§Ä¡
-    [SerializeField] private Camera cam;                                        // Ä«¸Ş¶ó ¹æÇâÀ» ¹Ù¶óº¸·Îµ¹°í ÇÏ±âÀ§ÇÑ Ä«¸Ş¶ó Á¤º¸
-    [SerializeField] private bool hideWhenFull = true;                          // hp°¡ °¡µæÂ÷ ÀÖ´Â °æ¿ì Ç¥½ÃÇÏÁö ¾ÊÀ½
+    [SerializeField] private Transform followTarget;                            // hp ë°”ê°€ ì«’ì•„ë‹¤ë‹ ìœ„ì¹˜
+    [SerializeField] private Camera cam;                                        // ì¹´ë©”ë¼ ë°©í–¥ì„ ë°”ë¼ë³´ë¡œëŒê³  í•˜ê¸°ìœ„í•œ ì¹´ë©”ë¼ ì •ë³´
+    [SerializeField] private bool hideWhenFull = true;                          // hpê°€ ê°€ë“ì°¨ ìˆëŠ” ê²½ìš° í‘œì‹œí•˜ì§€ ì•ŠìŒ
     [SerializeField] private CanvasGroup group;
     [SerializeField] private float hideThreshold = 0.999f;
     //[SerializeField] private float showthreshold = 0.995f; 
 
     public void BindTarget(UnitStats targetStatInform, Transform followingPos)
     {
-        targetStat = targetStatInform;                  // unitstat Á¤º¸¸¦ ¹Ş´Â ¸Å°³º¯¼ö
-        followTarget = followingPos;                    // Àû ¸Ó¸® À§ hpbarÀÇ Æ®·£½ºÆûÀ» ¹Ş¾Æ¿È
+        Debug.Log(followTarget + "bindtarget ë“¤ì–´ê°");
+
+        targetStat = targetStatInform;                  // unitstat ì •ë³´ë¥¼ ë°›ëŠ” ë§¤ê°œë³€ìˆ˜
+        followTarget = followingPos;                    // ì  ë¨¸ë¦¬ ìœ„ hpbarì˜ íŠ¸ëœìŠ¤í¼ì„ ë°›ì•„ì˜´
 
         if (targetStat != null)
-            targetStat.OnHpChanged += HandleHpChanged;  // È°¼ºÈ­ ½Ã: ´ë»óÀÇ HP º¯°æ ÀÌº¥Æ®¿¡ Äİ¹é ¿¬°á
+            targetStat.OnHpChanged += HandleHpChanged;  // í™œì„±í™” ì‹œ: ëŒ€ìƒì˜ HP ë³€ê²½ ì´ë²¤íŠ¸ì— ì½œë°± ì—°ê²°
 
-        //Debug.Log("ÀûÃ¼·Â ¹Ù È°¼ºÈ­ ¹× ÀÌº¥Æ® µî·Ï");
-
+        //Debug.Log("ì ì²´ë ¥ ë°” í™œì„±í™” ë° ì´ë²¤íŠ¸ ë“±ë¡");
+        HandleHpChanged(targetStat.HP, targetStat.StatsData.BaseHP);
     }
 
-    // È°¼ºÈ­ ½Ã: (1) º£ÀÌ½º ±¸µ¶ (2) ½ºÆù Á÷ÈÄ »óÅÂ °­Á¦ µ¿±âÈ­ (3) Ä«¸Ş¶ó ÂüÁ¶ È®º¸
+    // í™œì„±í™” ì‹œ: (1) ë² ì´ìŠ¤ êµ¬ë… (2) ìŠ¤í° ì§í›„ ìƒíƒœ ê°•ì œ ë™ê¸°í™” (3) ì¹´ë©”ë¼ ì°¸ì¡° í™•ë³´
     protected override void OnEnable()
     {
-
+        Debug.Log(followTarget + "healtbar onenable ë“¤ì–´ê°");
+        ForceHide();
 
         if (targetStat != null)
-            HandleHpChanged(targetStat.HP, targetStat.StatsData.BaseHP);        // ¼ÒÈ¯½Ã Ç®ÇÇÀÌ¹Ç·Î hpchanged¸¦ È£ÃâÇØ¼­ Ã¤·Â¹Ù¸¦ ¼û°ÜÁØ´Ù.
+            HandleHpChanged(targetStat.HP, targetStat.StatsData.BaseHP);        // ì†Œí™˜ì‹œ í’€í”¼ì´ë¯€ë¡œ hpchangedë¥¼ í˜¸ì¶œí•´ì„œ ì±„ë ¥ë°”ë¥¼ ìˆ¨ê²¨ì¤€ë‹¤.
 
         if (!cam) cam = Camera.main;
 
     }
 
 
-    // ÁÂÇ¥/È¸ÀüÀº LateUpdate¿¡¼­ ÃÖ½Å Æ®·£½ºÆû °á°ú ¹İ¿µ ÈÄ Ã³¸®
-    private void LateUpdate()
+    // hp ë°”ë¥¼ ê°•ì œë¡œ ìˆ¨ê¸°ê¸° ìœ„í•œ í•¨ìˆ˜
+    private void ForceHide()
     {
-        if (!cam) return;       // Ä«¸Ş¶ó ¹ÌÇÒ´ç ½Ã return
-
-        Transform followingPos = followTarget ? followTarget : (targetStat ? targetStat.transform : transform);  // followTargetÀÌ ÀÖÀ¸¸é Ã³³Ö°í, ¾øÀ¸¸é unitstat¿¡¼­ °¡Á®´Ù ³Ö°í, ¾Æ´Ï¸é ±×³É transform
-        if (followingPos) transform.position = followingPos.position;         // ±âÁØ À§Ä¡°¡ À¯È¿ÇÏ¸é, worldOffset ¸¸Å­ ¸Ó¸® À§·Î ¿Ã·Á¼­ ¹èÄ¡
-
-
-        transform.forward = cam.transform.forward;      // Ç×»ó Ä«¸Ş¶ó¸¦ Á¤¸éÀ¸·Î ¹Ù¶óº¸°Ô ÇÔ(°£´Ü/Àúºñ¿ë)
+        if (!group) return;
+        group.alpha = 0f;
+        group.blocksRaycasts = false;
+        group.interactable = false;
     }
 
 
-    // HP ºñÀ² º¯È­ ½Ã È£Ãâ: º¸ÀÌ±â/¼û±â±â ±ÔÄ¢ Àû¿ë
-    protected override void OnRatioChanged(float ratio)     // Ã¼·Â ºñÀ²ÀÌ ¹Ù²ğ¶§¸¶´Ù È£Ãâ
+    // ì¢Œí‘œ/íšŒì „ì€ LateUpdateì—ì„œ ìµœì‹  íŠ¸ëœìŠ¤í¼ ê²°ê³¼ ë°˜ì˜ í›„ ì²˜ë¦¬
+    private void LateUpdate()
+    {
+        if (!cam) return;       // ì¹´ë©”ë¼ ë¯¸í• ë‹¹ ì‹œ return
+
+        Transform followingPos = followTarget ? followTarget : (targetStat ? targetStat.transform : transform);  // followTargetì´ ìˆìœ¼ë©´ ì²˜ë„£ê³ , ì—†ìœ¼ë©´ unitstatì—ì„œ ê°€ì ¸ë‹¤ ë„£ê³ , ì•„ë‹ˆë©´ ê·¸ëƒ¥ transform
+        if (followingPos) transform.position = followingPos.position;         // ê¸°ì¤€ ìœ„ì¹˜ê°€ ìœ íš¨í•˜ë©´, worldOffset ë§Œí¼ ë¨¸ë¦¬ ìœ„ë¡œ ì˜¬ë ¤ì„œ ë°°ì¹˜
+
+
+        transform.forward = cam.transform.forward;      // í•­ìƒ ì¹´ë©”ë¼ë¥¼ ì •ë©´ìœ¼ë¡œ ë°”ë¼ë³´ê²Œ í•¨(ê°„ë‹¨/ì €ë¹„ìš©)
+    }
+
+
+    // HP ë¹„ìœ¨ ë³€í™” ì‹œ í˜¸ì¶œ: ë³´ì´ê¸°/ìˆ¨ê¸°ê¸° ê·œì¹™ ì ìš©
+    protected override void OnRatioChanged(float ratio)     // ì²´ë ¥ ë¹„ìœ¨ì´ ë°”ë€”ë•Œë§ˆë‹¤ í˜¸ì¶œ
     {
         if (!group) return;
 
-        if (hideWhenFull && ratio >= hideThreshold)         // Ç®ÇÇ ¼û±è ¿É¼ÇÀÌ trueÀÏ¶§¸¸
+        if (hideWhenFull && ratio >= hideThreshold)         // í’€í”¼ ìˆ¨ê¹€ ì˜µì…˜ì´ trueì¼ë•Œë§Œ
         {
-            group.alpha = 0f;
-            group.blocksRaycasts = false;
-            group.interactable = false;
-
+            ForceHide();
         }
         else
         {
             group.alpha = 1f;
-
+            
         }
     }
 

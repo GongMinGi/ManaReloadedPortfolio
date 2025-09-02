@@ -277,22 +277,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4618563446745205528}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnCastingSpell
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: e95a547b-3bf6-411c-8e71-0f4b5d992057
-    m_ActionName: 'player/SpellCasting[/Keyboard/leftCtrl,/Keyboard/w,/Keyboard/a,/Keyboard/s,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4618563446745205528}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnCombinationMagicAttack
         m_Mode: 0
         m_Arguments:
@@ -398,6 +382,7 @@ MonoBehaviour:
   curHp: 100
   moveSpeed: 0
   effectHandler: {fileID: 5827740171549540368}
+  IS_DEV_MODE: 1
 --- !u!114 &5827740171549540368
 MonoBehaviour:
   m_ObjectHideFlags: 0
