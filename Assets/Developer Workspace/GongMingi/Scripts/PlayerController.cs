@@ -6,8 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
-
-
+using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// 개발자: 이예린, 공민기
@@ -49,9 +48,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator playerAnim;                                   // 플레이어 애니메이션
     [SerializeField] float animDamp = 0.15f;                                // 애니메이션 전환 시의 보간 값 
 
-
-    
-
     Vector3 moveDir = new();
 
     /// <summary>
@@ -72,7 +68,6 @@ public class PlayerController : MonoBehaviour
         {Key.S, E_CastingType.Thunder },
         {Key.D, E_CastingType.Earth },
     };
-
 
     #endregion
 
@@ -235,7 +230,7 @@ public class PlayerController : MonoBehaviour
         GameModeManager.SoundManager.PlaySFX(110013);                       // 속성 장전 사운드 sfx
 
         currentCastingList.Add(castingType);                            // 현재 캐스팅된 원소 목록에 지금 누른 원소를 추가한다.
-        rangedAttackController.CastedElementCount[castingType]++;       // 현재 캐스팅된 속성 개수 업데이트
+        rangedAttackController.CastedElementCount[castingType]++;       // 현재 캐스팅된 속성 개수 업데이트 (우선순위 결정용)
         onCastAdded.Invoke(castingType, currentCastingList.Count - 1);  // unity event
     }
 
@@ -249,8 +244,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ResetCasting()
     {
-        currentCastingList.Clear();     // 현재 캐스팅 된 원소들을 지운다
-        onCastReset?.Invoke();          // ui에 표시된 원소를 전부 검정색으로 바꾼다. (비운다)
+        currentCastingList.Clear();                         // 현재 캐스팅 된 원소들을 지운다
+        onCastReset?.Invoke();                              // ui에 표시된 원소를 전부 검정색으로 바꾼다. (비운다)
+        rangedAttackController.ClearCastedElementCount();   // 원거리공격 우선순위를 정할때 쓴 원소 충전 개수 초기화
     }
 
     #endregion
@@ -265,12 +261,8 @@ public class PlayerController : MonoBehaviour
     public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;       // space 를 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.
-        Debug.Log("조합마법 공격");
-
         TryCastSkill();                 // 스킬 실행
     }
-
-
 
     /// <summary>
     /// 현재 캐스팅 리스트와 매칭되는 스킬을 찾아 실행한다.
@@ -281,8 +273,6 @@ public class PlayerController : MonoBehaviour
     private void TryCastSkill()
     {
         if (currentCastingList.Count == 0) return;      // 현재 캐스팅된 원소가 없으면 스킬을 실행하지 않는다.
-
-
         BaseCombinationMagic skill = GameModeManager.SkillCastingManager.GetSkill(currentCastingList);    // 스킬관리자에게 캐스팅된 원소리스트를 보내서 그에 해당하는 스킬의 고유번호를 받는다.
 
         if (skill != null)              // 스킬이 존재한다면
@@ -295,7 +285,6 @@ public class PlayerController : MonoBehaviour
         }
 
         ResetCasting();                 // 캐스팅한 속성을 전부 비운다.
-
     }
     #endregion
 
@@ -337,9 +326,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-
     #region 원거리 공격
-
 
     /// <summary>
     /// 원거리 공격 입력 트리거.
@@ -350,18 +337,12 @@ public class PlayerController : MonoBehaviour
     {
         if (!ctx.started) return;       // 마우스 좌클릭을 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.            
 
-
         if (currentCastingList.Count == 0)  // 현재 캐스팅된 원소의 수가 없다면, 리턴한다
             return;
 
-        Debug.Log("원거리 공격");
-
         rangedAttackController.TryElementalRangedAttack();  // 원거리 공격 시도
-
         ResetCasting();                     // 캐스팅한 속성을 전부 비운다.
-
     }
-
 
     #endregion
 
