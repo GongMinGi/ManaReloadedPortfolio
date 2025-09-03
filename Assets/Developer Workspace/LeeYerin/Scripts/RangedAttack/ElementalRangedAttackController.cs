@@ -1,16 +1,16 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// ÇÃ·¹ÀÌ¾î°¡ º¸À¯ÇÑ ¿ø¼Ò ¼Ó¼ºÀ» ¹ÙÅÁÀ¸·Î,
-/// ¿ì¼±¼øÀ§¿¡ µû¶ó ÀûÀıÇÑ ¿ø°Å¸® °ø°İÀ» ÀÚµ¿ ¼±ÅÃÇÏ°í ½ÇÇàÇÏ´Â ÄÁÆ®·Ñ·¯
+/// í”Œë ˆì´ì–´ê°€ ë³´ìœ í•œ ì›ì†Œ ì†ì„±ì„ ë°”íƒ•ìœ¼ë¡œ,
+/// ìš°ì„ ìˆœìœ„ì— ë”°ë¼ ì ì ˆí•œ ì›ê±°ë¦¬ ê³µê²©ì„ ìë™ ì„ íƒí•˜ê³  ì‹¤í–‰í•˜ëŠ” ì»¨íŠ¸ë¡¤ëŸ¬
 /// 
-/// ¿ø¼ÒÀÇ ¿ì¼±¼øÀ§´Â ScriptableObject(ElementPriorityData)¿¡ Á¤ÀÇµÇ¸ç,
-/// »ç¿ëÀÚ´Â »çÀü¿¡ Á¤ÀÇµÈ °ø°İ À¯Çü(Charge, Beam, Cone) Áß ÇÏ³ª¸¦ ½ÇÇàÇÏ°Ô µÊ
+/// ì›ì†Œì˜ ìš°ì„ ìˆœìœ„ëŠ” ScriptableObject(ElementPriorityData)ì— ì •ì˜ë˜ë©°,
+/// ì‚¬ìš©ìëŠ” ì‚¬ì „ì— ì •ì˜ëœ ê³µê²© ìœ í˜•(Charge, Beam, Cone) ì¤‘ í•˜ë‚˜ë¥¼ ì‹¤í–‰í•˜ê²Œ ë¨
 /// </summary>
 public class ElementalRangedAttackController : MonoBehaviour
 {
@@ -25,10 +25,9 @@ public class ElementalRangedAttackController : MonoBehaviour
     private Dictionary<E_CastingType, int> castedElementCount = new();
 
     /// <summary>
-    /// enumÀ¸·Î Á¤ÀÇµÈ casting typeÀ»  ¸®½ºÆ®¿¡ ÇÃ·¹±× ÇüÅÂ·Î ÀúÀå
+    /// enumìœ¼ë¡œ ì •ì˜ëœ casting typeì„  ë¦¬ìŠ¤íŠ¸ì— í”Œë ˆê·¸ í˜•íƒœë¡œ ì €ì¥
     /// </summary>
     public Dictionary<E_CastingType, int> CastedElementCount => castedElementCount;
-
 
     [Header("RangedAttack Components")]
     [SerializeField] RangedChargeConeAttack chargeConeAttack;
@@ -36,65 +35,53 @@ public class ElementalRangedAttackController : MonoBehaviour
     [SerializeField] RangedBeamAttack beamAttack;
     [SerializeField] RangedConeAttack coneAttack;
 
-
-    private IAnimationDriver _anim;                                         // Animator¸¦ °¨½Ñ Ãß»ó µå¶óÀÌ¹ö
-    private RangedAttackContext _ctx;                                       // °ø°İ °ø¿ë ÄÁÅØ½ºÆ®..(Ow
-    private readonly List<AttackBinding> attackBindings = new();            // ÀÌº¥Æ® ±¸µ¶ ÇÚµé º¸°ü
-
+    private IAnimationDriver _anim;                                         // Animatorë¥¼ ê°ì‹¼ ì¶”ìƒ ë“œë¼ì´ë²„
+    private RangedAttackContext _ctx;                                       // ê³µê²© ê³µìš© ì»¨í…ìŠ¤íŠ¸..(Ow
+    private readonly List<AttackBinding> attackBindings = new();            // ì´ë²¤íŠ¸ êµ¬ë… í•¸ë“¤ ë³´ê´€
 
     private void Awake()
     {
         playerAnim = GetComponent<Animator>();
 
-        //Debug.Log($"playerAnim (_anim ÇÒ´çÀü) : {playerAnim}");            // awakeº¸´Ù ¸ÕÀú ½ÇÇàµÅ´Â ¹ö±×..,????
+        //Debug.Log($"playerAnim (_anim í• ë‹¹ì „) : {playerAnim}");            // awakeë³´ë‹¤ ë¨¼ì € ì‹¤í–‰ë¼ëŠ” ë²„ê·¸..,????
 
         //if(playerAnim == null)
-        //    Debug.Log($"playerAnim ¿¬»ê 1È¸ÁøÇà ÈÄ : {playerAnim}");
+        //    Debug.Log($"playerAnim ì—°ì‚° 1íšŒì§„í–‰ í›„ : {playerAnim}");
 
         //playerAnim.SetTrigger("RangedConeAttack");
-        //Debug.Log($"playerAnim Æ®¸®°Å ¿¬»ê ÁøÇàÈÄ : {playerAnim}");
+        //Debug.Log($"playerAnim íŠ¸ë¦¬ê±° ì—°ì‚° ì§„í–‰í›„ : {playerAnim}");
 
 
-        _anim = new AnimatorDriver(playerAnim);                             // Animator¸¦ µå¶óÀÌ¹ö·Î °¨½Î±â
-        Debug.Log($"playerAnim (_anim ÇÒ´çÈÄ) : {playerAnim}");
+        _anim = new AnimatorDriver(playerAnim);                             // Animatorë¥¼ ë“œë¼ì´ë²„ë¡œ ê°ì‹¸ê¸°
+        Debug.Log($"playerAnim (_anim í• ë‹¹í›„) : {playerAnim}");
 
-        if (_anim != null) Debug.Log("ÇÒ´çµÊ");
-        else Debug.Log("ÇÒ´ç ¾È‰Î");
+        if (_anim != null) Debug.Log("í• ë‹¹ë¨");
+        else Debug.Log("í• ë‹¹ ì•ˆëŒ");
 
+        _ctx = new RangedAttackContext(transform, transform, _anim);        // ê³µê²© ê³µìš© ì»¨í…ìŠ¤íŠ¸ ( Owner/ DefaultMuzzle/ Anim) êµ¬ì„±
 
-        _ctx = new RangedAttackContext(transform, transform, _anim);        // °ø°İ °ø¿ë ÄÁÅØ½ºÆ® ( Owner/ DefaultMuzzle/ Anim) ±¸¼º
-
-
-        // °ø°İ ¹ÙÀÎµù ( ½Ã±×³Î -> Animator ÆÄ¶ó¹ÌÅÍ ¸ÅÇÎ) 
-        //  - Áö¼ÓÇüÀº boolHash·Î, Â÷Áö / Ã¤³Î¸µÀÌ¸é useProgress = true ·Î ÁøÇàµµ ¿¬°á
+        // ê³µê²© ë°”ì¸ë”© ( ì‹œê·¸ë„ -> Animator íŒŒë¼ë¯¸í„° ë§¤í•‘) 
+        //  - ì§€ì†í˜•ì€ boolHashë¡œ, ì°¨ì§€ / ì±„ë„ë§ì´ë©´ useProgress = true ë¡œ ì§„í–‰ë„ ì—°ê²°
         attackBindings.Add(WireAttack(beamAttack, boolHash: AnimParams.Beam, useProgress: false));
         attackBindings.Add(WireAttack(chargeProjectileAttack, boolHash: AnimParams.ChargeProjectile, useProgress: false));
         attackBindings.Add(WireAttack(chargeConeAttack, boolHash: AnimParams.ChargeCone, useProgress: false));
         attackBindings.Add(WireAttack(coneAttack, boolHash: AnimParams.HoldConeAttack, useProgress: false));
 
-
         //Animator ani;
         //ani.GetBehaviour
-
-
     }
-
-
-
 
     private void OnDestroy()
     {
-        // »ı¼ºÇÑ ¸ğµç ¹ÙÀÎµù Dispose => ÀÌº¥Æ® ±¸µ¶ ¾ÈÀü ÇØÁ¦
+        // ìƒì„±í•œ ëª¨ë“  ë°”ì¸ë”© Dispose => ì´ë²¤íŠ¸ êµ¬ë… ì•ˆì „ í•´ì œ
         foreach (var binding in attackBindings) binding.Dispose();
         attackBindings.Clear();
     }
 
-
-
     /// <summary>
-    /// * AttackBinding Å¬·¡½º¿¡¼­ ÀÌº¥Æ®¿¡ ¿¬°áÇÑ ¾×¼ÇÀ» ±¸Ã¼ÀûÀ¸·Î ±¸ÇöÇÏ´Â ¸Ş¼­µå
-    ///  - °¢ ¾×¼ÇÀ» animatorÀÇ ÆÄ¶ó¹ÌÅÍ¸Ş¼­µå¿Í °áÇÕ½ÃÅ²´Ù.
-    ///  - ¾î¶² ½ºÅ©¸³Æ®ÀÎÁö ¸ô¶óµµ Monobehavior¶ó¸é ¹Ş¾Æ¼­ ÀÎÅÍÆäÀÌ½º ±¸Çö ¿©ºÎ¸¸ º¸°í ¹ÙÀÎµùÀ» ÇÑ´Ù
+    /// * AttackBinding í´ë˜ìŠ¤ì—ì„œ ì´ë²¤íŠ¸ì— ì—°ê²°í•œ ì•¡ì…˜ì„ êµ¬ì²´ì ìœ¼ë¡œ êµ¬í˜„í•˜ëŠ” ë©”ì„œë“œ
+    ///  - ê° ì•¡ì…˜ì„ animatorì˜ íŒŒë¼ë¯¸í„°ë©”ì„œë“œì™€ ê²°í•©ì‹œí‚¨ë‹¤.
+    ///  - ì–´ë–¤ ìŠ¤í¬ë¦½íŠ¸ì¸ì§€ ëª°ë¼ë„ Monobehaviorë¼ë©´ ë°›ì•„ì„œ ì¸í„°í˜ì´ìŠ¤ êµ¬í˜„ ì—¬ë¶€ë§Œ ë³´ê³  ë°”ì¸ë”©ì„ í•œë‹¤
     /// </summary>
     /// <param name="rangedAttack"></param>
     /// <param name="boolHash"></param>
@@ -102,67 +89,67 @@ public class ElementalRangedAttackController : MonoBehaviour
     /// <param name="triggerHash"></param>
     /// <returns></returns>
     private AttackBinding WireAttack(
-        MonoBehaviour rangedAttack,                                                     // ¸ğµç °ø°İ Å¬·¡½º°¡ Monobehavior»ó¼Ó => Æ¯Á¤ Å¬·¡½º ÀÌ¸§À» ¾Ë ÇÊ¿ä¾øÀÌ ¾î¶² °ø°İÀÌµç Àü´Ş°¡´É
-        int? boolHash = null,                                                           // Áö¼ÓÇü °ø°İÀÌ¸é Animator Bool ÇØ½Ã
-        bool useProgress = false,                                                       // Â÷Áö, Ã¤³Î¸µ ÁøÇàµµ¸¦ »ç¿ëÇÒ Áö ¿©ºÎ
-        int? triggerHash = null)                                                        // Áï¹ßÇü °ø°İÀÏ ¶§ triggerÆÄ¸®¹ÌÅÍ »ç¿ë
+        MonoBehaviour rangedAttack,                                                     // ëª¨ë“  ê³µê²© í´ë˜ìŠ¤ê°€ Monobehaviorìƒì† => íŠ¹ì • í´ë˜ìŠ¤ ì´ë¦„ì„ ì•Œ í•„ìš”ì—†ì´ ì–´ë–¤ ê³µê²©ì´ë“  ì „ë‹¬ê°€ëŠ¥
+        int? boolHash = null,                                                           // ì§€ì†í˜• ê³µê²©ì´ë©´ Animator Bool í•´ì‹œ
+        bool useProgress = false,                                                       // ì°¨ì§€, ì±„ë„ë§ ì§„í–‰ë„ë¥¼ ì‚¬ìš©í•  ì§€ ì—¬ë¶€
+        int? triggerHash = null)                                                        // ì¦‰ë°œí˜• ê³µê²©ì¼ ë•Œ triggeríŒŒë¦¬ë¯¸í„° ì‚¬ìš©
     {
-        if (rangedAttack == null) return AttackBinding.Empty;                           // ÀÎ½ºÆåÅÍ¿¡ ¿ø°Å¸®°ø°İ ÄÄÆ÷³ÍÆ®°¡ ÇÒ´çµÇÁö ¾Ê¾Ò´Ù¸é ´õ¹Ì ¹ÙÀÎµù ¹İÈ¯
+        if (rangedAttack == null) return AttackBinding.Empty;                           // ì¸ìŠ¤í™í„°ì— ì›ê±°ë¦¬ê³µê²© ì»´í¬ë„ŒíŠ¸ê°€ í• ë‹¹ë˜ì§€ ì•Šì•˜ë‹¤ë©´ ë”ë¯¸ ë°”ì¸ë”© ë°˜í™˜
 
-        if (rangedAttack is IRequireAttackContext needCtx)                              // °ø°İÀÌ ÄÁÅØ½ºÆ®¸¦ ¿ä±¸ÇÏ¸é(ÀÎÅÍÆäÀÌ½º¸¦ ±¸ÇöÇßÀ¸¸é) ÁÖÀÔ
+        if (rangedAttack is IRequireAttackContext needCtx)                              // ê³µê²©ì´ ì»¨í…ìŠ¤íŠ¸ë¥¼ ìš”êµ¬í•˜ë©´(ì¸í„°í˜ì´ìŠ¤ë¥¼ êµ¬í˜„í–ˆìœ¼ë©´) ì£¼ì…
             needCtx.BindContext(_ctx);
 
-        if ( rangedAttack is not IAttackSignals signal)                                 // ½Ã±×³Î ¾ø´Â °ø°İ(ex: Áï¹ß)ÀÌ¸é ¹ÙÀÎµù ºÒÇÊ¿ä
+        if ( rangedAttack is not IAttackSignals signal)                                 // ì‹œê·¸ë„ ì—†ëŠ” ê³µê²©(ex: ì¦‰ë°œ)ì´ë©´ ë°”ì¸ë”© ë¶ˆí•„ìš”
             return AttackBinding.Empty;
 
-        AttackBinding binding = new AttackBinding(signal);                              // ½ÇÁ¦ ±¸µ¶/ÇØÁ¦¸¦ °ü¸®ÇÒ AttackBinding ÀÎ½ºÅÏ½º »ı¼º
+        AttackBinding binding = new AttackBinding(signal);                              // ì‹¤ì œ êµ¬ë…/í•´ì œë¥¼ ê´€ë¦¬í•  AttackBinding ì¸ìŠ¤í„´ìŠ¤ ìƒì„±
 
-        // Áö¼ÓÇü(bool ÆÄ¶ó¹ÌÅÍ) ¸ÅÇÎ
+        // ì§€ì†í˜•(bool íŒŒë¼ë¯¸í„°) ë§¤í•‘
         if ( boolHash.HasValue)
         {
-            int parameterHashValue = boolHash.Value;                                    // ÇØ½Ã Ä³½Ì
-            binding.Started     = () => _anim.SetBool(parameterHashValue, true);        // °ø°İ ½ÃÀÛ => bool ON
-            binding.Ended       = () => _anim.SetBool(parameterHashValue, false);       // Á¤»ó Á¾·á => Bool OFF
-            binding.Interrupted = () => _anim.SetBool(parameterHashValue, false);       // °­Á¦ Ãë¼Ò => Bool OFF
+            int parameterHashValue = boolHash.Value;                                    // í•´ì‹œ ìºì‹±
+            binding.Started     = () => _anim.SetBool(parameterHashValue, true);        // ê³µê²© ì‹œì‘ => bool ON
+            binding.Ended       = () => _anim.SetBool(parameterHashValue, false);       // ì •ìƒ ì¢…ë£Œ => Bool OFF
+            binding.Interrupted = () => _anim.SetBool(parameterHashValue, false);       // ê°•ì œ ì·¨ì†Œ => Bool OFF
 
-            if (useProgress)                                                            // Â÷Áö, Ã¤³Î¸µ ÁøÇàµµ ¸ÅÇÎ
+            if (useProgress)                                                            // ì°¨ì§€, ì±„ë„ë§ ì§„í–‰ë„ ë§¤í•‘
                 binding.Progress = attackProgressedRate => _anim.SetFloat(parameterHashValue, attackProgressedRate);
         }
 
-        binding.Subscribe();                                                            // AttackBinding¿¡¼­ ½ÇÁ¦ event¿Í ½ÇÇàÇÒ ActionÀ» ¿¬°á
-        return binding;                                                                 // ÄÁÆ®·Ñ·¯¿¡¼­ Dispose ÇÒ ¼ö ÀÖµµ·Ï ¹İÈ¯
+        binding.Subscribe();                                                            // AttackBindingì—ì„œ ì‹¤ì œ eventì™€ ì‹¤í–‰í•  Actionì„ ì—°ê²°
+        return binding;                                                                 // ì»¨íŠ¸ë¡¤ëŸ¬ì—ì„œ Dispose í•  ìˆ˜ ìˆë„ë¡ ë°˜í™˜
     }
 
 
-    private sealed class AttackBinding : IDisposable                                    // IDisposableÀ» ±¸ÇöÇÑ ÀÌº¥Æ® - ¹ÙÀÎµù ÇÑ µ¢¾î¸® ¸¦ ³ªÅ¸³»´Â ³»ºÎ Àü¿ë(sealed) Å¬·¡½º
+    private sealed class AttackBinding : IDisposable                                    // IDisposableì„ êµ¬í˜„í•œ ì´ë²¤íŠ¸ - ë°”ì¸ë”© í•œ ë©ì–´ë¦¬ ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ë‚´ë¶€ ì „ìš©(sealed) í´ë˜ìŠ¤
     {
-        public static readonly AttackBinding Empty = new(null);                         // ½Ã±×³ÎÀÌ ¾Æ¿¹ ¾ø´Â °æ¿ì¿¡ ¾²´Â ½Ì±ÛÅÏ ´õ¹Ì °´Ã¼ 
+        public static readonly AttackBinding Empty = new(null);                         // ì‹œê·¸ë„ì´ ì•„ì˜ˆ ì—†ëŠ” ê²½ìš°ì— ì“°ëŠ” ì‹±ê¸€í„´ ë”ë¯¸ ê°ì²´ 
 
-        private readonly IAttackSignals rangedAttackSignal;                             // ½ÇÁ¦·Î ±¸µ¶ÇÒ °ø°İ ½Ã±×³Î(started, end µî )À» º¸°üÇÏ´Â ÀĞ±â Àü¿ë ÂüÁ¶
-        public Action Started;                                                          // °ø°İÀÌ ½ÃÀÛµÉ ¶§ È£ÃâµÉ µ¨¸®°ÔÀÌÆ®(Action)
-        public Action Ended;                                                            // °ø°İÀÌ Á¤»ó Á¾·áµÉ ¶§ È£Ãâ
-        public Action Interrupted;                                                      // ¿ÜºÎ ¿äÀÎ(Stop µî)À¸·Î ²÷°åÀ»¶§ È£Ãâ
-        public Action<float> Progress;                                                  // Â÷Áö, Ã¤³Î¸µ ÁøÇàµµ(0~1)¸¦ Àü´Ş ( ÇÊ¿ä½Ã »ç¿ë) 
+        private readonly IAttackSignals rangedAttackSignal;                             // ì‹¤ì œë¡œ êµ¬ë…í•  ê³µê²© ì‹œê·¸ë„(started, end ë“± )ì„ ë³´ê´€í•˜ëŠ” ì½ê¸° ì „ìš© ì°¸ì¡°
+        public Action Started;                                                          // ê³µê²©ì´ ì‹œì‘ë  ë•Œ í˜¸ì¶œë  ë¸ë¦¬ê²Œì´íŠ¸(Action)
+        public Action Ended;                                                            // ê³µê²©ì´ ì •ìƒ ì¢…ë£Œë  ë•Œ í˜¸ì¶œ
+        public Action Interrupted;                                                      // ì™¸ë¶€ ìš”ì¸(Stop ë“±)ìœ¼ë¡œ ëŠê²¼ì„ë•Œ í˜¸ì¶œ
+        public Action<float> Progress;                                                  // ì°¨ì§€, ì±„ë„ë§ ì§„í–‰ë„(0~1)ë¥¼ ì „ë‹¬ ( í•„ìš”ì‹œ ì‚¬ìš©) 
 
-        public AttackBinding(IAttackSignals signal) => rangedAttackSignal = signal;     // »ı¼ºÀÚ. ÄÁÆ®·Ñ·¯°¡ Àü´ŞÇÑ signalÀ» ¹Ş¾Æ¿Â´Ù.
+        public AttackBinding(IAttackSignals signal) => rangedAttackSignal = signal;     // ìƒì„±ì. ì»¨íŠ¸ë¡¤ëŸ¬ê°€ ì „ë‹¬í•œ signalì„ ë°›ì•„ì˜¨ë‹¤.
 
-        public void Subscribe()                                                         // signal(ÀÌº¥Æ®)°ú ±× ÀÌº¥Æ®¿¡¼­ È£ÃâÇÒ ÇÔ¼ö(Acition)À» ¹­´Â´Ù.
+        public void Subscribe()                                                         // signal(ì´ë²¤íŠ¸)ê³¼ ê·¸ ì´ë²¤íŠ¸ì—ì„œ í˜¸ì¶œí•  í•¨ìˆ˜(Acition)ì„ ë¬¶ëŠ”ë‹¤.
         {
-            if (rangedAttackSignal == null) return;                                     // signal(ÀÌº¥Æ®)ÀÌ ¾øÀ¸¸é ¾Æ¹«°Íµµ ÇÏÁö ¾ÊÀ½
-            if (Started != null) rangedAttackSignal.Started         += Started;         // ½ÃÀÛ ÀÌº¥Æ® ¿¬°á
-            if (Ended != null) rangedAttackSignal.Ended             += Ended;           // Á¾·á ÀÌº¥Æ® ¿¬°á
-            if (Interrupted != null) rangedAttackSignal.Interrupted += Interrupted;     // Ãë¼Ò ÀÌº¥Æ® ¿¬°á    
-            if (Progress != null) rangedAttackSignal.Progress       += Progress;        // ÁøÇàµµ ÀÌº¥Æ® ¿¬°á
+            if (rangedAttackSignal == null) return;                                     // signal(ì´ë²¤íŠ¸)ì´ ì—†ìœ¼ë©´ ì•„ë¬´ê²ƒë„ í•˜ì§€ ì•ŠìŒ
+            if (Started != null) rangedAttackSignal.Started         += Started;         // ì‹œì‘ ì´ë²¤íŠ¸ ì—°ê²°
+            if (Ended != null) rangedAttackSignal.Ended             += Ended;           // ì¢…ë£Œ ì´ë²¤íŠ¸ ì—°ê²°
+            if (Interrupted != null) rangedAttackSignal.Interrupted += Interrupted;     // ì·¨ì†Œ ì´ë²¤íŠ¸ ì—°ê²°    
+            if (Progress != null) rangedAttackSignal.Progress       += Progress;        // ì§„í–‰ë„ ì´ë²¤íŠ¸ ì—°ê²°
         }
 
-        public void Dispose()                                                           // IDisposeableÀ» ÀÌ¿ëÇÏ¿© ¾ÈÀüÇÏ°Ô ±¸µ¶ ÇØÁ¦ 
+        public void Dispose()                                                           // IDisposeableì„ ì´ìš©í•˜ì—¬ ì•ˆì „í•˜ê²Œ êµ¬ë… í•´ì œ 
         {
-            if (rangedAttackSignal == null) return;                                     // ÀÌ¹Ì ÇØÁ¦µÈ °æ¿ì ¹Ù·Î Á¾·á 
-            if (Started != null) rangedAttackSignal.Started         -= Started;         // ½ÃÀÛ ÀÌº¥Æ® ÇØÁ¦
-            if (Ended != null) rangedAttackSignal.Ended             -= Ended;           // Á¾·á ÀÌº¥Æ® ÇØÁ¦
-            if (Interrupted != null) rangedAttackSignal.Interrupted -= Interrupted;     // Ãë¼Ò ÀÌº¥Æ® ÇØÁ¦
-            if (Progress != null) rangedAttackSignal.Progress       -= Progress;        // ÁøÇàµµ ÀÌº¥Æ® ÇØÁ¦
-            Started = Ended = Interrupted = null;                                       // µ¨¸®°ÔÀÌÆ® ÂüÁ¶¸¦ Á¦°ÅÇØ GC ´ë»óÈ­
+            if (rangedAttackSignal == null) return;                                     // ì´ë¯¸ í•´ì œëœ ê²½ìš° ë°”ë¡œ ì¢…ë£Œ 
+            if (Started != null) rangedAttackSignal.Started         -= Started;         // ì‹œì‘ ì´ë²¤íŠ¸ í•´ì œ
+            if (Ended != null) rangedAttackSignal.Ended             -= Ended;           // ì¢…ë£Œ ì´ë²¤íŠ¸ í•´ì œ
+            if (Interrupted != null) rangedAttackSignal.Interrupted -= Interrupted;     // ì·¨ì†Œ ì´ë²¤íŠ¸ í•´ì œ
+            if (Progress != null) rangedAttackSignal.Progress       -= Progress;        // ì§„í–‰ë„ ì´ë²¤íŠ¸ í•´ì œ
+            Started = Ended = Interrupted = null;                                       // ë¸ë¦¬ê²Œì´íŠ¸ ì°¸ì¡°ë¥¼ ì œê±°í•´ GC ëŒ€ìƒí™”
             Progress = null;
         }
     }
@@ -170,10 +157,10 @@ public class ElementalRangedAttackController : MonoBehaviour
 
     #region Casted Element Count Clear
     /// <summary>
-    /// º¸À¯ÇÑ ¿ø¼Ò ¼Ó¼ºº° Ä«¿îÆ®¸¦ ÃÊ±âÈ­ÇÏ´Â ¸Ş¼­µå
-    /// ¸ğµç ¿ø¼ÒÀÇ °³¼ö¸¦ 0À¸·Î ¼³Á¤ÇÏ¿© ¿ø¼Ò º¸À¯ Á¤º¸¸¦ ¸®¼ÂÇÔ
+    /// ë³´ìœ í•œ ì›ì†Œ ì†ì„±ë³„ ì¹´ìš´íŠ¸ë¥¼ ì´ˆê¸°í™”í•˜ëŠ” ë©”ì„œë“œ
+    /// ëª¨ë“  ì›ì†Œì˜ ê°œìˆ˜ë¥¼ 0ìœ¼ë¡œ ì„¤ì •í•˜ì—¬ ì›ì†Œ ë³´ìœ  ì •ë³´ë¥¼ ë¦¬ì…‹í•¨
     /// </summary>
-    private void ClearCastedElementCount()
+    public void ClearCastedElementCount()
     {
         foreach (var element in castedElementCount.Keys.ToList())
             castedElementCount[element] = 0;
@@ -182,26 +169,26 @@ public class ElementalRangedAttackController : MonoBehaviour
 
     #region Elemental Attack Dispatcher
     /// <summary>
-    /// ÇöÀç º¸À¯ÇÑ ¿ø¼Ò¸¦ ±â¹İÀ¸·Î ÀûÀıÇÑ ¿ø°Å¸® °ø°İÀ» ÀÚµ¿ ¼±ÅÃÇÏ¿© ½ÇÇàÇÏ´Â ¸Ş¼­µå
-    /// ¿ì¼±¼øÀ§¿Í º¸À¯ °³¼ö¸¦ °í·ÁÇÏ¿© ½ÇÇàµÇ´Â °ø°İÀÌ °áÁ¤µÊ
+    /// í˜„ì¬ ë³´ìœ í•œ ì›ì†Œë¥¼ ê¸°ë°˜ìœ¼ë¡œ ì ì ˆí•œ ì›ê±°ë¦¬ ê³µê²©ì„ ìë™ ì„ íƒí•˜ì—¬ ì‹¤í–‰í•˜ëŠ” ë©”ì„œë“œ
+    /// ìš°ì„ ìˆœìœ„ì™€ ë³´ìœ  ê°œìˆ˜ë¥¼ ê³ ë ¤í•˜ì—¬ ì‹¤í–‰ë˜ëŠ” ê³µê²©ì´ ê²°ì •ë¨
     /// </summary>
     public void TryElementalRangedAttack()
     {
         if (castedElementCount == null)
             return;
 
-        // ¿ì¼±¼øÀ§¿Í º¸À¯ °³¼ö¸¦ ±â¹İÀ¸·Î ÇÏ³ªÀÇ ¼Ó¼ºÀ» ¼±ÅÃ
+        // ìš°ì„ ìˆœìœ„ì™€ ë³´ìœ  ê°œìˆ˜ë¥¼ ê¸°ë°˜ìœ¼ë¡œ í•˜ë‚˜ì˜ ì†ì„±ì„ ì„ íƒ
         E_CastingType? castingType = SelectPrimaryCastingElement();
 
         if (!castingType.HasValue)
         {
-            Debug.LogWarning("»ç¿ë °¡´ÉÇÑ ¼Ó¼ºÀÌ ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("ì‚¬ìš© ê°€ëŠ¥í•œ ì†ì„±ì´ ì—†ìŠµë‹ˆë‹¤.");
         }
         else
         {
-            Debug.Log($"[ {castingType} ] ¼Ó¼ºÀÌ ¼±ÅÃµÆ½À´Ï´Ù.");
+            Debug.Log($"[ {castingType} ] ì†ì„±ì´ ì„ íƒëìŠµë‹ˆë‹¤.");
 
-            // ¼±ÅÃµÈ ¼Ó¼º¿¡ ÇØ´çÇÏ´Â °ø°İ ¹æ½Ä È£Ãâ
+            // ì„ íƒëœ ì†ì„±ì— í•´ë‹¹í•˜ëŠ” ê³µê²© ë°©ì‹ í˜¸ì¶œ
             switch (castingType.Value)
             {
                 case E_CastingType.Earth:
@@ -221,15 +208,15 @@ public class ElementalRangedAttackController : MonoBehaviour
             }
         }
 
-        // º¸À¯ ÁßÀÎ ¿ø¼Ò °³¼ö¿¡ ´ëÇÑ µ¥ÀÌÅÍ Á¤¸®
+        // ë³´ìœ  ì¤‘ì¸ ì›ì†Œ ê°œìˆ˜ì— ëŒ€í•œ ë°ì´í„° ì •ë¦¬
         ClearCastedElementCount();
     }
 
     /// <summary>
-    /// ÇöÀç º¸À¯ÇÑ ¿ø¼Òµé Áß °¡Àå ³ôÀº ¿ì¼±¼øÀ§ÀÇ ¿ø¼Ò ¼Ó¼ºÀ» ¼±ÅÃÇÏ´Â ¸Ş¼­µå
-    /// ´Ü, µ¿ÀÏ ¿ì¼±¼øÀ§ ³»¿¡¼­ ¿©·¯ ¿ø¼Ò°¡ ÀÖÀ» °æ¿ì °³¼ö°¡ ¸¹Àº ÂÊÀÌ ¿ì¼±µÇ¾î ¼±ÅÃµÊ
+    /// í˜„ì¬ ë³´ìœ í•œ ì›ì†Œë“¤ ì¤‘ ê°€ì¥ ë†’ì€ ìš°ì„ ìˆœìœ„ì˜ ì›ì†Œ ì†ì„±ì„ ì„ íƒí•˜ëŠ” ë©”ì„œë“œ
+    /// ë‹¨, ë™ì¼ ìš°ì„ ìˆœìœ„ ë‚´ì—ì„œ ì—¬ëŸ¬ ì›ì†Œê°€ ìˆì„ ê²½ìš° ê°œìˆ˜ê°€ ë§ì€ ìª½ì´ ìš°ì„ ë˜ì–´ ì„ íƒë¨
     /// </summary>
-    /// <returns>¼±ÅÃµÈ ¿ø¼Ò ¼Ó¼º (¾ø´Ù¸é null ¹İÈ¯)</returns>
+    /// <returns>ì„ íƒëœ ì›ì†Œ ì†ì„± (ì—†ë‹¤ë©´ null ë°˜í™˜)</returns>
     E_CastingType? SelectPrimaryCastingElement()
     {
         foreach (var group in elementPriorityData.PriorityGroups)
@@ -241,32 +228,32 @@ public class ElementalRangedAttackController : MonoBehaviour
                 if (!castedElementCount.ContainsKey(element))
                     continue;
 
-                // ÇØ´ç ¿ø¼Ò¸¦ 1°³ ÀÌ»ó º¸À¯ ÁßÀÎÁö È®ÀÎ
+                // í•´ë‹¹ ì›ì†Œë¥¼ 1ê°œ ì´ìƒ ë³´ìœ  ì¤‘ì¸ì§€ í™•ì¸
                 if (castedElementCount[element] == 0)
                     continue;
 
-                // µ¿ÀÏ ¿ì¼±¼øÀ§ ±×·ì ³»¿¡¼­´Â °³¼ö°¡ °¡Àå ¸¹Àº ¼Ó¼ºÀ» ¿ì¼± ¼±ÅÃ
+                // ë™ì¼ ìš°ì„ ìˆœìœ„ ê·¸ë£¹ ë‚´ì—ì„œëŠ” ê°œìˆ˜ê°€ ê°€ì¥ ë§ì€ ì†ì„±ì„ ìš°ì„  ì„ íƒ
                 if (castingType == null || castedElementCount[castingType.Value] < castedElementCount[element])
                     castingType = element;
             }
 
-            // ÇöÀç ¿ì¼±¼øÀ§ ±×·ì¿¡¼­ º¸À¯ ÁßÀÎ ¿ø¼Ò°¡ ÀÖ´Ù¸é,
-            // ±× ¿ø¼Ò Áß °¡Àå ¸¹ÀÌ º¸À¯ÇÑ °ÍÀ» ¼±ÅÃÇØ Áï½Ã ¹İÈ¯
+            // í˜„ì¬ ìš°ì„ ìˆœìœ„ ê·¸ë£¹ì—ì„œ ë³´ìœ  ì¤‘ì¸ ì›ì†Œê°€ ìˆë‹¤ë©´,
+            // ê·¸ ì›ì†Œ ì¤‘ ê°€ì¥ ë§ì´ ë³´ìœ í•œ ê²ƒì„ ì„ íƒí•´ ì¦‰ì‹œ ë°˜í™˜
             if (castingType != null)
                 return castingType;
         }
 
-        // »ç¿ë °¡´ÉÇÑ ¿ø¼Ò°¡ ÀüÇô ¾ø´Â °æ¿ì
+        // ì‚¬ìš© ê°€ëŠ¥í•œ ì›ì†Œê°€ ì „í˜€ ì—†ëŠ” ê²½ìš°
         return null;
     }
     #endregion
 
     #region Ranged Attack Handlers
     /// <summary>
-    /// Hold & Release ¹æ½ÄÀÇ Â÷Áö °ø°İÀ» ¼öÇàÇÏ´Â ¸Ş¼­µå
-    /// ¶¥: Æø¹ß¼º Åõ»çÃ¼ / Àü±â: Àü¹æ ¿ø»Ô ¹üÀ§ Áï½Ã ÇÇÇØ
+    /// Hold & Release ë°©ì‹ì˜ ì°¨ì§€ ê³µê²©ì„ ìˆ˜í–‰í•˜ëŠ” ë©”ì„œë“œ
+    /// ë•…: í­ë°œì„± íˆ¬ì‚¬ì²´ / ì „ê¸°: ì „ë°© ì›ë¿” ë²”ìœ„ ì¦‰ì‹œ í”¼í•´
     /// </summary>
-    /// <param name="castingType">½ÇÇàÇÒ ¼Ó¼º</param>
+    /// <param name="castingType">ì‹¤í–‰í•  ì†ì„±</param>
     private void ChargeAttack(E_CastingType castingType)
     {
         switch (castingType)
@@ -283,10 +270,10 @@ public class ElementalRangedAttackController : MonoBehaviour
     }
 
     /// <summary>
-    /// Hold ¹æ½ÄÀ¸·Î Áö¼ÓµÇ´Â ºö °ø°İÀ» ¼öÇàÇÏ´Â ¸Ş¼­µå
-    /// ºû/¾îµÒ: Àü¹æ Á÷¼± ¹æÇâÀ¸·Î Áö¼Ó ÇÇÇØ
+    /// Hold ë°©ì‹ìœ¼ë¡œ ì§€ì†ë˜ëŠ” ë¹” ê³µê²©ì„ ìˆ˜í–‰í•˜ëŠ” ë©”ì„œë“œ
+    /// ë¹›/ì–´ë‘ : ì „ë°© ì§ì„  ë°©í–¥ìœ¼ë¡œ ì§€ì† í”¼í•´
     /// </summary>
-    /// <param name="castingType">½ÇÇàÇÒ ¼Ó¼º</param>
+    /// <param name="castingType">ì‹¤í–‰í•  ì†ì„±</param>
     private void BeamAttack(E_CastingType castingType)
     {
         switch (castingType)
@@ -298,19 +285,18 @@ public class ElementalRangedAttackController : MonoBehaviour
                 beamAttack.ExecuteAttack(castingType);
                 break;
             default:
-                Debug.LogWarning("BeamAttack ÇÒ ¼ö ¾ø´Â ¿ø¼Ò ¼Ó¼ºÀÔ´Ï´Ù.");
+                Debug.LogWarning("BeamAttack í•  ìˆ˜ ì—†ëŠ” ì›ì†Œ ì†ì„±ì…ë‹ˆë‹¤.");
                 break;
         }
     }
 
     /// <summary>
-    /// Hold ¹æ½ÄÀÇ ¿ø»Ô ¸ğ¾ç ¹üÀ§ °ø°İÀ» ¼öÇàÇÕ´Ï´Ù.
-    /// ºÒ/³Ã±â: Áö¼ÓÀû ¹üÀ§ ÇÇÇØ
+    /// Hold ë°©ì‹ì˜ ì›ë¿” ëª¨ì–‘ ë²”ìœ„ ê³µê²©ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
+    /// ë¶ˆ/ëƒ‰ê¸°: ì§€ì†ì  ë²”ìœ„ í”¼í•´
     /// </summary>
-    /// <param name="castingType">½ÇÇàÇÒ ¼Ó¼º</param>
+    /// <param name="castingType">ì‹¤í–‰í•  ì†ì„±</param>
     private void ConeAttack(E_CastingType castingType)
     {
-
         switch (castingType)
         {
             case E_CastingType.Fire:
@@ -320,7 +306,7 @@ public class ElementalRangedAttackController : MonoBehaviour
                 coneAttack.ExecuteAttack(castingType);
                 break;
             default:
-                Debug.LogWarning("ConeAttack ÇÒ ¼ö ¾ø´Â ¿ø¼Ò ¼Ó¼ºÀÔ´Ï´Ù.");
+                Debug.LogWarning("ConeAttack í•  ìˆ˜ ì—†ëŠ” ì›ì†Œ ì†ì„±ì…ë‹ˆë‹¤.");
                 break;
         }
     }
