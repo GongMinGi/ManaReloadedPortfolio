@@ -287,19 +287,9 @@ public class EnemyController : MonoBehaviour
     #region Damage & Death Handling
     public void OnDamaged(float damage)
     {
-        hitSphere.enabled = false;
         animator.SetTrigger("IsDamaged");    // 피격 애니메이션 실행
 
         DmgTextLogic(damage);
-
-        Sequence damagedSequence = DOTween.Sequence();
-
-        damagedSequence.AppendInterval(1.0f);    // 플레이어 피격 애니메이션만큼 시간차를 둔 후
-
-        damagedSequence.AppendCallback(() =>
-        {
-            hitSphere.enabled = true;
-        });
     }
 
     /// <summary>
