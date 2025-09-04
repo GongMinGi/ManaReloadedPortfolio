@@ -142,7 +142,7 @@ namespace Game.Combat.Stats
             MoveSpeed = statsData.BaseMoveSpeed;
             Defense = statsData.BaseDefense;
 
-            //OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 초기 Hp 최대값  Slider ui 에 전달
+            // OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 초기 Hp 최대값  Slider ui 에 전달
 
             // StatusEffectHandler에 자신 참조 전달
             effectHandler.UnitStats = this;
@@ -156,6 +156,8 @@ namespace Game.Combat.Stats
         /// <param name="damage">데미지</param>
         public void TakeDamage(float damage)
         {
+            Debug.Log(statsData);
+
             if (HP <= 0f) return;
 
             if (!IS_DEV_MODE)    // 개발자 모드일 경우 데미지를 입지 않음(플레이어에서 사용)
