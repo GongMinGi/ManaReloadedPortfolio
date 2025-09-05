@@ -22,22 +22,18 @@ public class EnemyHealthBarUI : HealthBarBinder
 
     public void BindTarget(UnitStats targetStatInform, Transform followingPos)
     {
-        Debug.Log(followTarget + "bindtarget 들어감");
-
         targetStat = targetStatInform;                  // unitstat 정보를 받는 매개변수
         followTarget = followingPos;                    // 적 머리 위 hpbar의 트랜스폼을 받아옴
 
         if (targetStat != null)
             targetStat.OnHpChanged += HandleHpChanged;  // 활성화 시: 대상의 HP 변경 이벤트에 콜백 연결
 
-        //Debug.Log("적체력 바 활성화 및 이벤트 등록");
         HandleHpChanged(targetStat.HP, targetStat.StatsData.BaseHP);
     }
 
     // 활성화 시: (1) 베이스 구독 (2) 스폰 직후 상태 강제 동기화 (3) 카메라 참조 확보
     protected override void OnEnable()
     {
-        Debug.Log(followTarget + "healtbar onenable 들어감");
         ForceHide();
 
         if (targetStat != null)

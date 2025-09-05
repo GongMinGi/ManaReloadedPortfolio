@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1039522884196173762
 RectTransform:
   m_ObjectHideFlags: 0
@@ -61,10 +61,11 @@ MonoBehaviour:
   autoRelease: 0
   releaseTime: 0
   pool: {fileID: 0}
-  rectTransform: {fileID: 1039522884196173762}
   mDamageLabel: {fileID: 3437375198486490147}
+  offsetY: 2.5
   damageVisibleTime: 1.5
   fadeTime: 0.5
+  timeLeft: 0
   damage: 0
 --- !u!114 &3437375198486490147
 MonoBehaviour:

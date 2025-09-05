@@ -1,44 +1,38 @@
-using Game.Combat.Stats;
+ï»¿using Game.Combat.Stats;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ
-///  - HP UI ¹ÙÀÎµù º£ÀÌ½º: ÀÌº¥Æ® ±¸µ¶/½½¶óÀÌ´õ °»½Å/ÈÄÅ© Á¦°ø
-///  - ÇÃ·¹ÀÌ¾î/Àû hp slider°¡ °øÅëÀ¸·Î »ó¼Ó¹Ş´Â »óÀ§Å¬·¡½º
+/// * ì‘ì„±ì
+///  - HP UI ë°”ì¸ë”© ë² ì´ìŠ¤: ì´ë²¤íŠ¸ êµ¬ë…/ìŠ¬ë¼ì´ë” ê°±ì‹ /í›„í¬ ì œê³µ
+///  - í”Œë ˆì´ì–´/ì  hp sliderê°€ ê³µí†µìœ¼ë¡œ ìƒì†ë°›ëŠ” ìƒìœ„í´ë˜ìŠ¤
 /// </summary>
 public class HealthBarBinder : MonoBehaviour
 {
+    [SerializeField] protected UnitStats targetStat;    // ë™ê¸°í™” ëŒ€ìƒ(í”Œë ˆì´ì–´/ì )ì˜ ìŠ¤íƒ¯
+    [SerializeField] protected Slider hpSlider;         // ì—°ê²°ëœ UI ìŠ¬ë¼ì´ë”(0~1 ë¹„ìœ¨ë¡œ ì‚¬ìš©)
 
-    [SerializeField] protected UnitStats targetStat;    // µ¿±âÈ­ ´ë»ó(ÇÃ·¹ÀÌ¾î/Àû)ÀÇ ½ºÅÈ
-    [SerializeField] protected Slider hpSlider;         // ¿¬°áµÈ UI ½½¶óÀÌ´õ(0~1 ºñÀ²·Î »ç¿ë)
-
-
-    // È°¼ºÈ­ ½Ã: ´ë»óÀÇ HP º¯°æ ÀÌº¥Æ®¿¡ Äİ¹é ¿¬°á
-    protected virtual void OnEnable()                   // È°¼ºÈ­½Ã¿¡ ¾×¼Ç¿¡ ÇÔ¼ö ¿¬°á
+    // í™œì„±í™” ì‹œ: ëŒ€ìƒì˜ HP ë³€ê²½ ì´ë²¤íŠ¸ì— ì½œë°± ì—°ê²°
+    protected virtual void OnEnable()                   // í™œì„±í™”ì‹œì— ì•¡ì…˜ì— í•¨ìˆ˜ ì—°ê²°
     {
         if (targetStat != null)
-            targetStat.OnHpChanged += HandleHpChanged;  // È°¼ºÈ­ ½Ã: ´ë»óÀÇ HP º¯°æ ÀÌº¥Æ®¿¡ Äİ¹é ¿¬°á
-
-        Debug.Log("ÀûÃ¼·Â ¹Ù È°¼ºÈ­ ¹× ÀÌº¥Æ® µî·Ï");
+            targetStat.OnHpChanged += HandleHpChanged;  // í™œì„±í™” ì‹œ: ëŒ€ìƒì˜ HP ë³€ê²½ ì´ë²¤íŠ¸ì— ì½œë°± ì—°ê²°
     }
 
-
-    // ºñÈ°¼ºÈ­ ½Ã: ÀÌº¥Æ® ±¸µ¶ ÇØÁ¦(¸Ş¸ğ¸®/Áßº¹ È£Ãâ ¹æÁö)
-    protected virtual void OnDisable()                  // ºñÈ°¼ºÈ­½Ã¿¡ ¿¬°á ÇØÁ¦
+    // ë¹„í™œì„±í™” ì‹œ: ì´ë²¤íŠ¸ êµ¬ë… í•´ì œ(ë©”ëª¨ë¦¬/ì¤‘ë³µ í˜¸ì¶œ ë°©ì§€)
+    protected virtual void OnDisable()                  // ë¹„í™œì„±í™”ì‹œì— ì—°ê²° í•´ì œ
     {
         if (targetStat != null)
             targetStat.OnHpChanged -= HandleHpChanged;
     }
 
-    // HP º¯°æ °øÅë Ã³¸®: (1) ºñÀ² °è»êÇØ ½½¶óÀÌ´õ °»½Å (2) ÆÄ»ı ÈÄÅ© È£Ãâ
+    // HP ë³€ê²½ ê³µí†µ ì²˜ë¦¬: (1) ë¹„ìœ¨ ê³„ì‚°í•´ ìŠ¬ë¼ì´ë” ê°±ì‹  (2) íŒŒìƒ í›„í¬ í˜¸ì¶œ
     protected void HandleHpChanged(float curHp, float maxHp)
     {
-
-        hpSlider.value = maxHp <= 0f ? 0f : curHp / maxHp;      // 0ºĞ¸ğ ¹æÁö + 0~1 Á¤±ÔÈ­
-        OnRatioChanged(hpSlider.value);                         // º¸ÀÌ±â/¼û±â±â´Â ÆÄ»ı Å¬·¡½º¿¡¼­
+        hpSlider.value = maxHp <= 0f ? 0f : curHp / maxHp;      // 0ë¶„ëª¨ ë°©ì§€ + 0~1 ì •ê·œí™”
+        OnRatioChanged(hpSlider.value);                         // ë³´ì´ê¸°/ìˆ¨ê¸°ê¸°ëŠ” íŒŒìƒ í´ë˜ìŠ¤ì—ì„œ
     }
 
-    // ÆÄ»ı Å¬·¡½º°¡ ¿À¹ö¶óÀÌµåÇØ Ç¥½Ã ±ÔÄ¢(¼û±è/È¿°ú µî) ±¸Çö
+    // íŒŒìƒ í´ë˜ìŠ¤ê°€ ì˜¤ë²„ë¼ì´ë“œí•´ í‘œì‹œ ê·œì¹™(ìˆ¨ê¹€/íš¨ê³¼ ë“±) êµ¬í˜„
     protected virtual void OnRatioChanged(float ratio) { }  
 }

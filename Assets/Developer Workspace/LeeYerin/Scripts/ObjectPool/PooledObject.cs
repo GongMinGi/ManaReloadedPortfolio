@@ -1,27 +1,27 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// ¿ÀºêÁ§Æ® Ç®¸µ ½Ã½ºÅÛ¿¡¼­ °³º° ¿ÀºêÁ§Æ®¸¦ Á¦¾îÇÏ´Â Å¬·¡½º
+/// ì˜¤ë¸Œì íŠ¸ í’€ë§ ì‹œìŠ¤í…œì—ì„œ ê°œë³„ ì˜¤ë¸Œì íŠ¸ë¥¼ ì œì–´í•˜ëŠ” í´ë˜ìŠ¤
 /// 
-/// - Ç®¿¡¼­ È°¼ºÈ­µÇ¸é ÀÚµ¿ ¹İÈ¯(autoRelease) ¿©ºÎ¿¡ µû¶ó ÀÏÁ¤ ½Ã°£ ÈÄ ÀÚµ¿À¸·Î ¹İÈ¯µÉ ¼ö ÀÖÀ½
-/// - Ç® Á¤º¸(ObjectPool)°¡ ¾øÀ¸¸é ÀÏÁ¤ ½Ã°£ ÈÄ ÀÚ°¡ »èÁ¦µÊ
+/// - í’€ì—ì„œ í™œì„±í™”ë˜ë©´ ìë™ ë°˜í™˜(autoRelease) ì—¬ë¶€ì— ë”°ë¼ ì¼ì • ì‹œê°„ í›„ ìë™ìœ¼ë¡œ ë°˜í™˜ë  ìˆ˜ ìˆìŒ
+/// - í’€ ì •ë³´(ObjectPool)ê°€ ì—†ìœ¼ë©´ ì¼ì • ì‹œê°„ í›„ ìê°€ ì‚­ì œë¨
 /// 
-/// - Unity ÀÌº¥Æ® ÈÅ(OnActivated, OnDeactivated)À» ÅëÇØ ¼­ºêÅ¬·¡½º¿¡¼­ Ä¿½ºÅÒ ÃÊ±âÈ­/Á¤¸® °¡´É
+/// - Unity ì´ë²¤íŠ¸ í›…(OnActivated, OnDeactivated)ì„ í†µí•´ ì„œë¸Œí´ë˜ìŠ¤ì—ì„œ ì»¤ìŠ¤í…€ ì´ˆê¸°í™”/ì •ë¦¬ ê°€ëŠ¥
 /// </summary>
 public class PooledObject : MonoBehaviour
 {
-    [SerializeField] bool autoRelease;  // È°¼ºÈ­ ½Ã ReleaseRoutineÀ» ÀÚµ¿ ½ÇÇàÇÒÁö ¿©ºÎ
-    [SerializeField] float releaseTime; // ¹İÈ¯±îÁö ´ë±âÇÒ ½Ã°£ (ÃÊ ´ÜÀ§)
+    [SerializeField] bool autoRelease;  // í™œì„±í™” ì‹œ ReleaseRoutineì„ ìë™ ì‹¤í–‰í• ì§€ ì—¬ë¶€
+    [SerializeField] float releaseTime; // ë°˜í™˜ê¹Œì§€ ëŒ€ê¸°í•  ì‹œê°„ (ì´ˆ ë‹¨ìœ„)
 
     [SerializeField] ObjectPool pool;
     public ObjectPool Pool { get { return pool; } set { pool = value; } }
 
     /// <summary>
-    /// ÇØ´ç PooledObject°¡ UIÀÎÁö ¿©ºÎ¸¦ °ü¸®ÇÏ´Â bool º¯¼ö
+    /// í•´ë‹¹ PooledObjectê°€ UIì¸ì§€ ì—¬ë¶€ë¥¼ ê´€ë¦¬í•˜ëŠ” bool ë³€ìˆ˜
     /// </summary>
     public bool IsUI { get; set; } = false;
 
@@ -30,30 +30,30 @@ public class PooledObject : MonoBehaviour
     {
         StartCoroutine(OnActivated());
 
-        if (autoRelease)    // autoRelease°¡ trueÀÏ °æ¿ì
-            // ¿ÀºêÁ§Æ®¸¦ ÀÏÁ¤ ½Ã°£ ÈÄ ÀÚµ¿ ¹İÈ¯ÇÏ´Â ÄÚ·çÆ¾ ½ÇÇà
+        if (autoRelease)    // autoReleaseê°€ trueì¼ ê²½ìš°
+            // ì˜¤ë¸Œì íŠ¸ë¥¼ ì¼ì • ì‹œê°„ í›„ ìë™ ë°˜í™˜í•˜ëŠ” ì½”ë£¨í‹´ ì‹¤í–‰
             StartCoroutine(ReleaseRoutine());
     }
     #endregion
 
     #region Hook
     /// <summary>
-    /// ¿ÀºêÁ§Æ®°¡ Ç®¿¡¼­ È°¼ºÈ­µÉ ¶§ ½ÇÇàµÇ´Â Ä¿½ºÅÒ ÄÚ·çÆ¾ ÈÅ
-    /// ¼­ºêÅ¬·¡½º¿¡¼­ ÀçÁ¤ÀÇÇÏ¿© ÃÊ±âÈ­ µ¿ÀÛ Á¤ÀÇ °¡´É
+    /// ì˜¤ë¸Œì íŠ¸ê°€ í’€ì—ì„œ í™œì„±í™”ë  ë•Œ ì‹¤í–‰ë˜ëŠ” ì»¤ìŠ¤í…€ ì½”ë£¨í‹´ í›…
+    /// ì„œë¸Œí´ë˜ìŠ¤ì—ì„œ ì¬ì •ì˜í•˜ì—¬ ì´ˆê¸°í™” ë™ì‘ ì •ì˜ ê°€ëŠ¥
     /// </summary>
     protected virtual IEnumerator OnActivated() { yield return null; }
 
     /// <summary>
-    /// ¿ÀºêÁ§Æ®°¡ ¹İÈ¯ ¶Ç´Â Á¦°ÅµÉ ¶§ È£ÃâµÇ´Â ÈÅ
-    /// ¼­ºêÅ¬·¡½º¿¡¼­ ÀçÁ¤ÀÇÇÏ¿© Á¤¸® ·ÎÁ÷ ±¸Çö °¡´É
+    /// ì˜¤ë¸Œì íŠ¸ê°€ ë°˜í™˜ ë˜ëŠ” ì œê±°ë  ë•Œ í˜¸ì¶œë˜ëŠ” í›…
+    /// ì„œë¸Œí´ë˜ìŠ¤ì—ì„œ ì¬ì •ì˜í•˜ì—¬ ì •ë¦¬ ë¡œì§ êµ¬í˜„ ê°€ëŠ¥
     /// </summary>
     protected virtual void OnDeactivated(Action onComplete = null) { onComplete?.Invoke(); }
     #endregion
 
     #region Release
     /// <summary>
-    /// ÀÏÁ¤ ½Ã°£(releaseTime) ÈÄ ¿ÀºêÁ§Æ® ¹İÈ¯ÇÏ´Â ¸Ş¼­µå¸¦ È£ÃâÇÏ´Â ÄÚ·çÆ¾
-    /// ¿ÀºêÁ§Æ®¸¦ ObjectPool¿¡ ¹İÈ¯ÇÏ°Å³ª, ObjectPool¿¡ ´ëÇÑ Á¤º¸°¡ ¾øÀ» °æ¿ì ¿ÀºêÁ§Æ®¸¦ »èÁ¦
+    /// ì¼ì • ì‹œê°„(releaseTime) í›„ ì˜¤ë¸Œì íŠ¸ ë°˜í™˜í•˜ëŠ” ë©”ì„œë“œë¥¼ í˜¸ì¶œí•˜ëŠ” ì½”ë£¨í‹´
+    /// ì˜¤ë¸Œì íŠ¸ë¥¼ ObjectPoolì— ë°˜í™˜í•˜ê±°ë‚˜, ObjectPoolì— ëŒ€í•œ ì •ë³´ê°€ ì—†ì„ ê²½ìš° ì˜¤ë¸Œì íŠ¸ë¥¼ ì‚­ì œ
     /// </summary>
     /// <returns></returns>
     IEnumerator ReleaseRoutine()
@@ -63,15 +63,20 @@ public class PooledObject : MonoBehaviour
     }
 
     /// <summary>
-    /// ÀÌ ¿ÀºêÁ§Æ®¸¦ ObjectPool¿¡ ¹İÈ¯ÇÏ°Å³ª, ObjectPool Á¤º¸°¡ ¾øÀ¸¸é ¿ÀºêÁ§Æ®¸¦ »èÁ¦ÇÏ´Â ¸Ş¼­µå
-    /// ¹İµå½Ã »ç¿ë ÈÄ ¼öµ¿ È£ÃâÇÏ°Å³ª autoRelease·Î ÀÚµ¿ È£ÃâµÊ
+    /// ì´ ì˜¤ë¸Œì íŠ¸ë¥¼ ObjectPoolì— ë°˜í™˜í•˜ê±°ë‚˜, ObjectPool ì •ë³´ê°€ ì—†ìœ¼ë©´ ì˜¤ë¸Œì íŠ¸ë¥¼ ì‚­ì œí•˜ëŠ” ë©”ì„œë“œ
+    /// ë°˜ë“œì‹œ ì‚¬ìš© í›„ ìˆ˜ë™ í˜¸ì¶œí•˜ê±°ë‚˜ autoReleaseë¡œ ìë™ í˜¸ì¶œë¨
     /// </summary>
     public void Release()
     {
+        Debug.Log("release ë“¤ì–´ì˜´");
         OnDeactivated(() =>
         {
             if (pool != null)
+            {
+                Debug.Log("return pool ì§ì „");
                 pool.ReturnPool(this);
+
+            }
             else
                 Destroy(gameObject);
         });
