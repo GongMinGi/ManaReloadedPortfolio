@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -7,21 +7,21 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// UI ÀüÈ¯ È¿°ú(Fade In/Out) ¹× ÆË¾÷ UIÀÇ ½ºÅÃ ±â¹İ °ü¸® ±â´É µÕ UI¸¦ À§ÇÑ ±â´É Á¦°øÇÏ´Â ¸Ş´ÏÀú Å¬·¡½º
+/// UI ì „í™˜ íš¨ê³¼(Fade In/Out) ë° íŒì—… UIì˜ ìŠ¤íƒ ê¸°ë°˜ ê´€ë¦¬ ê¸°ëŠ¥ ë‘¥ UIë¥¼ ìœ„í•œ ê¸°ëŠ¥ ì œê³µí•˜ëŠ” ë©”ë‹ˆì € í´ë˜ìŠ¤
 /// </summary>
 public class UIManager : MonoBehaviour
 {
     private static UIManager instance;
 
-    [SerializeField] Image fadeUI;      // ÀüÃ¼ È­¸é¿¡ Àû¿ëµÉ ÆäÀÌµå ÀÌ¹ÌÁö
-    [SerializeField] float fadeTime;    // ÆäÀÌµå È¿°ú¿¡ ¼Ò¿äµÇ´Â ½Ã°£
+    [SerializeField] Image fadeUI;      // ì „ì²´ í™”ë©´ì— ì ìš©ë  í˜ì´ë“œ ì´ë¯¸ì§€
+    [SerializeField] float fadeTime;    // í˜ì´ë“œ íš¨ê³¼ì— ì†Œìš”ë˜ëŠ” ì‹œê°„
 
-    private Stack<PopupController> popupHistory = new();    // ÆË¾÷ UI ½ºÅÃ
+    private Stack<PopupController> popupHistory = new();    // íŒì—… UI ìŠ¤íƒ
 
-    public bool IsFirstLaunch => !fadeUI.gameObject.activeSelf;     // °ÔÀÓ ½ÇÇà ÈÄ Ã¹ ÁøÀÔÀÎÁö ¿©ºÎ
-    public bool LoadIntoLoadoutUI { get; set; } = false;    // ·Îµå¾Æ¿ôÀ¸·ÎÀÇ ÀÌµ¿ÀÎÁö ¿©ºÎ
+    public bool IsFirstLaunch => !fadeUI.gameObject.activeSelf;     // ê²Œì„ ì‹¤í–‰ í›„ ì²« ì§„ì…ì¸ì§€ ì—¬ë¶€
+    public bool LoadIntoLoadoutUI { get; set; } = false;    // ë¡œë“œì•„ì›ƒìœ¼ë¡œì˜ ì´ë™ì¸ì§€ ì—¬ë¶€
 
     Sequence sequenceFadeIn;
     Sequence sequenceFadeOut;
@@ -37,7 +37,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] EnemyHealthBarPooledObj enemyHealthBarPooledObj;
     [SerializeField] int initialHealBarCnt;
     [SerializeField] int maxHealthBarCnt;
-    private bool isEnemyHealthBarPoolExist;
 
     #region Unity Event
     private void Awake()
@@ -46,7 +45,7 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
             GameModeManager.UIManager = instance;
-            DontDestroyOnLoad(gameObject);  // ¾À ÀüÈ¯ ½Ã À¯Áö
+            DontDestroyOnLoad(gameObject);  // ì”¬ ì „í™˜ ì‹œ ìœ ì§€
         }
         else
             Destroy(gameObject);
@@ -55,9 +54,9 @@ public class UIManager : MonoBehaviour
 
     #region Fade in/out
     /// <summary>
-    /// È­¸éÀÌ Á¡Á¡ ¹à¾ÆÁö´Â ÆäÀÌµå ÀÎ È¿°ú¸¦ ±¸ÇöÇÑ ¸Ş¼­µå
+    /// í™”ë©´ì´ ì ì  ë°ì•„ì§€ëŠ” í˜ì´ë“œ ì¸ íš¨ê³¼ë¥¼ êµ¬í˜„í•œ ë©”ì„œë“œ
     /// </summary>
-    /// <param name="onComplete">ÆäÀÌµå ÀÎ ¿Ï·á ÈÄ ½ÇÇàÇÒ Äİ¹é</param>
+    /// <param name="onComplete">í˜ì´ë“œ ì¸ ì™„ë£Œ í›„ ì‹¤í–‰í•  ì½œë°±</param>
     public void FadeIn(Action onComplete = null)
     {
         if (sequenceFadeIn == null)
@@ -68,7 +67,7 @@ public class UIManager : MonoBehaviour
                 .SetAutoKill(false)
                 .OnComplete(() => 
                 {
-                    fadeUI.gameObject.SetActive(false);     // ÆäÀÌµå ¿Ï·á ½Ã ºñÈ°¼ºÈ­
+                    fadeUI.gameObject.SetActive(false);     // í˜ì´ë“œ ì™„ë£Œ ì‹œ ë¹„í™œì„±í™”
                     onComplete?.Invoke();
                 });
         }
@@ -79,14 +78,14 @@ public class UIManager : MonoBehaviour
                 fadeUI.gameObject.SetActive(false);
                 onComplete?.Invoke();
             });
-            sequenceFadeIn.Restart();   // ±âÁ¸ ½ÃÄö½º Àç»ç¿ë
+            sequenceFadeIn.Restart();   // ê¸°ì¡´ ì‹œí€€ìŠ¤ ì¬ì‚¬ìš©
         }
     }
 
     /// <summary>
-    /// È­¸éÀ» Á¡Á¡ ¾îµÓ°Ô ¸¸µå´Â ÆäÀÌµå ¾Æ¿ô È¿°ú
+    /// í™”ë©´ì„ ì ì  ì–´ë‘¡ê²Œ ë§Œë“œëŠ” í˜ì´ë“œ ì•„ì›ƒ íš¨ê³¼
     /// </summary>
-    /// <param name="onComplete">ÆäÀÌµå ¾Æ¿ô ¿Ï·á ÈÄ ½ÇÇàÇÒ Äİ¹é</param>
+    /// <param name="onComplete">í˜ì´ë“œ ì•„ì›ƒ ì™„ë£Œ í›„ ì‹¤í–‰í•  ì½œë°±</param>
     public void FadeOut(Action onComplete = null)
     {
         if (sequenceFadeOut == null)
@@ -97,9 +96,9 @@ public class UIManager : MonoBehaviour
                 .SetAutoKill(false)
                 .OnStart(() =>
                 {
-                    fadeUI.gameObject.SetActive(true);      // ½ÃÀÛ ½Ã UI È°¼ºÈ­
+                    fadeUI.gameObject.SetActive(true);      // ì‹œì‘ ì‹œ UI í™œì„±í™”
                 })
-                .OnRewind(() =>                             // ½ÃÄö½º µÇ°¨±â ´ëºñ Ã³¸®
+                .OnRewind(() =>                             // ì‹œí€€ìŠ¤ ë˜ê°ê¸° ëŒ€ë¹„ ì²˜ë¦¬
                 {
                     fadeUI.gameObject.SetActive(true);  
                 })
@@ -110,41 +109,41 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            // ½ÃÄö½º°¡ ÀÌ¹Ì »ı¼ºµÇ¾î ÀÖÀ» °æ¿ì, ÀÌÀü¿¡ ¼³Á¤µÈ OnComplete Äİ¹éÀÌ ³²¾ÆÀÖÀ» ¼ö ÀÖÀ¸¹Ç·Î
-            // ¿ÜºÎ¿¡¼­ »õ·Î Àü´ŞµÈ onComplete¸¦ ¹İ¿µÇÏ±â À§ÇØ OnComplete¸¦ ´Ù½Ã ¼³Á¤ÇÔ
+            // ì‹œí€€ìŠ¤ê°€ ì´ë¯¸ ìƒì„±ë˜ì–´ ìˆì„ ê²½ìš°, ì´ì „ì— ì„¤ì •ëœ OnComplete ì½œë°±ì´ ë‚¨ì•„ìˆì„ ìˆ˜ ìˆìœ¼ë¯€ë¡œ
+            // ì™¸ë¶€ì—ì„œ ìƒˆë¡œ ì „ë‹¬ëœ onCompleteë¥¼ ë°˜ì˜í•˜ê¸° ìœ„í•´ OnCompleteë¥¼ ë‹¤ì‹œ ì„¤ì •í•¨
             sequenceFadeOut.OnComplete(() =>
             {
                 onComplete?.Invoke();
             });
-            sequenceFadeOut.Restart();    // ±âÁ¸ ½ÃÄö½º Àç»ç¿ë
+            sequenceFadeOut.Restart();    // ê¸°ì¡´ ì‹œí€€ìŠ¤ ì¬ì‚¬ìš©
         }
     }
 
     /// <summary>
-    /// ÅØ½ºÆ®¸¦ ÆäÀÌµå ¾Æ¿ô ½ÃÅ°´Â ¸Ş¼­µå
-    /// - ÁöÁ¤ÇÑ ½Ã°£ µ¿¾È ÅØ½ºÆ® Åõ¸íµµ¸¦ 0À¸·Î º¯È­
-    /// - ÆäÀÌµå ÈÄ ÂªÀº °£°İÀ» µÒ
-    /// - ¿Ï·á Äİ¹éÀÌ ÀÖÀ¸¸é ½ÇÇà
+    /// í…ìŠ¤íŠ¸ë¥¼ í˜ì´ë“œ ì•„ì›ƒ ì‹œí‚¤ëŠ” ë©”ì„œë“œ
+    /// - ì§€ì •í•œ ì‹œê°„ ë™ì•ˆ í…ìŠ¤íŠ¸ íˆ¬ëª…ë„ë¥¼ 0ìœ¼ë¡œ ë³€í™”
+    /// - í˜ì´ë“œ í›„ ì§§ì€ ê°„ê²©ì„ ë‘ 
+    /// - ì™„ë£Œ ì½œë°±ì´ ìˆìœ¼ë©´ ì‹¤í–‰
     /// </summary>
-    /// <param name="text">ÆäÀÌµåÇÒ TMP_Text ÄÄÆ÷³ÍÆ®</param>
-    /// <param name="duration">ÆäÀÌµå Áö¼Ó ½Ã°£</param>
-    /// <param name="seq">DOTween ½ÃÄö½º</param>
-    /// <param name="onComplete">ÆäÀÌµå ¿Ï·á ÈÄ ½ÇÇàÇÒ Äİ¹é (¼±ÅÃ)</param>
+    /// <param name="text">í˜ì´ë“œí•  TMP_Text ì»´í¬ë„ŒíŠ¸</param>
+    /// <param name="duration">í˜ì´ë“œ ì§€ì† ì‹œê°„</param>
+    /// <param name="seq">DOTween ì‹œí€€ìŠ¤</param>
+    /// <param name="onComplete">í˜ì´ë“œ ì™„ë£Œ í›„ ì‹¤í–‰í•  ì½œë°± (ì„ íƒ)</param>
     public void FadeOut(TMP_Text text, float duration, Sequence seq, Action onComplete = null)
     {
-        seq.Join(text.DOFade(0f, duration));    // ÅØ½ºÆ® Åõ¸íµµ¸¦ 0À¸·Î ÆäÀÌµå
+        seq.Join(text.DOFade(0f, duration));    // í…ìŠ¤íŠ¸ íˆ¬ëª…ë„ë¥¼ 0ìœ¼ë¡œ í˜ì´ë“œ
 
-        seq.AppendInterval(0.5f);   // ÆäÀÌµå ÈÄ Àá½Ã ´ë±â
+        seq.AppendInterval(0.5f);   // í˜ì´ë“œ í›„ ì ì‹œ ëŒ€ê¸°
 
         if (onComplete != null)
-            seq.AppendCallback(() => onComplete.Invoke());      // ¿Ï·á Äİ¹é ½ÇÇà
+            seq.AppendCallback(() => onComplete.Invoke());      // ì™„ë£Œ ì½œë°± ì‹¤í–‰
     }
     #endregion
 
     #region PopUI
     /// <summary>
-    /// ÆË¾÷ UI¸¦ ½ºÅÃ¿¡ Ãß°¡ÇÏ°í È°¼ºÈ­ÇÏ´Â ¸Ş¼­µå
-    /// ÃÖÃÊ ÆË¾÷ÀÏ °æ¿ì ¹è°æÀ» ÇÔ²² È°¼ºÈ­
+    /// íŒì—… UIë¥¼ ìŠ¤íƒì— ì¶”ê°€í•˜ê³  í™œì„±í™”í•˜ëŠ” ë©”ì„œë“œ
+    /// ìµœì´ˆ íŒì—…ì¼ ê²½ìš° ë°°ê²½ì„ í•¨ê»˜ í™œì„±í™”
     /// </summary>
     public void OpenPopup(PopupController popup)
     {
@@ -157,8 +156,8 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// °¡Àå ÃÖ±ÙÀÇ ÆË¾÷ UI¸¦ ºñÈ°¼ºÈ­ÇÏ°í ½ºÅÃ¿¡¼­ Á¦°ÅÇÏ´Â ¸Ş¼­µå
-    /// ¸¶Áö¸· ÆË¾÷ÀÏ °æ¿ì ¹è°æµµ ºñÈ°¼ºÈ­
+    /// ê°€ì¥ ìµœê·¼ì˜ íŒì—… UIë¥¼ ë¹„í™œì„±í™”í•˜ê³  ìŠ¤íƒì—ì„œ ì œê±°í•˜ëŠ” ë©”ì„œë“œ
+    /// ë§ˆì§€ë§‰ íŒì—…ì¼ ê²½ìš° ë°°ê²½ë„ ë¹„í™œì„±í™”
     /// </summary>
     public void ClosePopup()
     {
@@ -173,72 +172,72 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÆË¾÷ UI ½ºÅÃÀ» ÃÊ±âÈ­ÇÏ´Â ¸Ş¼­µå
+    /// íŒì—… UI ìŠ¤íƒì„ ì´ˆê¸°í™”í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     public void ClearPopupHistory() => popupHistory.Clear();
     #endregion
 
     #region Phase Start Text Animation
     /// <summary>
-    /// ÆäÀÌÁî Á¤º¸¸¦ È­¸é ¹Û¿¡¼­ µé¾î¿Í Áß¾Ó¿¡¼­ °ü¼º ¾Ö´Ï¸ŞÀÌ¼Ç ÈÄ 
-    /// ´Ù½Ã È­¸é ¹ÛÀ¸·Î ³ª°¡´Â ÅØ½ºÆ® ¿¬ÃâÇÏ´Â ¸Ş¼­µå
+    /// í˜ì´ì¦ˆ ì •ë³´ë¥¼ í™”ë©´ ë°–ì—ì„œ ë“¤ì–´ì™€ ì¤‘ì•™ì—ì„œ ê´€ì„± ì• ë‹ˆë©”ì´ì…˜ í›„ 
+    /// ë‹¤ì‹œ í™”ë©´ ë°–ìœ¼ë¡œ ë‚˜ê°€ëŠ” í…ìŠ¤íŠ¸ ì—°ì¶œí•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
-    /// <param name="text">¾Ö´Ï¸ŞÀÌ¼ÇÀ» Àû¿ëÇÒ TMP_Text °´Ã¼</param>
-    /// <param name="phaseTextOffsetX">Áß¾Ó ±âÁØÀ¸·Î XÃà ¹æÇâÀÇ ¿ÀÇÁ¼Â °ª (¾ç¼ö: ¿À¸¥ÂÊ, À½¼ö: ¿ŞÂÊ)</param>
+    /// <param name="text">ì• ë‹ˆë©”ì´ì…˜ì„ ì ìš©í•  TMP_Text ê°ì²´</param>
+    /// <param name="phaseTextOffsetX">ì¤‘ì•™ ê¸°ì¤€ìœ¼ë¡œ Xì¶• ë°©í–¥ì˜ ì˜¤í”„ì…‹ ê°’ (ì–‘ìˆ˜: ì˜¤ë¥¸ìª½, ìŒìˆ˜: ì™¼ìª½)</param>
     public void ShowPhaseStartText(TMP_Text text, float phaseTextOffsetX)
     {
-        // Äµ¹ö½º ±âÁØ ³Êºñ °¡Á®¿À±â
+        // ìº”ë²„ìŠ¤ ê¸°ì¤€ ë„ˆë¹„ ê°€ì ¸ì˜¤ê¸°
         float canvasWidth = ((RectTransform)text.rectTransform.parent).rect.width;
 
-        // ½ÃÀÛ À§Ä¡: È­¸é ¿ŞÂÊ ¹Ù±ù
+        // ì‹œì‘ ìœ„ì¹˜: í™”ë©´ ì™¼ìª½ ë°”ê¹¥
         text.rectTransform.anchoredPosition =
             new Vector2(-canvasWidth, text.rectTransform.anchoredPosition.y);
 
-        // ½ºÄÉÀÏ ÃÊ±âÈ­
+        // ìŠ¤ì¼€ì¼ ì´ˆê¸°í™”
         text.rectTransform.localScale = Vector3.one;
         if (!text.gameObject.activeSelf)
             text.gameObject.SetActive(true);
 
-        // DOTween ½ÃÄö½º
+        // DOTween ì‹œí€€ìŠ¤
         Sequence seq = DOTween.Sequence();
 
-        // ´Ş·Á¿À±â (¿ŞÂÊ ¹Û ¡æ Áß¾Ó)
+        // ë‹¬ë ¤ì˜¤ê¸° (ì™¼ìª½ ë°– â†’ ì¤‘ì•™)
         seq.Append(text.rectTransform.DOAnchorPosX(phaseTextOffsetX, 1.0f).SetEase(Ease.OutExpo));
 
-        // °ü¼º º¯Çü (´ë°¢¼± ´Ã¾î³² ÈÄ º¹¿ø)
+        // ê´€ì„± ë³€í˜• (ëŒ€ê°ì„  ëŠ˜ì–´ë‚¨ í›„ ë³µì›)
         seq.Append(text.rectTransform.DOScale(new Vector3(1.2f, 0.8f, 1f), 0.25f)
             .SetLoops(2, LoopType.Yoyo)
             .SetEase(Ease.OutQuad));
 
-        // 3) Àá±ñ ¸ØÃß´Â ¿¬Ãâ (optional)
+        // 3) ì ê¹ ë©ˆì¶”ëŠ” ì—°ì¶œ (optional)
         seq.AppendInterval(0.5f);
 
-        // 4) ´Ù½Ã ¿À¸¥ÂÊ È­¸é ¹ÛÀ¸·Î ½¹ ³ª°¡±â
+        // 4) ë‹¤ì‹œ ì˜¤ë¥¸ìª½ í™”ë©´ ë°–ìœ¼ë¡œ ìŠ ë‚˜ê°€ê¸°
         seq.Append(text.rectTransform.DOAnchorPosX(canvasWidth, 0.8f).SetEase(Ease.InBack));
     }
     #endregion
 
     #region Damage Text
     /// <summary>
-    /// µ¥¹ÌÁö ÅØ½ºÆ® Ç®¿¡¼­ °´Ã¼¸¦ ¿äÃ»ÇÏ´Â ¸Ş¼­µå
-    /// Ç® »ı¼º ¿©ºÎ¸¦ È®ÀÎÇÏ°í, Á¸ÀçÇÏÁö ¾ÊÀ¸¸é »õ·Î »ı¼º
+    /// ë°ë¯¸ì§€ í…ìŠ¤íŠ¸ í’€ì—ì„œ ê°ì²´ë¥¼ ìš”ì²­í•˜ëŠ” ë©”ì„œë“œ
+    /// í’€ ìƒì„± ì—¬ë¶€ë¥¼ í™•ì¸í•˜ê³ , ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ ìƒˆë¡œ ìƒì„±
     /// </summary>
-    /// <param name="target">µ¥¹ÌÁö ÅØ½ºÆ®¸¦ Ç¥½ÃÇÒ ´ë»ó Transform</param>
-    /// <returns>Ç®¿¡¼­ °¡Á®¿Â DmgFloatPooledObject °´Ã¼</returns>
+    /// <param name="target">ë°ë¯¸ì§€ í…ìŠ¤íŠ¸ë¥¼ í‘œì‹œí•  ëŒ€ìƒ Transform</param>
+    /// <returns>í’€ì—ì„œ ê°€ì ¸ì˜¨ DmgFloatPooledObject ê°ì²´</returns>
     public DmgFloatPooledObject RequestDamageText(Transform target)
     {
-        // µ¥¹ÌÁö ÅØ½ºÆ® Ç® Á¸Àç ¿©ºÎ¸¦ È®ÀÎ
+        // ë°ë¯¸ì§€ í…ìŠ¤íŠ¸ í’€ ì¡´ì¬ ì—¬ë¶€ë¥¼ í™•ì¸
         if (!isDmgTextPoolExist)
         {
-            // Ç® »ı¼º (ÇÁ¸®ÆÕ, ÃÊ±â »çÀÌÁî, ÃÖ´ë ¿ë·®, ÃÊ°ú ½Ã Àç»ç¿ë ¿©ºÎ)
+            // í’€ ìƒì„± (í”„ë¦¬íŒ¹, ì´ˆê¸° ì‚¬ì´ì¦ˆ, ìµœëŒ€ ìš©ëŸ‰, ì´ˆê³¼ ì‹œ ì¬ì‚¬ìš© ì—¬ë¶€)
             GameModeManager.PoolManager.CreatePool(dmgTextObj, size, capacity, true);
 
-            // Ç® »ı¼º »óÅÂ ÇÃ·¡±× È°¼ºÈ­
+            // í’€ ìƒì„± ìƒíƒœ í”Œë˜ê·¸ í™œì„±í™”
             isDmgTextPoolExist = true;
         }
 
-        // Ç®¿¡¼­ µ¥¹ÌÁö ÅØ½ºÆ® °´Ã¼¸¦ °¡Á®¿È
-        // À§Ä¡´Â ´ë»óÀÇ ÇöÀç À§Ä¡, È¸ÀüÀº ±âº»°ª(Quaternion.identity)
+        // í’€ì—ì„œ ë°ë¯¸ì§€ í…ìŠ¤íŠ¸ ê°ì²´ë¥¼ ê°€ì ¸ì˜´
+        // ìœ„ì¹˜ëŠ” ëŒ€ìƒì˜ í˜„ì¬ ìœ„ì¹˜, íšŒì „ì€ ê¸°ë³¸ê°’(Quaternion.identity)
         return GameModeManager.PoolManager.GetPool(
             dmgTextObj,
             target.position,
@@ -247,28 +246,27 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// µ¥¹ÌÁö ÅØ½ºÆ® Ç® Á¸Àç ¿©ºÎ ÇÃ·¡±×¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+    /// ë°ë¯¸ì§€ í…ìŠ¤íŠ¸ í’€ ì¡´ì¬ ì—¬ë¶€ í”Œë˜ê·¸ë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
     /// </summary>
     public void ResetDmgTextPoolExist() => isDmgTextPoolExist = false;
     #endregion
 
     #region Enemy Hp Bar
     /// <summary>
-    /// * ÀÛ¼ºÀÚ: °ø¹Î±â
-    ///  - enemyController¿¡¼­ È£Ãâ.
-    ///  - Àû Ã¼·Â¹Ù ÇÁ¸®ÆÕÀÇ Ç®À» ¸¸µé¾î¼­ Ç® ¿ÀºêÁ§Æ®¸¦ ¸®ÅÏÇÑ´Ù.
+    /// * ì‘ì„±ì: ê³µë¯¼ê¸°
+    ///  - enemyControllerì—ì„œ í˜¸ì¶œ.
+    ///  - ì  ì²´ë ¥ë°” í”„ë¦¬íŒ¹ì˜ í’€ì„ ë§Œë“¤ì–´ì„œ í’€ ì˜¤ë¸Œì íŠ¸ë¥¼ ë¦¬í„´í•œë‹¤.
     /// </summary>
     public EnemyHealthBarPooledObj RequestEnemyHealthBar(Transform target)
     {
-        if(!isEnemyHealthBarPoolExist)
+        if (!GameModeManager.PoolManager.HasPool(enemyHealthBarPooledObj))
         {
             GameModeManager.PoolManager.CreatePool(enemyHealthBarPooledObj, initialHealBarCnt, maxHealthBarCnt, true);
-            isEnemyHealthBarPoolExist = true;
         }
 
         return GameModeManager.PoolManager.GetPool(
-            enemyHealthBarPooledObj,                    // °¡Á®¿Ã Ç® ¿ÀºêÁ§Æ® Á¾·ù
-            target.position,                            // Àû À§Ä¡ À§Ä¡
+            enemyHealthBarPooledObj,                    // ê°€ì ¸ì˜¬ í’€ ì˜¤ë¸Œì íŠ¸ ì¢…ë¥˜
+            target.position,                            // ì  ìœ„ì¹˜ ìœ„ì¹˜
             Quaternion.identity
         ) as EnemyHealthBarPooledObj;
     }

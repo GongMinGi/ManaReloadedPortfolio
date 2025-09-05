@@ -131,7 +131,6 @@ namespace Game.Combat.Stats
         private void OnEnable()
         {
             curHp = statsData.BaseHP;   // 비활성화되어 풀로 들어간 다음 재소환 되었을때 체력을 최대로 채워준다.
-            Debug.Log("curhp:" + curHp);
             OnHpChanged?.Invoke(HP, statsData.BaseHP);  // 초기 Hp 최대값  Slider ui 에 전달
         }
 
@@ -156,8 +155,6 @@ namespace Game.Combat.Stats
         /// <param name="damage">데미지</param>
         public void TakeDamage(float damage)
         {
-            Debug.Log(statsData);
-
             if (HP <= 0f) return;
 
             if (!IS_DEV_MODE)    // 개발자 모드일 경우 데미지를 입지 않음(플레이어에서 사용)

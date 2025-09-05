@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// ¿ÀºêÁ§Æ® Ç®À» °ü¸®ÇÏ´Â ¸Å´ÏÀú Å¬·¡½º
+/// ì˜¤ë¸Œì íŠ¸ í’€ì„ ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì € í´ë˜ìŠ¤
 /// </summary>
 public class PoolManager : MonoBehaviour
 {
@@ -13,12 +13,15 @@ public class PoolManager : MonoBehaviour
     [Tooltip("Reference to the world space canvas where the UI pooledObject will be displayed")]
     [SerializeField] Transform worldSpaceCanvas;
 
-    // ¿ÀºêÁ§Æ® Ç®À» °ü¸®ÇÏ´Â µñ¼Å³Ê¸®
+    // ì˜¤ë¸Œì íŠ¸ í’€ì„ ê´€ë¦¬í•˜ëŠ” ë”•ì…”ë„ˆë¦¬
     private Dictionary<int, ObjectPool> poolDic = new Dictionary<int, ObjectPool>();
-    // Àû ¿ÀºêÁ§Æ® Ç®À» °ü¸®ÇÏ´Â µñ¼Å³Ê¸®
+    // ì  ì˜¤ë¸Œì íŠ¸ í’€ì„ ê´€ë¦¬í•˜ëŠ” ë”•ì…”ë„ˆë¦¬
     private Dictionary<int, EnemyPool> enemyPoolDic = new Dictionary<int, EnemyPool>();
 
     public EnemyPool FindEnemyPoolDic(EnemyPooledObject enemy) => enemyPoolDic[enemy.GetInstanceID()];
+
+    // í’€ ë”•ì…”ë„ˆë¦¬ì— í•´ë‹¹ í”„ë¦¬íŒ¹ì— ëŒ€í•œ í’€ì´ ë§Œë“¤ì–´ì ¸ìˆëŠ”ì§€ ì•„ë‹Œì§€ ì—¬ë¶€ë¥¼ íŒë‹¨í•˜ëŠ” í”„ë¡œí¼í‹°
+    public bool HasPool(PooledObject prefab) => poolDic.ContainsKey(prefab.GetInstanceID());
 
     #region Unity Event
     private void Awake()
@@ -35,12 +38,12 @@ public class PoolManager : MonoBehaviour
 
     #region Object Pool
     /// <summary>
-    /// ÁöÁ¤µÈ PooledObject¸¦ ±â¹İÀ¸·Î »õ·Î¿î ObjectPoolÀ» »ı¼ºÇÏ°í µî·Ï
+    /// ì§€ì •ëœ PooledObjectë¥¼ ê¸°ë°˜ìœ¼ë¡œ ìƒˆë¡œìš´ ObjectPoolì„ ìƒì„±í•˜ê³  ë“±ë¡
     /// </summary>
-    /// <param name="poolObj">Ç®¸µÇÒ ´ë»óÀÌ µÇ´Â PooledObject ÇÁ¸®ÆÕ</param>
-    /// <param name="size">ÃÊ±â »ı¼ºÇÒ ÀÎ½ºÅÏ½º ¼ö</param>
-    /// <param name="capacity">ÃÖ´ë º¸°ü °¡´ÉÇÑ ÀÎ½ºÅÏ½º ¼ö</param>
-    /// <param name="isUI">»ı¼ºÇÏ´Â ¿ÀºêÁ§Æ®ÀÇ UI ¿©ºÎ</param>
+    /// <param name="poolObj">í’€ë§í•  ëŒ€ìƒì´ ë˜ëŠ” PooledObject í”„ë¦¬íŒ¹</param>
+    /// <param name="size">ì´ˆê¸° ìƒì„±í•  ì¸ìŠ¤í„´ìŠ¤ ìˆ˜</param>
+    /// <param name="capacity">ìµœëŒ€ ë³´ê´€ ê°€ëŠ¥í•œ ì¸ìŠ¤í„´ìŠ¤ ìˆ˜</param>
+    /// <param name="isUI">ìƒì„±í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ì˜ UI ì—¬ë¶€</param>
     public void CreatePool(PooledObject poolObj, int size, int capacity, bool isUI = false)
     {
         GameObject gameObject = new GameObject();
@@ -49,7 +52,7 @@ public class PoolManager : MonoBehaviour
         if (isUI)
             gameObject.transform.SetParent(worldSpaceCanvas, worldPositionStays: false);
 
-        // ObjectPool ÄÄÆ÷³ÍÆ® Ãß°¡ ¹× ÃÊ±âÈ­
+        // ObjectPool ì»´í¬ë„ŒíŠ¸ ì¶”ê°€ ë° ì´ˆê¸°í™”
         ObjectPool objectPool = gameObject.AddComponent<ObjectPool>();
         objectPool.CreatePool(poolObj, size, capacity);
 
@@ -57,32 +60,32 @@ public class PoolManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÁöÁ¤µÈ EnemyPooledObject¸¦ ±â¹İÀ¸·Î »õ·Î¿î EnemyPoolÀ» »ı¼ºÇÏ°í µî·Ï
+    /// ì§€ì •ëœ EnemyPooledObjectë¥¼ ê¸°ë°˜ìœ¼ë¡œ ìƒˆë¡œìš´ EnemyPoolì„ ìƒì„±í•˜ê³  ë“±ë¡
     /// </summary>
-    /// <param name="poolObj">Ç®¸µÇÒ ´ë»óÀÌ µÇ´Â EnemyPooledObject ÇÁ¸®ÆÕ</param>
-    /// <param name="size">ÃÊ±â »ı¼ºÇÒ ÀÎ½ºÅÏ½º ¼ö</param>
-    /// <param name="capacity">ÃÖ´ë º¸°ü °¡´ÉÇÑ ÀÎ½ºÅÏ½º ¼ö</param>
+    /// <param name="poolObj">í’€ë§í•  ëŒ€ìƒì´ ë˜ëŠ” EnemyPooledObject í”„ë¦¬íŒ¹</param>
+    /// <param name="size">ì´ˆê¸° ìƒì„±í•  ì¸ìŠ¤í„´ìŠ¤ ìˆ˜</param>
+    /// <param name="capacity">ìµœëŒ€ ë³´ê´€ ê°€ëŠ¥í•œ ì¸ìŠ¤í„´ìŠ¤ ìˆ˜</param>
     public void CreateEnemyPool(EnemyPooledObject poolObj, int size, int capacity)
     {
         GameObject gameObject = new GameObject();
         gameObject.name = $"Pool_{poolObj.name}";
 
-        // EnemyPool ÄÄÆ÷³ÍÆ® Ãß°¡ ¹× ÃÊ±âÈ­
+        // EnemyPool ì»´í¬ë„ŒíŠ¸ ì¶”ê°€ ë° ì´ˆê¸°í™”
         EnemyPool objectPool = gameObject.AddComponent<EnemyPool>();
         EnemySpawnTracker tracker = new EnemySpawnTracker();
-        objectPool.Initialize(tracker); // EnemyPoolÀÇ ÃÊ±âÈ­ ¸Ş¼­µå¸¦ ÅëÇØ EnemySpawnTracker ÇÒ´ç
+        objectPool.Initialize(tracker); // EnemyPoolì˜ ì´ˆê¸°í™” ë©”ì„œë“œë¥¼ í†µí•´ EnemySpawnTracker í• ë‹¹
         objectPool.CreatePool(poolObj, size, capacity);
 
         enemyPoolDic.Add(poolObj.GetInstanceID(), objectPool);
     }
 
     /// <summary>
-    /// ÁöÁ¤µÈ Pool Object¿¡ ´ëÀÀÇÏ´Â ObjectPoolÀ» Á¦°ÅÇÏ°í µñ¼Å³Ê¸®¿¡¼­ Á¦°Å
+    /// ì§€ì •ëœ Pool Objectì— ëŒ€ì‘í•˜ëŠ” ObjectPoolì„ ì œê±°í•˜ê³  ë”•ì…”ë„ˆë¦¬ì—ì„œ ì œê±°
     /// </summary>
-    /// <param name="poolObj">Á¦°ÅÇÒ ´ë»ó ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ</param>
+    /// <param name="poolObj">ì œê±°í•  ëŒ€ìƒ ì˜¤ë¸Œì íŠ¸ í”„ë¦¬íŒ¹</param>
     public void DestroyPool(PooledObject poolObj)
     {
-        // ÇÁ¸®ÆÕ ÀÎ½ºÅÏ½º ID¸¦ ±â¹İÀ¸·Î ObjectPool °Ë»ö
+        // í”„ë¦¬íŒ¹ ì¸ìŠ¤í„´ìŠ¤ IDë¥¼ ê¸°ë°˜ìœ¼ë¡œ ObjectPool ê²€ìƒ‰
         ObjectPool objectPool = poolDic[poolObj.GetInstanceID()];
         Destroy(objectPool.gameObject);
 
@@ -90,7 +93,7 @@ public class PoolManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇöÀç Á¸ÀçÇÏ´Â ¸ğµç ObjectPoolÀ» Á¦°ÅÇÏ°í ÃÊ±âÈ­
+    /// í˜„ì¬ ì¡´ì¬í•˜ëŠ” ëª¨ë“  ObjectPoolì„ ì œê±°í•˜ê³  ì´ˆê¸°í™”
     /// </summary>
     public void ClearPool()
     {
@@ -103,28 +106,28 @@ public class PoolManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÁöÁ¤µÈ ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ¿¡ ´ëÀÀÇÏ´Â Pool¿¡¼­ ¿ÀºêÁ§Æ®¸¦ ¹İÈ¯¹Ş¾Æ ÁöÁ¤ À§Ä¡¿Í È¸ÀüÀ¸·Î È°¼ºÈ­
+    /// ì§€ì •ëœ ì˜¤ë¸Œì íŠ¸ í”„ë¦¬íŒ¹ì— ëŒ€ì‘í•˜ëŠ” Poolì—ì„œ ì˜¤ë¸Œì íŠ¸ë¥¼ ë°˜í™˜ë°›ì•„ ì§€ì • ìœ„ì¹˜ì™€ íšŒì „ìœ¼ë¡œ í™œì„±í™”
     /// </summary>
-    /// <param name="objectPool">¹İÈ¯¹Ş°íÀÚ ÇÏ´Â ¿ÀºêÁ§Æ®ÀÇ ÇÁ¸®ÆÕ (±âÁØ ÇÁ¸®ÆÕ)</param>
-    /// <param name="position">¿ÀºêÁ§Æ®¸¦ ¹èÄ¡ÇÒ ¿ùµå À§Ä¡</param>
-    /// <param name="rotation">¿ÀºêÁ§Æ®¸¦ ¹èÄ¡ÇÒ È¸Àü °ª</param>
+    /// <param name="objectPool">ë°˜í™˜ë°›ê³ ì í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ì˜ í”„ë¦¬íŒ¹ (ê¸°ì¤€ í”„ë¦¬íŒ¹)</param>
+    /// <param name="position">ì˜¤ë¸Œì íŠ¸ë¥¼ ë°°ì¹˜í•  ì›”ë“œ ìœ„ì¹˜</param>
+    /// <param name="rotation">ì˜¤ë¸Œì íŠ¸ë¥¼ ë°°ì¹˜í•  íšŒì „ ê°’</param>
     /// <returns></returns>
     public PooledObject GetPool(PooledObject objectPool, Vector3 position, Quaternion rotation)
     {
-        // ÇÁ¸®ÆÕ ÀÎ½ºÅÏ½º ID¸¦ ±â¹İÀ¸·Î ObjectPool °Ë»ö ÈÄ ¿ÀºêÁ§Æ® È°¼ºÈ­ ¹× ¹İÈ¯
+        // í”„ë¦¬íŒ¹ ì¸ìŠ¤í„´ìŠ¤ IDë¥¼ ê¸°ë°˜ìœ¼ë¡œ ObjectPool ê²€ìƒ‰ í›„ ì˜¤ë¸Œì íŠ¸ í™œì„±í™” ë° ë°˜í™˜
         return poolDic[objectPool.GetInstanceID()].GetPool(position, rotation);
     }
 
     /// <summary>
-    /// ÁöÁ¤µÈ ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ¿¡ ´ëÀÀÇÏ´Â Àû Pool¿¡¼­ ¿ÀºêÁ§Æ®¸¦ ¹İÈ¯¹Ş¾Æ ÁöÁ¤ À§Ä¡¿Í È¸ÀüÀ¸·Î È°¼ºÈ­
+    /// ì§€ì •ëœ ì˜¤ë¸Œì íŠ¸ í”„ë¦¬íŒ¹ì— ëŒ€ì‘í•˜ëŠ” ì  Poolì—ì„œ ì˜¤ë¸Œì íŠ¸ë¥¼ ë°˜í™˜ë°›ì•„ ì§€ì • ìœ„ì¹˜ì™€ íšŒì „ìœ¼ë¡œ í™œì„±í™”
     /// </summary>
-    /// <param name="enemyPool">¹İÈ¯¹Ş°íÀÚ ÇÏ´Â Àû ¿ÀºêÁ§Æ®ÀÇ ÇÁ¸®ÆÕ (±âÁØ ÇÁ¸®ÆÕ)</param>
-    /// <param name="position">¿ÀºêÁ§Æ®¸¦ ¹èÄ¡ÇÒ ¿ùµå À§Ä¡</param>
-    /// <param name="rotation">¿ÀºêÁ§Æ®¸¦ ¹èÄ¡ÇÒ È¸Àü °ª</param>
+    /// <param name="enemyPool">ë°˜í™˜ë°›ê³ ì í•˜ëŠ” ì  ì˜¤ë¸Œì íŠ¸ì˜ í”„ë¦¬íŒ¹ (ê¸°ì¤€ í”„ë¦¬íŒ¹)</param>
+    /// <param name="position">ì˜¤ë¸Œì íŠ¸ë¥¼ ë°°ì¹˜í•  ì›”ë“œ ìœ„ì¹˜</param>
+    /// <param name="rotation">ì˜¤ë¸Œì íŠ¸ë¥¼ ë°°ì¹˜í•  íšŒì „ ê°’</param>
     /// <returns></returns>
     public EnemyPooledObject GetEnemyPool (EnemyPooledObject enemyPool, Vector3 position, Quaternion rotation)
     {
-        // ÇÁ¸®ÆÕ ÀÎ½ºÅÏ½º ID¸¦ ±â¹İÀ¸·Î EnemyPool °Ë»ö ÈÄ ¿ÀºêÁ§Æ® È°¼ºÈ­ ¹× ¹İÈ¯
+        // í”„ë¦¬íŒ¹ ì¸ìŠ¤í„´ìŠ¤ IDë¥¼ ê¸°ë°˜ìœ¼ë¡œ EnemyPool ê²€ìƒ‰ í›„ ì˜¤ë¸Œì íŠ¸ í™œì„±í™” ë° ë°˜í™˜
         return enemyPoolDic[enemyPool.GetInstanceID()].GetPool(position, rotation) as EnemyPooledObject;
     }
     #endregion
