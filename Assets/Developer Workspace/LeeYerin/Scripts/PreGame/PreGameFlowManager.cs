@@ -1,20 +1,20 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// Àü °ÔÀÓ ¸Ş´º Èå¸§À» °ü¸®ÇÏ´Â ¸Å´ÏÀú Å¬·¡½º
-/// °ÔÀÓ ½ÃÀÛ Àü ·Îµå¾Æ¿ô UI ÀüÈ¯, °ÔÀÓ ¾À ÀÌµ¿, °ÔÀÓ Á¾·á ±â´ÉÀ» Æ÷ÇÔµÇ¾î ÀÖÀ½
+/// ì „ ê²Œì„ ë©”ë‰´ íë¦„ì„ ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì € í´ë˜ìŠ¤
+/// ê²Œì„ ì‹œì‘ ì „ ë¡œë“œì•„ì›ƒ UI ì „í™˜, ê²Œì„ ì”¬ ì´ë™, ê²Œì„ ì¢…ë£Œ ê¸°ëŠ¥ì„ í¬í•¨ë˜ì–´ ìˆìŒ
 /// </summary>
 public class PreGameFlowManager : MonoBehaviour
 {
     [Header("UI Setting")]
-    [SerializeField] PopupController controlGuideUI; // Á¶ÀÛ ¹ı ¼³¸í UI
-    [SerializeField] GameObject gameMenuUI;     // °ÔÀÓ ¸Ş´º UI
-    [SerializeField] GameObject loadOutUI;      // ·Îµå¾Æ¿ô UI
-    [SerializeField] Animator playerAnimator;   // ·Îµå¾Æ¿ôÀÇ ÇÃ·¹ÀÌ¾î ¾Ö´Ï¸ŞÀÌÅÍ
+    [SerializeField] PopupController controlGuideUI; // ì¡°ì‘ ë²• ì„¤ëª… UI
+    [SerializeField] GameObject gameMenuUI;     // ê²Œì„ ë©”ë‰´ UI
+    [SerializeField] GameObject loadOutUI;      // ë¡œë“œì•„ì›ƒ UI
+    [SerializeField] Animator playerAnimator;   // ë¡œë“œì•„ì›ƒì˜ í”Œë ˆì´ì–´ ì• ë‹ˆë©”ì´í„°
 
     [Tooltip("Game scene name string")]
     [SerializeField] string gameSceneName = "Game Scene";
@@ -24,32 +24,32 @@ public class PreGameFlowManager : MonoBehaviour
     {
         yield return new WaitUntil(() => GameModeManager.UIManager != null && GameModeManager.SoundManager != null);
 
-        GameModeManager.SoundManager.PlayBGM(bgmClip.title);    // PreGameFlowÀÇ BGM ½ÇÇà
+        //GameModeManager.SoundManager.PlayBGM(bgmClip.title);    // PreGameFlowì˜ BGM ì‹¤í–‰
 
-        if (GameModeManager.UIManager.IsFirstLaunch)    // °ÔÀÓ ½ÇÇà ÈÄ Ã¹ ÁøÀÔÀÏ °æ¿ì
+        if (GameModeManager.UIManager.IsFirstLaunch)    // ê²Œì„ ì‹¤í–‰ í›„ ì²« ì§„ì…ì¼ ê²½ìš°
         {
-            GameModeManager.UIManager.OpenPopup(controlGuideUI);    // Á¶ÀÛ ¹ı ¼³¸í UI¸¦ ÆË¾÷ ½ºÅÃ¿¡ Push
+            GameModeManager.UIManager.OpenPopup(controlGuideUI);    // ì¡°ì‘ ë²• ì„¤ëª… UIë¥¼ íŒì—… ìŠ¤íƒì— Push
             yield break;
         }
 
-        controlGuideUI.Backdrop.SetActive(false);   //  // Á¶ÀÛ ¹ı ¼³¸í UI ºñÈ°¼ºÈ­
+        controlGuideUI.Backdrop.SetActive(false);   //  // ì¡°ì‘ ë²• ì„¤ëª… UI ë¹„í™œì„±í™”
 
-        GameModeManager.UIManager.ClearPopupHistory();      // UIManagerÀÇ ClearPopupHistory ½ºÅÃ ÃÊ±âÈ­
+        GameModeManager.UIManager.ClearPopupHistory();      // UIManagerì˜ ClearPopupHistory ìŠ¤íƒ ì´ˆê¸°í™”
 
-        if (GameModeManager.UIManager.LoadIntoLoadoutUI)    // °ÔÀÓ ·Îµå¾Æ¿ôÀ¸·Î ÀÌµ¿ÀÏ °æ¿ì
+        if (GameModeManager.UIManager.LoadIntoLoadoutUI)    // ê²Œì„ ë¡œë“œì•„ì›ƒìœ¼ë¡œ ì´ë™ì¼ ê²½ìš°
         {
             gameMenuUI.SetActive(false);
             loadOutUI.SetActive(true);
             GameModeManager.UIManager.FadeIn();
         }
-        else                                               // °ÔÀÓ ¸ŞÀÎ ¸Ş´º·Î ÀÌµ¿ÀÏ °æ¿ì
+        else                                               // ê²Œì„ ë©”ì¸ ë©”ë‰´ë¡œ ì´ë™ì¼ ê²½ìš°
             GameModeManager.UIManager.FadeIn();
     }
     #endregion
 
     /// <summary>
-    /// °ÔÀÓ ¸Ş´º¿¡¼­ ·Îµå¾Æ¿ô UI·Î ÀüÈ¯ÇÏ´Â ¸Ş¼­µå
-    /// ÆäÀÌµå ¾Æ¿ô ÈÄ ¸Ş´º UI ºñÈ°¼ºÈ­, ·Îµå¾Æ¿ô UI È°¼ºÈ­, ÆäÀÌµå ÀÎ ÁøÇà
+    /// ê²Œì„ ë©”ë‰´ì—ì„œ ë¡œë“œì•„ì›ƒ UIë¡œ ì „í™˜í•˜ëŠ” ë©”ì„œë“œ
+    /// í˜ì´ë“œ ì•„ì›ƒ í›„ ë©”ë‰´ UI ë¹„í™œì„±í™”, ë¡œë“œì•„ì›ƒ UI í™œì„±í™”, í˜ì´ë“œ ì¸ ì§„í–‰
     /// </summary>
     public void OpenLoadOut()
     {
@@ -62,13 +62,13 @@ public class PreGameFlowManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ·Îµå¾Æ¿ôUIÀÇ °ÔÀÓ ½ÃÀÛ ¹öÆ°°ú ¿¬°áµÇ´Â ¸Ş¼­µå·Î, ¾ÀÀ» °ÔÀÓ ¾ÀÀ¸·Î ÀüÈ¯ÇÔ
-    /// ÆäÀÌµå ¾Æ¿ô ÈÄ ¾À ·Îµå ÁøÇàÇÔ
+    /// ë¡œë“œì•„ì›ƒUIì˜ ê²Œì„ ì‹œì‘ ë²„íŠ¼ê³¼ ì—°ê²°ë˜ëŠ” ë©”ì„œë“œë¡œ, ì”¬ì„ ê²Œì„ ì”¬ìœ¼ë¡œ ì „í™˜í•¨
+    /// í˜ì´ë“œ ì•„ì›ƒ í›„ ì”¬ ë¡œë“œ ì§„í–‰í•¨
     /// </summary>
     public void GameStart()
     {
-        GameModeManager.SoundManager.StopBGM();      // PreGameFlowÀÇ BGM Á¾·á
-        playerAnimator.SetTrigger("IsCompete");    // Ä³¸¯ÅÍ ÃâÀü ¾Ö´Ï¸ŞÀÌ¼Ç Æ®¸®°Å
+        //GameModeManager.SoundManager.StopBGM();      // PreGameFlowì˜ BGM ì¢…ë£Œ
+        playerAnimator.SetTrigger("IsCompete");    // ìºë¦­í„° ì¶œì „ ì• ë‹ˆë©”ì´ì…˜ íŠ¸ë¦¬ê±°
 
         GameModeManager.UIManager.FadeOut(() =>
         {
@@ -77,11 +77,11 @@ public class PreGameFlowManager : MonoBehaviour
     }
 
     /// <summary>
-    /// °ÔÀÓÀ» Á¾·áÇÏ´Â ¸Ş¼­µå
-    /// ÇÃ·§Æû¿¡ ¸Â´Â Á¾·á Ã³¸® ¼öÇà
+    /// ê²Œì„ì„ ì¢…ë£Œí•˜ëŠ” ë©”ì„œë“œ
+    /// í”Œë«í¼ì— ë§ëŠ” ì¢…ë£Œ ì²˜ë¦¬ ìˆ˜í–‰
     /// </summary>
     public void ExitGame()
     {
-        GameModeManager.ExitGame();  // °ÔÀÓ Á¾·á
+        GameModeManager.ExitGame();  // ê²Œì„ ì¢…ë£Œ
     }
 }

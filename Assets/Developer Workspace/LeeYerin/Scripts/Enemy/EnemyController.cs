@@ -314,7 +314,7 @@ public class EnemyController : MonoBehaviour
         isAttacking = false;
 
         animator.SetTrigger("IsDie");   // Die 애니메이션 실행
-        PlaySFX(deathSfxId);   // Die 사운드 출력
+        //PlaySFX(deathSfxId);   // Die 사운드 출력
 
         Sequence seq = DOTween.Sequence();
 

@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// °ÔÀÓ ³» »ç¿îµå °ü·Ã ±â´É °ü¸®ÇÏ´Â ¸Å´ÏÀú
+/// ê²Œì„ ë‚´ ì‚¬ìš´ë“œ ê´€ë ¨ ê¸°ëŠ¥ ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì €
 /// </summary>
 public class SoundManager : MonoBehaviour
 {
@@ -20,9 +20,9 @@ public class SoundManager : MonoBehaviour
     private AudioMixerGroup sfxGroup;
 
     [Header("Audio Clip List")]
-    [Tooltip("Ã¹¹øÂ° : Å¸ÀÌÆ²\nµÎ¹øÂ° : °ÔÀÓ ¹è°æÀ½\n¼¼¹øÂ° : °ÔÀÓ Á¾·á")]
+    [Tooltip("ì²«ë²ˆì§¸ : íƒ€ì´í‹€\në‘ë²ˆì§¸ : ê²Œì„ ë°°ê²½ìŒ\nì„¸ë²ˆì§¸ : ê²Œì„ ì¢…ë£Œ")]
     [SerializeField] List<AudioClip> bgmClipList = new();
-    // TODO... ÀÌÈÄ µ¥ÀÌÅÍ Å×ÀÌºíÀ» ÀĞ¾î¿Í ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ®·Î ¹ŞÀ» ¿¹Á¤
+    // TODO... ì´í›„ ë°ì´í„° í…Œì´ë¸”ì„ ì½ì–´ì™€ ìŠ¤í¬ë¦½í„°ë¸” ì˜¤ë¸Œì íŠ¸ë¡œ ë°›ì„ ì˜ˆì •
     [SerializeField] List<int> sfxIDList = new();
     [SerializeField] List<AudioClip> sfxClipList = new();
 
@@ -31,7 +31,7 @@ public class SoundManager : MonoBehaviour
 
     public float BGMVolume { get { return bgmSource.volume; } set { bgmSource.volume = value; } }
     /// <summary>
-    /// ÀüÃ¼ SFX º¼·ı (0~1) - AudioMixer ±â¹İ
+    /// ì „ì²´ SFX ë³¼ë¥¨ (0~1) - AudioMixer ê¸°ë°˜
     /// </summary>
     public float SFXVolume
     {
@@ -39,14 +39,14 @@ public class SoundManager : MonoBehaviour
         {
             if (audioMixer.GetFloat("SFXVolume", out float dB))
             {
-                // dB ¡æ 0~1 ¹üÀ§·Î º¯È¯
+                // dB â†’ 0~1 ë²”ìœ„ë¡œ ë³€í™˜
                 return Mathf.Pow(10f, dB / 20f);
             }
             return 1f;
         }
         set
         {
-            // 0~1 ¡æ dB º¯È¯ (0 ¡æ -80dB, 1 ¡æ 0dB)
+            // 0~1 â†’ dB ë³€í™˜ (0 â†’ -80dB, 1 â†’ 0dB)
             float dB = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
             audioMixer.SetFloat("SFXVolume", dB);
         }
@@ -64,10 +64,10 @@ public class SoundManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        // "SFXGroup"ÀÌ¶ó´Â ÀÌ¸§ÀÇ ¿Àµğ¿À ¹Í¼­ ±×·ìÀ» Ã£¾Æ Ã¹ ¹øÂ° ±×·ìÀ» °¡Á®¿È
+        // "SFXGroup"ì´ë¼ëŠ” ì´ë¦„ì˜ ì˜¤ë””ì˜¤ ë¯¹ì„œ ê·¸ë£¹ì„ ì°¾ì•„ ì²« ë²ˆì§¸ ê·¸ë£¹ì„ ê°€ì ¸ì˜´
         sfxGroup = audioMixer.FindMatchingGroups("SFXGroup")[0];
 
-        // AudioSource¿¡ ±×·ì ÇÒ´ç
+        // AudioSourceì— ê·¸ë£¹ í• ë‹¹
         sfxSource.outputAudioMixerGroup = sfxGroup;
     }
 
@@ -76,7 +76,7 @@ public class SoundManager : MonoBehaviour
         if (sfxClipList.Count != sfxIDList.Count) return;
         isSFXReady = false;
 
-        // °¢ SFX ID¿Í ¿Àµğ¿À Å¬¸³À» µñ¼Å³Ê¸®¿¡ ¸ÅÇÎ
+        // ê° SFX IDì™€ ì˜¤ë””ì˜¤ í´ë¦½ì„ ë”•ì…”ë„ˆë¦¬ì— ë§¤í•‘
         for(int i = 0; i < sfxIDList.Count; i++)
             sfxClipDic.Add(sfxIDList[i], sfxClipList[i]);
 
@@ -109,14 +109,14 @@ public class SoundManager : MonoBehaviour
 
     #region SFX
     /// <summary>
-    /// ÁöÁ¤µÈ IDÀÇ SFX¸¦ Àç»ıÇÏ´Â ¸Ş¼­µå
-    /// ÇÃ·¹ÀÌ¾î µ¿ÀÛÀÌ³ª UI ÀÔ·Â µî, À§Ä¡¿Í ¹«°üÇÑ 2D »ç¿îµå¿¡ »ç¿ëµÊ
+    /// ì§€ì •ëœ IDì˜ SFXë¥¼ ì¬ìƒí•˜ëŠ” ë©”ì„œë“œ
+    /// í”Œë ˆì´ì–´ ë™ì‘ì´ë‚˜ UI ì…ë ¥ ë“±, ìœ„ì¹˜ì™€ ë¬´ê´€í•œ 2D ì‚¬ìš´ë“œì— ì‚¬ìš©ë¨
     /// </summary>
-    /// <param name="id">Àç»ıÇÒ SFXÀÇ °íÀ¯ ID</param>
+    /// <param name="id">ì¬ìƒí•  SFXì˜ ê³ ìœ  ID</param>
     /// <returns>
-    /// PlayResult.NotReady : SFX ½Ã½ºÅÛÀÌ ¾ÆÁ÷ ÁØºñµÇÁö ¾ÊÀ½  
-    /// PlayResult.Success  : Á¤»óÀûÀ¸·Î Àç»ıµÊ  
-    /// PlayResult.NotFound : ÇØ´ç IDÀÇ SFX°¡ Á¸ÀçÇÏÁö ¾ÊÀ½
+    /// PlayResult.NotReady : SFX ì‹œìŠ¤í…œì´ ì•„ì§ ì¤€ë¹„ë˜ì§€ ì•ŠìŒ  
+    /// PlayResult.Success  : ì •ìƒì ìœ¼ë¡œ ì¬ìƒë¨  
+    /// PlayResult.NotFound : í•´ë‹¹ IDì˜ SFXê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ
     /// </returns>
     public PlaySFXResult PlaySFX(int id)
     {
@@ -131,15 +131,15 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÁöÁ¤µÈ IDÀÇ SFX¸¦ Àç»ıÇÏ´Â ¸Ş¼­µå
-    /// ¸ó½ºÅÍ, È¯°æ µî À§Ä¡ ±â¹İÀÇ 3D »ç¿îµå Àç»ı¿¡ »ç¿ëµÊ
+    /// ì§€ì •ëœ IDì˜ SFXë¥¼ ì¬ìƒí•˜ëŠ” ë©”ì„œë“œ
+    /// ëª¬ìŠ¤í„°, í™˜ê²½ ë“± ìœ„ì¹˜ ê¸°ë°˜ì˜ 3D ì‚¬ìš´ë“œ ì¬ìƒì— ì‚¬ìš©ë¨
     /// </summary>
-    /// <param name="id">Àç»ıÇÒ SFXÀÇ °íÀ¯ ID</param>
-    /// <param name="source">»ç¿îµå¸¦ Ãâ·ÂÇÒ AudioSource (3D °ø°£¿¡ ¹èÄ¡µÈ ¼Ò½º)</param>
+    /// <param name="id">ì¬ìƒí•  SFXì˜ ê³ ìœ  ID</param>
+    /// <param name="source">ì‚¬ìš´ë“œë¥¼ ì¶œë ¥í•  AudioSource (3D ê³µê°„ì— ë°°ì¹˜ëœ ì†ŒìŠ¤)</param>
     /// <returns>
-    /// PlayResult.NotReady : SFX ½Ã½ºÅÛÀÌ ¾ÆÁ÷ ÁØºñµÇÁö ¾ÊÀ½  
-    /// PlayResult.Success  : Á¤»óÀûÀ¸·Î Àç»ıµÊ  
-    /// PlayResult.NotFound : ÇØ´ç IDÀÇ SFX°¡ Á¸ÀçÇÏÁö ¾ÊÀ½
+    /// PlayResult.NotReady : SFX ì‹œìŠ¤í…œì´ ì•„ì§ ì¤€ë¹„ë˜ì§€ ì•ŠìŒ  
+    /// PlayResult.Success  : ì •ìƒì ìœ¼ë¡œ ì¬ìƒë¨  
+    /// PlayResult.NotFound : í•´ë‹¹ IDì˜ SFXê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ
     /// </returns>
     public PlaySFXResult PlaySFX(int id, AudioSource source)
     {
@@ -147,7 +147,7 @@ public class SoundManager : MonoBehaviour
 
         if (sfxClipDic.TryGetValue(id, out var clip))
         {
-            // AudioSource°¡ ¾ÆÁ÷ ±×·ì¿¡ ¿¬°áµÇÁö ¾Ê¾Ò´Ù¸é ¿¬°á
+            // AudioSourceê°€ ì•„ì§ ê·¸ë£¹ì— ì—°ê²°ë˜ì§€ ì•Šì•˜ë‹¤ë©´ ì—°ê²°
             if (source.outputAudioMixerGroup != sfxGroup)
                 source.outputAudioMixerGroup = sfxGroup;
 
@@ -168,7 +168,7 @@ public class SoundManager : MonoBehaviour
 }
 
 /// <summary>
-/// °ÔÀÓ ³» BGM Á¾·ù¸¦ ±¸ºĞÇÏ±â À§ÇÑ ¿­°ÅÇü
+/// ê²Œì„ ë‚´ BGM ì¢…ë¥˜ë¥¼ êµ¬ë¶„í•˜ê¸° ìœ„í•œ ì—´ê±°í˜•
 /// </summary>
 public enum bgmClip
 {
@@ -178,11 +178,11 @@ public enum bgmClip
 }
 
 /// <summary>
-/// SFX Àç»ı °á°ú¸¦ ±¸ºĞÇÏ±â À§ÇÑ ¿­°ÅÇü
+/// SFX ì¬ìƒ ê²°ê³¼ë¥¼ êµ¬ë¶„í•˜ê¸° ìœ„í•œ ì—´ê±°í˜•
 /// </summary>
 public enum PlaySFXResult 
 { 
-    NotReady, // SFX ½Ã½ºÅÛ(µñ¼Å³Ê¸®)°¡ ÁØºñµÇÁö ¾ÊÀ½
+    NotReady, // SFX ì‹œìŠ¤í…œ(ë”•ì…”ë„ˆë¦¬)ê°€ ì¤€ë¹„ë˜ì§€ ì•ŠìŒ
     Success, 
     NotFound 
 }

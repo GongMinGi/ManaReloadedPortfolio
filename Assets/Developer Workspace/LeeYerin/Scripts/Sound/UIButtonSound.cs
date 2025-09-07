@@ -1,19 +1,19 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œìž: ì´ì˜ˆë¦°
 /// 
-/// UI ¹öÆ° Å¬¸¯ ½Ã ÁöÁ¤µÈ SFX¸¦ Àç»ýÇÏ´Â ÄÄÆ÷³ÍÆ®
+/// UI ë²„íŠ¼ í´ë¦­ ì‹œ ì§€ì •ëœ SFXë¥¼ ìž¬ìƒí•˜ëŠ” ì»´í¬ë„ŒíŠ¸
 /// 
-/// ¹öÆ°¸¶´Ù ¼­·Î ´Ù¸¥ È¿°úÀ½À» ÁöÁ¤ÇÒ ¼ö ÀÖÀ¸¸ç,
-/// UnityÀÇ Button ÄÄÆ÷³ÍÆ® OnClick ÀÌº¥Æ®¿¡ ¿¬°áÇÏ¿© »ç¿ë
+/// ë²„íŠ¼ë§ˆë‹¤ ì„œë¡œ ë‹¤ë¥¸ íš¨ê³¼ìŒì„ ì§€ì •í•  ìˆ˜ ìžˆìœ¼ë©°,
+/// Unityì˜ Button ì»´í¬ë„ŒíŠ¸ OnClick ì´ë²¤íŠ¸ì— ì—°ê²°í•˜ì—¬ ì‚¬ìš©
 /// </summary>
 public class UIButtonSound : MonoBehaviour
 {
     [SerializeField] private int sfxID;
 
     /// <summary>
-    /// ÁöÁ¤µÈ SFX ID¿¡ ÇØ´çÇÏ´Â È¿°úÀ½À» Àç»ý
+    /// ì§€ì •ëœ SFX IDì— í•´ë‹¹í•˜ëŠ” íš¨ê³¼ìŒì„ ìž¬ìƒ
     /// </summary>
-    public void PlaySFX() => GameModeManager.SoundManager.PlaySFX(sfxID);
+    //public void PlaySFX() => GameModeManager.SoundManager.PlaySFX(sfxID);
 }
