@@ -1,4 +1,4 @@
-using Game.Combat.Stats;
+ï»¿using Game.Combat.Stats;
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
@@ -7,44 +7,44 @@ using UnityEngine.InputSystem;
 
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///   - ºÒ / ³Ã±â ¼Ó¼º Àü¿ë 'Áï¹ß ºÎÃ¤²Ã' °ø°İ
-///   - Ä³½ºÆÃÇÑ ¿ø¼Ò°¡ ºÒ°ú ³Ã±â ¹Û¿¡ ¾ø´Â °æ¿ì ½ÇÇàµÇ´Â ¿ø°Å¸® °ø°İ
-///   - ¿ø°Å¸®°ø°İÀ» ½ÃÀüÇÏ´Â µ¿½Ã¿¡, ¿ø»ÔÇüÅÂÀÇ ¸¶¹ı °ø°İÀÌ ½ÃÀüµÈ´Ù.
+/// * ì‘ì„±ì : ê³µë¯¼ê¸°
+///   - ë¶ˆ / ëƒ‰ê¸° ì†ì„± ì „ìš© 'ì¦‰ë°œ ë¶€ì±„ê¼´' ê³µê²©
+///   - ìºìŠ¤íŒ…í•œ ì›ì†Œê°€ ë¶ˆê³¼ ëƒ‰ê¸° ë°–ì— ì—†ëŠ” ê²½ìš° ì‹¤í–‰ë˜ëŠ” ì›ê±°ë¦¬ ê³µê²©
+///   - ì›ê±°ë¦¬ê³µê²©ì„ ì‹œì „í•˜ëŠ” ë™ì‹œì—, ì›ë¿”í˜•íƒœì˜ ë§ˆë²• ê³µê²©ì´ ì‹œì „ëœë‹¤.
 /// </summary>
 public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
 {
 
     #region Field And Property
-    [Header("VFX Setting")]     // ±¸Çö: ÀÌ¿¹¸°
+    [Header("VFX Setting")]     // êµ¬í˜„: ì´ì˜ˆë¦°
     [SerializeField] VFXObject fireVFX;
 
     [Header("Cone Parameters")]
-    [SerializeField] private float radius = 6f;         // Å½Áö ¹İ°æ
-    [SerializeField] private float angle = 60f;         // ÀüÃ¼ ºÎÃ¤²Ã °¢µµ(µğ±×¸®) 
-    //[SerializeField] private int damage = 12;           // 1È¸ ÇÇÇØ·®
-    [SerializeField] private bool flatCone = true;      // YÃà ³ôÀÌ ¹«½Ã ¿©ºÎ
+    [SerializeField] private float radius = 6f;         // íƒì§€ ë°˜ê²½
+    [SerializeField] private float angle = 60f;         // ì „ì²´ ë¶€ì±„ê¼´ ê°ë„(ë””ê·¸ë¦¬) 
+    //[SerializeField] private int damage = 12;           // 1íšŒ í”¼í•´ëŸ‰
+    [SerializeField] private bool flatCone = true;      // Yì¶• ë†’ì´ ë¬´ì‹œ ì—¬ë¶€
 
 
     [Header("Hold & Tick")]
     [SerializeField] private float maxDuration = 4f;
     [SerializeField] private float tickInterval = 0.25f;
     [SerializeField] private int damagePerTick = 60;
-    [SerializeField] private LayerMask enemyLayer;      // Enemy Àü¿ë ·¹ÀÌ¾î , 
+    [SerializeField] private LayerMask enemyLayer;      // Enemy ì „ìš© ë ˆì´ì–´ , 
 
     [Header("Visualization")]
-    [SerializeField] private Transform muzzle;          // ¿ø»Ô ½ÃÀÛ ÁöÁ¡(¾øÀ¸¸é this)
-    [SerializeField] private LineRenderer lr;           // ¿ø»Ô ½Ã°¢È­¿ë ¶óÀÎ·»´õ·¯
-    [SerializeField] private int arcSegments = 36;       // È£(arc) ÇØ»óµµ
+    [SerializeField] private Transform muzzle;          // ì›ë¿” ì‹œì‘ ì§€ì (ì—†ìœ¼ë©´ this)
+    [SerializeField] private LineRenderer lr;           // ì›ë¿” ì‹œê°í™”ìš© ë¼ì¸ë Œë”ëŸ¬
+    [SerializeField] private int arcSegments = 36;       // í˜¸(arc) í•´ìƒë„
 
     [Header("SoundSetting")]
-    [SerializeField] int sfxId = 110017;                                                        // Àç»ıÇÒ »ç¿îµå ¸®¼Ò½º ¾ÆÀÌµğ
+    [SerializeField] int sfxId = 110017;                                                        // ì¬ìƒí•  ì‚¬ìš´ë“œ ë¦¬ì†ŒìŠ¤ ì•„ì´ë””
 
     private RangedAttackContext _ctx;
     private Coroutine coneAttackRoutine;
     private bool isFiring;
-    private float cosThreshold;                                 // cos(angle/2) Ä³½Ã
-    [SerializeField] private readonly Collider[] hitObjects = new Collider[64];  // NonAlloc ¹öÆÛ
+    private float cosThreshold;                                 // cos(angle/2) ìºì‹œ
+    [SerializeField] private readonly Collider[] hitObjects = new Collider[64];  // NonAlloc ë²„í¼
 
     public event Action Started;
     public event Action<float> Progress;
@@ -64,7 +64,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         lr.enabled = false;
         
 
-        cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad); // ºÎÃ¤²ÃÀÇ °¢ÀÇ Àı¹İ.
+        cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad); // ë¶€ì±„ê¼´ì˜ ê°ì˜ ì ˆë°˜.
 
     }
 
@@ -87,9 +87,9 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     #region IRangedAttack Implementation
 
     /// <summary>
-    /// ±¸Ã¼¹üÀ§¿¡ µé¾î¿Â ÀûÀ» ·¹ÀÌ¾î¸¦ ÅëÇØ °¨Áö
-    /// ÀûÀÇ ¹æÇâº¤ÅÍ¿Í ÇÃ·¹ÀÌ¾îÀÇ Á¤¸éº¤ÅÍ¸¦ ³»Àû½ÃÄÑ, ¿ø»Ô¸ğ¾çÀÇ ¹üÀ§¿¡ µé¾î¿À´ÂÁö ÆÇ´Ü
-    /// µé¾î°¡´Â Àû¿¡°Ô¸¸ °ø°İ Àû¿ë
+    /// êµ¬ì²´ë²”ìœ„ì— ë“¤ì–´ì˜¨ ì ì„ ë ˆì´ì–´ë¥¼ í†µí•´ ê°ì§€
+    /// ì ì˜ ë°©í–¥ë²¡í„°ì™€ í”Œë ˆì´ì–´ì˜ ì •ë©´ë²¡í„°ë¥¼ ë‚´ì ì‹œì¼œ, ì›ë¿”ëª¨ì–‘ì˜ ë²”ìœ„ì— ë“¤ì–´ì˜¤ëŠ”ì§€ íŒë‹¨
+    /// ë“¤ì–´ê°€ëŠ” ì ì—ê²Œë§Œ ê³µê²© ì ìš©
     /// </summary>
     /// <param name="type"></param>
     public void ExecuteAttack(E_CastingType type )
@@ -99,7 +99,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
     }
 
-    // Áï¹ßÇü ½ºÅ³ÀÌ¹Ç·Î º°µµ Ãë¼Ò ·ÎÁ÷ ÇÊ¿ä ¾øÀ½
+    // ì¦‰ë°œí˜• ìŠ¤í‚¬ì´ë¯€ë¡œ ë³„ë„ ì·¨ì†Œ ë¡œì§ í•„ìš” ì—†ìŒ
     public void Stop() 
     {
         if (!isFiring) return;
@@ -116,26 +116,26 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         isFiring = true;
         //lr.enabled = true;
         Started?.Invoke();
-        fireVFX.Play();         // ºÒ VFX ½ÇÇà
-        GameModeManager.SoundManager.PlaySFX(110017);       // ºÒ¼Ó¼º ¿ø°Å¸® °ø°İ »ç¿îµå ÇöÀç´Â ÇÏµåÄÚµùÀ¸·Î ¹ö±×¾øÀÌ. ÃßÈÄ serialzable ¹ö±× ¼öÁ¤
+        fireVFX.Play();         // ë¶ˆ VFX ì‹¤í–‰
+        //GameModeManager.SoundManager.PlaySFX(110017);       // ë¶ˆì†ì„± ì›ê±°ë¦¬ ê³µê²© ì‚¬ìš´ë“œ í˜„ì¬ëŠ” í•˜ë“œì½”ë”©ìœ¼ë¡œ ë²„ê·¸ì—†ì´. ì¶”í›„ serialzable ë²„ê·¸ ìˆ˜ì •
         float startTime = Time.time;
 
-        //bool sendProgress = false;      // ÃßÈÄ °ø°İÁß Àü´ŞÇÒ ÀÌº¥Æ®°¡ ÀÖÀ¸¸é »ç¿ë
+        //bool sendProgress = false;      // ì¶”í›„ ê³µê²©ì¤‘ ì „ë‹¬í•  ì´ë²¤íŠ¸ê°€ ìˆìœ¼ë©´ ì‚¬ìš©
 
         while(Mouse.current.leftButton.isPressed && Time.time - startTime <maxDuration )
         {
             Vector3 origin = muzzle.position;
             Vector3 forward = muzzle.forward;
-            Vector3 axis = flatCone ? Vector3.up : muzzle.up;       // ¶óÀÎ·»´õ·¯¿ë ¸Å°³º¯¼ö
+            Vector3 axis = flatCone ? Vector3.up : muzzle.up;       // ë¼ì¸ë Œë”ëŸ¬ìš© ë§¤ê°œë³€ìˆ˜
 
             if (flatCone)
             {
                 origin.y = muzzle.position.y;
                 forward.y = 0f;
-                forward = forward.sqrMagnitude > 1e-6f ? forward.normalized : transform.forward; // ¶óÀÎ·»´õ·¯¿ë ¸Å°³º¯¼ö
+                forward = forward.sqrMagnitude > 1e-6f ? forward.normalized : transform.forward; // ë¼ì¸ë Œë”ëŸ¬ìš© ë§¤ê°œë³€ìˆ˜
             }
 
-            UpdateConeLine(origin, forward, axis);                  // ½Ã°¢È­ ¾÷µ¥ÀÌÆ®
+            UpdateConeLine(origin, forward, axis);                  // ì‹œê°í™” ì—…ë°ì´íŠ¸
 
             int count = Physics.OverlapSphereNonAlloc(
                 origin,
@@ -152,7 +152,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
                 Vector3 targetDir = detectedEnemyCollider.transform.position - origin;
                 if (flatCone) targetDir.y = 0f;
 
-                //±æÀÌ 0 ¹æÁö
+                //ê¸¸ì´ 0 ë°©ì§€
                 float distanceToTarget = targetDir.sqrMagnitude;
                 if (distanceToTarget < 1e-6f) continue;
 
@@ -169,34 +169,34 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
             yield return new WaitForSeconds(tickInterval);
         }
 
-        lr.enabled = false; // ½Ã°¢È­ ²ô±â
-        isFiring = false;       // »óÅÂ ÇØÁ¦
-        fireVFX.Stop();         // ºÒ VFX Á¾·á
-        GameModeManager.SoundManager.StopSFX();       // ºÒ °ø°İ »ç¿îµå Á¾·á
+        lr.enabled = false; // ì‹œê°í™” ë„ê¸°
+        isFiring = false;       // ìƒíƒœ í•´ì œ
+        fireVFX.Stop();         // ë¶ˆ VFX ì¢…ë£Œ
+        //GameModeManager.SoundManager.StopSFX();       // ë¶ˆ ê³µê²© ì‚¬ìš´ë“œ ì¢…ë£Œ
         Ended?.Invoke();
     }
 
     private void UpdateConeLine(Vector3 origin, Vector3 forward, Vector3 axis)
     {
-        int vertexCount = arcSegments + 2;        // ¿øÁ¡ + È£ ( arcSegments + 1 °³ Á¡ ) 
+        int vertexCount = arcSegments + 2;        // ì›ì  + í˜¸ ( arcSegments + 1 ê°œ ì  ) 
         if(lr.positionCount != vertexCount)
             lr.positionCount = vertexCount;
 
-        lr.SetPosition(0, origin);                  // ½ÃÀÛÁ¡: °ø°İ ½ÃÀÛÁ¡
+        lr.SetPosition(0, origin);                  // ì‹œì‘ì : ê³µê²© ì‹œì‘ì 
 
         float half = angle * 0.5f;
         float step = angle / arcSegments;
 
-        // -half(¿ŞÂÊ ³¡) ~ +half(¿À¸¥ÂÊ ³¡)±îÁö step °£°İÀ¸·Î È¸ÀüÇÏ¸ç È£ Á¡ »ı¼º
+        // -half(ì™¼ìª½ ë) ~ +half(ì˜¤ë¥¸ìª½ ë)ê¹Œì§€ step ê°„ê²©ìœ¼ë¡œ íšŒì „í•˜ë©° í˜¸ ì  ìƒì„±
         for (int i = 0; i <= arcSegments; ++i)
         {
-            float a = -half + step * i;                          // ÇöÀç ¼¼±×¸ÕÆ®ÀÇ °¢µµ
-            Vector3 dir = Quaternion.AngleAxis(a, axis) * forward;// Ãà(axis) ±âÁØÀ¸·Î forward¸¦ È¸Àü
-            Vector3 p = origin + dir.normalized * radius;         // È¸ÀüµÈ ¹æÇâÀ¸·Î ¹İ°æ¸¸Å­ ¶³¾îÁø Á¡
+            float a = -half + step * i;                          // í˜„ì¬ ì„¸ê·¸ë¨¼íŠ¸ì˜ ê°ë„
+            Vector3 dir = Quaternion.AngleAxis(a, axis) * forward;// ì¶•(axis) ê¸°ì¤€ìœ¼ë¡œ forwardë¥¼ íšŒì „
+            Vector3 p = origin + dir.normalized * radius;         // íšŒì „ëœ ë°©í–¥ìœ¼ë¡œ ë°˜ê²½ë§Œí¼ ë–¨ì–´ì§„ ì 
             lr.SetPosition(i + 1, p);
         }
 
-        // ¸¶Áö¸· Æ÷ÀÎÆ®´Â ´Ù½Ã ¿øÁ¡À¸·Î µ¹¾Æ¿Í ºÎÃ¤²ÃÀ» ´İ´Â´Ù.
+        // ë§ˆì§€ë§‰ í¬ì¸íŠ¸ëŠ” ë‹¤ì‹œ ì›ì ìœ¼ë¡œ ëŒì•„ì™€ ë¶€ì±„ê¼´ì„ ë‹«ëŠ”ë‹¤.
         lr.SetPosition(vertexCount - 1, origin);
 
     }

@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentCastingList.Count >= maxInputCount) return;          //초과 입력 무시
 
-        GameModeManager.SoundManager.PlaySFX(110013);                       // 속성 장전 사운드 sfx
+        //GameModeManager.SoundManager.PlaySFX(110013);                       // 속성 장전 사운드 sfx
 
         currentCastingList.Add(castingType);                            // 현재 캐스팅된 원소 목록에 지금 누른 원소를 추가한다.
         rangedAttackController.CastedElementCount[castingType]++;       // 현재 캐스팅된 속성 개수 업데이트 (우선순위 결정용)

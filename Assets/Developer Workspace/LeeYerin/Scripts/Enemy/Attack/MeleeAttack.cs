@@ -1,14 +1,14 @@
-using Game.combat.EnemyAttack;
+ï»¿using Game.combat.EnemyAttack;
 using Game.Combat.Stats;
 using UnityEngine;
 
 namespace Game.Combat.EnemyAttack
 {
     /// <summary>
-    /// °³¹ßÀÚ: ÀÌ¿¹¸°
+    /// ê°œë°œì: ì´ì˜ˆë¦°
     /// 
-    /// ÀûÀÇ ±Ù°Å¸® °ø°İ ±¸Çö Å¬·¡½º
-    /// BaseAttackÀ» »ó¼ÓÇÏ¿© Melee¿ë °ø°İ Ã³¸®
+    /// ì ì˜ ê·¼ê±°ë¦¬ ê³µê²© êµ¬í˜„ í´ë˜ìŠ¤
+    /// BaseAttackì„ ìƒì†í•˜ì—¬ Meleeìš© ê³µê²© ì²˜ë¦¬
     /// </summary>
     public class MeleeAttack : BaseAttack
     {
@@ -19,14 +19,14 @@ namespace Game.Combat.EnemyAttack
         [SerializeField] int atkSfxId;
 
         /// <summary>
-        /// ½ÇÁ¦ °ø°İ ½ÇÇà
-        /// ¾Ö´Ï¸ŞÀÌ¼Ç Æ®¸®°Å ½ÇÇà ÈÄ Äİ¶óÀÌ´õ È°¼ºÈ­
+        /// ì‹¤ì œ ê³µê²© ì‹¤í–‰
+        /// ì• ë‹ˆë©”ì´ì…˜ íŠ¸ë¦¬ê±° ì‹¤í–‰ í›„ ì½œë¼ì´ë” í™œì„±í™”
         /// </summary>
-        /// <param name="target">°ø°İ Å¸ÄÏÀÇ UnitStats</param>
+        /// <param name="target">ê³µê²© íƒ€ì¼“ì˜ UnitStats</param>
         protected override void PerformAttack(UnitStats target = null)
         {
             enemy.Animator.SetTrigger(attackTrigger);
-            enemy.PlaySFX(atkSfxId);   // °ø°İ »ç¿îµå Ãâ·Â
+            //enemy.PlaySFX(atkSfxId);   // ê³µê²© ì‚¬ìš´ë“œ ì¶œë ¥
             hitCollider.enabled = true;
         }
 

@@ -1,35 +1,35 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// »ı¸íÀÇ ºû Á¶ÇÕ ¸¶¹ı Å¬·¡½º
-/// ¿ÀºêÁ§Æ® Ç®¿¡¼­ LifeLight ¿ÀºêÁ§Æ®¸¦ °¡Á®¿Í ÇÃ·¹ÀÌ¾î À§Ä¡¿¡ »ı¼ºÇÏ´Â ±â´ÉÀ» ´ã´çÇÔ
+/// ìƒëª…ì˜ ë¹› ì¡°í•© ë§ˆë²• í´ë˜ìŠ¤
+/// ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ LifeLight ì˜¤ë¸Œì íŠ¸ë¥¼ ê°€ì ¸ì™€ í”Œë ˆì´ì–´ ìœ„ì¹˜ì— ìƒì„±í•˜ëŠ” ê¸°ëŠ¥ì„ ë‹´ë‹¹í•¨
 /// </summary>
 public class LifeLight : BaseCombinationMagic
 {
-    [SerializeField] LifeLightPooledObject lifeLight;   // »ç¿ëÇÒ Thorn ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ
-    [SerializeField] int size;                  // Ç®¿¡ ¹Ì¸® »ı¼ºÇÒ ¿ÀºêÁ§Æ® ¼ö
-    [SerializeField] int capacity;              // Ç®ÀÇ ÃÖ´ë ¼ö¿ë °¡´É ¿ÀºêÁ§Æ® ¼ö
+    [SerializeField] LifeLightPooledObject lifeLight;   // ì‚¬ìš©í•  Thorn ì˜¤ë¸Œì íŠ¸ í”„ë¦¬íŒ¹
+    [SerializeField] int size;                  // í’€ì— ë¯¸ë¦¬ ìƒì„±í•  ì˜¤ë¸Œì íŠ¸ ìˆ˜
+    [SerializeField] int capacity;              // í’€ì˜ ìµœëŒ€ ìˆ˜ìš© ê°€ëŠ¥ ì˜¤ë¸Œì íŠ¸ ìˆ˜
 
-    PlayerController player = null;             // ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯ ÂüÁ¶ (ÃÊ±âÈ­ Àü null)
+    PlayerController player = null;             // í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬ ì°¸ì¡° (ì´ˆê¸°í™” ì „ null)
 
     public override void ExecuteSkill()
     {
-        // player°¡ nullÀÌ¸é, ¿ÀºêÁ§Æ® Ç®À» »ı¼ºÇÏ°í ÇÃ·¹ÀÌ¾î ÂüÁ¶¸¦ °¡Á®¿È
+        // playerê°€ nullì´ë©´, ì˜¤ë¸Œì íŠ¸ í’€ì„ ìƒì„±í•˜ê³  í”Œë ˆì´ì–´ ì°¸ì¡°ë¥¼ ê°€ì ¸ì˜´
         if (player == null)
         {
             GameModeManager.PoolManager.CreatePool(lifeLight, size, capacity);
             player = GameModeManager.Player;
         }
 
-        if (!canUseSkill)   // ½ºÅ³ ÄğÅ¸ÀÓÀÌ ³¡³µ´ÂÁö È®ÀÎ
+        if (!canUseSkill)   // ìŠ¤í‚¬ ì¿¨íƒ€ì„ì´ ëë‚¬ëŠ”ì§€ í™•ì¸
             return;
 
-        base.ExecuteSkill();    // ½ºÅ³ ÄğÅ¸ÀÌ¸Ó ½ÇÇà
+        base.ExecuteSkill();    // ìŠ¤í‚¬ ì¿¨íƒ€ì´ë¨¸ ì‹¤í–‰
 
-        // »ı¸íÀÇ ºû ¼ÒÈ¯ Á÷Àü »ç¿îµå Àç»ı
-        GameModeManager.SoundManager.PlaySFX(110019);
+        // ìƒëª…ì˜ ë¹› ì†Œí™˜ ì§ì „ ì‚¬ìš´ë“œ ì¬ìƒ
+        //GameModeManager.SoundManager.PlaySFX(110019);
         GameModeManager.PoolManager.GetPool(lifeLight, player.transform.position, Quaternion.identity);
     }
 }

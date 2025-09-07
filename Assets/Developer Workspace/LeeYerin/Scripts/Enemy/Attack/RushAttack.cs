@@ -1,23 +1,23 @@
-using Game.Combat.Stats;
+ï»¿using Game.Combat.Stats;
 using System.Collections;
 using UnityEngine;
 
 namespace Game.combat.EnemyAttack
 {
     /// <summary>
-    /// °³¹ßÀÚ: ÀÌ¿¹¸°
+    /// ê°œë°œì: ì´ì˜ˆë¦°
     /// 
-    /// Àû µ¹Áø °ø°İ(Rush Attack) Å¬·¡½º
+    /// ì  ëŒì§„ ê³µê²©(Rush Attack) í´ë˜ìŠ¤
     /// 
-    /// ±â´É:
-    /// - BaseAttack »ó¼Ó
-    /// - ¾Ö´Ï¸ŞÀÌ¼Ç Æ®¸®°Å¿Í Äİ¶óÀÌ´õ¸¦ ÅëÇØ µ¹Áø °ø°İ ¼öÇà
-    /// - °ø°İ ´ë»ó(UnitStats)ÀÌ ¹üÀ§ ³»¿¡ µé¾î¿À¸é ÇÇÇØ Àû¿ë
-    /// - µ¹ÁøÇÏ´Â µ¿¾È¿¡´Â ÀûÀÇ NavMeshAgent¸¦ ºñÈ°¼ºÇÔ
+    /// ê¸°ëŠ¥:
+    /// - BaseAttack ìƒì†
+    /// - ì• ë‹ˆë©”ì´ì…˜ íŠ¸ë¦¬ê±°ì™€ ì½œë¼ì´ë”ë¥¼ í†µí•´ ëŒì§„ ê³µê²© ìˆ˜í–‰
+    /// - ê³µê²© ëŒ€ìƒ(UnitStats)ì´ ë²”ìœ„ ë‚´ì— ë“¤ì–´ì˜¤ë©´ í”¼í•´ ì ìš©
+    /// - ëŒì§„í•˜ëŠ” ë™ì•ˆì—ëŠ” ì ì˜ NavMeshAgentë¥¼ ë¹„í™œì„±í•¨
     /// 
-    /// ÁÖÀÇ:
-    /// - ÇöÀç PerformAttack¿¡¼­ CoroutineÀ¸·Î °ø°İ ·çÇÁ ½ÇÇà
-    /// - ½ºÅ³ Á¾·á ÈÄ StopAttack È£Ãâ·Î °ø°İ ·çÇÁ Á¾·á
+    /// ì£¼ì˜:
+    /// - í˜„ì¬ PerformAttackì—ì„œ Coroutineìœ¼ë¡œ ê³µê²© ë£¨í”„ ì‹¤í–‰
+    /// - ìŠ¤í‚¬ ì¢…ë£Œ í›„ StopAttack í˜¸ì¶œë¡œ ê³µê²© ë£¨í”„ ì¢…ë£Œ
     /// </summary>
     public class RushAttack : BaseAttack
     {
@@ -31,13 +31,13 @@ namespace Game.combat.EnemyAttack
         private Vector3 rushDir;
 
         [Header("Sound Setting")]
-        [SerializeField] int prepareSfxId;  // µ¹Áø ÁØºñ »ç¿îµå
-        [SerializeField] int rushSfxId;     // µ¹Áø »ç¿îµå
+        [SerializeField] int prepareSfxId;  // ëŒì§„ ì¤€ë¹„ ì‚¬ìš´ë“œ
+        [SerializeField] int rushSfxId;     // ëŒì§„ ì‚¬ìš´ë“œ
 
         [Header("Animation Triggers")]
-        [SerializeField] private string prepareTrigger;      // °ø°İ ÁØºñ ¾Ö´Ï¸ŞÀÌ¼Ç
-        [SerializeField] private string stunnedTrigger;      // ½ºÅÏ ¾Ö´Ï¸ŞÀÌ¼Ç (»ç¿ë ¿©ºÎ ¼±ÅÃ)
-        [SerializeField] private string skillFinishTrigger;  // ½ºÅ³ Á¾·á ¾Ö´Ï¸ŞÀÌ¼Ç
+        [SerializeField] private string prepareTrigger;      // ê³µê²© ì¤€ë¹„ ì• ë‹ˆë©”ì´ì…˜
+        [SerializeField] private string stunnedTrigger;      // ìŠ¤í„´ ì• ë‹ˆë©”ì´ì…˜ (ì‚¬ìš© ì—¬ë¶€ ì„ íƒ)
+        [SerializeField] private string skillFinishTrigger;  // ìŠ¤í‚¬ ì¢…ë£Œ ì• ë‹ˆë©”ì´ì…˜
 
         private Coroutine rushLoop;
 
@@ -59,9 +59,9 @@ namespace Game.combat.EnemyAttack
 
         private void FixedUpdate()
         {
-            if (isRush)     // µ¹Áø ÁßÀÌ¶ó¸é
+            if (isRush)     // ëŒì§„ ì¤‘ì´ë¼ë©´
             {
-                // ÀûÀÌ ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î µ¹Áø
+                // ì ì´ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ ëŒì§„
                 rd.MovePosition(rd.position + rushDir * speed * Time.fixedDeltaTime);
             }
         }
@@ -82,47 +82,47 @@ namespace Game.combat.EnemyAttack
         }
 
         /// <summary>
-        /// ½ÇÁ¦ °ø°İ ½ÇÇà
-        /// ½ÇÁ¦ °ø°İ ÄÚ·çÆ¾(RushLoop) ½ÇÇà
+        /// ì‹¤ì œ ê³µê²© ì‹¤í–‰
+        /// ì‹¤ì œ ê³µê²© ì½”ë£¨í‹´(RushLoop) ì‹¤í–‰
         /// </summary>
-        /// <param name="target">°ø°İ Å¸ÄÏÀÇ UnitStats</param>
+        /// <param name="target">ê³µê²© íƒ€ì¼“ì˜ UnitStats</param>
         protected override void PerformAttack(UnitStats target = null)
         {
             rushLoop = StartCoroutine(RushLogic());
         }
 
         /// <summary>
-        /// µ¹Áø °ø°İ ·ÎÁ÷À» ´ã°í ÀÖ´Â ÄÚ·çÆ¾
-        /// - ÁØºñ ¾Ö´Ï¸ŞÀÌ¼Ç ÈÄ °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
-        /// - Äİ¶óÀÌ´õ È°¼ºÈ­·Î Ãæµ¹ °¨Áö
-        /// - °ø°İ Á¾·á ÈÄ Äİ¶óÀÌ´õ ºñÈ°¼ºÈ­ ¹× StopAttack È£Ãâ
+        /// ëŒì§„ ê³µê²© ë¡œì§ì„ ë‹´ê³  ìˆëŠ” ì½”ë£¨í‹´
+        /// - ì¤€ë¹„ ì• ë‹ˆë©”ì´ì…˜ í›„ ê³µê²© ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
+        /// - ì½œë¼ì´ë” í™œì„±í™”ë¡œ ì¶©ëŒ ê°ì§€
+        /// - ê³µê²© ì¢…ë£Œ í›„ ì½œë¼ì´ë” ë¹„í™œì„±í™” ë° StopAttack í˜¸ì¶œ
         /// </summary>
         private IEnumerator RushLogic()
         {
-            // ÁØºñ ¾Ö´Ï¸ŞÀÌ¼Ç 
+            // ì¤€ë¹„ ì• ë‹ˆë©”ì´ì…˜ 
             enemy.Animator.SetTrigger(prepareTrigger);
-            enemy.PlaySFX(prepareSfxId);   // µ¹Áø ÁØºñ »ç¿îµå Ãâ·Â
+            //enemy.PlaySFX(prepareSfxId);   // ëŒì§„ ì¤€ë¹„ ì‚¬ìš´ë“œ ì¶œë ¥
             yield return new WaitForSeconds(2f);
 
-            // °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç ¹× Äİ¶óÀÌ´õ È°¼ºÈ­
+            // ê³µê²© ì• ë‹ˆë©”ì´ì…˜ ë° ì½œë¼ì´ë” í™œì„±í™”
             enemy.Animator.SetTrigger(attackTrigger);
-            enemy.PlaySFX(rushSfxId);   // µ¹Áø »ç¿îµå Ãâ·Â
+            //enemy.PlaySFX(rushSfxId);   // ëŒì§„ ì‚¬ìš´ë“œ ì¶œë ¥
 
-            enemy.Agent.enabled = false;    // NavMeshAgent ºñÈ°¼ºÈ­
+            enemy.Agent.enabled = false;    // NavMeshAgent ë¹„í™œì„±í™”
             rushDir = enemy.transform.forward;
             hitCollider.enabled = true;
 
             isRush = true;
             yield return new WaitForSeconds(4f);
 
-            // °ø°İ Á¾·á
+            // ê³µê²© ì¢…ë£Œ
             hitCollider.enabled = false;
             isRush = false;
             enemy.Animator.SetTrigger(skillFinishTrigger);
 
             rushLoop = null;
-            enemy.Agent.enabled = true;     // NavMeshAgent È°¼ºÈ­
-            // ½ºÅ³ Á¾·á ÈÄ °ø°İ ·çÇÁ Á¾·á
+            enemy.Agent.enabled = true;     // NavMeshAgent í™œì„±í™”
+            // ìŠ¤í‚¬ ì¢…ë£Œ í›„ ê³µê²© ë£¨í”„ ì¢…ë£Œ
             StopAttack();
         }
 

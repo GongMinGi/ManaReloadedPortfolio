@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using Game.combat.EnemyAttack;
 using Game.Combat.Stats;
 using NUnit.Framework.Constraints;
@@ -11,11 +11,11 @@ namespace Game.combat.EnemyAttack
 {
 
     /// <summary>
-    /// *ÀÛ¼ºÀÚ : °ø¹Î±â
-    /// Baby DragonÀÇ ±âº» ¿ø°Å¸® °ø°İ ÄÁÆ®·Ñ·¯.
-    /// - °ø°İ Æ®¸®°Å(¾Ö´Ï¸ŞÀÌ¼Ç)¸¸ °É°í, ½ÇÁ¦ ¹ß»ç´Â ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®¿¡¼­ ¼öÇà.
-    /// - °ø°İ Áß¿¡´Â ÇÃ·¹ÀÌ¾î¸¦ 'ºÎµå·´°Ô' µû¶óº¸µµ·Ï È¸Àü( yaw-only )À» À¯Áö.
-    /// - ¹ß»ç ¼ø°£¿£ forward·Î ½î´Â ¸ğµå°¡ °¡Àå ½Ã°¢ÀûÀ¸·Î ÀÚ¿¬½º·¯¿ò.
+    /// *ì‘ì„±ì : ê³µë¯¼ê¸°
+    /// Baby Dragonì˜ ê¸°ë³¸ ì›ê±°ë¦¬ ê³µê²© ì»¨íŠ¸ë¡¤ëŸ¬.
+    /// - ê³µê²© íŠ¸ë¦¬ê±°(ì• ë‹ˆë©”ì´ì…˜)ë§Œ ê±¸ê³ , ì‹¤ì œ ë°œì‚¬ëŠ” ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸ì—ì„œ ìˆ˜í–‰.
+    /// - ê³µê²© ì¤‘ì—ëŠ” í”Œë ˆì´ì–´ë¥¼ 'ë¶€ë“œëŸ½ê²Œ' ë”°ë¼ë³´ë„ë¡ íšŒì „( yaw-only )ì„ ìœ ì§€.
+    /// - ë°œì‚¬ ìˆœê°„ì—” forwardë¡œ ì˜ëŠ” ëª¨ë“œê°€ ê°€ì¥ ì‹œê°ì ìœ¼ë¡œ ìì—°ìŠ¤ëŸ¬ì›€.
     /// </summary>
     public class BabyDragonDefaultAttack : BaseAttack
     {
@@ -25,63 +25,63 @@ namespace Game.combat.EnemyAttack
         private FireballProjectile_BabyDragon projectileInstance;
 
         [Header("Projectile Params")]
-        [SerializeField] private float projectileSpeed;                         // Åõ»çÃ¼ ¼Óµµ
-        [SerializeField] private float projectileMaxRange;                      // Åõ»çÃ¼ ÃÖ´ë »ç°Å¸®
-        [SerializeField] private float projectileRadius;                        // (½ºÇÇ¾îÄ³½ºÆ®¿ë) Ãæµ¹ ÆÇÁ¤ ¹İ°æ
-        [SerializeField] private LayerMask enemyLayer;                          // Å¸°Ù(ÇÃ·¹ÀÌ¾î) ·¹ÀÌ¾î ¸¶½ºÅ©
-        [SerializeField] private LayerMask obstacleLayer;                       // Àå¾Ö¹° ·¹ÀÌ¾î ¸¶½ºÅ©
+        [SerializeField] private float projectileSpeed;                         // íˆ¬ì‚¬ì²´ ì†ë„
+        [SerializeField] private float projectileMaxRange;                      // íˆ¬ì‚¬ì²´ ìµœëŒ€ ì‚¬ê±°ë¦¬
+        [SerializeField] private float projectileRadius;                        // (ìŠ¤í”¼ì–´ìºìŠ¤íŠ¸ìš©) ì¶©ëŒ íŒì • ë°˜ê²½
+        [SerializeField] private LayerMask enemyLayer;                          // íƒ€ê²Ÿ(í”Œë ˆì´ì–´) ë ˆì´ì–´ ë§ˆìŠ¤í¬
+        [SerializeField] private LayerMask obstacleLayer;                       // ì¥ì• ë¬¼ ë ˆì´ì–´ ë§ˆìŠ¤í¬
 
         [Header("Sound Setting")]
         [SerializeField] int atkSfxId;
 
         [Header("Aiming")]
-        [SerializeField] private float followYawDegPerSec = 540f;               // 1ÃÊ¿¡ È¸ÀüÇÏ´Â ÃÖ´ë °¢µµ
-        [SerializeField] private bool fireUsingForward = true;                  // ¹ß»ç ¼ø°£¿¡ ÀûÀÇ Á¤¸éÀ¸·Î ¹Ù¶óº½
-        [SerializeField] private float stopFollowDelayAfterFire = 0.05f;        // ¸¶Áö¸· ¹ß»ç Á÷ÈÄ »ìÂ¦ ´õ µû¶óº¸´Ù ²÷±è
+        [SerializeField] private float followYawDegPerSec = 540f;               // 1ì´ˆì— íšŒì „í•˜ëŠ” ìµœëŒ€ ê°ë„
+        [SerializeField] private bool fireUsingForward = true;                  // ë°œì‚¬ ìˆœê°„ì— ì ì˜ ì •ë©´ìœ¼ë¡œ ë°”ë¼ë´„
+        [SerializeField] private float stopFollowDelayAfterFire = 0.05f;        // ë§ˆì§€ë§‰ ë°œì‚¬ ì§í›„ ì‚´ì§ ë” ë”°ë¼ë³´ë‹¤ ëŠê¹€
 
 
-        private bool aimFollowActive;                                           // Á¶ÁØ (Å¸±ê ÃßÀû È¸Àü) È°¼ºÈ­ ¿©ºÎ
-        private Coroutine stopAimCo;                                            // Á¶ÁØ ÇØÁ¦ Áö¿¬ ÄÚ·çÆ¾ ÇÚµé
-        private UnitStats cachedTarget;                                         // ÇöÀç Å¸±ê Ä³½Ã (¾øÀ¸¸é player »ç¿ë)
-        static private bool poolIsCreated = false;                              // Ç® »ı¼º ¿©ºÎ (µ¿ÀÏ ÇÁ¸®ÆÕÀ» ¿©·¯ ÀûÀÌ ½áµµ 1È¸¸¸ »ı¼º)
+        private bool aimFollowActive;                                           // ì¡°ì¤€ (íƒ€ê¹ƒ ì¶”ì  íšŒì „) í™œì„±í™” ì—¬ë¶€
+        private Coroutine stopAimCo;                                            // ì¡°ì¤€ í•´ì œ ì§€ì—° ì½”ë£¨í‹´ í•¸ë“¤
+        private UnitStats cachedTarget;                                         // í˜„ì¬ íƒ€ê¹ƒ ìºì‹œ (ì—†ìœ¼ë©´ player ì‚¬ìš©)
+        static private bool poolIsCreated = false;                              // í’€ ìƒì„± ì—¬ë¶€ (ë™ì¼ í”„ë¦¬íŒ¹ì„ ì—¬ëŸ¬ ì ì´ ì¨ë„ 1íšŒë§Œ ìƒì„±)
 
 
         /// <summary>
-        /// Åõ»çÃ¼ Ç® ÃÊ±âÈ­.
-        /// - ÃÊ±â/ÃÖ´ë ¼ö·®Àº °ÔÀÓ »óÈ²¿¡ ¸Â°Ô Æ©´×.
-        /// - ÇÑ ¹ø¸¸ »ı¼ºÇÏµµ·Ï static ÇÃ·¡±×¸¦ µÒ.
+        /// íˆ¬ì‚¬ì²´ í’€ ì´ˆê¸°í™”.
+        /// - ì´ˆê¸°/ìµœëŒ€ ìˆ˜ëŸ‰ì€ ê²Œì„ ìƒí™©ì— ë§ê²Œ íŠœë‹.
+        /// - í•œ ë²ˆë§Œ ìƒì„±í•˜ë„ë¡ static í”Œë˜ê·¸ë¥¼ ë‘ .
         /// </summary>
         private void Init()
         {
-            GameModeManager.PoolManager.CreatePool(projectilePrefab, 20, 30);   // Ç®¸Å´ÏÀú¿¡ Åõ»çÃ¼ Ç® »ı¼º (ÃÊ±â5°³, ÃÖ´ë 10°³) 
+            GameModeManager.PoolManager.CreatePool(projectilePrefab, 20, 30);   // í’€ë§¤ë‹ˆì €ì— íˆ¬ì‚¬ì²´ í’€ ìƒì„± (ì´ˆê¸°5ê°œ, ìµœëŒ€ 10ê°œ) 
             poolIsCreated = true;
         }
 
 
         /// <summary>
-        /// BaseAttackÀÇ °ø°İ Æ½¸¶´Ù È£ÃâµÇ´Â "½ÇÇàºÎ".
-        /// - ¿©±â¼­´Â '¾Ö´Ï¸ŞÀÌ¼Ç Æ®¸®°Å'¸¸ °Ç´Ù (½ÇÁ¦ ¹ß»ç´Â AE¿¡¼­).
-        /// - µ¿½Ã¿¡ 'Á¶ÁØ ÃßÀû'À» ÄÒ´Ù ¡æ LateUpdate¿¡¼­ °è¼Ó ÇÃ·¹ÀÌ¾î¸¦ µû¶óº¸°Ô µÊ.
+        /// BaseAttackì˜ ê³µê²© í‹±ë§ˆë‹¤ í˜¸ì¶œë˜ëŠ” "ì‹¤í–‰ë¶€".
+        /// - ì—¬ê¸°ì„œëŠ” 'ì• ë‹ˆë©”ì´ì…˜ íŠ¸ë¦¬ê±°'ë§Œ ê±´ë‹¤ (ì‹¤ì œ ë°œì‚¬ëŠ” AEì—ì„œ).
+        /// - ë™ì‹œì— 'ì¡°ì¤€ ì¶”ì 'ì„ ì¼ ë‹¤ â†’ LateUpdateì—ì„œ ê³„ì† í”Œë ˆì´ì–´ë¥¼ ë”°ë¼ë³´ê²Œ ë¨.
         /// </summary>
         protected override void PerformAttack(UnitStats target = null)
         {
-            if (!poolIsCreated) Init();  // Ã¹ È£Ãâ ½Ã Ç® ÃÊ±âÈ­
+            if (!poolIsCreated) Init();  // ì²« í˜¸ì¶œ ì‹œ í’€ ì´ˆê¸°í™”
 
-            // Å¸±ê Ä³½Ã (¸Å ÇÁ·¹ÀÓ trasnformÀ» Ã£´Â ºñ¿ë Àı°¨) 
+            // íƒ€ê¹ƒ ìºì‹œ (ë§¤ í”„ë ˆì„ trasnformì„ ì°¾ëŠ” ë¹„ìš© ì ˆê°) 
             cachedTarget = target != null ? target : GameModeManager.Player?.Stats;
 
-            aimFollowActive = true;     // ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î È¸Àü ¿Â
+            aimFollowActive = true;     // í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ íšŒì „ ì˜¨
 
-            // ¾Ö´Ï¸ŞÀÌ¼Ç Æ®¸®°Å -> ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®·Î AE_Fire / AE_ComboEnd µîÀ» ½É¾îµĞ´Ù
+            // ì• ë‹ˆë©”ì´ì…˜ íŠ¸ë¦¬ê±° -> ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸ë¡œ AE_Fire / AE_ComboEnd ë“±ì„ ì‹¬ì–´ë‘”ë‹¤
             if (enemy && enemy.Animator && !string.IsNullOrEmpty(attackTrigger))
                 enemy.Animator.SetTrigger(attackTrigger);
         }
 
         /// <summary>
-        /// Á¶ÁØ ÃßÀû ·ÎÁ÷.
-        /// - °ø°İ µ¿¾È(aimFollowActive=true) ¸Å ÇÁ·¹ÀÓ Å¸±êÀ» ÇâÇØ 'Á¦ÇÑµÈ °¢¼Óµµ'·Î È¸Àü.
-        /// - Yaw-only(¼öÆò) È¸Àü: À§/¾Æ·¡·Î ±îµü°Å¸®Áö ¾Ê°Ô dir.y=0 Ã³¸®.
-        /// - RotateTowards: ÃÊ´ç Çã¿ë °¢µµ(followYawDegPerSec)¸¸Å­¸¸ È¸Àü ¡æ ±Ş°İÇÑ ½º³À ¹æÁö.
+        /// ì¡°ì¤€ ì¶”ì  ë¡œì§.
+        /// - ê³µê²© ë™ì•ˆ(aimFollowActive=true) ë§¤ í”„ë ˆì„ íƒ€ê¹ƒì„ í–¥í•´ 'ì œí•œëœ ê°ì†ë„'ë¡œ íšŒì „.
+        /// - Yaw-only(ìˆ˜í‰) íšŒì „: ìœ„/ì•„ë˜ë¡œ ê¹Œë”±ê±°ë¦¬ì§€ ì•Šê²Œ dir.y=0 ì²˜ë¦¬.
+        /// - RotateTowards: ì´ˆë‹¹ í—ˆìš© ê°ë„(followYawDegPerSec)ë§Œí¼ë§Œ íšŒì „ â†’ ê¸‰ê²©í•œ ìŠ¤ëƒ… ë°©ì§€.
         /// </summary>
         private void LateUpdate()
         {
@@ -89,72 +89,72 @@ namespace Game.combat.EnemyAttack
 
             Vector3 dir = cachedTarget.transform.position - enemy.transform.position;
             dir.y = 0;
-            if (dir.sqrMagnitude < 0.0001f) return;      // ³Ê¹« °¡±î¿ì¸é È¸Àü ºÒÇÊ¿ä
+            if (dir.sqrMagnitude < 0.0001f) return;      // ë„ˆë¬´ ê°€ê¹Œìš°ë©´ íšŒì „ ë¶ˆí•„ìš”
 
             Quaternion targetRot = Quaternion.LookRotation(dir.normalized, Vector3.up);
-            float maxStep = followYawDegPerSec * Time.deltaTime;                            //ÇÁ·¹ÀÓ º° ÃÖ´ë È¸Àü·®          
+            float maxStep = followYawDegPerSec * Time.deltaTime;                            //í”„ë ˆì„ ë³„ ìµœëŒ€ íšŒì „ëŸ‰          
             enemy.transform.rotation = Quaternion.RotateTowards(enemy.transform.rotation, targetRot, maxStep);
         }
 
 
         /// <summary>
-        /// (¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®) ÄŞº¸ Á¾·á.
-        /// - ¸¶Áö¸· ¹ß»ç Á÷ÈÄ 'Á¶±İ ´õ' µû¶óº¸´Ù ²÷À¸¸é ½Ã°¢ÀûÀ¸·Î ¾ÈÁ¤°¨ÀÌ ÁÁÀ½.
-        /// - stopFollowDelayAfterFire°¡ 0ÀÌ¸é Áï½Ã ²÷±â.
+        /// (ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸) ì½¤ë³´ ì¢…ë£Œ.
+        /// - ë§ˆì§€ë§‰ ë°œì‚¬ ì§í›„ 'ì¡°ê¸ˆ ë”' ë”°ë¼ë³´ë‹¤ ëŠìœ¼ë©´ ì‹œê°ì ìœ¼ë¡œ ì•ˆì •ê°ì´ ì¢‹ìŒ.
+        /// - stopFollowDelayAfterFireê°€ 0ì´ë©´ ì¦‰ì‹œ ëŠê¸°.
         /// </summary>
         public void AE_ComboEnd()
         {
-            // ¹ß»ç¸¦ ¸ğµÎ ³¡³½ ÈÄ Á»´õ ÇÃ·¹ÀÌ¾î¹æÇâÀ» µû¶ó°¡´Ù ²÷±â
+            // ë°œì‚¬ë¥¼ ëª¨ë‘ ëë‚¸ í›„ ì¢€ë” í”Œë ˆì´ì–´ë°©í–¥ì„ ë”°ë¼ê°€ë‹¤ ëŠê¸°
             if (stopAimCo != null) StopCoroutine(stopAimCo);
             stopAimCo = StartCoroutine(StopAimFollowAfter(stopFollowDelayAfterFire));
         }
 
         /// <summary>
-        /// Á¶ÁØ ÃßÀûÀ» ÁöÁ¤ ½Ã°£ µÚ¿¡ ²÷´Â ÄÚ·çÆ¾.
+        /// ì¡°ì¤€ ì¶”ì ì„ ì§€ì • ì‹œê°„ ë’¤ì— ëŠëŠ” ì½”ë£¨í‹´.
         /// </summary>
         private IEnumerator StopAimFollowAfter(float delay)
         {
             yield return new WaitForSeconds(delay);
-            aimFollowActive = false;                        // Á¶ÁØ off ( ÇÊ¿ä ½Ã ¿©±â¼­ NavMeshAgent È¸Àü ±ÇÇÑ º¹±Í) 
+            aimFollowActive = false;                        // ì¡°ì¤€ off ( í•„ìš” ì‹œ ì—¬ê¸°ì„œ NavMeshAgent íšŒì „ ê¶Œí•œ ë³µê·€) 
         }
 
 
         /// <summary>
-        /// (¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®) ¹ß»ç ÁöÁ¡.
-        /// - fireUsingForward=trueÀÌ¸é 'ÇöÀç forward'·Î ¹ß»ç ¡æ ¾Ö´Ï¸ŞÀÌ¼Ç Æ÷Áî/ÃÑ±¸ ¹æÇâ°ú 100% ÀÏÄ¡.
-        /// - false¸é ±× ¼ø°£ÀÇ muzzle¡æÅ¸±ê ¹æÇâÀ» ´Ù½Ã¤¤ °è»êÇØ ¹ß»ç(¿òÁ÷ÀÌ´Â Å¸±êÀ» º¸´Ù Á÷Á¢ÀûÀ¸·Î Á¶ÁØ).
+        /// (ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸) ë°œì‚¬ ì§€ì .
+        /// - fireUsingForward=trueì´ë©´ 'í˜„ì¬ forward'ë¡œ ë°œì‚¬ â†’ ì• ë‹ˆë©”ì´ì…˜ í¬ì¦ˆ/ì´êµ¬ ë°©í–¥ê³¼ 100% ì¼ì¹˜.
+        /// - falseë©´ ê·¸ ìˆœê°„ì˜ muzzleâ†’íƒ€ê¹ƒ ë°©í–¥ì„ ë‹¤ì‹œã„´ ê³„ì‚°í•´ ë°œì‚¬(ì›€ì§ì´ëŠ” íƒ€ê¹ƒì„ ë³´ë‹¤ ì§ì ‘ì ìœ¼ë¡œ ì¡°ì¤€).
         /// </summary>
         public void BabyDragonFire()
         {
             if (projectilePrefab == null || proejctileMuzzle == null) return;
 
-            enemy.PlaySFX(atkSfxId);   // °ø°İ »ç¿îµå Ãâ·Â
+            //enemy.PlaySFX(atkSfxId);   // ê³µê²© ì‚¬ìš´ë“œ ì¶œë ¥
 
             Transform target = cachedTarget != null ? cachedTarget.transform : GameModeManager.Player.transform;
 
-            // ±âº»°ª: forward( ¾Ö´Ï¸ŞÀÌ¼Ç ÀÏÄ¡)
+            // ê¸°ë³¸ê°’: forward( ì• ë‹ˆë©”ì´ì…˜ ì¼ì¹˜)
             Vector3 forward = enemy.transform.forward;
             Vector3 dir = forward;
 
-            // ÇÊ¿ä ½Ã ±× ¼ø°£ÀÇ 'Á¤È®ÇÑ' Å¸±ê ¹æÇâÀ¸·Î ¹ß»ç
+            // í•„ìš” ì‹œ ê·¸ ìˆœê°„ì˜ 'ì •í™•í•œ' íƒ€ê¹ƒ ë°©í–¥ìœ¼ë¡œ ë°œì‚¬
             if( !fireUsingForward )
             {
                 dir = (target.position - proejctileMuzzle.position);
                 dir.y = 0f;
-                if (dir.sqrMagnitude < 0.0001f) dir = forward;  // ³Ê¹« °¡±î¿ì¸é ±×³É Á¤¸éÀ¸·Î ¹ß»ç
+                if (dir.sqrMagnitude < 0.0001f) dir = forward;  // ë„ˆë¬´ ê°€ê¹Œìš°ë©´ ê·¸ëƒ¥ ì •ë©´ìœ¼ë¡œ ë°œì‚¬
                 dir.Normalize();
             }
 
-            // ÅºµÎ È¸Àü ( Á¤¸éÀÌ dirÀ» ÇâÇÏµµ·Ï)
+            // íƒ„ë‘ íšŒì „ ( ì •ë©´ì´ dirì„ í–¥í•˜ë„ë¡)
             Quaternion projectileRot = Quaternion.LookRotation(dir, Vector3.up);
 
-            // Ç®¿¡¼­ ÀÎ½ºÅÏ½º ²¨³»±â ( À§Ä¡ / È¸Àü ¼¼ÆÃ Æ÷ÇÔ)
+            // í’€ì—ì„œ ì¸ìŠ¤í„´ìŠ¤ êº¼ë‚´ê¸° ( ìœ„ì¹˜ / íšŒì „ ì„¸íŒ… í¬í•¨)
             PooledObject go = GameModeManager.PoolManager.GetPool(
                 projectilePrefab, proejctileMuzzle.position, projectileRot );
             projectileInstance = go as FireballProjectile_BabyDragon;
 
 
-            // Åõ»çÃ¼ ÆÄ¶ó¹ÌÅÍ ±¸¼º( Setup¿¡¼­ ÀÌµ¿/Ãæµ¹ µî ÃÊ±âÈ­)
+            // íˆ¬ì‚¬ì²´ íŒŒë¼ë¯¸í„° êµ¬ì„±( Setupì—ì„œ ì´ë™/ì¶©ëŒ ë“± ì´ˆê¸°í™”)
             var projectileParam = new FireBallParams
             {
                 speed = projectileSpeed,

@@ -1,38 +1,38 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// ½½¶óÀÌ´õ °ªÀ» ÅëÇØ BGM ¶Ç´Â SFX º¼·ıÀ» Á¶ÀıÇÏ´Â ÄÁÆ®·Ñ·¯
+/// ìŠ¬ë¼ì´ë” ê°’ì„ í†µí•´ BGM ë˜ëŠ” SFX ë³¼ë¥¨ì„ ì¡°ì ˆí•˜ëŠ” ì»¨íŠ¸ë¡¤ëŸ¬
 public class VolumeController : MonoBehaviour
 {
-    public Slider volumeSlider; // º¼·ı Á¶Àı¿¡ »ç¿ëÇÏ´Â ½½¶óÀÌ´õ
-    [Tooltip("BGM ÄÁÆ®·Ñ·¯ ¿©ºÎ¸¦ ÁöÁ¤ÇÏ´Â º¯¼ö (true¸é BGM, false¸é SFX)")]
+    public Slider volumeSlider; // ë³¼ë¥¨ ì¡°ì ˆì— ì‚¬ìš©í•˜ëŠ” ìŠ¬ë¼ì´ë”
+    [Tooltip("BGM ì»¨íŠ¸ë¡¤ëŸ¬ ì—¬ë¶€ë¥¼ ì§€ì •í•˜ëŠ” ë³€ìˆ˜ (trueë©´ BGM, falseë©´ SFX)")]
     [SerializeField] bool isBGMController;
 
     #region Unity Event
     private void Start()
     {
-        // ½½¶óÀÌ´õ °ªÀÌ º¯°æµÉ ¶§¸¶´Ù OnVolumeChange ÇÔ¼ö È£Ãâ
-        volumeSlider.onValueChanged.AddListener(OnVolumeChange);
+        // ìŠ¬ë¼ì´ë” ê°’ì´ ë³€ê²½ë  ë•Œë§ˆë‹¤ OnVolumeChange í•¨ìˆ˜ í˜¸ì¶œ
+        //volumeSlider.onValueChanged.AddListener(OnVolumeChange);
 
-        // ½½¶óÀÌ´õÀÇ ÃÊ±â°ªÀ» AudioSourceÀÇ º¼·ıÀ¸·Î ¼³Á¤
-        if (isBGMController)
-            volumeSlider.value = GameModeManager.SoundManager.BGMVolume;
-        else
-            volumeSlider.value = GameModeManager.SoundManager.SFXVolume;
+        // ìŠ¬ë¼ì´ë”ì˜ ì´ˆê¸°ê°’ì„ AudioSourceì˜ ë³¼ë¥¨ìœ¼ë¡œ ì„¤ì •
+        //if (isBGMController)
+        //    volumeSlider.value = GameModeManager.SoundManager.BGMVolume;
+        //else
+        //    volumeSlider.value = GameModeManager.SoundManager.SFXVolume;
     }
     #endregion
 
     /// <summary>
-    /// ½½¶óÀÌ´õ °ªÀÌ º¯°æµÉ ¶§ È£ÃâµÇ¸ç,
-    /// BGM ¶Ç´Â SFX º¼·ıÀ» º¯°æÇÏ´Â ¸Ş¼­µå
+    /// ìŠ¬ë¼ì´ë” ê°’ì´ ë³€ê²½ë  ë•Œ í˜¸ì¶œë˜ë©°,
+    /// BGM ë˜ëŠ” SFX ë³¼ë¥¨ì„ ë³€ê²½í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
-    /// <param name="value">º¯°æµÈ ½½¶óÀÌ´õ °ª</param>
+    /// <param name="value">ë³€ê²½ëœ ìŠ¬ë¼ì´ë” ê°’</param>
     void OnVolumeChange(float value)
     {
-        // ½½¶óÀÌ´õ °ª¿¡ µû¶ó AudioSourceÀÇ º¼·ıÀ» º¯°æ
+        // ìŠ¬ë¼ì´ë” ê°’ì— ë”°ë¼ AudioSourceì˜ ë³¼ë¥¨ì„ ë³€ê²½
         if (isBGMController)
             GameModeManager.SoundManager.BGMVolume = value;
         else

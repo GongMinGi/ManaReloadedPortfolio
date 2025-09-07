@@ -1,4 +1,4 @@
-using Cinemachine;
+ï»¿using Cinemachine;
 using Game.Combat.Stats;
 using System.Collections;
 using Unity.VisualScripting;
@@ -6,27 +6,27 @@ using UnityEngine;
 
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///  - ¸ŞÅ×¿À ±¸ÇöÀ» À§ÇØ¼­ Ãß°¡·Î ÇÊ¿äÇÑ ÆÄ¶ó¹ÌÅÍµéÀ» ´ãÀº ±¸Á¶Ã¼
+/// * ì‘ì„±ì : ê³µë¯¼ê¸°
+///  - ë©”í…Œì˜¤ êµ¬í˜„ì„ ìœ„í•´ì„œ ì¶”ê°€ë¡œ í•„ìš”í•œ íŒŒë¼ë¯¸í„°ë“¤ì„ ë‹´ì€ êµ¬ì¡°ì²´
 /// </summary>
 public class MeteorParams : ProjectileParams
 {
-    public Vector3 start;           // ¿î¼® ¼ÒÈ¯ À§Ä¡
-    public Vector3 target;          // ÂøÅº ÁöÁ¡ (¿ùµå)
-    public float travelTime;        // ÀÌµ¿ ½Ã°£
+    public Vector3 start;           // ìš´ì„ ì†Œí™˜ ìœ„ì¹˜
+    public Vector3 target;          // ì°©íƒ„ ì§€ì  (ì›”ë“œ)
+    public float travelTime;        // ì´ë™ ì‹œê°„
 
-    // Ãæµ¹ÀÌÈÄ ÀåÆÇ¼ÒÈ¯À» À§ÇÑ ÆÄ¶ó¹ÌÅÍ
+    // ì¶©ëŒì´í›„ ì¥íŒì†Œí™˜ì„ ìœ„í•œ íŒŒë¼ë¯¸í„°
     public BurningGroundProjectile addtionalProjectilePrefab;
-    public float groundDuration;                           // ºÒÀåÆÇ Áö¼Ó½Ã°£
-    public float groundAttackTickInterval;                 // ºÒÀåÆÇ µµÆ®µ¥¹ÌÁö Æ½ °£°İ
-    public float groundAttackDamage;                       // ºÒÀåÆÇ µµÆ®¸Ş¹ÌÁö
+    public float groundDuration;                           // ë¶ˆì¥íŒ ì§€ì†ì‹œê°„
+    public float groundAttackTickInterval;                 // ë¶ˆì¥íŒ ë„íŠ¸ë°ë¯¸ì§€ í‹± ê°„ê²©
+    public float groundAttackDamage;                       // ë¶ˆì¥íŒ ë„íŠ¸ë©”ë¯¸ì§€
 }
 
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///  - abstractProjectile Ãß»óÅ¬·¡½º¸¦ »ó¼Ó¹Ş´Â Åõ»çÃ¼
-///  - ¸¶¿ì½º°¡ °¡¸®Å°´Â À§Ä¡ÀÇ »ó°ø¿¡¼­ ¼öÁ÷À¸·Î ¿î¼®À» ¶³¾îÆ®¸°´Ù.
+/// * ì‘ì„±ì : ê³µë¯¼ê¸°
+///  - abstractProjectile ì¶”ìƒí´ë˜ìŠ¤ë¥¼ ìƒì†ë°›ëŠ” íˆ¬ì‚¬ì²´
+///  - ë§ˆìš°ìŠ¤ê°€ ê°€ë¦¬í‚¤ëŠ” ìœ„ì¹˜ì˜ ìƒê³µì—ì„œ ìˆ˜ì§ìœ¼ë¡œ ìš´ì„ì„ ë–¨ì–´íŠ¸ë¦°ë‹¤.
 /// </summary>
 public class MeteorProjectile : AbstractProjectile
 {
@@ -47,7 +47,7 @@ public class MeteorProjectile : AbstractProjectile
 
     public override void Setup(ProjectileParams p)
     {
-        Debug.Log("¿î¼® setup µé¾î¿È");
+        Debug.Log("ìš´ì„ setup ë“¤ì–´ì˜´");
         meteorParams = p as MeteorParams;
         transform.position = meteorParams.start;
         meteorFire.Play();
@@ -60,30 +60,30 @@ public class MeteorProjectile : AbstractProjectile
 
     private IEnumerator MeteorRoutine()
     {
-        Debug.Log("¿î¼® ÄÚ·çÆ¾ µå·¯¿È");
-        Vector3 start = transform.position;                     // ¿î¼® »ı¼º À§Ä¡
-        Vector3 target = meteorParams.target;                   // ¿î¼® ÂøÅº À§Ä¡
-        float time = 0f;                                        // Å¸ÀÌ¸Ó º¯¼ö
-        float duration = meteorParams.travelTime;               // ¿î¼® Ã¤°ø ½Ã°£
-        float impactRadius = meteorParams.radius;               // ¿î¼® ÂøÅº Æø¹ß ÇÇÇØ ¹İ°æ
-        float damage = meteorParams.damage;                     // ¿î¼® Æø¹ß µ¥¹ÌÁö
-        LayerMask enemyLayer = meteorParams.enemyL;             // µ¥¹ÌÁö¸¦ Àû¿ëÇÒ Àû ·¹ÀÌ¾î
+        Debug.Log("ìš´ì„ ì½”ë£¨í‹´ ë“œëŸ¬ì˜´");
+        Vector3 start = transform.position;                     // ìš´ì„ ìƒì„± ìœ„ì¹˜
+        Vector3 target = meteorParams.target;                   // ìš´ì„ ì°©íƒ„ ìœ„ì¹˜
+        float time = 0f;                                        // íƒ€ì´ë¨¸ ë³€ìˆ˜
+        float duration = meteorParams.travelTime;               // ìš´ì„ ì±„ê³µ ì‹œê°„
+        float impactRadius = meteorParams.radius;               // ìš´ì„ ì°©íƒ„ í­ë°œ í”¼í•´ ë°˜ê²½
+        float damage = meteorParams.damage;                     // ìš´ì„ í­ë°œ ë°ë¯¸ì§€
+        LayerMask enemyLayer = meteorParams.enemyL;             // ë°ë¯¸ì§€ë¥¼ ì ìš©í•  ì  ë ˆì´ì–´
 
         while( time < 1f)
         {
             time += Time.deltaTime / duration;
 
-            Vector3 pos = Vector3.Lerp(start, target, time);    // ¼±Çü º¸°£À» ÅëÇØ ºÎµå·´°Ô ¶³¾îÁü => ÃßÈÄ dotweenÀ¸·Î ½ÃÀÛÀº »¡¸® °¥¼ö·Ï °¨¼ÓÇÏ°Ô ¼öÁ¤
+            Vector3 pos = Vector3.Lerp(start, target, time);    // ì„ í˜• ë³´ê°„ì„ í†µí•´ ë¶€ë“œëŸ½ê²Œ ë–¨ì–´ì§ => ì¶”í›„ dotweenìœ¼ë¡œ ì‹œì‘ì€ ë¹¨ë¦¬ ê°ˆìˆ˜ë¡ ê°ì†í•˜ê²Œ ìˆ˜ì •
 
-            transform.position = pos;                           // ÇöÀç ¿î¼® À§Ä¡ °»½Å
+            transform.position = pos;                           // í˜„ì¬ ìš´ì„ ìœ„ì¹˜ ê°±ì‹ 
             yield return null;
         }
 
         if(impactRadius > 0f)
         {
-            GameModeManager.SoundManager.PlaySFX(meteorExplosionSfxID);
+            //GameModeManager.SoundManager.PlaySFX(meteorExplosionSfxID);
             Collider[] hits = Physics.OverlapSphere( 
-                target, impactRadius, enemyLayer, QueryTriggerInteraction.Ignore);  // ÂøÅºÁöÁ¡¿¡ ±¸Ã¼¸ğ¾çÀÇ Äİ¶óÀÌ´õ·Î µ¥¹ÌÁö Àû¿ë
+                target, impactRadius, enemyLayer, QueryTriggerInteraction.Ignore);  // ì°©íƒ„ì§€ì ì— êµ¬ì²´ëª¨ì–‘ì˜ ì½œë¼ì´ë”ë¡œ ë°ë¯¸ì§€ ì ìš©
             foreach (var col in hits)
             {
                 if (col.TryGetComponent(out UnitStats enemy))
@@ -94,10 +94,10 @@ public class MeteorProjectile : AbstractProjectile
 
 
         if (impurseSource != null)
-            impurseSource.GenerateImpulse();                    // ¿î¼® Ãæµ¹ ¼³Á¤. cinemachine¿¡ ³»Á¦µÈ impulse Source¸¦ ÀÌ¿ëÇÑ´Ù.
+            impurseSource.GenerateImpulse();                    // ìš´ì„ ì¶©ëŒ ì„¤ì •. cinemachineì— ë‚´ì œëœ impulse Sourceë¥¼ ì´ìš©í•œë‹¤.
 
 
-        // ¿î¼®Ãæµ¹ ÀÌÈÄ ÈÄ¼ÓÀ¸·Î ±ò¸± ºÒÀåÆÇ¿¡ ÇÊ¿äÇÑ º¯¼ö ÃÊ±âÈ­ ¹× È£Ãâ
+        // ìš´ì„ì¶©ëŒ ì´í›„ í›„ì†ìœ¼ë¡œ ê¹”ë¦´ ë¶ˆì¥íŒì— í•„ìš”í•œ ë³€ìˆ˜ ì´ˆê¸°í™” ë° í˜¸ì¶œ
         #region following_Projectile
 
         PooledObject pooledGo = GameModeManager.PoolManager.GetPool(
@@ -107,12 +107,12 @@ public class MeteorProjectile : AbstractProjectile
 
         var burningGroundParm = new BurningGroundParams
         {
-            // < °øÅë ÆÄ¶ó¹ÌÅÍ >
+            // < ê³µí†µ íŒŒë¼ë¯¸í„° >
             radius = meteorParams.radius,
             damage = meteorParams.groundAttackDamage,
             enemyL = meteorParams.enemyL,
 
-            // < ºÒÀåÆÇ Àü¿ë ÆÄ¶ó¹ÌÅÍ > 
+            // < ë¶ˆì¥íŒ ì „ìš© íŒŒë¼ë¯¸í„° > 
             center = target,
             duration = meteorParams.groundDuration,
             tickInterval = meteorParams.groundAttackTickInterval,
@@ -121,7 +121,7 @@ public class MeteorProjectile : AbstractProjectile
         };
 
 
-        GameModeManager.SoundManager.PlaySFX(burningGroundSfxID); // ºÒÀåÆÇ »ç¿îµå
+        //GameModeManager.SoundManager.PlaySFX(burningGroundSfxID); // ë¶ˆì¥íŒ ì‚¬ìš´ë“œ
         burningGroundInstance.Setup(burningGroundParm);
 
         #endregion
