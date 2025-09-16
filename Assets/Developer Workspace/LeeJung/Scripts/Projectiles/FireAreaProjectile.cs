@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// <summary>
 /// 개발자: 이정
-/// - 화염의 벽 마법이 생성하는 불 장판 투사체
+/// - 화염의 벽 마법이 생성하는 불 장판 투사체 파라미터
 /// </summary>
 public class FireAreaProjectileParams : ProjectileParams
 {
