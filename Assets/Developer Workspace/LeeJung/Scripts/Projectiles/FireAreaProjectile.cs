@@ -56,7 +56,7 @@ public class FireAreaProjectile : AbstractProjectile
         tickTimer = fireAreaParam.tickInterval;
         durationTimer = 0f;
         transform.rotation = fireAreaParam.rotation;
-        transform.localScale = new Vector3(fireAreaParam.xSize, 1f, fireAreaParam.zSize);
+        transform.localScale = new Vector3(fireAreaParam.xSize / 2, 1f, fireAreaParam.zSize / 2);
     }
 
     /// <summary>

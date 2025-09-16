@@ -25,6 +25,30 @@ public class EarthWallProjectile : AbstractProjectile
     private EarthWallProjectileParams earthWallParam;
     private float durationTimer = 0f;
     private float spawnTimer = 0f;
+    private float despawnTimer = 0f;
+    private bool isDespawning = false;
+
+    private Collider wallCollider;
+    private NavMeshObstacle navMeshObstacle;
+
+    private void Awake()
+    {
+        wallCollider = GetComponent<Collider>();
+        navMeshObstacle = GetComponent<NavMeshObstacle>();
+    }
+
+    private void OnEnable()
+    {
+        if(wallCollider != null)
+        {
+            wallCollider.enabled = true;
+        }
+
+        if(navMeshObstacle != null)
+        {
+            navMeshObstacle.enabled = true;
+        }
+    }
 
     /// <summary>
     /// - durationTimer: duration이 되면 벽 제거
@@ -32,12 +56,28 @@ public class EarthWallProjectile : AbstractProjectile
     /// </summary>
     private void Update()
     {
-        if (durationTimer >= earthWallParam.duration)
+        if (isDespawning)
         {
-            Release();
+            if (despawnTimer <= 0f)
+            {
+                isDespawning = false;
+                Release();
+                return;
+            }
+            float newY = Mathf.Clamp01(despawnTimer / earthWallParam.spawnTime) * earthWallParam.ySize;
+            transform.localScale = new Vector3(earthWallParam.xSize, newY, earthWallParam.zSize);
+            despawnTimer -= Time.deltaTime;
+            return;
         }
 
-        if(spawnTimer <= earthWallParam.spawnTime)
+        if (durationTimer >= earthWallParam.duration && isDespawning == false)
+        {
+            Despawn();
+            isDespawning = true;
+            despawnTimer = earthWallParam.spawnTime; // 역으로 줄어들기 위해 spawnTime으로 초기화
+        }
+
+        if (spawnTimer <= earthWallParam.spawnTime)
         {
             float newY = Mathf.Clamp01(spawnTimer / earthWallParam.spawnTime) * earthWallParam.ySize;
             transform.localScale = new Vector3(earthWallParam.xSize, newY, earthWallParam.zSize);
@@ -58,5 +98,21 @@ public class EarthWallProjectile : AbstractProjectile
         spawnTimer = 0f;
         transform.rotation = earthWallParam.rotation;
         transform.localScale = new Vector3(earthWallParam.xSize, 0, earthWallParam.zSize);
+    }
+
+    /// <summary>
+    /// - 벽 해제 연출용 충돌 비활성화 및 네비메시 장애물 비활성화
+    /// </summary>
+    private void Despawn()
+    {
+        if (wallCollider != null)
+        {
+            wallCollider.enabled = false;
+        }
+
+        if (navMeshObstacle != null)
+        {
+            navMeshObstacle.enabled = false;
+        }
     }
 }
