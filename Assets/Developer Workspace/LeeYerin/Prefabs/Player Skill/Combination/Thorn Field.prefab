@@ -70,8 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e392f12d738080c4391ed74cbcd5c671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoRelease: 1
-  releaseTime: 6.5
+  autoRelease: 0
+  releaseTime: 6
   pool: {fileID: 0}
   range: 5
   effectId: 2000009

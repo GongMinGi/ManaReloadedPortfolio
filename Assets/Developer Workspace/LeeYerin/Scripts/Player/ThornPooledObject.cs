@@ -1,36 +1,41 @@
+ï»¿using DG.Tweening;
 using Game.Combat.Stats;
+using System;
 using System.Collections;
 using UnityEngine;
-using DG.Tweening;
-using System;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// Thorn ¿ÀºêÁ§Æ® Ç®¸µ¿ë Å¬·¡½º
+/// Thorn ì˜¤ë¸Œì íŠ¸ í’€ë§ìš© í´ë˜ìŠ¤
 /// 
-/// - ¹üÀ§ ³» Àûµé¿¡°Ô Áö¼ÓÀûÀÎ ½½·Î¿ì È¿°ú ¹× ÁÖ±âÀû ÇÇÇØ¸¦ Àû¿ëÇÔ
-/// - PooledObject¸¦ »ó¼Ó¹Ş¾Æ È°¼ºÈ­ ½Ã ÀÚµ¿À¸·Î ½ºÅ³ µ¿ÀÛ ½ÃÀÛ
+/// - ë²”ìœ„ ë‚´ ì ë“¤ì—ê²Œ ì§€ì†ì ì¸ ìŠ¬ë¡œìš° íš¨ê³¼ ë° ì£¼ê¸°ì  í”¼í•´ë¥¼ ì ìš©í•¨
+/// - PooledObjectë¥¼ ìƒì†ë°›ì•„ í™œì„±í™” ì‹œ ìë™ìœ¼ë¡œ ìŠ¤í‚¬ ë™ì‘ ì‹œì‘
 /// </summary>
 public class ThornPooledObject : PooledObject
 {
-    [SerializeField] float range;               // È¿°ú Àû¿ë ¹üÀ§ ¹İ°æ
-    private float radiusSqr;                     // ¹üÀ§ÀÇ Á¦°ö °ª (°Å¸® °è»ê ÃÖÀûÈ­¿ë)
+    [Header("Skill Data Setting")]
+    [SerializeField] float range;               // íš¨ê³¼ ì ìš© ë²”ìœ„ ë°˜ê²½
+    private float radiusSqr;                     // ë²”ìœ„ì˜ ì œê³± ê°’ (ê±°ë¦¬ ê³„ì‚° ìµœì í™”ìš©)
 
-    [SerializeField] int effectId;              // ½½·Î¿ì È¿°ú ½Äº°ÀÚ
-    [SerializeField] float lifeTime;            // Thorn ¿ÀºêÁ§Æ®°¡ È°¼ºÈ­µÇ¾î ÀÖ´Â ½Ã°£
-    [SerializeField] float coolTime;            // (ÇöÀç ¹Ì»ç¿ë, ÃßÈÄ ½ºÅ³ Àç»ç¿ë ´ë±â ½Ã°£À¸·Î È°¿ë °¡´É)
-    [SerializeField] float duration;            // ½½·Î¿ì È¿°ú Áö¼Ó ½Ã°£
-    [SerializeField] float value;               // ½½·Î¿ì È¿°ú ¼öÄ¡ (°ö¼À ¹æ½Ä)
-    [SerializeField] float tickInterval;        // ½½·Î¿ì È¿°ú Æ½ °£°İ
-    [SerializeField] float damage;              // ½½·Î¿ì È¿°ú Æ½´ç ÇÇÇØ·®
+    [SerializeField] int effectId;              // ìŠ¬ë¡œìš° íš¨ê³¼ ì‹ë³„ì
+    [SerializeField] float lifeTime;            // Thorn ì˜¤ë¸Œì íŠ¸ê°€ í™œì„±í™”ë˜ì–´ ìˆëŠ” ì‹œê°„
+    [SerializeField] float coolTime;            // (í˜„ì¬ ë¯¸ì‚¬ìš©, ì¶”í›„ ìŠ¤í‚¬ ì¬ì‚¬ìš© ëŒ€ê¸° ì‹œê°„ìœ¼ë¡œ í™œìš© ê°€ëŠ¥)
+    [SerializeField] float duration;            // ìŠ¬ë¡œìš° íš¨ê³¼ ì§€ì† ì‹œê°„
+    [SerializeField] float value;               // ìŠ¬ë¡œìš° íš¨ê³¼ ìˆ˜ì¹˜ (ê³±ì…ˆ ë°©ì‹)
+    [SerializeField] float tickInterval;        // ìŠ¬ë¡œìš° íš¨ê³¼ í‹± ê°„ê²©
+    [SerializeField] float damage;              // ìŠ¬ë¡œìš° íš¨ê³¼ í‹±ë‹¹ í”¼í•´ëŸ‰
 
-    private SlowEffect effect;                   // ½½·Î¿ì »óÅÂ È¿°ú °´Ã¼
+    private float elapsedLifetime;              // ìŠ¤í‚¬ ë°œë™ í›„ ê²½ê³¼í•œ ì´ ì‹œê°„
+    private float intervalTimer;                // í‹± íš¨ê³¼ ì‹¤í–‰ ê°„ê²©ì„ ì¶”ì í•˜ëŠ” íƒ€ì´ë¨¸
+    private bool isEffectActive;                // ìŠ¤í‚¬ íš¨ê³¼ê°€ í˜„ì¬ í™œì„± ìƒíƒœì¸ì§€ ì—¬ë¶€
+
+    private SlowEffect effect;                   // ìŠ¬ë¡œìš° ìƒíƒœ íš¨ê³¼ ê°ì²´
 
     Sequence seq;
 
     /// <summary>
-    /// È¿°ú Àû¿ë ¹üÀ§ ¹İ°æ
+    /// íš¨ê³¼ ì ìš© ë²”ìœ„ ë°˜ê²½
     /// </summary>
     public float Range
     {
@@ -38,73 +43,86 @@ public class ThornPooledObject : PooledObject
         set
         {
             range = value;
-            radiusSqr = range * range;      // °Å¸® ºñ±³¿ë Á¦°ö°ª °»½Å
+            radiusSqr = range * range;      // ê±°ë¦¬ ë¹„êµìš© ì œê³±ê°’ ê°±ì‹ 
         }
     }
 
     #region Unity Event
     private void Awake()
     {
-        radiusSqr = range * range;  // ¹üÀ§ Á¦°ö°ª ÃÊ±âÈ­
-        // ½½·Î¿ì È¿°ú ÃÊ±âÈ­ (Áö¼Ó½Ã°£, ÁßÃ¸ Çã¿ë, È¿°ú ID, ¼öÄ¡, °ö¼À ¸ğµå)
+        radiusSqr = range * range;  // ë²”ìœ„ ì œê³±ê°’ ì´ˆê¸°í™”
+        // ìŠ¬ë¡œìš° íš¨ê³¼ ì´ˆê¸°í™” (ì§€ì†ì‹œê°„, ì¤‘ì²© í—ˆìš©, íš¨ê³¼ ID, ìˆ˜ì¹˜, ê³±ì…ˆ ëª¨ë“œ)
         effect = new SlowEffect(duration, true, effectId, value, ModifierMode.Multiply);
-        // Æ½ °£°İ ¼³Á¤
+        // í‹± ê°„ê²© ì„¤ì •
         effect.TickInterval = tickInterval;
+    }
+
+    private void Update()
+    {
+        if (isEffectActive == false)
+        {
+            return;
+        }
+
+        elapsedLifetime += Time.deltaTime;
+        intervalTimer += Time.deltaTime;
+
+        if (intervalTimer >= tickInterval)
+        {
+            ApplyDebuffInRange(transform.position);
+            intervalTimer -= tickInterval;
+        }
+
+        if (elapsedLifetime >= lifeTime)
+        {
+            isEffectActive = false;
+            elapsedLifetime = 0f;
+
+            Release();
+        }
     }
     #endregion
 
     protected override IEnumerator OnActivated()
     {
         seq = DOTween.Sequence();
-        seq.Join(transform.DOMoveY(transform.position.y + 1f, 0.3f));   // À§·Î ¿Ã¶ó¿À´Â ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+        seq.Join(transform.DOMoveY(transform.position.y + 1f, 0.3f));   // ìœ„ë¡œ ì˜¬ë¼ì˜¤ëŠ” ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
 
-        // ¿ÀºêÁ§Æ® È°¼ºÈ­ ½Ã ½ºÅ³ µ¿ÀÛ ÄÚ·çÆ¾ ½ÃÀÛ
-        StartCoroutine(SkillCoroutine());
+        elapsedLifetime = 0f;
+        intervalTimer = tickInterval;
+        isEffectActive = true;
+
         yield break;
     }
 
     protected override void OnDeactivated(Action onComplete = null)
     {
+        isEffectActive = false;
         seq = DOTween.Sequence();
-        seq.Join(transform.DOMoveY(transform.position.y - 1f, 0.3f))    // ¾Æ·¡·Î ³»·Á°¡´Â ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+        seq.Join(transform.DOMoveY(transform.position.y - 1f, 0.3f))    // ì•„ë˜ë¡œ ë‚´ë ¤ê°€ëŠ” ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
             .OnComplete(() =>
             {
-                onComplete?.Invoke();  // ½ÃÄö½º ³¡³µÀ» ¶§ ¹İ³³ ·ÎÁ÷ È£Ãâ
+                onComplete?.Invoke();  // ì‹œí€€ìŠ¤ ëë‚¬ì„ ë•Œ ë°˜ë‚© ë¡œì§ í˜¸ì¶œ
             });
-    }
-
-    private IEnumerator SkillCoroutine()
-    {
-        float time = 0f;
-
-        // lifeTime µ¿¾È 1ÃÊ °£°İÀ¸·Î ¹üÀ§ ³» Àû¿¡°Ô µğ¹öÇÁ Àû¿ë
-        while (time < lifeTime)
-        {
-            ApplyDebuffInRange(transform.position);
-
-            yield return new WaitForSeconds(0.5f);
-            time += 1f;
-        }
     }
 
     private void ApplyDebuffInRange(Vector3 center)
     {
-        // ÇöÀç Á¸ÀçÇÏ´Â ¸ğµç ÀûÀ» ¼øÈ¸ÇÏ¸ç ¹üÀ§ ³» ¿©ºÎ ÆÇ´Ü
-        foreach (var enemy in GameModeManager.EnemyManager.Enemies)
+        var enemies = GameModeManager.EnemyManager.Enemies;
+
+        // í˜„ì¬ ì¡´ì¬í•˜ëŠ” ëª¨ë“  ì ì„ ìˆœíšŒí•˜ë©° ë²”ìœ„ ë‚´ ì—¬ë¶€ íŒë‹¨
+        for (int i = 0; i < enemies.Count; i++)
         {
-            float distanceSqr = (enemy.transform.position - center).sqrMagnitude;
+            float distanceSqr = (enemies[i].transform.position - center).sqrMagnitude;
 
             if (distanceSqr <= radiusSqr)
             {
-                // ¹üÀ§ ³» Àû¿¡°Ô ½½·Î¿ì »óÅÂÈ¿°ú Ãß°¡
-                enemy.Stats.EffectHandler.AddStatusEffect(effect);
+                // ë²”ìœ„ ë‚´ ì ì—ê²Œ ìŠ¬ë¡œìš° ìƒíƒœíš¨ê³¼ ì¶”ê°€
+                enemies[i].Stats.EffectHandler.AddStatusEffect(effect);
 
-                // Æ½¸¶´Ù ÇÇÇØ¸¦ ÀÔÈ÷´Â µ¨¸®°ÔÀÌÆ® µî·Ï
-                effect.RegisterTickAction(ApplyTickDamage);
+                // í‹±ë§ˆë‹¤ í”¼í•´ë¥¼ ì…í˜
+                enemies[i].Stats.TakeDamage(damage);
             }
         }
     }
-
-    // ½½·Î¿ì Æ½¸¶´Ù È£ÃâµÇ¾î ´ë»ó¿¡°Ô ÇÇÇØ¸¦ ÀÔÈû
-    private void ApplyTickDamage(UnitStats unitStats) => unitStats.TakeDamage(damage);
 }
