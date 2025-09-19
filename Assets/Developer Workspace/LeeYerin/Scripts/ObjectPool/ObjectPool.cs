@@ -82,13 +82,10 @@ public class ObjectPool : MonoBehaviour
     /// <param name="instance"></param>
     public void ReturnPool(PooledObject instance)
     {
-        Debug.Log(instance.name + "리턴 풀 들어옴");
         if (objectPool == null) return;
 
         if (objectPool.Count < capacity)
         {
-            Debug.Log(instance.name + "capacity if 들어옴");
-
             instance.gameObject.SetActive(false);
 
             if (!instance.IsUI)
@@ -98,8 +95,6 @@ public class ObjectPool : MonoBehaviour
         }
         else
         {
-            Debug.Log(instance.name + "else destroy 들어옴");
-
             Destroy(instance.gameObject);
         }
     }

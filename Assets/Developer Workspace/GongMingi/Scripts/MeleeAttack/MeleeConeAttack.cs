@@ -1,81 +1,73 @@
-using Game.Combat.Stats;
+ï»¿using Game.Combat.Stats;
 using UnityEngine;
 
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///  - ¿ø»Ô ¹üÀ§¿¡ ÈÖµÎ¸£±â Áï¹ß °ø°Ý
-///  - ¿ø°Å¸® ¿ø»Ô Áï¹ß °ø°Ý°ú ¿ÏÀüÈ÷ µ¿ÀÏÇÑ ·ÎÁ÷
-///  - ½É°¢ÇÑ ÄÚµåÁßº¹.. ÃßÈÄ ÀÎÅÍÆäÀÌ½ºÀÇ ÀÇ¹Ì¸¦ Åð»ö½ÃÅ°Áö ¾Ê´Â ¹æ¹ýÀ¸·Î ¿ø°Å¸®°ø°Ý ·ÎÁ÷°ú ÅëÇÕ ÇÊ¿ä
+/// * ìž‘ì„±ìž : ê³µë¯¼ê¸°
+///  - ì›ë¿” ë²”ìœ„ì— íœ˜ë‘ë¥´ê¸° ì¦‰ë°œ ê³µê²©
+///  - ì›ê±°ë¦¬ ì›ë¿” ì¦‰ë°œ ê³µê²©ê³¼ ì™„ì „ížˆ ë™ì¼í•œ ë¡œì§
+///  - ì‹¬ê°í•œ ì½”ë“œì¤‘ë³µ.. ì¶”í›„ ì¸í„°íŽ˜ì´ìŠ¤ì˜ ì˜ë¯¸ë¥¼ í‡´ìƒ‰ì‹œí‚¤ì§€ ì•ŠëŠ” ë°©ë²•ìœ¼ë¡œ ì›ê±°ë¦¬ê³µê²© ë¡œì§ê³¼ í†µí•© í•„ìš”
 /// </summary>
 public class MeleeConeAttack : MonoBehaviour
 {
     #region Field And Property
 
     [Header("Cone Parameters")]
-    [SerializeField] private float radius = 6f;         // Å½Áö ¹Ý°æ
-    [SerializeField] private float angle = 60f;         // ÀüÃ¼ ºÎÃ¤²Ã °¢µµ(µð±×¸®) 
-    [SerializeField] private int damage = 12;           // 1È¸ ÇÇÇØ·®
-    [SerializeField] private LayerMask enemyLayer;      // Enemy Àü¿ë ·¹ÀÌ¾î , 
-    [SerializeField] private bool flatCone = true;      // YÃà ³ôÀÌ ¹«½Ã ¿©ºÎ
+    [SerializeField] private float radius = 6f;         // íƒì§€ ë°˜ê²½
+    [SerializeField] private float angle = 60f;         // ì „ì²´ ë¶€ì±„ê¼´ ê°ë„(ë””ê·¸ë¦¬) 
+    [SerializeField] private int damage = 12;           // 1íšŒ í”¼í•´ëŸ‰
+    [SerializeField] private LayerMask enemyLayer;      // Enemy ì „ìš© ë ˆì´ì–´ , 
+    [SerializeField] private bool flatCone = true;      // Yì¶• ë†’ì´ ë¬´ì‹œ ì—¬ë¶€
 
 
-    float cosThreshold;                                 // cos(angle/2) Ä³½Ã
+    float cosThreshold;                                 // cos(angle/2) ìºì‹œ
 
     #endregion endregion
 
     #region Unity Event
-    void Awake() => cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad); // ºÎÃ¤²ÃÀÇ °¢ÀÇ Àý¹Ý.
+    void Awake() => cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad); // ë¶€ì±„ê¼´ì˜ ê°ì˜ ì ˆë°˜.
 
     #endregion
 
     #region IRangedAttack Implementation
 
     /// <summary>
-    /// ±¸Ã¼¹üÀ§¿¡ µé¾î¿Â ÀûÀ» ·¹ÀÌ¾î¸¦ ÅëÇØ °¨Áö
-    /// ÀûÀÇ ¹æÇâº¤ÅÍ¿Í ÇÃ·¹ÀÌ¾îÀÇ Á¤¸éº¤ÅÍ¸¦ ³»Àû½ÃÄÑ, ¿ø»Ô¸ð¾çÀÇ ¹üÀ§¿¡ µé¾î¿À´ÂÁö ÆÇ´Ü
-    /// µé¾î°¡´Â Àû¿¡°Ô¸¸ °ø°Ý Àû¿ë
+    /// êµ¬ì²´ë²”ìœ„ì— ë“¤ì–´ì˜¨ ì ì„ ë ˆì´ì–´ë¥¼ í†µí•´ ê°ì§€
+    /// ì ì˜ ë°©í–¥ë²¡í„°ì™€ í”Œë ˆì´ì–´ì˜ ì •ë©´ë²¡í„°ë¥¼ ë‚´ì ì‹œì¼œ, ì›ë¿”ëª¨ì–‘ì˜ ë²”ìœ„ì— ë“¤ì–´ì˜¤ëŠ”ì§€ íŒë‹¨
+    /// ë“¤ì–´ê°€ëŠ” ì ì—ê²Œë§Œ ê³µê²© ì ìš©
     /// </summary>
     /// <param name="type"></param>
     public void ExecuteAttack(E_CastingType type)
     {
-        Debug.Log("¿ø»Ô °ø°ÝÀÌ ½ÃÀüµÇ¾ú½À´Ï´Ù.");
-
-        cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad);             // ºÎÃ¤²Ã °ø°Ý¹üÀ§ÀÇ Àý¹ÝÀ» °¨Áö¹üÀ§·Î °áÁ¤
+        cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad);             // ë¶€ì±„ê¼´ ê³µê²©ë²”ìœ„ì˜ ì ˆë°˜ì„ ê°ì§€ë²”ìœ„ë¡œ ê²°ì •
 
         Collider[] hits = Physics.OverlapSphere(
             transform.position, 
             radius, 
             enemyLayer, 
-            QueryTriggerInteraction.Ignore);     // ±¸Ã¼ ÇüÅÂÀÇ ¹üÀ§¿¡ µé¾î°¡ ÀÖ´Â Àû °³Ã¼¸¦ °¨Áö
+            QueryTriggerInteraction.Ignore);     // êµ¬ì²´ í˜•íƒœì˜ ë²”ìœ„ì— ë“¤ì–´ê°€ ìžˆëŠ” ì  ê°œì²´ë¥¼ ê°ì§€
 
-        Debug.Log($"Àû °³Ã¼ {hits.Length} °³ °¨Áö");
+        Vector3 forward = transform.forward;                                // í”Œë ˆì´ì–´ ì •ë©´ ë²¡í„° ì¤€ë¹„
+        if (flatCone) forward.y = 0;                                        // ë²¡í„° yì¶• ë†’ì´ ë¬´ì‹œ
+        forward.Normalize();                                                // í”Œë ˆì´ì–´ ì •ë©´ ë²¡í„°ë¥¼ ì •ê·œí™”
 
-        Vector3 forward = transform.forward;                                // ÇÃ·¹ÀÌ¾î Á¤¸é º¤ÅÍ ÁØºñ
-        if (flatCone) forward.y = 0;                                        // º¤ÅÍ yÃà ³ôÀÌ ¹«½Ã
-        forward.Normalize();                                                // ÇÃ·¹ÀÌ¾î Á¤¸é º¤ÅÍ¸¦ Á¤±ÔÈ­
-
-        // step 2) ºÎÃ¤²Ã ÆÇÁ¤ & step 3) µ¥¹ÌÁö Àû¿ë
+        // step 2) ë¶€ì±„ê¼´ íŒì • & step 3) ë°ë¯¸ì§€ ì ìš©
         foreach (var hit in hits)
         {
-            Vector3 dir = hit.transform.position - transform.position;      // ÇÃ·¹ÀÌ¾î - Àû ¹æÇâ º¤ÅÍ ±¸ÇÏ±â
-            if (flatCone) dir.y = 0;                                        // yÃà ³ôÀÌ ¹«½Ã
-            dir.Normalize();                                                // ¹æÇâº¤ÅÍ Á¤±ÔÈ­
+            Vector3 dir = hit.transform.position - transform.position;      // í”Œë ˆì´ì–´ - ì  ë°©í–¥ ë²¡í„° êµ¬í•˜ê¸°
+            if (flatCone) dir.y = 0;                                        // yì¶• ë†’ì´ ë¬´ì‹œ
+            dir.Normalize();                                                // ë°©í–¥ë²¡í„° ì •ê·œí™”
 
-            if (Vector3.Dot(forward, dir) >= cosThreshold)                  // Àû°ú ÇÃ·¹ÀÌ¾îÀÇ ³»Àû°ª(ÄÚ»çÀÎ°ª) ÀÌ  thresholdº¸´Ù Å« °æ¿ì¿¡¸¸ Àû¿ë
+            if (Vector3.Dot(forward, dir) >= cosThreshold)                  // ì ê³¼ í”Œë ˆì´ì–´ì˜ ë‚´ì ê°’(ì½”ì‚¬ì¸ê°’) ì´  thresholdë³´ë‹¤ í° ê²½ìš°ì—ë§Œ ì ìš©
             {
-                Debug.Log("¿ø°Å¸® ¿ø»Ô °ø°Ý µ¥¹ÌÁö Àû¿ë");
-
-                // µ¥¹ÌÁö Àû¿ë
+                // ë°ë¯¸ì§€ ì ìš©
                 if (hit.TryGetComponent(out UnitStats target))
                     target.TakeDamage(damage);
             }
-
         }
-
     }
 
-    // Áï¹ßÇü ½ºÅ³ÀÌ¹Ç·Î º°µµ Ãë¼Ò ·ÎÁ÷ ÇÊ¿ä ¾øÀ½
+    // ì¦‰ë°œí˜• ìŠ¤í‚¬ì´ë¯€ë¡œ ë³„ë„ ì·¨ì†Œ ë¡œì§ í•„ìš” ì—†ìŒ
     public void Stop() { }
 
     #endregion

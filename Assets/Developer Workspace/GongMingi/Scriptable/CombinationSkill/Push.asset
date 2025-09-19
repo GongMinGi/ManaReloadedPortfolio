@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0981f42e9106d9a458cc47c005c70806, type: 3}
   m_Name: Push
   m_EditorClassIdentifier: 
-  currentHashID: 896761556
-  CastList: 020000000100000002000000
+  currentHashID: -1093437818
+  CastList: 020000000400000002000000
   castSkill: {fileID: 6623511825805523897, guid: c57d5606f35aff744a9f08e49b542c0d, type: 3}

@@ -68,14 +68,11 @@ public class PooledObject : MonoBehaviour
     /// </summary>
     public void Release()
     {
-        Debug.Log("release 들어옴");
         OnDeactivated(() =>
         {
             if (pool != null)
             {
-                Debug.Log("return pool 직전");
                 pool.ReturnPool(this);
-
             }
             else
                 Destroy(gameObject);
