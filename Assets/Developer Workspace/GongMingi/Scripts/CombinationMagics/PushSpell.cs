@@ -6,6 +6,12 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.DualShock;
 
+/// <summary>
+/// * 개발자: 공민기
+///  - 플레이어에서 4f 내의 적을 감지하여 7f 떨어진 거리로 밀쳐내는 스킬
+///  - 코루틴, Lerp를 이용해서 부드럽게 밀쳐낸다.
+///  - 밀치는 도중에 enemycontroller에서 navmesh 제어를 끊어주고, navemeshAgent.Warp함수를 통해 이동
+/// </summary>
 public class PushSpell : BaseCombinationMagic
 {
     [Header("Ranges")]
@@ -14,13 +20,12 @@ public class PushSpell : BaseCombinationMagic
 
     [Header("Motion")]
     [SerializeField] private float pushDuration  = 1f;  // 적을 밀어내는 데 걸리는 시간
-    [SerializeField] private AnimationCurve ease = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     [Header("Filter")]
     [SerializeField] private QueryTriggerInteraction triggerInteraction = QueryTriggerInteraction.Ignore;
     [SerializeField] private LayerMask enemyLayer;
 
-    [SerializeField] Vector3 center;
+    [SerializeField] private Vector3 center;
     [SerializeField] private int maxHits = 64;
 
     private Context ctx;
@@ -33,26 +38,23 @@ public class PushSpell : BaseCombinationMagic
             return; 
         }
 
-        Debug.Log("execute skill 들어옴");
         base.ExecuteSkill();
 
         ctx.caster          = GameModeManager.Player.transform;
         ctx.coroutineRunner = GameModeManager.Player;
         center              = ctx.caster.position;
         hitsBuffer          = new Collider[maxHits];
-        var uniqueOwner     = new HashSet<Transform>();                             // 중복 콜라이더 제거용 
         int enemyCount      = Physics.OverlapSphereNonAlloc(center, detectRadius, hitsBuffer, enemyLayer, triggerInteraction);
 
         for (int i = 0; i < enemyCount; i++)
         {
             Collider col = hitsBuffer[i];                                            // 감지한 적의 콜라이더를 하나 씩 뽑는다.
-            if (col == null) continue;                                               // 콜라이더가 없으면 생략
+            if (col == null)
+            {
+                continue;                                               // 콜라이더가 없으면 생략
+            }
 
-            //Transform enemyTransform = col.transform;                                     // 콜라이더의 최상위 개체를 가져온다
             col.TryGetComponent<EnemyController>(out var enemyController);
-            //if (uniqueOwner.Add(enemyTransform) == false) continue;                       // 해시 셋에 추가해서 중복검사
-
-            //enemyTransform.TryGetComponent<NavMeshAgent>(out var agent);                  // 적의 네브매쉬 컴포넌트를 뽑아온다.
             var enemyAgent = enemyController.Agent;
             ctx.coroutineRunner.StartCoroutine(PushAgentRoutine(enemyController, enemyAgent));     
         }
@@ -97,7 +99,6 @@ public class PushSpell : BaseCombinationMagic
         while (elapsedTime < pushDuration)
         {
             elapsedTime += Time.fixedDeltaTime;
-            //float animCurve = ease.Evaluate(Mathf.Clamp01(elapsedTime / pushDuration));     // ease 커브에 따라 선형 보간( 감속/ 가속 느낌 조절)
             float t = elapsedTime / pushDuration;
 
             if(t >= 1f)
