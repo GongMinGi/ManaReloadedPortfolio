@@ -42,6 +42,14 @@ public class GuardianSpiritPooledObject : PooledObject
 
         // 경과 시간 누적
         elapsedLifetime += Time.deltaTime;
+        intervalTimer += Time.deltaTime;
+
+        // 데미지 틱 간격마다 범위 내 적들에게 피해 적용
+        if (intervalTimer >= tickInterval)
+        {
+            ApplyDamageInRange(transform.position);
+            intervalTimer -= tickInterval;
+        }
 
         // 지속 시간 종료 시 스킬 비활성화
         if (elapsedLifetime >= lifeTime)
@@ -50,6 +58,30 @@ public class GuardianSpiritPooledObject : PooledObject
             elapsedLifetime = 0f;
 
             Release();  // 스킬 종료 처리
+        }
+    }
+    #endregion
+
+    #region Damage
+    /// <summary>
+    /// 지정된 중심점을 기준으로 범위 내 모든 적에게 데미지를 가하는 원형 AoE 공격
+    /// sqrMagnitude를 사용하여 성능 최적화된 거리 계산 수행
+    /// </summary>
+    /// <param name="center">데미지 범위의 중심 좌표</param>
+    private void ApplyDamageInRange(Vector3 center)
+    {
+        var enemies = GameModeManager.EnemyManager.Enemies;
+
+        // 현재 존재하는 모든 적을 순회하며 범위 내 여부 판단
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            float distanceSqr = (enemies[i].transform.position - center).sqrMagnitude;
+
+            if (distanceSqr <= range * range)
+            {
+                // 틱마다 피해를 입힘
+                enemies[i].Stats.TakeDamage(damage);
+            }
         }
     }
     #endregion
