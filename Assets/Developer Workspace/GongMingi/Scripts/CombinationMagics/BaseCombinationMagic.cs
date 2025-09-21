@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,23 +12,23 @@ public class BaseCombinationMagic : MonoBehaviour
 
     public struct Context
     {
-        public Transform caster;        // ½ÃÀüÀÚ(ÇÃ·¹ÀÌ¾î) Æ®·£½ºÆû
-        public MonoBehaviour coroutineRunner;   // ÄÚ·çÆ¾ ½ÇÇà ÁÖÃ¼ ( ´ë°³ playercontroller ÀÚ½Å)
+        public Transform caster;        // ì‹œì „ì(í”Œë ˆì´ì–´) íŠ¸ëœìŠ¤í¼
+        public MonoBehaviour coroutineRunner;   // ì½”ë£¨í‹´ ì‹¤í–‰ ì£¼ì²´ ( ëŒ€ê°œ playercontroller ìì‹ )
     }
 
     public virtual void ExecuteSkill()
     {
         canUseSkill = false;
-        // ½ºÅ³ ÄğÅ¸ÀÓ ½ÇÇà
+        // ìŠ¤í‚¬ ì¿¨íƒ€ì„ ì‹¤í–‰
         skillCoolTime = GameModeManager.Player.StartCoroutine(SkillCoolTimer());
     }
 
     /// <summary>
-    /// °³¹ßÀÚ: ÀÌ¿¹¸°
+    /// ê°œë°œì: ì´ì˜ˆë¦°
     /// 
-    /// ÁöÁ¤µÈ ½ºÅ³ÀÇ ÄğÅ¸ÀÓ UI¸¦ °ü¸®ÇÏ´Â ÄÚ·çÆ¾
-    /// ½ºÅ³ ¾ÆÀÌÄÜÀ» È°¼ºÈ­ÇÏ°í ÄğÅ¸ÀÓ ÅØ½ºÆ®¸¦ 1ÃÊ ´ÜÀ§·Î °¨¼Ò½ÃÅ°¸ç,
-    /// ÄğÅ¸ÀÓ Á¾·á ½Ã ½ºÅ³ »ç¿ë °¡´É »óÅÂ¸¦ true·Î º¯°æÇÔ
+    /// ì§€ì •ëœ ìŠ¤í‚¬ì˜ ì¿¨íƒ€ì„ UIë¥¼ ê´€ë¦¬í•˜ëŠ” ì½”ë£¨í‹´
+    /// ìŠ¤í‚¬ ì•„ì´ì½˜ì„ í™œì„±í™”í•˜ê³  ì¿¨íƒ€ì„ í…ìŠ¤íŠ¸ë¥¼ 1ì´ˆ ë‹¨ìœ„ë¡œ ê°ì†Œì‹œí‚¤ë©°,
+    /// ì¿¨íƒ€ì„ ì¢…ë£Œ ì‹œ ìŠ¤í‚¬ ì‚¬ìš© ê°€ëŠ¥ ìƒíƒœë¥¼ trueë¡œ ë³€ê²½í•¨
     /// </summary>
     /// <returns></returns>
     protected IEnumerator SkillCoolTimer()

@@ -44,9 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d29e73a2ae17c4783c2481d1c41e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill_ID: 2000003
+  coolTime: 2
   detectRadius: 4
   pushRadius: 7
-  pushDuration: 0.25
+  pushDuration: 0.15
   ease:
     serializedVersion: 2
     m_Curve:
@@ -75,5 +77,5 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  center: {x: -0.71650374, y: 0.62999964, z: -1.7509774}
+  center: {x: -15.053522, y: 0.6300074, z: -32.58302}
   maxHits: 64

@@ -54,6 +54,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] NavMeshAgent agent;    // 적의 경로 탐색 및 이동을 제어하는 NavMeshAgent 컴포넌트
     private Transform player;                 // 플레이어 위치 추적용 Transform 참조
     [SerializeField] private bool isMove;     // 적의 이동 상태 여부 플래그
+    public bool isBeingControlled = false;
 
     public NavMeshAgent Agent => agent;
     #endregion
@@ -95,7 +96,10 @@ public class EnemyController : MonoBehaviour
     }
     private void Update()
     {
-        if (player == null) return;     // 플레이어의 Transform이 null이면 리턴
+        if (player == null || isBeingControlled == true)
+        {
+            return;     // 플레이어의 Transform이 null이면 리턴
+        }
 
         if (isDie)  // 죽은 상태일 때
         {

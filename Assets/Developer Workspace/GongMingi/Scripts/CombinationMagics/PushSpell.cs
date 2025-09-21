@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,138 +6,136 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.DualShock;
 
+/// <summary>
+/// * ê°œë°œì: ê³µë¯¼ê¸°
+///  - í”Œë ˆì´ì–´ì—ì„œ 4f ë‚´ì˜ ì ì„ ê°ì§€í•˜ì—¬ 7f ë–¨ì–´ì§„ ê±°ë¦¬ë¡œ ë°€ì³ë‚´ëŠ” ìŠ¤í‚¬
+///  - ì½”ë£¨í‹´, Lerpë¥¼ ì´ìš©í•´ì„œ ë¶€ë“œëŸ½ê²Œ ë°€ì³ë‚¸ë‹¤.
+///  - ë°€ì¹˜ëŠ” ë„ì¤‘ì— enemycontrollerì—ì„œ navmesh ì œì–´ë¥¼ ëŠì–´ì£¼ê³ , navemeshAgent.Warpí•¨ìˆ˜ë¥¼ í†µí•´ ì´ë™
+/// </summary>
 public class PushSpell : BaseCombinationMagic
 {
-
     [Header("Ranges")]
-    [SerializeField] float detectRadius = 4f;   // °¨Áö ¹İ°æ
-    [SerializeField] float pushRadius = 7f;     // ¹Ğ¾î³»´Â ¹İ°æ
+    [SerializeField] private float detectRadius  = 4f;     // ê°ì§€ ë°˜ê²½
+    [SerializeField] private float pushRadius    = 7f;     // ë°€ì–´ë‚´ëŠ” ë°˜ê²½
 
     [Header("Motion")]
-    [SerializeField] float pushDuration = 0.25f; // ÀûÀ» ¹Ğ¾î³»´Â µ¥ °É¸®´Â ½Ã°£
-    [SerializeField] private AnimationCurve ease = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    [SerializeField] private float pushDuration  = 1f;  // ì ì„ ë°€ì–´ë‚´ëŠ” ë° ê±¸ë¦¬ëŠ” ì‹œê°„
 
     [Header("Filter")]
     [SerializeField] private QueryTriggerInteraction triggerInteraction = QueryTriggerInteraction.Ignore;
     [SerializeField] private LayerMask enemyLayer;
 
-    [SerializeField] Vector3 center;
-
+    [SerializeField] private Vector3 center;
     [SerializeField] private int maxHits = 64;
 
     private Context ctx;
+    private Collider[] hitsBuffer = null;
 
     public override void ExecuteSkill()
     {
-        Debug.Log("execute skill µé¾î¿È");
-        ctx.coroutineRunner = GameModeManager.Player;
-        center = GameModeManager.Player.transform.position;
-        Collider[] hits = new Collider[maxHits];
-        int enemyCount = Physics.OverlapSphereNonAlloc(center, detectRadius, hits, enemyLayer, triggerInteraction);
-        Debug.Log(enemyCount);
-
-
-        var uniqueRoots = new HashSet<Transform>();         // Áßº¹ Äİ¶óÀÌ´õ Á¦°Å
-        for (int i = 0; i < enemyCount; i++)
-        {
-            Debug.Log("Äİ¶óÀÌ´õ ÇÏ³ª¾¿ °Ë»ç");
-
-            var col = hits[i];                              // °¨ÁöÇÑ ÀûÀÇ Äİ¶óÀÌ´õ¸¦ ÇÏ³ª ¾¿ »Ì´Â´Ù.
-            if (!col) continue;                             // Äİ¶óÀÌ´õ°¡ ¾øÀ¸¸é »ı·«
-
-            Transform enemyRoot = col.transform;               // Äİ¶óÀÌ´õÀÇ ÃÖ»óÀ§ °³Ã¼¸¦ °¡Á®¿Â´Ù
-            if (!uniqueRoots.Add(enemyRoot)) continue;              // ÇØ½Ã ¼Â¿¡ Ãß°¡ÇØ¼­ Áßº¹°Ë»ç
-
-            Debug.Log(enemyRoot.GetInstanceID());
-            enemyRoot.TryGetComponent<NavMeshAgent>(out var agent); // ÀûÀÇ ³×ºê¸Å½¬ ÄÄÆ÷³ÍÆ®¸¦ »Ì¾Æ¿Â´Ù.
-            if (agent == null) Debug.LogWarning("navagent°¡ null");
-
-
-            ctx.coroutineRunner.StartCoroutine(PushAgentRoutine(enemyRoot, agent));     
+        if (canUseSkill == false) 
+        { 
+            return; 
         }
 
+        base.ExecuteSkill();
+
+        ctx.caster          = GameModeManager.Player.transform;
+        ctx.coroutineRunner = GameModeManager.Player;
+        center              = ctx.caster.position;
+        hitsBuffer          = new Collider[maxHits];
+        int enemyCount      = Physics.OverlapSphereNonAlloc(center, detectRadius, hitsBuffer, enemyLayer, triggerInteraction);
+
+        for (int i = 0; i < enemyCount; i++)
+        {
+            Collider col = hitsBuffer[i];                                            // ê°ì§€í•œ ì ì˜ ì½œë¼ì´ë”ë¥¼ í•˜ë‚˜ ì”© ë½‘ëŠ”ë‹¤.
+            if (col == null)
+            {
+                continue;                                               // ì½œë¼ì´ë”ê°€ ì—†ìœ¼ë©´ ìƒëµ
+            }
+
+            col.TryGetComponent<EnemyController>(out var enemyController);
+            var enemyAgent = enemyController.Agent;
+            ctx.coroutineRunner.StartCoroutine(PushAgentRoutine(enemyController, enemyAgent));     
+        }
     }
 
-
-
-    private IEnumerator PushAgentRoutine(Transform enemyTransform, NavMeshAgent enemyAgent)
+    /// <summary>
+    /// ë‹¨ì¼ ì ì„ "center" ê¸°ì¤€ ì™¸ê° ë§ê¹Œì§€ ë¶€ë“œëŸ½ê²Œ ë°€ì–´ëƒ„ 
+    /// </summary>
+    private IEnumerator PushAgentRoutine(EnemyController enemyController, NavMeshAgent enemyAgent)
     {
-        Debug.Log("push ÄÚ·çÆ¾ Àû¿ë");
+        float   elapsedTime   = 0f;
+        var     waiter        = new WaitForFixedUpdate();
+        Vector3 start         = enemyController.transform.position;
 
-        if (enemyAgent == null) Debug.LogWarning("navagent°¡ null");
+        enemyController.isBeingControlled = true;
 
-        Vector3 start = enemyTransform.position;
+        if (enemyAgent == null) 
+        {
+            enemyController.isBeingControlled = false;
+            yield break; 
+        }
 
-        if (!GetTargetOnRing(start, center, out Vector3 desired)) yield break;
+        if (GetTargetOnRing(start, center, out Vector3 desired) == false) 
+        {
+            enemyController.isBeingControlled = false;
+            yield break; 
+        }
 
-        if (NavMesh.Raycast(start, desired, out var hit, enemyAgent.areaMask))      // º®, Àå¾Ö¹° µîÀ¸·Î Á÷¼± °æ·Î°¡ ¸·È÷¸é ¸·È÷±â Á÷Àü ÁöÁ¡±îÁö·Î Á¶Á¤
+        if ( NavMesh.Raycast(start, desired, out var hit, enemyAgent.areaMask ))      // ë²½, ì¥ì• ë¬¼ ë“±ìœ¼ë¡œ ì§ì„  ê²½ë¡œê°€ ë§‰íˆë©´ ë§‰íˆê¸° ì§ì „ ì§€ì ê¹Œì§€ë¡œ ì¡°ì •
+        {
             desired = hit.position;
+        }
 
-        if (NavMesh.SamplePosition(desired, out NavMeshHit sampleHit, 2.0f, NavMesh.AllAreas))
+        if ( NavMesh.SamplePosition(desired, out NavMeshHit sampleHit, 2.0f, NavMesh.AllAreas))
         {
             desired = sampleHit.position;
         }
 
-
-        // navmeshAgent »óÅÂ º¸Á¸
-        //bool enabledBefore = enemyAgent.enabled;
-        //bool stoppedBefore = enemyAgent.isStopped;
-
-        //if (enabledBefore) enemyAgent.enabled = false;  // ¼öµ¿ º¸°£À» À§ÇØ¼­ navMesh ºñÈ°¼ºÈ­
-
         enemyAgent.isStopped = true;
         enemyAgent.ResetPath();
 
-        float elapsedTime = 0f;
-        while(elapsedTime < pushDuration)
+        while (elapsedTime < pushDuration)
         {
             elapsedTime += Time.fixedDeltaTime;
+            float t = elapsedTime / pushDuration;
 
-            float animCurve = ease.Evaluate(Mathf.Clamp01(elapsedTime / pushDuration));     // ease Ä¿ºê¿¡ µû¶ó ¼±Çü º¸°£( °¨¼Ó/ °¡¼Ó ´À³¦ Á¶Àı)
+            if(t >= 1f)
+            {
+                enemyAgent.Warp(desired);
+                break;
+            }
 
-            enemyTransform.position = Vector3.Lerp(start, desired, animCurve);
-            //enemyAgent.Warp(Vector3.Lerp(start, desired, animCurve));
-            yield return null;
-
+            enemyAgent.Warp(Vector3.Lerp(start, desired, t));
+            yield return waiter;
         }
-        enemyTransform.position = desired;
 
         enemyAgent.isStopped = false;
-
-        //// ¿¡ÀÌÀüÆ® »óÅÂ º¹±¸: ¿öÇÁ·Î NavMesh ³»ºÎ ÁÂÇ¥ º¸Á¤
-        //if (enabledBefore)
-        //{
-        //    enemyAgent.enabled = true;
-        //    enemyAgent.Warp(enemyTransform.position);
-        //    enemyAgent.isStopped = stoppedBefore;
-        //}
-
+        enemyController.isBeingControlled = false;
     }
 
-
-
-    // ÇöÀç À§Ä¡°¡ °¨Áö ¹İ°æ ¾ÈÀÌ¸é, Áß½É¿¡¼­ Á¤È®È÷ pushRadius ¿ø°Å¸®ÀÇ ¸ñÇ¥ Á¡ ¹İÈ¯
-    private bool GetTargetOnRing(Vector3 currentEnemyPos, Vector3 center, out Vector3 target)
+    // í˜„ì¬ ìœ„ì¹˜ê°€ ê°ì§€ ë°˜ê²½ ì•ˆì´ë©´, ì¤‘ì‹¬ì—ì„œ ì •í™•íˆ pushRadius ì›ê±°ë¦¬ì˜ ëª©í‘œ ì  ë°˜í™˜
+    private bool GetTargetOnRing(Vector3 enemyPos, Vector3 center, out Vector3 target)
     {
-        Vector3 destDir = currentEnemyPos - center;             // ÇÃ·¹ÀÌ¾î -> Àû ¹æÇâº¤ÅÍ
-        float distance = destDir.magnitude;                     // ÇÃ·¹ÀÌ¾î·ÎºÎÅÍ ¶³¾îÁø °Å¸®
+        Vector3 playerToEnemy   = enemyPos - center;                    // í”Œë ˆì´ì–´ -> ì  ë°©í–¥ë²¡í„°
+        float distance          = playerToEnemy.magnitude;              // í”Œë ˆì´ì–´ë¡œë¶€í„° ë–¨ì–´ì§„ ê±°ë¦¬
 
-        if( distance > detectRadius )                           // °Å¸®°¡ °¨Áö¹üÀ§º¸´Ù ¸Ö¸® ÀÖ´Â°æ¿ì
+        if( distance > detectRadius )                                   // ê±°ë¦¬ê°€ ê°ì§€ë²”ìœ„ë³´ë‹¤ ë©€ë¦¬ ìˆëŠ”ê²½ìš°
         {
-            target = currentEnemyPos;                           // ¹Ù·Î ¸®ÅÏÇÏ°í ÄÚ·çÆ¾ ²û
+            target = enemyPos;                                          // ë°”ë¡œ ë¦¬í„´í•˜ê³  ì½”ë£¨í‹´ ë”
+            return false;
         }
 
-        if( distance < 0.001f)                                  // ÇÃ·¹ÀÌ¾î¿Í ÀûÀÌ ³Ê¹« °¡±îÀÌ ºÙ¾îÀÖÀ» °æ¿ì ·£´ı¹æÇâÀ¸·Î ¹Ğ¾î³½´Ù.
+        if( distance < 0.001f )                                         // í”Œë ˆì´ì–´ì™€ ì ì´ ë„ˆë¬´ ê°€ê¹Œì´ ë¶™ì–´ìˆì„ ê²½ìš° ëœë¤ë°©í–¥ìœ¼ë¡œ ë°€ì–´ë‚¸ë‹¤.
         {
-            Vector3 randomEnemyPos = Random.insideUnitSphere;   // ¿øÁ¡ ±âÁØÀ¸·Î ¹İÁö¸§ÀÌ 1ÀÎ ±¸ ³»ºÎÀÇ ·£´ıÀ¸·Î Á¡À» Âï¾î¼­ ±× ¹æÇâº¤ÅÍ¸¦ ¾ò´Â´Ù. (ÀÓÀÇÀÇ ¹æÇâ µµÃâ)
-            randomEnemyPos.y = 0;                               // °øÁß¿¡ ÀÖ´Â °æ¿ì y°ª 0À¸·Î ¼³Á¤
-            destDir = randomEnemyPos;                   
+            Vector3 randomEnemyPos = Random.insideUnitSphere;           // ì›ì  ê¸°ì¤€ìœ¼ë¡œ ë°˜ì§€ë¦„ì´ 1ì¸ êµ¬ ë‚´ë¶€ì˜ ëœë¤ìœ¼ë¡œ ì ì„ ì°ì–´ì„œ ê·¸ ë°©í–¥ë²¡í„°ë¥¼ ì–»ëŠ”ë‹¤. (ì„ì˜ì˜ ë°©í–¥ ë„ì¶œ)
+            randomEnemyPos.y = 0;                                       // ê³µì¤‘ì— ìˆëŠ” ê²½ìš° yê°’ 0ìœ¼ë¡œ ì„¤ì •
+            playerToEnemy = randomEnemyPos;                   
         }
 
-        Vector3 dir = destDir.normalized;                       // ¹æÇâº¤ÅÍ Á¤±ÔÈ­
-        target = center + dir * pushRadius;                     // pushRadius¸¸Å­ ¶³¾îÁø ÁöÁ¡À» ¸ñÇ¥·Î ¼³Á¤
+        Vector3 dir = playerToEnemy.normalized;                         // ë°©í–¥ë²¡í„° ì •ê·œí™”
+        target = center + dir * pushRadius;                             // pushRadiusë§Œí¼ ë–¨ì–´ì§„ ì§€ì ì„ ëª©í‘œë¡œ ì„¤ì •
         return true;
-
     }
-
 }

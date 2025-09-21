@@ -71,7 +71,6 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-
     #region Unity Update
 
     /// <summary>
@@ -83,25 +82,20 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Move();
-
         OnCastingSpell();
-
         if (isMove)
             GameModeManager.MapTileManager.UpdateCurrentPos();
     }
 
     private void Start()
     {
-        Debug.Log("start 진입");
         GameModeManager.Player = this;                                  // 현재 플레이어 인스턴스를 GameModeManager에 등록
-        Debug.Log("player 할당");
 
         // 원거리 공격을 위한 초기 세팅 작업
         foreach (var mapping in castingKeyMapping)                              
             rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
 
         stats.OnDie += OnDie;
-
         rangedAttackController.PlayerAnim = playerAnim;                 // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
     }
     #endregion
@@ -119,7 +113,6 @@ public class PlayerController : MonoBehaviour
         if (ctx.canceled) isSprint = false;         // shift에서 손을 땔 때 걷기 상태로 돌아간다.
         else return;
     }
-
 
     /// <summary>
     /// WASD 이동 입력 처리.
@@ -139,7 +132,6 @@ public class PlayerController : MonoBehaviour
         else
             isMove = true;
     }
-
 
     /// <summary>
     /// 실제 CharacterController 이동 로직.
@@ -308,8 +300,6 @@ public class PlayerController : MonoBehaviour
         }
 
         meleeConeAttack.ExecuteAttack(E_CastingType.None);      // 무속성 물리 공격 실행
-
-        Debug.Log("근접 공격 ");
     }
 
 
@@ -319,8 +309,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void TryEnchant()
     {
-        Debug.Log("인첸트 실행");
-
         ResetCasting();
     }
 

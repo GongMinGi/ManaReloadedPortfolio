@@ -51,12 +51,11 @@ public class ElementalRangedAttackController : MonoBehaviour
         //playerAnim.SetTrigger("RangedConeAttack");
         //Debug.Log($"playerAnim 트리거 연산 진행후 : {playerAnim}");
 
-
         _anim = new AnimatorDriver(playerAnim);                             // Animator를 드라이버로 감싸기
-        Debug.Log($"playerAnim (_anim 할당후) : {playerAnim}");
+        //Debug.Log($"playerAnim (_anim 할당후) : {playerAnim}");
 
-        if (_anim != null) Debug.Log("할당됨");
-        else Debug.Log("할당 안됌");
+        //if (_anim != null) Debug.Log("할당됨");
+        //else Debug.Log("할당 안됌");
 
         _ctx = new RangedAttackContext(transform, transform, _anim);        // 공격 공용 컨텍스트 ( Owner/ DefaultMuzzle/ Anim) 구성
 
@@ -66,9 +65,6 @@ public class ElementalRangedAttackController : MonoBehaviour
         attackBindings.Add(WireAttack(chargeProjectileAttack, boolHash: AnimParams.ChargeProjectile, useProgress: false));
         attackBindings.Add(WireAttack(chargeConeAttack, boolHash: AnimParams.ChargeCone, useProgress: false));
         attackBindings.Add(WireAttack(coneAttack, boolHash: AnimParams.HoldConeAttack, useProgress: false));
-
-        //Animator ani;
-        //ani.GetBehaviour
     }
 
     private void OnDestroy()
