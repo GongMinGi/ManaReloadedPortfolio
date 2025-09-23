@@ -216,6 +216,15 @@ namespace Game.Combat.Stats
 
             return defense;
         }
+
+        /// <summary>
+        /// 플레이어 체력 완전 회복
+        /// </summary>
+        public void SetFullHP()
+        {
+            curHp = statsData.BaseHP;
+            OnHpChanged?.Invoke(curHp, StatsData.BaseHP); // hp변경 후 hp 슬라이더 적용
+        }
         #endregion
 
         #region Modifier Application and Reversion
