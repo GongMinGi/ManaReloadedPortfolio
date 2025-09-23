@@ -217,4 +217,17 @@ public class EnemyManager : MonoBehaviour
         }
     }
     #endregion
+
+    #region Enemy Management
+    /// <summary>
+    /// - 모든 적 움직임 토글
+    /// </summary>
+    public void ToggleAllEnemyMovement()
+    {
+        foreach (EnemyController enemy in enemies)
+        {
+            enemy.ToggleMovement();
+        }
+    }
+    #endregion
 }

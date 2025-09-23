@@ -286,6 +286,17 @@ public class EnemyController : MonoBehaviour
         isMove = true;
         isAttacking = false;
     }
+
+    /// <summary>
+    /// - 적의 이동 중지/재개 상태를 토글하는 메서드
+    /// </summary>
+    public void ToggleMovement()
+    {
+        if (isMove)
+            StopMovement();
+        else
+            ResumeMovement();
+    }
     #endregion
 
     #region Damage & Death Handling
