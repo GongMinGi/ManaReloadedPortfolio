@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Developer Workspace/GongMingi/Scene/Game Scene Meteor Implementation.unity
     guid: 734aaa2d1be8753499b1b5d818c84525
+  - enabled: 1
+    path: Assets/Developer Workspace/LeeJung/Scenes/QA Scene.unity
+    guid: bd2e00185400dfb4c8c05da75a73db03
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

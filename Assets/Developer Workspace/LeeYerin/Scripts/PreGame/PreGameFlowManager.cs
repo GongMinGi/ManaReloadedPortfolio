@@ -18,6 +18,7 @@ public class PreGameFlowManager : MonoBehaviour
 
     [Tooltip("Game scene name string")]
     [SerializeField] string gameSceneName = "Game Scene";
+    [SerializeField] string qaSceneName = "QA Scene";
 
     #region Unity Event
     private IEnumerator Start()
@@ -73,6 +74,18 @@ public class PreGameFlowManager : MonoBehaviour
         GameModeManager.UIManager.FadeOut(() =>
         {
             SceneManager.LoadScene(gameSceneName);
+        });
+    }
+
+    /// <summary>
+    /// QA룸 씬으로 이동하는 메서드
+    /// </summary>
+    public void OpenQARoom()
+    {
+        GameModeManager.UIManager.FadeOut(() =>
+        {
+            SceneManager.LoadScene(qaSceneName);
+            GameModeManager.UIManager.FadeIn();
         });
     }
 

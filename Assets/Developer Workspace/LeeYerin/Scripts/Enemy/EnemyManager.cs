@@ -69,7 +69,10 @@ public class EnemyManager : MonoBehaviour
     {
         yield return new WaitUntil(() => GameModeManager.Player != null);   // 플레이어를 알 수 있을 때까지 대기
 
-        GameModeManager.GameLogicManager.Initialization(mapEnemyData.Phases.Count);     // 게임 전체 로직을 관리하는 매니저에 페이즈 수 전달
+        if (GameModeManager.GameLogicManager != null)
+        {
+            GameModeManager.GameLogicManager.Initialization(mapEnemyData.Phases.Count);     // 게임 전체 로직을 관리하는 매니저에 페이즈 수 전달
+        }
 
         if (instance == null)
         {
@@ -77,7 +80,9 @@ public class EnemyManager : MonoBehaviour
             GameModeManager.EnemyManager = instance;
         }
         else
+        {
             Destroy(instance);
+        }
 
         yield return new WaitUntil(() => player != null);   // 플레이어가 할당된 후 진행
 
@@ -198,29 +203,19 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// - QA룸에서 적을 특정 거리 및 방향으로 스폰하는 메서드
     /// </summary>
-    public void SpawnEnemyForQA(EnemyPooledObject enemyPrefab, float spawnDis, bool canEnemyMove, int enemyNum = 1)
+    public void SpawnEnemyForQA(EnemyPooledObject enemyPrefab, float spawnDis, bool canEnemyMove)
     {
         Vector3 spawnPos = player.transform.position + player.transform.forward * spawnDis;
+        spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
+        NavMeshHit hit;
 
-        for (int i = 0; i < enemyNum; i++)
+        if (NavMesh.SamplePosition(spawnPos, out hit, 4f, NavMesh.AllAreas))
         {
-            spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
-            NavMeshHit hit;
-
-            if (NavMesh.SamplePosition(spawnPos, out hit, 4f, NavMesh.AllAreas))
-            {
-                spawnPos = hit.position;
-            }
-
-            EnemyPooledObject newEnemy = GameModeManager.PoolManager.GetEnemyPool(enemyPrefab, spawnPos, Quaternion.identity);
-            newEnemy.transform.LookAt(spawnPos);
-            EnemyController enemyController = newEnemy.GetComponent<EnemyController>();
-            
-            if (canEnemyMove == false && enemyController != null)
-            {
-                enemyController.StopMovement();
-            }
+            spawnPos = hit.position;
         }
+
+        EnemyPooledObject newEnemy = GameModeManager.PoolManager.GetEnemyPool(enemyPrefab, spawnPos, Quaternion.identity);
+        newEnemy.transform.LookAt(spawnPos);
     }
 #endif
     #endregion
@@ -244,19 +239,6 @@ public class EnemyManager : MonoBehaviour
             clearedEnemyTypeCount = 0;
             // 다음 페이즈 진행 요청
             GameModeManager.GameLogicManager.ProceedPhase();
-        }
-    }
-    #endregion
-
-    #region Enemy Management
-    /// <summary>
-    /// - 모든 적 움직임 토글
-    /// </summary>
-    public void ToggleAllEnemyMovement()
-    {
-        foreach (EnemyController enemy in enemies)
-        {
-            enemy.ToggleMovement();
         }
     }
     #endregion
