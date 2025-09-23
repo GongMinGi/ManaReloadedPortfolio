@@ -3,12 +3,35 @@
 	<Busses>
 		<WorkUnit Name="Default Work Unit" ID="{415F6E18-0765-45AF-807E-7899B72AF7F9}" PersistMode="Standalone">
 			<ChildrenList>
-				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
+				<Bus Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{A7B49406-E243-4845-8D1F-9990335D272F}" WorkUnitID="{5241B010-68D2-4B22-A825-F90186F63582}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="Sfx" ID="{79D9137E-85EB-40C4-824F-0503EE0CFA46}">
+							<ChildrenList>
+								<Bus Name="Ui" ID="{0F39B678-2955-4FFC-B008-55C99F4437C0}"/>
+								<Bus Name="Monster" ID="{EE34853B-4744-43BA-BABB-436B4FC0E93A}"/>
+								<Bus Name="Player" ID="{78E651A6-557D-4121-AB5B-7F5FCA84D4FD}"/>
+								<Bus Name="Ambience" ID="{0B48BE3F-5B47-4890-9B09-0A8A1C80A4E9}"/>
+							</ChildrenList>
+							<DuckingList>
+								<DuckItem>
+									<BusRef Name="Bgm" ID="{2A5E9FCB-F7A6-4356-B489-0EB0A354A8FD}"/>
+									<DuckingParam>
+										<Volume>-6</Volume>
+										<FadeInTime>1</FadeInTime>
+										<FadeOutTime>1</FadeOutTime>
+										<FadeCurve>FadeLinear</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+							</DuckingList>
+						</Bus>
+						<Bus Name="Bgm" ID="{2A5E9FCB-F7A6-4356-B489-0EB0A354A8FD}"/>
+						<Bus Name="Stinger" ID="{CD16B3FA-7837-46C0-9275-4EECFCBA72FE}"/>
+					</ChildrenList>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

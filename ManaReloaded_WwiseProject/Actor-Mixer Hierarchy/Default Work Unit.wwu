@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}" SchemaVersion="123">
 	<AudioObjects>
-		<WorkUnit Name="Default Work Unit" ID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="Main" ID="{F85EC918-6089-4C81-BE6C-0866F6A4AD27}" ShortID="908544997">
+					<ChildrenList>
+						<ActorMixer Name="Sfx_Spell" ID="{CAEBA9B5-7626-4E38-A187-F34A4EF29AFA}" ShortID="843011907">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+								</Reference>
+							</ReferenceList>
+						</ActorMixer>
+						<ActorMixer Name="Sfx_Range" ID="{8443CF21-61E6-4872-AA06-D0D52F2407AA}" ShortID="624469526">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+								</Reference>
+							</ReferenceList>
+						</ActorMixer>
+						<ActorMixer Name="Sfx_Melee" ID="{598C53AE-AA3C-4522-9B3A-77573983B405}" ShortID="1040669324">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+								</Reference>
+							</ReferenceList>
+						</ActorMixer>
+						<ActorMixer Name="Sfx_Monster" ID="{2EE80372-6BC0-423C-8EFC-C7C51A428ED4}" ShortID="244375324">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+								</Reference>
+							</ReferenceList>
+						</ActorMixer>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</AudioObjects>
 </WwiseDocument>
