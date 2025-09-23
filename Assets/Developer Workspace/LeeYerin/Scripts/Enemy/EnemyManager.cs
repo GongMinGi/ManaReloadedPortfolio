@@ -193,6 +193,36 @@ public class EnemyManager : MonoBehaviour
             newEnemy.transform.LookAt(spawnPos);
         }
     }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// - QA룸에서 적을 특정 거리 및 방향으로 스폰하는 메서드
+    /// </summary>
+    public void SpawnEnemyForQA(EnemyPooledObject enemyPrefab, float spawnDis, bool canEnemyMove, int enemyNum = 1)
+    {
+        Vector3 spawnPos = player.transform.position + player.transform.forward * spawnDis;
+
+        for (int i = 0; i < enemyNum; i++)
+        {
+            spawnPos += new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(spawnPos, out hit, 4f, NavMesh.AllAreas))
+            {
+                spawnPos = hit.position;
+            }
+
+            EnemyPooledObject newEnemy = GameModeManager.PoolManager.GetEnemyPool(enemyPrefab, spawnPos, Quaternion.identity);
+            newEnemy.transform.LookAt(spawnPos);
+            EnemyController enemyController = newEnemy.GetComponent<EnemyController>();
+            
+            if (canEnemyMove == false && enemyController != null)
+            {
+                enemyController.StopMovement();
+            }
+        }
+    }
+#endif
     #endregion
 
     #region Try Advance Phase

@@ -11,7 +11,11 @@ public class QARoomManager : MonoBehaviour
 
     [SerializeField] private float testDamage = 100f;
     [SerializeField] private bool isNoCooldown = false;
+    [SerializeField] private bool canEnemyMove = true;
+    [SerializeField] private EnemyPooledObject enemyPrefab;
+
     public bool IsNoCooldown { get { return isNoCooldown; } }
+    public bool CanEnemyMove { get { return canEnemyMove; } }
 
     private void Awake()
     {
@@ -67,5 +71,14 @@ public class QARoomManager : MonoBehaviour
     public void ToggleAllEnemyMovement()
     {
         GameModeManager.EnemyManager.ToggleAllEnemyMovement();
+        canEnemyMove = !canEnemyMove;
+    }
+
+    /// <summary>
+    /// - 적 소환
+    /// </summary>
+    public void SpawnEnemy()
+    {
+        GameModeManager.EnemyManager.SpawnEnemyForQA();
     }
 }
