@@ -116,6 +116,11 @@ public class EnemyController : MonoBehaviour
 
         if (!isAttacking && !isDie)     // update를 도는 도중 죽엇을때를 대비해 !isDie 조건 추가
         {
+            if (GameModeManager.QARoomManager != null && GameModeManager.QARoomManager.CanEnemyMove == false)
+            {
+                return;
+            }
+
             // 기본 공격
             if (defaultAttack.IsPlayerInRange(player))
                 StartAttack(defaultAttack);

@@ -18,6 +18,12 @@ public class BaseCombinationMagic : MonoBehaviour
 
     public virtual void ExecuteSkill()
     {
+        if (GameModeManager.QARoomManager != null && GameModeManager.QARoomManager.IsNoCooldown == true)
+        {
+            Debug.Log("쿨타임 무제한 모드로 스킬 사용");
+            return;
+        }
+
         canUseSkill = false;
         // 스킬 쿨타임 실행
         skillCoolTime = GameModeManager.Player.StartCoroutine(SkillCoolTimer());

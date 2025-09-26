@@ -41,7 +41,7 @@ public class EnemyPooledObject : PooledObject
     {
         yield return new WaitUntil(() => enemyPool != null && enemyPool.Tracker != null);
 
-        if (tracker.CanSpawn)
+        if (tracker.CanSpawn || GameModeManager.QARoomManager != null) // TODO: QA 모드에서는 무조건 스폰 허용(임시방편)
         {
             if (transform.localScale != defaultSize)    // 오브젝트가 디폴트 사이즈가 아니라면
                 transform.localScale = defaultSize; // 디폴트 사이즈로 설정
@@ -49,7 +49,9 @@ public class EnemyPooledObject : PooledObject
             tracker.NotifySpawned();
         }
         else
+        {
             Release();
+        }
     }
 
     protected override void OnDeactivated(Action onComplete = null)
