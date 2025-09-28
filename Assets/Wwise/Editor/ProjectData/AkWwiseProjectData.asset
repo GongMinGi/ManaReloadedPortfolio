@@ -38,11 +38,11 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 186e5f416507af45807e7899b72af7f9
     GuidInternal: 
-    m_lastTime: -8584445458468078232
+    m_lastTime: -8584429927034164166
     List:
-    - name: Master Audio Bus
-      guid: d8a41415a61d2a41a17e75ca0c2149f3
-      id: 3803692087
+    - name: Ambience
+      guid: 3fbe480b475b90489b090a8a1c80a4e9
+      id: 85412153
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
@@ -50,10 +50,141 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: 186e5f416507af45807e7899b72af7f9
-      - ElementName: Master Audio Bus
+      - ElementName: Master
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
+      - ElementName: Sfx
+        ObjectType: 2
+        guid: 7e13d979eb85c440824f0503ee0cfa46
+      - ElementName: Ambience
+        ObjectType: 2
+        guid: 3fbe480b475b90489b090a8a1c80a4e9
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master\Sfx\Ambience
+    - name: Bgm
+      guid: cb9f5e2aa6f75643b4890eb0a354a8fd
+      id: 412724365
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 186e5f416507af45807e7899b72af7f9
+      - ElementName: Master
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Bgm
+        ObjectType: 2
+        guid: cb9f5e2aa6f75643b4890eb0a354a8fd
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master\Bgm
+    - name: Master
+      guid: d8a41415a61d2a41a17e75ca0c2149f3
+      id: 4056684167
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 186e5f416507af45807e7899b72af7f9
+      - ElementName: Master
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master
+    - name: Monster
+      guid: 3b8534ee4447ba43babb436b4fc0e93a
+      id: 2376328173
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 186e5f416507af45807e7899b72af7f9
+      - ElementName: Master
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Sfx
+        ObjectType: 2
+        guid: 7e13d979eb85c440824f0503ee0cfa46
+      - ElementName: Monster
+        ObjectType: 2
+        guid: 3b8534ee4447ba43babb436b4fc0e93a
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master\Sfx\Monster
+    - name: Player
+      guid: a651e6787d552141ab5b7f5fca84d4fd
+      id: 1069431850
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 186e5f416507af45807e7899b72af7f9
+      - ElementName: Master
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Sfx
+        ObjectType: 2
+        guid: 7e13d979eb85c440824f0503ee0cfa46
+      - ElementName: Player
+        ObjectType: 2
+        guid: a651e6787d552141ab5b7f5fca84d4fd
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master\Sfx\Player
+    - name: Sfx
+      guid: 7e13d979eb85c440824f0503ee0cfa46
+      id: 393239870
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 186e5f416507af45807e7899b72af7f9
+      - ElementName: Master
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Sfx
+        ObjectType: 2
+        guid: 7e13d979eb85c440824f0503ee0cfa46
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master\Sfx
+    - name: Stinger
+      guid: fab316cd3778c04692754eecfcba72fe
+      id: 78360149
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 186e5f416507af45807e7899b72af7f9
+      - ElementName: Master
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Stinger
+        ObjectType: 2
+        guid: fab316cd3778c04692754eecfcba72fe
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master\Stinger
+    - name: Ui
+      guid: 78b6390f5529fc4fb00855c99f4437c0
+      id: 1551306167
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 186e5f416507af45807e7899b72af7f9
+      - ElementName: Master
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Sfx
+        ObjectType: 2
+        guid: 7e13d979eb85c440824f0503ee0cfa46
+      - ElementName: Ui
+        ObjectType: 2
+        guid: 78b6390f5529fc4fb00855c99f4437c0
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master\Sfx\Ui
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     PathAndIcons:
@@ -66,7 +197,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 09e13529a604244e997c15901e6c6099
     GuidInternal: 
-    m_lastTime: -8584442998034146344
+    m_lastTime: -8584425623666763642
     List:
     - name: BankMain
       guid: 02075c9e74fdf2459031c5185b1beddb
@@ -94,8 +225,536 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 9659267799b4a4408b8781215ffa905f
     GuidInternal: 
-    m_lastTime: -8584445458468114448
-    List: []
+    m_lastTime: -8584425623666838716
+    List:
+    - name: Bgm
+      guid: 98a035c8cb5d724f8f788b399bfc3e8f
+      id: 412724365
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Bgm
+        ObjectType: 4
+        guid: 98a035c8cb5d724f8f788b399bfc3e8f
+      Path: Events\Default Work Unit\Bgm
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Bgm_Dummy_MainTitle
+      guid: 44d1292b6d56cb4b87899858e27d3d77
+      id: 1990083467
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Bgm
+        ObjectType: 4
+        guid: 98a035c8cb5d724f8f788b399bfc3e8f
+      - ElementName: Play_Bgm_Dummy_MainTitle
+        ObjectType: 3
+        guid: 44d1292b6d56cb4b87899858e27d3d77
+      Path: Events\Default Work Unit\Bgm\Play_Bgm_Dummy_MainTitle
+      maxAttenuation: 0
+      maxDuration: 83.52
+      minDuration: 83.52
+    - name: Play_Bgm_Dummy_Stage01
+      guid: 0bcfb44ede69b34ab0114443bfed8f46
+      id: 1306791755
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Bgm
+        ObjectType: 4
+        guid: 98a035c8cb5d724f8f788b399bfc3e8f
+      - ElementName: Play_Bgm_Dummy_Stage01
+        ObjectType: 3
+        guid: 0bcfb44ede69b34ab0114443bfed8f46
+      Path: Events\Default Work Unit\Bgm\Play_Bgm_Dummy_Stage01
+      maxAttenuation: 0
+      maxDuration: 146.264
+      minDuration: 146.264
+    - name: Play_Sfx_Player_Cast_Button_01
+      guid: 83d1326a18862b4ba44deb6334e7e126
+      id: 113452694
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Generic
+        ObjectType: 4
+        guid: cf3161eaf0c11d479397b09f15ca45d3
+      - ElementName: Play_Sfx_Player_Cast_Button_01
+        ObjectType: 3
+        guid: 83d1326a18862b4ba44deb6334e7e126
+      Path: Events\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_01
+      maxAttenuation: 0
+      maxDuration: 0.42579168
+      minDuration: 0.42579168
+    - name: Play_Sfx_Player_Cast_Button_02
+      guid: f4712061b1c30d48b70eed47b1d64873
+      id: 113452693
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Generic
+        ObjectType: 4
+        guid: cf3161eaf0c11d479397b09f15ca45d3
+      - ElementName: Play_Sfx_Player_Cast_Button_02
+        ObjectType: 3
+        guid: f4712061b1c30d48b70eed47b1d64873
+      Path: Events\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_02
+      maxAttenuation: 0
+      maxDuration: 0.4258125
+      minDuration: 0.4258125
+    - name: Play_Sfx_Player_Cast_Button_03
+      guid: cfa28d6cf8f1fa4ebd59626e56fbbac2
+      id: 113452692
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Generic
+        ObjectType: 4
+        guid: cf3161eaf0c11d479397b09f15ca45d3
+      - ElementName: Play_Sfx_Player_Cast_Button_03
+        ObjectType: 3
+        guid: cfa28d6cf8f1fa4ebd59626e56fbbac2
+      Path: Events\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_03
+      maxAttenuation: 0
+      maxDuration: 0.41858333
+      minDuration: 0.41858333
+    - name: Play_Sfx_Player_Cast_Button_04
+      guid: 5d9c29ab9881a543b1113c336e1ed9cf
+      id: 113452691
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Generic
+        ObjectType: 4
+        guid: cf3161eaf0c11d479397b09f15ca45d3
+      - ElementName: Play_Sfx_Player_Cast_Button_04
+        ObjectType: 3
+        guid: 5d9c29ab9881a543b1113c336e1ed9cf
+      Path: Events\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_04
+      maxAttenuation: 0
+      maxDuration: 0.42579168
+      minDuration: 0.42579168
+    - name: Play_Sfx_Player_Cast_Button_05
+      guid: cebca5c61a71454db7f7e8f5cae2263c
+      id: 113452690
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Generic
+        ObjectType: 4
+        guid: cf3161eaf0c11d479397b09f15ca45d3
+      - ElementName: Play_Sfx_Player_Cast_Button_05
+        ObjectType: 3
+        guid: cebca5c61a71454db7f7e8f5cae2263c
+      Path: Events\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_05
+      maxAttenuation: 0
+      maxDuration: 0.41135415
+      minDuration: 0.41135415
+    - name: Play_Sfx_Player_Cast_Button_06
+      guid: 559b9d45b071894f91add2d9bd3cbfd6
+      id: 113452689
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Generic
+        ObjectType: 4
+        guid: cf3161eaf0c11d479397b09f15ca45d3
+      - ElementName: Play_Sfx_Player_Cast_Button_06
+        ObjectType: 3
+        guid: 559b9d45b071894f91add2d9bd3cbfd6
+      Path: Events\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_06
+      maxAttenuation: 0
+      maxDuration: 0.37804165
+      minDuration: 0.37804165
+    - name: Play_Sfx_Player_Cast_Start
+      guid: 1be6ee9e24df564fa4946fbbb70f5edd
+      id: 4230574424
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Generic
+        ObjectType: 4
+        guid: cf3161eaf0c11d479397b09f15ca45d3
+      - ElementName: Play_Sfx_Player_Cast_Start
+        ObjectType: 3
+        guid: 1be6ee9e24df564fa4946fbbb70f5edd
+      Path: Events\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Start
+      maxAttenuation: 0
+      maxDuration: 1.2239584
+      minDuration: 1.2239584
+    - name: Play_Sfx_Player_Range_Fire_End
+      guid: bd449f257dbb144090eb9638152aa9a5
+      id: 4189576160
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Fire_End
+        ObjectType: 3
+        guid: bd449f257dbb144090eb9638152aa9a5
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Fire_End
+      maxAttenuation: 0
+      maxDuration: 0.48870835
+      minDuration: 0.48870835
+    - name: Play_Sfx_Player_Range_Fire_Loop
+      guid: 22185ac4a9de3541bbc85be7a29d594c
+      id: 3669469019
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Fire_Loop
+        ObjectType: 3
+        guid: 22185ac4a9de3541bbc85be7a29d594c
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Fire_Loop
+      maxAttenuation: 0
+      maxDuration: 1.0169166
+      minDuration: 1.0169166
+    - name: Play_Sfx_Player_Range_Fire_Ready
+      guid: 906f2a0230d87442818e40d98752b33b
+      id: 1802017886
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Fire_Ready
+        ObjectType: 3
+        guid: 906f2a0230d87442818e40d98752b33b
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Fire_Ready
+      maxAttenuation: 0
+      maxDuration: 0.6013542
+      minDuration: 0.6013542
+    - name: Play_Sfx_Player_Range_Fire_Shot
+      guid: cf44ec121669dd4285f39d29ffd80ba5
+      id: 3384474145
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Fire_Shot
+        ObjectType: 3
+        guid: cf44ec121669dd4285f39d29ffd80ba5
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Fire_Shot
+      maxAttenuation: 0
+      maxDuration: 1.7585624
+      minDuration: 1.7585624
+    - name: Play_Sfx_Player_Range_Light_Ready
+      guid: bf9c1bde0a26e34f8eab54c1fda66c55
+      id: 3186217726
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Light_Ready
+        ObjectType: 3
+        guid: bf9c1bde0a26e34f8eab54c1fda66c55
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Light_Ready
+      maxAttenuation: 0
+      maxDuration: 1.7883126
+      minDuration: 1.7883126
+    - name: Play_Sfx_Player_Range_Light_Shot
+      guid: 53a816effb5a284a89eee44f950d4a5e
+      id: 317117249
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Light_Shot
+        ObjectType: 3
+        guid: 53a816effb5a284a89eee44f950d4a5e
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Light_Shot
+      maxAttenuation: 0
+      maxDuration: 3.0190208
+      minDuration: 3.0190208
+    - name: Play_Sfx_Player_Range_Stone_Ready
+      guid: 570b63f5dad1fe45ba61dee0a3ec583c
+      id: 3327860805
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Stone_Ready
+        ObjectType: 3
+        guid: 570b63f5dad1fe45ba61dee0a3ec583c
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Stone_Ready
+      maxAttenuation: 0
+      maxDuration: 1.7831042
+      minDuration: 1.7831042
+    - name: Play_Sfx_Player_Range_Stone_Shot
+      guid: 3e0ad60f8708f541b2a936c3e033be58
+      id: 3098527288
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Stone_Shot
+        ObjectType: 3
+        guid: 3e0ad60f8708f541b2a936c3e033be58
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Stone_Shot
+      maxAttenuation: 0
+      maxDuration: 1.6322292
+      minDuration: 1.6322292
+    - name: Play_Sfx_Player_Range_Thunder_Ready
+      guid: 1ef85abcc663b34ca7332b977c86199f
+      id: 3694778788
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Thunder_Ready
+        ObjectType: 3
+        guid: 1ef85abcc663b34ca7332b977c86199f
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Thunder_Ready
+      maxAttenuation: 0
+      maxDuration: 1.3783542
+      minDuration: 1.3783542
+    - name: Play_Sfx_Player_Range_Thunder_Ready_Loop
+      guid: 8c2a57143afbd04e9a0303159d30c6b5
+      id: 679765885
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Thunder_Ready_Loop
+        ObjectType: 3
+        guid: 8c2a57143afbd04e9a0303159d30c6b5
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Thunder_Ready_Loop
+      maxAttenuation: 0
+      maxDuration: 1.6985
+      minDuration: 1.6985
+    - name: Play_Sfx_Player_Range_Thunder_Shot
+      guid: d83f423ea3b5684e8fc606ba56c311a0
+      id: 3382960767
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      - ElementName: Play_Sfx_Player_Range_Thunder_Shot
+        ObjectType: 3
+        guid: d83f423ea3b5684e8fc606ba56c311a0
+      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Thunder_Shot
+      maxAttenuation: 0
+      maxDuration: 2.8275208
+      minDuration: 2.8275208
+    - name: Play_Sfx_Player_Spell_Heal
+      guid: 6baab96c960a954c98744af6d0438465
+      id: 3736043187
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Heal
+        ObjectType: 3
+        guid: 6baab96c960a954c98744af6d0438465
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Heal
+      maxAttenuation: 0
+      maxDuration: 6.526979
+      minDuration: 6.526979
+    - name: Play_Sfx_Player_Spell_Meteor
+      guid: bfe7f8a4c3b5f946a2fa8cf96f27b47a
+      id: 1703588885
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Meteor
+        ObjectType: 3
+        guid: bfe7f8a4c3b5f946a2fa8cf96f27b47a
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Meteor
+      maxAttenuation: 0
+      maxDuration: 8.0130205
+      minDuration: 8.0130205
+    - name: Play_Sfx_Player_Spell_Spike
+      guid: 165526b1ffca4547a4f9de44746c78ca
+      id: 3010407773
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Spike
+        ObjectType: 3
+        guid: 165526b1ffca4547a4f9de44746c78ca
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Spike
+      maxAttenuation: 0
+      maxDuration: 3.1964376
+      minDuration: 3.1964376
+    - name: Sfx_Generic
+      guid: cf3161eaf0c11d479397b09f15ca45d3
+      id: 381113440
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Generic
+        ObjectType: 4
+        guid: cf3161eaf0c11d479397b09f15ca45d3
+      Path: Events\Default Work Unit\Sfx_Generic
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Sfx_Range
+      guid: a1e3e889b0cfdb478241c9bcead62272
+      id: 1909561468
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Range
+        ObjectType: 4
+        guid: a1e3e889b0cfdb478241c9bcead62272
+      Path: Events\Default Work Unit\Sfx_Range
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Sfx_Spell
+      guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      id: 521393369
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      Path: Events\Default Work Unit\Sfx_Spell
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -153,7 +812,7 @@ MonoBehaviour:
     m_lastTime: -8584445458468015602
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 0d0000000e0000000f0000001500000016000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0
