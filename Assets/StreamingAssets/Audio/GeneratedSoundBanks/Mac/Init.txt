@@ -1,0 +1,14 @@
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	78360149	Stinger			\Default Work Unit\Master\Stinger	
+	85412153	Ambience			\Default Work Unit\Master\Sfx\Ambience	
+	393239870	Sfx			\Default Work Unit\Master\Sfx	
+	412724365	Bgm			\Default Work Unit\Master\Bgm	
+	1069431850	Player			\Default Work Unit\Master\Sfx\Player	
+	1551306167	Ui			\Default Work Unit\Master\Sfx\Ui	
+	2376328173	Monster			\Default Work Unit\Master\Sfx\Monster	
+	4056684167	Master			\Default Work Unit\Master	
+
+Audio Devices	ID	Name	Type				Notes
+	2317455096	No_Output	No Output			
+	3859886410	System	System			
+
