@@ -17,12 +17,12 @@ public class GuardianSpiritPooledObject : PooledObject
 
     [Header("Damage Settings")]
     [SerializeField] float damage;  // 수호령 데미지량
-    [SerializeField] float tickInterval;    // 데미지 틱 간격 (초)
+    // [SerializeField] float tickInterval;    // 데미지 틱 간격 (초)
 
     [Header("Duration")]
     [SerializeField] float lifeTime;    // 스킬 지속 시간
     private float elapsedLifetime;      // 경과된 시간 추적
-    private float intervalTimer;        // 데미지 틱 타이머
+    // private float intervalTimer;        // 데미지 틱 타이머
 
     private bool isEffectActive;        // 스킬 활성화 상태
     private bool isPositioned;          // 수호령 배치 완료 여부
@@ -42,14 +42,14 @@ public class GuardianSpiritPooledObject : PooledObject
 
         // 경과 시간 누적
         elapsedLifetime += Time.deltaTime;
-        intervalTimer += Time.deltaTime;
+        // intervalTimer += Time.deltaTime;
 
         // 데미지 틱 간격마다 범위 내 적들에게 피해 적용
-        if (intervalTimer >= tickInterval)
+        /*if (intervalTimer >= tickInterval)
         {
-            ApplyDamageInRange(transform.position);
+            // ApplyDamageInRange(transform.position);
             intervalTimer -= tickInterval;
-        }
+        }*/
 
         // 지속 시간 종료 시 스킬 비활성화
         if (elapsedLifetime >= lifeTime)
@@ -68,7 +68,7 @@ public class GuardianSpiritPooledObject : PooledObject
     /// sqrMagnitude를 사용하여 성능 최적화된 거리 계산 수행
     /// </summary>
     /// <param name="center">데미지 범위의 중심 좌표</param>
-    private void ApplyDamageInRange(Vector3 center)
+    /*private void ApplyDamageInRange(Vector3 center)
     {
         var enemies = GameModeManager.EnemyManager.Enemies;
 
@@ -83,7 +83,7 @@ public class GuardianSpiritPooledObject : PooledObject
                 enemies[i].Stats.TakeDamage(damage);
             }
         }
-    }
+    }*/
     #endregion
 
     #region Guardian spirits positioning
@@ -120,7 +120,7 @@ public class GuardianSpiritPooledObject : PooledObject
     {
         // 타이머 초기화
         elapsedLifetime = 0;
-        intervalTimer = tickInterval;
+        // intervalTimer = tickInterval;
 
         // 이미 배치된 상태라면 즉시 활성화
         if (isPositioned == true)

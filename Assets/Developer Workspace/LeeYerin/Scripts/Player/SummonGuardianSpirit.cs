@@ -8,7 +8,7 @@
 /// 
 /// 플레이어 위치에 수호령 스킬 풀 오브젝트를 풀에서 꺼내와 배치 및 활성화
 /// </summary>
-public class GuardianSpirit : BaseCombinationMagic
+public class SummonGuardianSpirit : BaseCombinationMagic
 {
     [Tooltip("Guardian spirit object prefab to use")]
     [SerializeField] GuardianSpiritPooledObject guardian;   // 사용할 GuardianSpirit 오브젝트 프리팹
