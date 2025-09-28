@@ -1,22 +1,22 @@
-namespace Game.Combat.Stats
+ï»¿namespace Game.Combat.Stats
 {
     /// <summary>
-    ///  °³¹ßÀÚ: ÀÌ¿¹¸°
+    ///  ê°œë°œì: ì´ì˜ˆë¦°
     ///  
-    /// ÀÌµ¿ ¼Óµµ¸¦ °¨¼Ò½ÃÅ°°í ÁÖ±âÀûÀ¸·Î ÇÇÇØ¸¦ ÁÖ´Â »óÅÂÀÌ»ó È¿°ú¸¦ Á¤ÀÇÇÔ.
+    /// ì´ë™ ì†ë„ë¥¼ ê°ì†Œì‹œí‚¤ê³  ì£¼ê¸°ì ìœ¼ë¡œ í”¼í•´ë¥¼ ì£¼ëŠ” ìƒíƒœì´ìƒ íš¨ê³¼ë¥¼ ì •ì˜í•¨.
     /// </summary>
     public class SlowEffect : StatusEffect
     {
-        private StatModifier slowModifier;      // ÀÌµ¿ ¼Óµµ °¨¼Ò È¿°ú¸¦ Á¤ÀÇÇÔ
+        private StatModifier slowModifier;      // ì´ë™ ì†ë„ ê°ì†Œ íš¨ê³¼ë¥¼ ì •ì˜í•¨
 
         /// <summary>
-        /// SlowEffect ÃÊ±âÈ­
+        /// SlowEffect ì´ˆê¸°í™”
         /// </summary>
-        /// <param name="duration">È¿°ú Áö¼Ó ½Ã°£</param>
-        /// <param name="hasTickEffect">Æ½ È¿°ú ¿©ºÎ</param>
-        /// <param name="effectId">È¿°ú ID</param>
-        /// <param name="slowAmount">ÀÌµ¿ ¼Óµµ °¨¼Ò·®</param>
-        /// <param name="mode">°¨¼Ò ¸ğµå</param>
+        /// <param name="duration">íš¨ê³¼ ì§€ì† ì‹œê°„</param>
+        /// <param name="hasTickEffect">í‹± íš¨ê³¼ ì—¬ë¶€</param>
+        /// <param name="effectId">íš¨ê³¼ ID</param>
+        /// <param name="slowAmount">ì´ë™ ì†ë„ ê°ì†ŒëŸ‰</param>
+        /// <param name="mode">ê°ì†Œ ëª¨ë“œ</param>
         public SlowEffect(
             float duration,
             bool hasTickEffect,
@@ -24,27 +24,43 @@ namespace Game.Combat.Stats
             float slowAmount, 
             ModifierMode mode = ModifierMode.Add) : base(duration, hasTickEffect, effectId)
         {
-            // ÀÌµ¿ ¼Óµµ °¨¼Ò ¼öÁ¤ÀÚ¸¦ »ı¼º
+            // ì´ë™ ì†ë„ ê°ì†Œ ìˆ˜ì •ìë¥¼ ìƒì„±
             slowModifier = new StatModifier(StatType.MoveSpeed, slowAmount, duration, mode);
         }
 
         /// <summary>
-        /// È¿°ú°¡ Àû¿ëµÉ ¶§ È£ÃâµÊ.
+        /// ìŠ¬ë¡œìš° íš¨ê³¼ì˜ ì§€ì† ì‹œê°„ê³¼ ê°•ë„ë¥¼ ê°±ì‹ í•˜ëŠ” ë©”ì„œë“œ
         /// </summary>
-        /// <param name="unitStats">´ë»ó À¯´ÖÀÇ ½ºÅÈ</param>
+        /// <param name="newDuration">ìƒˆë¡­ê²Œ ì ìš©í•  ì§€ì† ì‹œê°„(ì´ˆ ë‹¨ìœ„)</param>
+        /// <param name="newSlowAmount">ìƒˆë¡­ê²Œ ì ìš©í•  ì´ë™ ì†ë„ ê°ì†ŒëŸ‰</param>
+        public void UpdateEffect(float newDuration, float newSlowAmount)
+        {
+            if (slowModifier == null)
+            {
+                return;
+            }
+
+            slowModifier.Duration = newDuration;
+            slowModifier.Value = newSlowAmount;
+        }
+
+        /// <summary>
+        /// íš¨ê³¼ê°€ ì ìš©ë  ë•Œ í˜¸ì¶œë¨.
+        /// </summary>
+        /// <param name="unitStats">ëŒ€ìƒ ìœ ë‹›ì˜ ìŠ¤íƒ¯</param>
         public override void OnApply(UnitStats unitStats)
         {
-            // ´ë»ó À¯´Ö¿¡ ÀÌµ¿ ¼Óµµ °¨¼Ò È¿°ú¸¦ Ãß°¡
+            // ëŒ€ìƒ ìœ ë‹›ì— ì´ë™ ì†ë„ ê°ì†Œ íš¨ê³¼ë¥¼ ì¶”ê°€
             unitStats.AddModifier(slowModifier);
         }
 
         /// <summary>
-        /// È¿°ú°¡ ¸¸·áµÉ ¶§ È£ÃâµÊ.
+        /// íš¨ê³¼ê°€ ë§Œë£Œë  ë•Œ í˜¸ì¶œë¨.
         /// </summary>
-        /// <param name="unitStats">´ë»ó À¯´ÖÀÇ ½ºÅÈ</param>
+        /// <param name="unitStats">ëŒ€ìƒ ìœ ë‹›ì˜ ìŠ¤íƒ¯</param>
         public override void OnExpire(UnitStats unitStats)
         {
-            // ´ë»ó À¯´Ö¿¡¼­ ÀÌµ¿ ¼Óµµ °¨¼Ò È¿°ú¸¦ Á¦°Å
+            // ëŒ€ìƒ ìœ ë‹›ì—ì„œ ì´ë™ ì†ë„ ê°ì†Œ íš¨ê³¼ë¥¼ ì œê±°
             unitStats.RemoveModifier(slowModifier);
         }
     }

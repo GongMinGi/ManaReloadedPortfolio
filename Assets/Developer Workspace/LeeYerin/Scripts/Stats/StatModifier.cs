@@ -1,50 +1,50 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace Game.Combat.Stats
 {
     /// <summary>
-    /// °³¹ßÀÚ: ÀÌ¿¹¸°
+    /// ê°œë°œì: ì´ì˜ˆë¦°
     /// 
-    /// ½ºÅÈ¿¡ Àû¿ëµÇ´Â º¯Çü(Modifier)À» ³ªÅ¸³»´Â Å¬·¡½º
-    /// °¢ Modifier´Â Æ¯Á¤ ½ºÅÈ Å¸ÀÔ¿¡ ´ëÇØ ÀÏÁ¤ ±â°£ µ¿¾È (¹«ÇÑ Áö¼Ó °¡´É)
-    /// µ¡¼À, °ö¼À, µ¤¾î¾²±â ¹æ½ÄÀ¸·Î ½ºÅÈ °ªÀ» º¯°æÇÒ ¼ö ÀÖÀ½
+    /// ìŠ¤íƒ¯ì— ì ìš©ë˜ëŠ” ë³€í˜•(Modifier)ì„ ë‚˜íƒ€ë‚´ëŠ” í´ë˜ìŠ¤
+    /// ê° ModifierëŠ” íŠ¹ì • ìŠ¤íƒ¯ íƒ€ì…ì— ëŒ€í•´ ì¼ì • ê¸°ê°„ ë™ì•ˆ (ë¬´í•œ ì§€ì† ê°€ëŠ¥)
+    /// ë§ì…ˆ, ê³±ì…ˆ, ë®ì–´ì“°ê¸° ë°©ì‹ìœ¼ë¡œ ìŠ¤íƒ¯ ê°’ì„ ë³€ê²½í•  ìˆ˜ ìˆìŒ
     /// </summary>
     public class StatModifier
     {
         [Tooltip("Stat type to be applied")]
-        [SerializeField] StatType type;     // Àû¿ë ´ë»ó ½ºÅÈ Å¸ÀÔ
+        [SerializeField] StatType type;     // ì ìš© ëŒ€ìƒ ìŠ¤íƒ¯ íƒ€ì…
         [Tooltip("Value applied by Modifier")]
-        [SerializeField] float value;       // Modifier°¡ Àû¿ëÇÏ´Â °ª
+        [SerializeField] float value;       // Modifierê°€ ì ìš©í•˜ëŠ” ê°’
         [Tooltip("Modifier applied mode (Add, Multiply, Override)")]
-        [SerializeField] ModifierMode mode; // Modifier Àû¿ë ¹æ½Ä
+        [SerializeField] ModifierMode mode; // Modifier ì ìš© ë°©ì‹
         [Tooltip("Modifier duration in seconds")]
-        [SerializeField] float duration;    // Modifier Áö¼Ó ½Ã°£ (ÃÊ ´ÜÀ§) // -1ÀÌ¸é ¹«ÇÑ Áö¼Ó
+        [SerializeField] float duration;    // Modifier ì§€ì† ì‹œê°„ (ì´ˆ ë‹¨ìœ„) // -1ì´ë©´ ë¬´í•œ ì§€ì†
 
         /// <summary>
-        /// Àû¿ë ´ë»ó ½ºÅÈ Å¸ÀÔ
+        /// ì ìš© ëŒ€ìƒ ìŠ¤íƒ¯ íƒ€ì…
         /// </summary>
         public StatType Type => type;
         /// <summary>
-        /// Modifier°¡ Àû¿ëÇÏ´Â °ª
+        /// Modifierê°€ ì ìš©í•˜ëŠ” ê°’
         /// </summary>
-        public float Value => value;
+        public float Value { get => value; set => this.value = value; }
         /// <summary>
-        /// Modifier Àû¿ë ¹æ½Ä (Add, Multiply, Override)
+        /// Modifier ì ìš© ë°©ì‹ (Add, Multiply, Override)
         /// </summary>
         public ModifierMode Mode => mode;
         /// <summary>
-        /// Modifier Áö¼Ó ½Ã°£ (ÃÊ ´ÜÀ§)
-        /// -1ÀÌ¸é ¹«ÇÑ Áö¼Ó
+        /// Modifier ì§€ì† ì‹œê°„ (ì´ˆ ë‹¨ìœ„)
+        /// -1ì´ë©´ ë¬´í•œ ì§€ì†
         /// </summary>
-        public float Duration => duration;
+        public float Duration { get => duration; set => duration = value; }
 
         /// <summary>
-        /// StatModifier »ı¼ºÀÚ
+        /// StatModifier ìƒì„±ì
         /// </summary>
-        /// <param name="type">Àû¿ëÇÒ ½ºÅÈ Å¸ÀÔ</param>
-        /// <param name="value">>Modifier °ª</param>
-        /// <param name="duration">Áö¼Ó ½Ã°£ (ÃÊ), -1ÀÌ¸é ¹«ÇÑ Áö¼Ó</param>
-        /// <param name="mode">Àû¿ë ¹æ½Ä, ±âº»°ªÀº Add</param>
+        /// <param name="type">ì ìš©í•  ìŠ¤íƒ¯ íƒ€ì…</param>
+        /// <param name="value">>Modifier ê°’</param>
+        /// <param name="duration">ì§€ì† ì‹œê°„ (ì´ˆ), -1ì´ë©´ ë¬´í•œ ì§€ì†</param>
+        /// <param name="mode">ì ìš© ë°©ì‹, ê¸°ë³¸ê°’ì€ Add</param>
         public StatModifier(StatType type, float value, float duration, ModifierMode mode = ModifierMode.Add)
         {
             this.type = type;
@@ -55,23 +55,23 @@ namespace Game.Combat.Stats
     }
 
     /// <summary>
-    /// ½ºÅÈ Á¾·ù¸¦ Á¤ÀÇÇÏ´Â ¿­°ÅÇü
+    /// ìŠ¤íƒ¯ ì¢…ë¥˜ë¥¼ ì •ì˜í•˜ëŠ” ì—´ê±°í˜•
     /// </summary>
     public enum StatType
     {
-        MoveSpeed,  // ÀÌµ¿ ¼Óµµ
-        Defense,    // ¹æ¾î·Â
-        HP,         // Ã¼·Â
+        MoveSpeed,  // ì´ë™ ì†ë„
+        Defense,    // ë°©ì–´ë ¥
+        HP,         // ì²´ë ¥
     }
 
     /// <summary>
-    /// Modifier°¡ ½ºÅÈ¿¡ Àû¿ëµÇ´Â ¹æ½ÄÀ» Á¤ÀÇÇÏ´Â ¿­°ÅÇü
+    /// Modifierê°€ ìŠ¤íƒ¯ì— ì ìš©ë˜ëŠ” ë°©ì‹ì„ ì •ì˜í•˜ëŠ” ì—´ê±°í˜•
     /// </summary>
     public enum ModifierMode
     {
-        Add,        // ½ºÅÈ¿¡ °ªÀ» ´õÇÔ
-        Multiply,   // ½ºÅÈ¿¡ °ªÀ» °öÇÔ
-        Override,    // ½ºÅÈ °ªÀ» Æ¯Á¤ °ªÀ¸·Î µ¤¾î¾¸
-        TickOnly    // Æ½ È¿°ú¸¸ ½ÇÇàÇÏ¸ç ½ºÅÈ °ª¿¡´Â Á÷Á¢ ¿µÇâ ¾øÀ½
+        Add,        // ìŠ¤íƒ¯ì— ê°’ì„ ë”í•¨
+        Multiply,   // ìŠ¤íƒ¯ì— ê°’ì„ ê³±í•¨
+        Override,    // ìŠ¤íƒ¯ ê°’ì„ íŠ¹ì • ê°’ìœ¼ë¡œ ë®ì–´ì”€
+        TickOnly    // í‹± íš¨ê³¼ë§Œ ì‹¤í–‰í•˜ë©° ìŠ¤íƒ¯ ê°’ì—ëŠ” ì§ì ‘ ì˜í–¥ ì—†ìŒ
     }
 }
