@@ -4,31 +4,31 @@ using UnityEngine;
 /// <summary>
 /// 개발자: 이예린
 /// 
-/// Guardian Spirit 오브젝트 풀링용 클래스
+/// Guardian Spirit 스킬의 풀링 오브젝트 클래스
 /// 
-/// 플레이어 주변에 5개의 수호령을 별 모양으로 배치하여 지속적으로 데미지를 가하는 스킬
+/// - 플레이어 주변에 5개의 수호령을 오각형 형태로 배치
+/// - 각 수호령은 개별적으로 적을 공격하며 지속적으로 데미지를 가함
+/// - 스킬 지속 시간 동안 활성화되고, 만료 시 오브젝트 풀로 반환됨
 /// </summary>
 public class GuardianSpiritPooledObject : PooledObject
 {
     #region Guardian Skill Configuration
     [Header("Guardian Deployment")]
     [SerializeField] float range = 2f;  // 수호령 배치 및 공격 범위
-    [SerializeField] Transform[] guardianObjs = new Transform[5];   // 수호령 오브젝트 배열 (5개)
+    [SerializeField] GuardianSpirit[] guardianObjs = new GuardianSpirit[5];   // 수호령 오브젝트 배열 (5개)
 
     [Header("Damage Settings")]
     [SerializeField] float damage;  // 수호령 데미지량
-    [SerializeField] float tickInterval;    // 데미지 틱 간격 (초)
 
     [Header("Duration")]
     [SerializeField] float lifeTime;    // 스킬 지속 시간
     private float elapsedLifetime;      // 경과된 시간 추적
-    private float intervalTimer;        // 데미지 틱 타이머
 
     private bool isEffectActive;        // 스킬 활성화 상태
     private bool isPositioned;          // 수호령 배치 완료 여부
     #endregion
 
-    #region unity Event
+    #region Unity Event
     private void Update()
     {
         // 오브젝트 위치를 항상 플레이어 위치로 동기화
@@ -42,14 +42,6 @@ public class GuardianSpiritPooledObject : PooledObject
 
         // 경과 시간 누적
         elapsedLifetime += Time.deltaTime;
-        intervalTimer += Time.deltaTime;
-
-        // 데미지 틱 간격마다 범위 내 적들에게 피해 적용
-        if (intervalTimer >= tickInterval)
-        {
-            ApplyDamageInRange(transform.position);
-            intervalTimer -= tickInterval;
-        }
 
         // 지속 시간 종료 시 스킬 비활성화
         if (elapsedLifetime >= lifeTime)
@@ -62,36 +54,13 @@ public class GuardianSpiritPooledObject : PooledObject
     }
     #endregion
 
-    #region Damage
+    #region Guardian spirits setting
     /// <summary>
-    /// 지정된 중심점을 기준으로 범위 내 모든 적에게 데미지를 가하는 원형 AoE 공격
-    /// sqrMagnitude를 사용하여 성능 최적화된 거리 계산 수행
-    /// </summary>
-    /// <param name="center">데미지 범위의 중심 좌표</param>
-    private void ApplyDamageInRange(Vector3 center)
-    {
-        var enemies = GameModeManager.EnemyManager.Enemies;
-
-        // 현재 존재하는 모든 적을 순회하며 범위 내 여부 판단
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            float distanceSqr = (enemies[i].transform.position - center).sqrMagnitude;
-
-            if (distanceSqr <= range * range)
-            {
-                // 틱마다 피해를 입힘
-                enemies[i].Stats.TakeDamage(damage);
-            }
-        }
-    }
-    #endregion
-
-    #region Guardian spirits positioning
-    /// <summary>
-    /// 수호령들을 플레이어 중심으로 별(오각형) 모양 배치
+    /// 수호령들을 플레이어 중심 오각형 형태로 배치하고,
+    /// 위치 및 데미지를 초기화하는 메서드
     /// </summary>
     /// <returns>배치 성공 여부 (항상 true 반환)</returns>
-    private bool PositionGuardiansInStar()
+    private bool SetupGuardiansInPentagon()
     {
         // 5개의 수호령을 75도 간격으로 배치
         for (int i = 0; i < 5; i++)
@@ -108,10 +77,11 @@ public class GuardianSpiritPooledObject : PooledObject
             float scaledX = x * range * 0.5f;
             float scaledZ = z * range * 0.5f;
 
-            guardianObjs[i].position = transform.position + new Vector3 (scaledX, 1f, scaledZ);
+            // 소호령 세팅 메서드 호출
+            guardianObjs[i].Setup(transform.position + new Vector3(scaledX, 1f, scaledZ), damage);
         }
 
-        return true;    // 배치 완료 표시
+        return true;    // 세팅 완료 표시
     }
     #endregion
 
@@ -120,7 +90,6 @@ public class GuardianSpiritPooledObject : PooledObject
     {
         // 타이머 초기화
         elapsedLifetime = 0;
-        intervalTimer = tickInterval;
 
         // 이미 배치된 상태라면 즉시 활성화
         if (isPositioned == true)
@@ -129,8 +98,8 @@ public class GuardianSpiritPooledObject : PooledObject
             yield break;
         }
 
-        // 가디언들을 별 모양으로 배치
-        isPositioned = PositionGuardiansInStar();
+        // 가디언들을 별 모양으로 배치 및 데미지 초기화
+        isPositioned = SetupGuardiansInPentagon();
 
         yield return new WaitUntil(() => isPositioned == true);
 
