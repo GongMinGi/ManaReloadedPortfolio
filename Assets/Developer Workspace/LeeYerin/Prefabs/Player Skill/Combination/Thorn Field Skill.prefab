@@ -50,3 +50,10 @@ MonoBehaviour:
   size: 3
   capacity: 5
   distance: 1
+  range: 5
+  damage: 200
+  effectId: 2000009
+  duration: 4
+  value: 0.5
+  lifeTime: 6
+  tickInterval: 0.5
