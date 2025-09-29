@@ -6,12 +6,15 @@
 				<Folder Name="Main" ID="{F85EC918-6089-4C81-BE6C-0866F6A4AD27}" ShortID="908544997">
 					<ChildrenList>
 						<ActorMixer Name="Sfx_Spell" ID="{CAEBA9B5-7626-4E38-A187-F34A4EF29AFA}" ShortID="843011907">
+							<PropertyList>
+								<Property Name="EnableLoudnessNormalization" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+									<ObjectRef Name="Vorbis Quality High" ID="{53A9DE0F-3F4F-4B59-8614-3F9E3C7358FC}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+									<ObjectRef Name="Player" ID="{78E651A6-557D-4121-AB5B-7F5FCA84D4FD}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -84,12 +87,16 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="Sfx_Range" ID="{8443CF21-61E6-4872-AA06-D0D52F2407AA}" ShortID="624469526">
+							<PropertyList>
+								<Property Name="BelowThresholdBehavior" Type="int16" Value="2"/>
+								<Property Name="EnableLoudnessNormalization" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+									<ObjectRef Name="Vorbis Quality High" ID="{53A9DE0F-3F4F-4B59-8614-3F9E3C7358FC}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+									<ObjectRef Name="Player" ID="{78E651A6-557D-4121-AB5B-7F5FCA84D4FD}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -338,39 +345,62 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="Sfx_Melee" ID="{598C53AE-AA3C-4522-9B3A-77573983B405}" ShortID="1040669324">
+							<PropertyList>
+								<Property Name="EnableLoudnessNormalization" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+									<ObjectRef Name="Vorbis Quality High" ID="{53A9DE0F-3F4F-4B59-8614-3F9E3C7358FC}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+									<ObjectRef Name="Player" ID="{78E651A6-557D-4121-AB5B-7F5FCA84D4FD}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
 								</Reference>
 							</ReferenceList>
 						</ActorMixer>
 						<ActorMixer Name="Sfx_Monster" ID="{2EE80372-6BC0-423C-8EFC-C7C51A428ED4}" ShortID="244375324">
+							<PropertyList>
+								<Property Name="BelowThresholdBehavior" Type="int16" Value="2"/>
+								<Property Name="EnableLoudnessNormalization" Type="bool" Value="True"/>
+								<Property Name="MaxSoundPerInstance" Type="int16">
+									<ValueList>
+										<Value>15</Value>
+									</ValueList>
+								</Property>
+								<Property Name="UseMaxSoundPerInstance" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+									<ObjectRef Name="Vorbis Quality High" ID="{53A9DE0F-3F4F-4B59-8614-3F9E3C7358FC}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+									<ObjectRef Name="Monster" ID="{EE34853B-4744-43BA-BABB-436B4FC0E93A}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
 								</Reference>
 							</ReferenceList>
 						</ActorMixer>
 						<ActorMixer Name="Sfx_Generic" ID="{144B462E-3319-4589-AFA7-B4D7270706E5}" ShortID="699279508">
+							<PropertyList>
+								<Property Name="EnableLoudnessNormalization" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+									<ObjectRef Name="Vorbis Quality High" ID="{53A9DE0F-3F4F-4B59-8614-3F9E3C7358FC}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+									<ObjectRef Name="Ui" ID="{0F39B678-2955-4FFC-B008-55C99F4437C0}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="Sfx_Player_Cast_Button_01" ID="{784EDF8C-D308-443C-8D97-76ADFDF92CAA}" ShortID="104378556">
+									<PropertyList>
+										<Property Name="OverrideConversion" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+											<ObjectRef Name="ADPCM As Input" ID="{844B7EC4-A8FF-43AD-821E-25B9459D4413}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
@@ -378,6 +408,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Sfx_Player_Cast_Button_01" ID="{B246A446-B2BA-4F2A-A494-0E9DE9D77503}">
+											<PropertyList>
+												<Property Name="LoopBegin" Type="Real64" Value="0.0228394005033705"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0228394005033705"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Sfx_Player_Cast_Button_01.wav</AudioFile>
 											<MediaIDList>
@@ -390,9 +425,12 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Sfx_Player_Cast_Button_02" ID="{6188F72A-078C-472D-81FA-EF31819CA869}" ShortID="167761964">
+									<PropertyList>
+										<Property Name="OverrideConversion" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+											<ObjectRef Name="ADPCM As Input" ID="{844B7EC4-A8FF-43AD-821E-25B9459D4413}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
@@ -400,6 +438,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Sfx_Player_Cast_Button_02" ID="{618EF85A-DEF3-4DF8-AEC3-AF547E7DA690}">
+											<PropertyList>
+												<Property Name="LoopBegin" Type="Real64" Value="0.0199854531792845"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0199854531792845"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Sfx_Player_Cast_Button_02.wav</AudioFile>
 											<MediaIDList>
@@ -412,9 +455,12 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Sfx_Player_Cast_Button_03" ID="{C84653BB-F81D-4984-A601-292AD55B2FE3}" ShortID="635530565">
+									<PropertyList>
+										<Property Name="OverrideConversion" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+											<ObjectRef Name="ADPCM As Input" ID="{844B7EC4-A8FF-43AD-821E-25B9459D4413}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
@@ -422,6 +468,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Sfx_Player_Cast_Button_03" ID="{C38A5F1C-0F51-48F3-B711-02B348522CFA}">
+											<PropertyList>
+												<Property Name="LoopBegin" Type="Real64" Value="0.0172405012836858"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0172405012836858"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Sfx_Player_Cast_Button_03.wav</AudioFile>
 											<MediaIDList>
@@ -434,9 +485,12 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Sfx_Player_Cast_Button_04" ID="{363E1E3D-01B4-4034-9865-BC14D53C3E3A}" ShortID="637414839">
+									<PropertyList>
+										<Property Name="OverrideConversion" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+											<ObjectRef Name="ADPCM As Input" ID="{844B7EC4-A8FF-43AD-821E-25B9459D4413}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
@@ -444,6 +498,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Sfx_Player_Cast_Button_04" ID="{80F3E0E7-2CF8-47F1-B237-2B2C74385F4C}">
+											<PropertyList>
+												<Property Name="LoopBegin" Type="Real64" Value="0.0212080147531297"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0212080147531297"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Sfx_Player_Cast_Button_04.wav</AudioFile>
 											<MediaIDList>
@@ -456,9 +515,12 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Sfx_Player_Cast_Button_05" ID="{60EE406B-07AF-4B8E-8F22-6DC96C0962D0}" ShortID="748814288">
+									<PropertyList>
+										<Property Name="OverrideConversion" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+											<ObjectRef Name="ADPCM As Input" ID="{844B7EC4-A8FF-43AD-821E-25B9459D4413}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
@@ -466,6 +528,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Sfx_Player_Cast_Button_05" ID="{973E07F5-4C62-4E64-A277-3AD34A74BDA9}">
+											<PropertyList>
+												<Property Name="LoopBegin" Type="Real64" Value="0.0181247999042387"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0181247999042387"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Sfx_Player_Cast_Button_05.wav</AudioFile>
 											<MediaIDList>
@@ -478,9 +545,12 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Sfx_Player_Cast_Button_06" ID="{085EA1DA-AF61-4C4A-8451-13BF6A00841B}" ShortID="585268899">
+									<PropertyList>
+										<Property Name="OverrideConversion" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+											<ObjectRef Name="ADPCM As Input" ID="{844B7EC4-A8FF-43AD-821E-25B9459D4413}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
@@ -488,6 +558,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Sfx_Player_Cast_Button_06" ID="{6BA49D1A-CA6B-4496-AD14-3CC13923E0E8}">
+											<PropertyList>
+												<Property Name="LoopBegin" Type="Real64" Value="0.0296929269115587"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0296929269115587"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Sfx_Player_Cast_Button_06.wav</AudioFile>
 											<MediaIDList>
@@ -524,12 +599,15 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="Bgm" ID="{5E57A88F-DB93-4911-A0D6-D36D4F7DCFAC}" ShortID="834007218">
+							<PropertyList>
+								<Property Name="EnableLoudnessNormalization" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+									<ObjectRef Name="Vorbis Quality High" ID="{53A9DE0F-3F4F-4B59-8614-3F9E3C7358FC}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+									<ObjectRef Name="Bgm" ID="{2A5E9FCB-F7A6-4356-B489-0EB0A354A8FD}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
