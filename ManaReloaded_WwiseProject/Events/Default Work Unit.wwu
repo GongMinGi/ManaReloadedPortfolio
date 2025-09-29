@@ -232,17 +232,6 @@
 				</Folder>
 				<Folder Name="Sfx_Spell" ID="{FB7D4FB0-1C5A-4583-8BE8-CE6960E73EB6}" ShortID="562724319">
 					<ChildrenList>
-						<Event Name="Play_Sfx_Player_Spell_Meteor" ID="{A4F8E7BF-B5C3-46F9-A2FA-8CF96F27B47A}">
-							<ChildrenList>
-								<Action Name="" ID="{BBC29629-FF63-4665-AB79-4C23BC23A372}" ShortID="837662230">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="Sfx_Player_Spell_Meteor" ID="{61AEBEFD-ADA3-4BD8-8AF6-4FDB908E05E2}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
 						<Event Name="Play_Sfx_Player_Spell_Spike" ID="{B1265516-CAFF-4745-A4F9-DE44746C78CA}">
 							<ChildrenList>
 								<Action Name="" ID="{379814FE-4072-4507-B60D-867CA51EDB43}" ShortID="272925313">
@@ -260,6 +249,28 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Sfx_Player_Spell_Heal" ID="{1566A59E-08EB-4C5A-B801-EC044DD23FCD}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Sfx_Player_Spell_Meteor_Start" ID="{F3134D64-4782-4A55-AC27-28781159FC18}">
+							<ChildrenList>
+								<Action Name="" ID="{BB9C62D9-C045-49E0-BA70-CEBBE2C850BC}" ShortID="765150213">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Meteor_Start" ID="{61AEBEFD-ADA3-4BD8-8AF6-4FDB908E05E2}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Sfx_Player_Spell_Meteor_Impact" ID="{EB20C466-C66A-4A7F-8FE1-8BA8D901E00C}">
+							<ChildrenList>
+								<Action Name="" ID="{4A971975-D56E-4406-9348-5A627B038BA5}" ShortID="593153455">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Meteor_Impact" ID="{D8CAD1B2-4B6F-4FE5-8BEF-67E698772EE5}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

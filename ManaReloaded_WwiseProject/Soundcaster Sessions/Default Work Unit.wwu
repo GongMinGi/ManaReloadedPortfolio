@@ -14,12 +14,20 @@
 							<Position X="0" Y="1"/>
 						</Module>
 						<Module>
+							<ObjectRef Name="Play_Sfx_Player_Spell_Meteor_Start" ID="{F3134D64-4782-4A55-AC27-28781159FC18}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
+							<Position X="0" Y="2"/>
+						</Module>
+						<Module>
 							<ObjectRef Name="Play_Sfx_Player_Range_Fire_Ready" ID="{022A6F90-D830-4274-818E-40D98752B33B}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
 							<Position X="1" Y="0"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Play_Sfx_Player_Range_Thunder_Ready" ID="{BC5AF81E-63C6-4CB3-A733-2B977C86199F}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
 							<Position X="1" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_Sfx_Player_Spell_Meteor_Impact" ID="{EB20C466-C66A-4A7F-8FE1-8BA8D901E00C}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
+							<Position X="1" Y="2"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Play_Sfx_Player_Range_Fire_Shot" ID="{12EC44CF-6916-42DD-85F3-9D29FFD80BA5}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>

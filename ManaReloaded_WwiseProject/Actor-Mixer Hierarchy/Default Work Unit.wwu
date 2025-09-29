@@ -40,7 +40,7 @@
 										<ActiveSource Name="Sfx_Player_Spell_Heal" ID="{D2CD0C7B-8244-4315-B20A-C7D0D10A3FA8}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="Sfx_Player_Spell_Meteor" ID="{61AEBEFD-ADA3-4BD8-8AF6-4FDB908E05E2}" ShortID="256396998">
+								<Sound Name="Sfx_Player_Spell_Meteor_Start" ID="{61AEBEFD-ADA3-4BD8-8AF6-4FDB908E05E2}" ShortID="256396998">
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
@@ -51,10 +51,14 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Sfx_Player_Spell_Meteor" ID="{8D6CA37F-82E1-4B93-9DB5-300E1EB6BB0D}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.96653590263838"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Sfx_Player_Spell_Meteor.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="839467173"/>
+												<MediaID ID="256483112"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
@@ -82,6 +86,32 @@
 									</ChildrenList>
 									<ActiveSourceList>
 										<ActiveSource Name="Sfx_Player_Spell_Spike" ID="{C6B0146C-69F9-4D7F-8BA4-53B8BEEE47A2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Meteor_Impact" ID="{D8CAD1B2-4B6F-4FE5-8BEF-67E698772EE5}" ShortID="460628720">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Meteor" ID="{F51F4B18-C0FD-47DF-BAC5-C67C48067FA8}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="1.96653558474694"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Meteor.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="839467173"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Meteor" ID="{F51F4B18-C0FD-47DF-BAC5-C67C48067FA8}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
