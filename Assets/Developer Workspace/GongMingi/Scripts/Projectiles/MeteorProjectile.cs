@@ -42,9 +42,6 @@ public class MeteorProjectile : AbstractProjectile
     [SerializeField] private int meteorExplosionSfxID = 110021;
     [SerializeField] private int burningGroundSfxID = 110022;
 
-
-
-
     public override void Setup(ProjectileParams p)
     {
         Debug.Log("운석 setup 들어옴");
