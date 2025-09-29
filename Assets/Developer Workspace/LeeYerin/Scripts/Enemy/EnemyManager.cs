@@ -199,7 +199,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     /// <summary>
     /// - QA룸에서 적을 특정 거리 및 방향으로 스폰하는 메서드
     /// </summary>
@@ -217,7 +217,7 @@ public class EnemyManager : MonoBehaviour
         EnemyPooledObject newEnemy = GameModeManager.PoolManager.GetEnemyPool(enemyPrefab, spawnPos, Quaternion.identity);
         newEnemy.transform.LookAt(spawnPos);
     }
-#endif
+//#endif
     #endregion
 
     #region Try Advance Phase
