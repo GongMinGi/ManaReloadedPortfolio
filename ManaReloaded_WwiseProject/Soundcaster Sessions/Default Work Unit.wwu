@@ -1,68 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{E85F43B2-2FEB-4639-B7A0-91C0F83F5332}" SchemaVersion="123">
 	<SoundcasterSessions>
-		<WorkUnit Name="Default Work Unit" ID="{E85F43B2-2FEB-4639-B7A0-91C0F83F5332}" PersistMode="Standalone">
-			<ChildrenList>
-				<SoundcasterSession Name="New Soundcaster Session" ID="{B7B4B6FD-3D48-4879-8647-59A163F902D6}">
-					<ModuleList>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Range_Fire_End" ID="{259F44BD-BB7D-4014-90EB-9638152AA9A5}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="0" Y="0"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Range_Stone_Shot" ID="{0FD60A3E-0887-41F5-B2A9-36C3E033BE58}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="0" Y="1"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Spell_Meteor_Start" ID="{F3134D64-4782-4A55-AC27-28781159FC18}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="0" Y="2"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Range_Fire_Ready" ID="{022A6F90-D830-4274-818E-40D98752B33B}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="1" Y="0"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Range_Thunder_Ready" ID="{BC5AF81E-63C6-4CB3-A733-2B977C86199F}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="1" Y="1"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Spell_Meteor_Impact" ID="{EB20C466-C66A-4A7F-8FE1-8BA8D901E00C}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="1" Y="2"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Range_Fire_Shot" ID="{12EC44CF-6916-42DD-85F3-9D29FFD80BA5}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="2" Y="0"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Range_Thunder_Shot" ID="{3E423FD8-B5A3-4E68-8FC6-06BA56C311A0}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="2" Y="1"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Range_Light_Ready" ID="{DE1B9CBF-260A-4FE3-8EAB-54C1FDA66C55}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="3" Y="0"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Bgm_Dummy_MainTitle" ID="{2B29D144-566D-4BCB-8789-9858E27D3D77}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="3" Y="2"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Range_Light_Shot" ID="{EF16A853-5AFB-4A28-89EE-E44F950D4A5E}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="4" Y="0"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Bgm_Dummy_Stage01" ID="{4EB4CF0B-69DE-4AB3-B011-4443BFED8F46}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="4" Y="2"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Sfx_Player_Range_Stone_Ready" ID="{F5630B57-D1DA-45FE-BA61-DEE0A3EC583C}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
-							<Position X="5" Y="0"/>
-						</Module>
-					</ModuleList>
-					<RTPCValueList ShowAll="true"/>
-					<CurrentStateList ShowAll="true"/>
-					<CurrentSwitchList ShowAll="true"/>
-				</SoundcasterSession>
-			</ChildrenList>
-		</WorkUnit>
+		<WorkUnit Name="Default Work Unit" ID="{E85F43B2-2FEB-4639-B7A0-91C0F83F5332}" PersistMode="Standalone"/>
 	</SoundcasterSessions>
 </WwiseDocument>

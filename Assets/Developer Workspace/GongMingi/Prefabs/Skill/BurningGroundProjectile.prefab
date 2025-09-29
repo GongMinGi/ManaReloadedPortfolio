@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2422005247081340281}
   - component: {fileID: 5679946850596643415}
   - component: {fileID: 6968842181683009008}
-  - component: {fileID: 5756253849200674158}
   m_Layer: 0
   m_Name: BurningGroundProjectile
   m_TagString: Untagged
@@ -128,22 +127,6 @@ MonoBehaviour:
   releaseTime: 0
   pool: {fileID: 0}
   meteorExplosion: {fileID: 6587882117684132571}
---- !u!114 &5756253849200674158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 35698261664210363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25a01d20866b69944bc7dee9aab98c3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onLaunchEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 7c05aa9147bdd2d4691c34e17de0c5c4, type: 2}
 --- !u!1001 &2565952413082272015
 PrefabInstance:
   m_ObjectHideFlags: 0
