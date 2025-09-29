@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5261584034747413598}
   - component: {fileID: 2977634788181436566}
   - component: {fileID: 2466527123279774660}
+  - component: {fileID: 1785527059992944432}
   m_Layer: 0
   m_Name: EarthProjectile
   m_TagString: Untagged
@@ -154,3 +155,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1785527059992944432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524309949757117363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a01d20866b69944bc7dee9aab98c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLaunchEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 46a7a6ddf62eb6f44bcf61383f8f95df, type: 2}

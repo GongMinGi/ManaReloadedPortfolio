@@ -88,6 +88,17 @@
 					<ChildrenList>
 						<Event Name="Play_Sfx_Player_Range_Thunder_Shot" ID="{3E423FD8-B5A3-4E68-8FC6-06BA56C311A0}">
 							<ChildrenList>
+								<Action Name="" ID="{9F3C9928-D556-49AE-A834-AA2260552707}" ShortID="64021193">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Range_Thunder_Ready_Loop" ID="{15091D1A-0BA6-4849-BB7E-A4CEB1F506F3}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 								<Action Name="" ID="{A7D3FF79-94D0-4AFA-B90A-A46EA0C07ED6}" ShortID="5071632">
 									<ReferenceList>
 										<Reference Name="Target">
@@ -99,6 +110,17 @@
 						</Event>
 						<Event Name="Play_Sfx_Player_Range_Fire_End" ID="{259F44BD-BB7D-4014-90EB-9638152AA9A5}">
 							<ChildrenList>
+								<Action Name="" ID="{FA96834C-1CCF-4066-8227-22302C2DB66B}" ShortID="485748038">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Range_Fire_Loop" ID="{6282CF9A-6422-405B-A792-35638BDDE782}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 								<Action Name="" ID="{DAE80463-D283-4878-A073-92B032BDF617}" ShortID="1019709961">
 									<ReferenceList>
 										<Reference Name="Target">
@@ -128,6 +150,13 @@
 										</Reference>
 									</ReferenceList>
 								</Action>
+								<Action Name="" ID="{6291C8FE-599A-453A-B1FB-5FA714AE0579}" ShortID="885311832">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Range_Fire_Loop" ID="{6282CF9A-6422-405B-A792-35638BDDE782}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 							</ChildrenList>
 						</Event>
 						<Event Name="Play_Sfx_Player_Range_Thunder_Ready" ID="{BC5AF81E-63C6-4CB3-A733-2B977C86199F}">
@@ -139,22 +168,7 @@
 										</Reference>
 									</ReferenceList>
 								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="Play_Sfx_Player_Range_Light_Shot" ID="{EF16A853-5AFB-4A28-89EE-E44F950D4A5E}">
-							<ChildrenList>
-								<Action Name="" ID="{E6519F91-9C95-43A3-A86A-3D2E4E62CA08}" ShortID="349990886">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="Sfx_Player_Range_Light_Shot" ID="{F4E462FA-ADE3-4468-A539-DC8C695AF581}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="Play_Sfx_Player_Range_Thunder_Ready_Loop" ID="{14572A8C-FB3A-4ED0-9A03-03159D30C6B5}">
-							<ChildrenList>
-								<Action Name="" ID="{3210D779-88F9-43E8-B747-B926BBEE287F}" ShortID="997955344">
+								<Action Name="" ID="{9E09ED40-DA63-483B-9718-A8E9600BF865}" ShortID="807323317">
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Sfx_Player_Range_Thunder_Ready_Loop" ID="{15091D1A-0BA6-4849-BB7E-A4CEB1F506F3}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
@@ -163,12 +177,12 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_Sfx_Player_Range_Fire_Loop" ID="{C45A1822-DEA9-4135-BBC8-5BE7A29D594C}">
+						<Event Name="Play_Sfx_Player_Range_Light_Shot" ID="{EF16A853-5AFB-4A28-89EE-E44F950D4A5E}">
 							<ChildrenList>
-								<Action Name="" ID="{0B205EE1-1B76-438F-A7C7-9FCC25EE85F9}" ShortID="168778964">
+								<Action Name="" ID="{E6519F91-9C95-43A3-A86A-3D2E4E62CA08}" ShortID="349990886">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Sfx_Player_Range_Fire_Loop" ID="{6282CF9A-6422-405B-A792-35638BDDE782}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+											<ObjectRef Name="Sfx_Player_Range_Light_Shot" ID="{F4E462FA-ADE3-4468-A539-DC8C695AF581}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -202,6 +216,13 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Sfx_Player_Range_Light_Ready" ID="{A0FB44DE-FC03-46AD-B363-13E092E80951}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{1930CE18-DA71-4C66-9548-4A0F564FFF0C}" ShortID="90618235">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Range_Thunder_Ready_Loop" ID="{15091D1A-0BA6-4849-BB7E-A4CEB1F506F3}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

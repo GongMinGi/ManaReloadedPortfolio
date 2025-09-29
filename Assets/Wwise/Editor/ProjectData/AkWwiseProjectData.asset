@@ -225,7 +225,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 9659267799b4a4408b8781215ffa905f
     GuidInternal: 
-    m_lastTime: -8584425623666838716
+    m_lastTime: -8584424783472085715
     List:
     - name: Bgm
       guid: 98a035c8cb5d724f8f788b399bfc3e8f
@@ -444,26 +444,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0.48870835
       minDuration: 0.48870835
-    - name: Play_Sfx_Player_Range_Fire_Loop
-      guid: 22185ac4a9de3541bbc85be7a29d594c
-      id: 3669469019
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 9659267799b4a4408b8781215ffa905f
-      - ElementName: Sfx_Range
-        ObjectType: 4
-        guid: a1e3e889b0cfdb478241c9bcead62272
-      - ElementName: Play_Sfx_Player_Range_Fire_Loop
-        ObjectType: 3
-        guid: 22185ac4a9de3541bbc85be7a29d594c
-      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Fire_Loop
-      maxAttenuation: 0
-      maxDuration: 1.0169166
-      minDuration: 1.0169166
     - name: Play_Sfx_Player_Range_Fire_Ready
       guid: 906f2a0230d87442818e40d98752b33b
       id: 1802017886
@@ -604,26 +584,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 1.3783542
       minDuration: 1.3783542
-    - name: Play_Sfx_Player_Range_Thunder_Ready_Loop
-      guid: 8c2a57143afbd04e9a0303159d30c6b5
-      id: 679765885
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 9659267799b4a4408b8781215ffa905f
-      - ElementName: Sfx_Range
-        ObjectType: 4
-        guid: a1e3e889b0cfdb478241c9bcead62272
-      - ElementName: Play_Sfx_Player_Range_Thunder_Ready_Loop
-        ObjectType: 3
-        guid: 8c2a57143afbd04e9a0303159d30c6b5
-      Path: Events\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Thunder_Ready_Loop
-      maxAttenuation: 0
-      maxDuration: 1.6985
-      minDuration: 1.6985
     - name: Play_Sfx_Player_Range_Thunder_Shot
       guid: d83f423ea3b5684e8fc606ba56c311a0
       id: 3382960767

@@ -123,6 +123,9 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Sfx_Player_Range_Fire_Loop" ID="{6282CF9A-6422-405B-A792-35638BDDE782}" ShortID="582211646">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
@@ -221,6 +224,9 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Sfx_Player_Range_Light_Shot" ID="{48A3FFFF-8F4F-49D2-9E0A-8604EB9EF367}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Sfx_Player_Range_Light_Shot.wav</AudioFile>
 											<MediaIDList>
@@ -299,6 +305,9 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Sfx_Player_Range_Thunder_Ready_Loop" ID="{15091D1A-0BA6-4849-BB7E-A4CEB1F506F3}" ShortID="710465999">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
