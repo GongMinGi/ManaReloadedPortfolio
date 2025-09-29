@@ -42,8 +42,16 @@
 							<Position X="3" Y="0"/>
 						</Module>
 						<Module>
+							<ObjectRef Name="Play_Bgm_Dummy_MainTitle" ID="{2B29D144-566D-4BCB-8789-9858E27D3D77}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
+							<Position X="3" Y="2"/>
+						</Module>
+						<Module>
 							<ObjectRef Name="Play_Sfx_Player_Range_Light_Shot" ID="{EF16A853-5AFB-4A28-89EE-E44F950D4A5E}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
 							<Position X="4" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_Bgm_Dummy_Stage01" ID="{4EB4CF0B-69DE-4AB3-B011-4443BFED8F46}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
+							<Position X="4" Y="2"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Play_Sfx_Player_Range_Stone_Ready" ID="{F5630B57-D1DA-45FE-BA61-DEE0A3EC583C}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>

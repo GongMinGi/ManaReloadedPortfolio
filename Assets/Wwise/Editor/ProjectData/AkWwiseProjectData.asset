@@ -225,7 +225,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 9659267799b4a4408b8781215ffa905f
     GuidInternal: 
-    m_lastTime: -8584424771334854862
+    m_lastTime: -8584424758346721087
     List:
     - name: Bgm
       guid: 98a035c8cb5d724f8f788b399bfc3e8f
@@ -262,8 +262,8 @@ MonoBehaviour:
         guid: 44d1292b6d56cb4b87899858e27d3d77
       Path: Events\Default Work Unit\Bgm\Play_Bgm_Dummy_MainTitle
       maxAttenuation: 0
-      maxDuration: 83.52
-      minDuration: 83.52
+      maxDuration: 0
+      minDuration: 0
     - name: Play_Bgm_Dummy_Stage01
       guid: 0bcfb44ede69b34ab0114443bfed8f46
       id: 1306791755
@@ -282,8 +282,8 @@ MonoBehaviour:
         guid: 0bcfb44ede69b34ab0114443bfed8f46
       Path: Events\Default Work Unit\Bgm\Play_Bgm_Dummy_Stage01
       maxAttenuation: 0
-      maxDuration: 146.264
-      minDuration: 146.264
+      maxDuration: 0
+      minDuration: 0
     - name: Play_Sfx_Player_Cast_Button_01
       guid: 83d1326a18862b4ba44deb6334e7e126
       id: 113452694

@@ -282,6 +282,18 @@
 					<ChildrenList>
 						<Event Name="Play_Bgm_Dummy_Stage01" ID="{4EB4CF0B-69DE-4AB3-B011-4443BFED8F46}">
 							<ChildrenList>
+								<Action Name="" ID="{4DECBB64-EA5F-43FB-B551-8A991448C672}" ShortID="212156844">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="2"/>
+										<Property Name="Scope" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Bgm_Dummy_MainTitle" ID="{CBBD59E8-A0C7-4220-A3C2-DDD68A3F8F85}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 								<Action Name="" ID="{9C148557-9685-414C-ACEC-E5825E8EA1BA}" ShortID="241611633">
 									<ReferenceList>
 										<Reference Name="Target">
@@ -293,6 +305,18 @@
 						</Event>
 						<Event Name="Play_Bgm_Dummy_MainTitle" ID="{2B29D144-566D-4BCB-8789-9858E27D3D77}">
 							<ChildrenList>
+								<Action Name="" ID="{DC61BB6D-C282-43DF-9BEB-5CC30A32E5BE}" ShortID="511285259">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="1"/>
+										<Property Name="Scope" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Bgm_Dummy_Stage01" ID="{2747E50E-0004-4838-A1FA-449BE624464B}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 								<Action Name="" ID="{53AF0CFE-5F10-4BA8-B103-EDDFE81B4FBE}" ShortID="469587812">
 									<ReferenceList>
 										<Reference Name="Target">
