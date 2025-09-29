@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{9E5C0702-FD74-45F2-9031-C5185B1BEDDB}",
     "Language": "SFX",
-    "Hash": "{058A80F2-8BAD-3948-F9E9-3F089E9AA9CB}",
+    "Hash": "{61999752-2966-A524-BA6F-891FD44103E8}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\BankMain",
     "ShortName": "BankMain",
     "Path": "BankMain.bnk",
@@ -37,7 +37,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Sfx_Player_Spell_Meteor.wav",
-      "CachePath": "AD/{AD87AC39-6FA1-B6AF-8A21-910C75A82A0D}.wem"
+      "CachePath": "9D/{9D676CC1-70D5-63C4-9624-0A342DDA78FF}.wem"
      },
      {
       "Id": "285390691",
@@ -149,7 +149,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Sfx_Player_Spell_Meteor.wav",
-      "CachePath": "64/{6487D43C-8D32-BB3B-E206-D94706095222}.wem"
+      "CachePath": "ED/{ED852D5D-1C42-81CA-0840-1F275E4DFC47}.wem"
      },
      {
       "Id": "890369340",
@@ -519,6 +519,6 @@
     ]
    }
   ],
-  "FileHash": "{3AF626FF-F748-1A8F-53EF-830B04798601}"
+  "FileHash": "{44B7D4A8-E2EB-D30F-C7C8-C24A4D58BD16}"
  }
 }
