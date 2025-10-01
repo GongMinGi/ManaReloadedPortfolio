@@ -12,7 +12,6 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class MeteorStrike : BaseCombinationMagic
 {
-
     [Header("Projectile")]
     [SerializeField] private BurningGroundProjectile addtionalProjectilePrefab;     // 충돌 이후 추가로 소환할 불장판 프리팹
     [SerializeField] private MeteorProjectile projectilePrefab;   // 투사체로 사용할 프리팹 변수
@@ -39,31 +38,19 @@ public class MeteorStrike : BaseCombinationMagic
     [SerializeField] public float groundAttackTickInterval = 0.5f;               // 불장판 도트데미지 틱 간격
     [SerializeField] public float groundAttackDamage = 50f;                      // 불장판 도트메미지 
 
-
     private Transform caster;                                     // 스킬 시전자 (플레이어)
     private Camera cam;                                           // 마우스 기준 카메라
-    [System.NonSerialized] private bool poolCreated = false;        // SO의 변수는 런타임중에 변경된 값이 저장될 수 있으므로 nonserialzable
-
-
-    public void OnEnable()                                          // 확실하게 활성화될때마다 false로 전환
-    {
-        poolCreated = false;
-    }
 
     public void Init()
     {
-        Debug.Log("poolcreated:" + poolCreated);
-        if (poolCreated) return; 
+        if (GameModeManager.PoolManager.HasPool(projectilePrefab))
+        {
+            return;
+        }
 
-        Debug.Log("init 들어옴");
         GameModeManager.PoolManager.CreatePool(projectilePrefab, 5, 10);   // 풀매니저에 투사체 풀 생성 (초기5개, 최대 10개) 
         GameModeManager.PoolManager.CreatePool(addtionalProjectilePrefab, 5, 10);   // 충돌 이후 불장판을 위한 풀 생성
-
-        poolCreated = true;
-        Debug.Log("init 마지막줄");
-
     }
-
 
     /// <summary>
     /// - 소환할 운석의 시작점과 착탄 지점을 연산 
@@ -72,7 +59,6 @@ public class MeteorStrike : BaseCombinationMagic
     /// </summary>
     public override void ExecuteSkill()
     {
-
         Init();
 
         Debug.Log("canuseSkill:" + canUseSkill);
@@ -110,9 +96,7 @@ public class MeteorStrike : BaseCombinationMagic
             targetPoint = ray.GetPoint(dist);                               // ray 방향으로 dist만큼 떨어진 곳의 좌표를 반환한다. 
         }
 
-
         Vector3 start = targetPoint + Vector3.up * spawnHeight;             // 시작 위치 : 착탄 지점 상공
-
 
         PooledObject go = GameModeManager.PoolManager.GetPool(
             projectilePrefab, start, caster.rotation);
@@ -136,7 +120,6 @@ public class MeteorStrike : BaseCombinationMagic
             groundAttackTickInterval  = this.groundAttackTickInterval,
             groundAttackDamage = this.groundAttackDamage,
         };
-
 
         //GameModeManager.SoundManager.PlaySFX(110020);                       // 운석 소환 직전 운석 낙하 사운드 재생 시작
         projectileInstance.Setup(projectileParams);                         // 운석 소환

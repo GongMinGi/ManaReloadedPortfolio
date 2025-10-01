@@ -23,19 +23,12 @@ public class IceTornado : BaseCombinationMagic
     [SerializeField] private LayerMask enemyLayer;              // 적 레이어
     [SerializeField] private LayerMask groundLayer;             // 지면 레이어
 
-    [System.NonSerialized] private bool poolCreated = false;    // 런타임 중 SO 값 보존 방지
-
     // 캐스팅 시점 보조 캐시 (가독성 up)
     private Transform caster;
     private Camera    cam;
     private Vector2   mouse;
     private Vector3   spawnPoint;
     private Ray       ray;
-
-    private void OnEnable()
-    {
-        poolCreated = false;
-    }
 
     /// <summary>
     /// 최초 1회 풀 생성
@@ -44,13 +37,12 @@ public class IceTornado : BaseCombinationMagic
     /// </summary>
     private void Init()
     {
-        if(poolCreated == true)
+        if(GameModeManager.PoolManager.HasPool(projectilePrefab))
         {
             return;
         }
 
         GameModeManager.PoolManager.CreatePool(projectilePrefab, 5, 12);
-        poolCreated = true;
     }
 
     public override void ExecuteSkill()
