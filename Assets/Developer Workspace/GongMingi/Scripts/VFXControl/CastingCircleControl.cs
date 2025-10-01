@@ -1,39 +1,37 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.InputSystem;
 
-
-
 /// <summary>
-/// ±×³É gpt ¤¸¤¤ º¹ºÙÇÔ ³»ÀÏ°íÃÄ¾ßÇÔ¤Ğ
+/// * ê°œë°œì:ê³µë¯¼ê¸°
+///  - ë§ˆë²• ìºìŠ¤íŒ… ì¤‘ì— ë§ˆë²•ì§„ì´ í”Œë ˆì´ì–´ë°‘ì—ì„œ ëŒì•„ê°€ë„ë¡ ìˆ˜ì •
+///  - í”Œë ˆì´ì–´ íšŒì „ê°’ì— ìƒê´€ì—†ì´ ëŒì•„ê°„ë‹¤
 /// </summary>
 public class CastingCircleControl : MonoBehaviour
 {
-    [SerializeField] GameObject castingCircleRoot;   // ·çÆ® ¿ÀºêÁ§Æ®(ºñ/È°¼º)
-    [SerializeField] ParticleSystem castingCircleVFX;// ÆÄÆ¼Å¬(¼±ÅÃ)
+    [SerializeField] GameObject castingCircleRoot;   // ë£¨íŠ¸ ì˜¤ë¸Œì íŠ¸(ë¹„/í™œì„±)
+    [SerializeField] ParticleSystem castingCircleVFX;// íŒŒí‹°í´(ì„ íƒ)
 
-    [SerializeField] Transform player;               // µû¶ó°¥ ´ë»ó
-    [SerializeField] float yOffset = 0.02f;          // ¹Ù´Ú ±ôºıÀÓ ¹æÁö
-    [SerializeField] bool keepWorldRotation = true;  // ÇÃ·¹ÀÌ¾î È¸Àü ¹«½Ã
+    [SerializeField] Transform player;               // ë”°ë¼ê°ˆ ëŒ€ìƒ
+    [SerializeField] float yOffset = 0.02f;          // ë°”ë‹¥ ê¹œë¹¡ì„ ë°©ì§€
+    [SerializeField] bool keepWorldRotation = true;  // í”Œë ˆì´ì–´ íšŒì „ ë¬´ì‹œ
 
     bool isShown;
 
     void Awake()
     {
-        // ½ÃÀÛ ½Ã ²¨µÎ±â(Stop ActionÀº None ±ÇÀå)
+        // ì‹œì‘ ì‹œ êº¼ë‘ê¸°(Stop Actionì€ None ê¶Œì¥)
         SetVisible(false);
     }
 
     void LateUpdate()
     {
-        // 1) ÀÔ·Â: ¿Ş/¿À¸¥ Ctrl ¸ğµÎ Çã¿ë
-        bool ctrl =
-            (Keyboard.current?.leftCtrlKey.isPressed ?? false) ||
-            (Keyboard.current?.rightCtrlKey.isPressed ?? false);
+        // 1) ì…ë ¥: spaceê°€ ì…ë ¥ë˜ì–´ìˆì„ë•Œë§Œ,
+        bool spacepressed = Keyboard.current.spaceKey.isPressed;
 
-        // 2) »óÅÂ º¯ÇÒ ¶§¸¸ Åä±Û
-        if (ctrl != isShown) SetVisible(ctrl);
+        // 2) ìƒíƒœ ë³€í•  ë•Œë§Œ í† ê¸€
+        if (spacepressed != isShown) SetVisible(spacepressed);
 
-        // 3) À§Ä¡¸¸ µû¶ó°¡°í È¸ÀüÀº °íÁ¤
+        // 3) ìœ„ì¹˜ë§Œ ë”°ë¼ê°€ê³  íšŒì „ì€ ê³ ì •
         if (isShown && player != null && castingCircleRoot != null)
         {
             Vector3 p = player.position;
@@ -41,7 +39,9 @@ public class CastingCircleControl : MonoBehaviour
             castingCircleRoot.transform.position = p;
 
             if (keepWorldRotation)
-                castingCircleRoot.transform.rotation = Quaternion.identity; // ¿ùµå È¸Àü °íÁ¤
+            {
+                transform.rotation = Quaternion.identity; // ì›”ë“œ íšŒì „ ê³ ì •
+            }
         }
     }
 
