@@ -54,9 +54,10 @@ public class IceTornadoProjectile : AbstractProjectile
 
     public override void Setup(ProjectileParams param)
     {
-        elapsed     = 0f;
-        pullTimer   = 0f;
-        damageTimer = 0f;
+        // 스킬이 실행될 때 내부 타이머 초기화
+        elapsed     = 0f;  
+        pullTimer   = 0f;                           
+        damageTimer = 0f;                           
 
         tornadoParam = param as IceTornadoParam;
 
@@ -71,6 +72,7 @@ public class IceTornadoProjectile : AbstractProjectile
 
     private IEnumerator IceTornadoRoutine()
     {
+        // 파라미터값 복사
         duration       = tornadoParam.duration;
         pullTick       = tornadoParam.pullTick;
         pullSpeed      = tornadoParam.pullSpeed;
@@ -88,6 +90,7 @@ public class IceTornadoProjectile : AbstractProjectile
             pullTimer      += deltaTime;
             damageTimer    += deltaTime;
 
+            // 부드럽게 끌어당김 ( pullTick 마다 처리)
             if (pullTimer >= pullTick)
             {
                 float passedTimePercent = Mathf.Clamp01(elapsed / Mathf.Max(0.0001f, duration));
@@ -96,6 +99,7 @@ public class IceTornadoProjectile : AbstractProjectile
                 pullTimer = 0f;
             }
 
+            // damageInterval마다 데미지 적용 ( 끌림과 주기 독립 )
             if (damageTimer >= damageInterval)
             {
                 DoDamage(damageArea);
@@ -105,19 +109,21 @@ public class IceTornadoProjectile : AbstractProjectile
             yield return null;  
         }
 
+        // navmeshAgent 제어 해제 ( 스킬 종료 시점 )
         foreach (var agent in controlledAgents)
         {
+            // 스킬 중간에 죽어서 navmesh를 벗어나거나 예기치 못하게 null이 된 경우 예외처리
             if(agent.enabled == false || agent.isOnNavMesh == false || agent == null)
             {
                 continue;
             }
             
-            agent.isStopped = false;
+            agent.isStopped = false;                        // 정지 해제
         }
 
         foreach (var agentEntry in agentToController)
         {
-            agentEntry.Value.isBeingControlled = false;
+            agentEntry.Value.isBeingControlled = false;     // EnemyController 쪽 네브매쉬 제어 플래그 해제
         }
 
         controlledAgents.Clear();
@@ -126,6 +132,12 @@ public class IceTornadoProjectile : AbstractProjectile
         Release();
     }
 
+    /// <summary>
+    /// Warp 기반 끌어당김
+    ///  - OverlapSphereNonAlloc 으로 대상 수집
+    ///  - PushSpell과 유사하게 isstopped / resetpath 적용 -> warp -> 스킬 종료 시 복구
+    ///  - navemesh.Raycast , SamplePosition으로 충돌/오프메시 보정
+    /// </summary>
     private void DoPull(float deltaTimeForStep, float ease)
     {
         int count = Physics.OverlapSphereNonAlloc(transform.position, pullRadius, hitsBuffer, enemyLayer, QueryTriggerInteraction.Ignore);
@@ -144,6 +156,7 @@ public class IceTornadoProjectile : AbstractProjectile
                 continue;
             }
 
+            // EnemyContorller에서 Agent 가져오기, BeingControlled 플래그 제어
             if (col.TryGetComponent<EnemyController>(out var enemyController))
             {
                 var agent                     = enemyController.Agent;
@@ -156,6 +169,7 @@ public class IceTornadoProjectile : AbstractProjectile
                     continue;
                 }
 
+                // 첫 진입 시 제어 세팅 ( 중복 정지 방지 )
                 if(controlledAgents.Contains(agent) == false)
                 {
                     enemyController.isBeingControlled = true;
@@ -167,8 +181,10 @@ public class IceTornadoProjectile : AbstractProjectile
 
                 }
                 
+                // 이번 틱 이동량 계산
                 Vector3 deltaPosForThisStep = enemyToCenter.normalized * (pullSpeed * ease * deltaTimeForStep);
 
+                // 중심 지나침 방지
                 if (deltaPosForThisStep.sqrMagnitude > enemyToCenter.magnitude)
                 {
                     deltaPosForThisStep = enemyToCenter;
@@ -176,11 +192,13 @@ public class IceTornadoProjectile : AbstractProjectile
 
                 Vector3 desiredPos = curEnemyPos + deltaPosForThisStep;
 
+                // 직선 경로가 막히면 막히기 전 지점으로 이동
                 if (NavMesh.Raycast(curEnemyPos, desiredPos, out var hit, agent.areaMask))
                 {
                     desiredPos = hit.position;
                 }
 
+                // 네브매쉬에서 벗어난 경우 근처 네브매시로 이동시킴
                 if (NavMesh.SamplePosition(desiredPos, out var sampleHit, 2.0f, NavMesh.AllAreas))
                 {
                     desiredPos = sampleHit.position;
@@ -194,6 +212,9 @@ public class IceTornadoProjectile : AbstractProjectile
 
     }
 
+    /// <summary>
+    /// 데미지 반경 내 대상에게만 틱 데미지 적용
+    /// </summary>
     private void DoDamage(float damageArea)
     {
         int count = Physics.OverlapSphereNonAlloc(transform.position, damageRadius, hitsBuffer, enemyLayer, QueryTriggerInteraction.Ignore);

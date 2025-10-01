@@ -32,8 +32,6 @@ public class IceTornado : BaseCombinationMagic
 
     /// <summary>
     /// 최초 1회 풀 생성
-    /// TODO: poolmanager에서 pool이 존재하는지 검사하는 로직을 만들어 교체 필요
-    ///       현재는 리트라이시에 풀이 만들어지지 않는다.
     /// </summary>
     private void Init()
     {
