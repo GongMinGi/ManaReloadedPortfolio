@@ -92,14 +92,15 @@ public class PlayerController : MonoBehaviour
         GameModeManager.Player = this;                                  // 현재 플레이어 인스턴스를 GameModeManager에 등록
 
         // 원거리 공격을 위한 초기 세팅 작업
-        foreach (var mapping in castingKeyMapping)                              
+        foreach (var mapping in castingKeyMapping)
+        {
             rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
+        }
 
         stats.OnDie += OnDie;
         rangedAttackController.PlayerAnim = playerAnim;                 // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
     }
     #endregion
-
 
     #region Move
     /// <summary>
@@ -128,9 +129,13 @@ public class PlayerController : MonoBehaviour
         moveDir.z = input.y;                    // y축이 입력받고 잇는지 , 위쪽 == 1, 아래쪽 == -1, 정지 == 0
 
         if (input.x == 0 && input.y == 0)       // x축 y축 모두 움직이지 않는다면, 움직임을 판단하는 변수를 false로 설정
+        {
             isMove = false;
+        }
         else
+        {
             isMove = true;
+        }
     }
 
     /// <summary>
@@ -140,9 +145,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        if (keyboard.leftCtrlKey.isPressed || isDie == true)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
+        if (keyboard.spaceKey.isPressed || isDie == true)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
         {
-
             rb.linearVelocity = new Vector3(0, 0, 0);                       // 플레이어 즉시 정지
 
             playerAnim.SetFloat("Horizontal", 0, animDamp, Time.deltaTime);                           // 플레이어 이동 애니메이션 정지
@@ -159,7 +163,6 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector3(targetVelocity.x,0, targetVelocity.z);
     }
     #endregion
-
 
     public void OnDie(float tmp = 0)
     {
@@ -180,7 +183,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnCastingSpell()
     {
-        if (keyboard.leftCtrlKey.isPressed)
+        if (keyboard.spaceKey.isPressed)
         {
             if (keyboard.wKey.wasPressedThisFrame)
             {
@@ -226,13 +229,9 @@ public class PlayerController : MonoBehaviour
         onCastAdded.Invoke(castingType, currentCastingList.Count - 1);  // unity event
     }
 
-
-
     /// <summary>
     /// 캐스팅 입력을 초기화하고 UI 리셋 이벤트(<see cref="onCastReset"/>)를 호출한다.
-    /// 
     /// => 이부분 추가로 공부필요 어케작동하는지 아직이해못함 ㅠ
-    /// 
     /// </summary>
     private void ResetCasting()
     {
@@ -240,9 +239,7 @@ public class PlayerController : MonoBehaviour
         onCastReset?.Invoke();                              // ui에 표시된 원소를 전부 검정색으로 바꾼다. (비운다)
         rangedAttackController.ClearCastedElementCount();   // 원거리공격 우선순위를 정할때 쓴 원소 충전 개수 초기화
     }
-
     #endregion
-
 
     #region 조합 마법 공격
 
@@ -252,7 +249,11 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
     {
-        if (!ctx.performed) return;       // space 를 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.
+        if (!ctx.performed)
+        {
+            return;       // space 를 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.
+        }
+
         TryCastSkill();                 // 스킬 실행
     }
 
@@ -264,25 +265,27 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void TryCastSkill()
     {
-        if (currentCastingList.Count == 0) return;      // 현재 캐스팅된 원소가 없으면 스킬을 실행하지 않는다.
+        if (currentCastingList.Count == 0)
+        {
+            return;      // 현재 캐스팅된 원소가 없으면 스킬을 실행하지 않는다.
+        }
+
         BaseCombinationMagic skill = GameModeManager.SkillCastingManager.GetSkill(currentCastingList);    // 스킬관리자에게 캐스팅된 원소리스트를 보내서 그에 해당하는 스킬의 고유번호를 받는다.
 
         if (skill != null)              // 스킬이 존재한다면
         {
             skill.ExecuteSkill();       // 스킬을 실행한다.
+            ResetCasting();             // 캐스팅한 속성을 전부 비운다.
         }
         else
         {
             Debug.LogWarning("해당 조합에 매칭되는 스킬이 없습니다.");
+            OnRangedAttack(); 
         }
-
-        ResetCasting();                 // 캐스팅한 속성을 전부 비운다.
     }
     #endregion
 
-
     #region 근접 공격
-
 
     /// <summary>
     /// 근접 공격 입력 트리거.
@@ -291,7 +294,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnMeleeAttack(InputAction.CallbackContext ctx)
     {
-        if(!ctx.started) return;
+        if (ctx.started == false)
+        {
+            return;
+        }
 
         if (currentCastingList.Count != 0)
         {
@@ -321,17 +327,15 @@ public class PlayerController : MonoBehaviour
     /// - 캐스팅 리스트가 비어 있으면 아무 작업도 하지 않는다.  
     /// - 현재는 로그 출력 후 캐스팅을 초기화한다.
     /// </summary>
-    public void OnRangedAttack(InputAction.CallbackContext ctx)
+    public void OnRangedAttack()
     {
-        if (!ctx.started) return;       // 마우스 좌클릭을 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.            
-
         if (currentCastingList.Count == 0)  // 현재 캐스팅된 원소의 수가 없다면, 리턴한다
+        {
             return;
+        }
 
         rangedAttackController.TryElementalRangedAttack();  // 원거리 공격 시도
         ResetCasting();                     // 캐스팅한 속성을 전부 비운다.
     }
-
     #endregion
-
 }
