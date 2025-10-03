@@ -164,6 +164,20 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// - 게임 일시정지 입력 트리거
+    /// - esc 버튼을 누르면 게임 시간을 멈추고, 일시정지 ui를 띄운다. 
+    /// </summary>
+    public void OnOptionButton(InputAction.CallbackContext ctx)
+    {
+        if ( ctx.performed == false )
+        {
+            return;
+        }
+
+        GameModeManager.GameLogicManager.PauseGame();
+    }
+
     public void OnDie(float tmp = 0)
     {
         isDie = true;
@@ -249,7 +263,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnCombinationMagicAttack(InputAction.CallbackContext ctx)
     {
-        if (!ctx.performed)
+        if ( ctx.performed == false )
         {
             return;       // space 를 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.
         }
