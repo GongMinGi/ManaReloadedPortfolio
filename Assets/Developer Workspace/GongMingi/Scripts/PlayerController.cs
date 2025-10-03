@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public UnitStats Stats => stats;
     #endregion
 
+    [SerializeField] PlayerInput playerInput;
+
     [SerializeField] float moveSpeed;
     [SerializeField] float sprintMultiplier = 2f;
     [SerializeField] Rigidbody rb;
@@ -352,4 +354,6 @@ public class PlayerController : MonoBehaviour
         ResetCasting();                     // 캐스팅한 속성을 전부 비운다.
     }
     #endregion
+
+    public void TogglePlayerInput(bool inputEnable) => playerInput.enabled = inputEnable;
 }

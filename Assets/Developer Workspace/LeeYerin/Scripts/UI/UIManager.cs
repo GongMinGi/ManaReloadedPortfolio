@@ -59,6 +59,11 @@ public class UIManager : MonoBehaviour
     /// <param name="onComplete">페이드 인 완료 후 실행할 콜백</param>
     public void FadeIn(Action onComplete = null)
     {
+        if (GameModeManager.Player != null)
+        {
+            GameModeManager.Player.TogglePlayerInput(false);
+        }
+
         if (sequenceFadeIn == null)
         {
             sequenceFadeIn = DOTween.Sequence();
@@ -68,6 +73,12 @@ public class UIManager : MonoBehaviour
                 .OnComplete(() => 
                 {
                     fadeUI.gameObject.SetActive(false);     // 페이드 완료 시 비활성화
+
+                    if (GameModeManager.Player != null)
+                    {
+                        GameModeManager.Player.TogglePlayerInput(true);
+                    }
+
                     onComplete?.Invoke();
                 });
         }
@@ -76,6 +87,12 @@ public class UIManager : MonoBehaviour
             sequenceFadeIn.OnComplete(() =>
             {
                 fadeUI.gameObject.SetActive(false);
+
+                if (GameModeManager.Player != null)
+                {
+                    GameModeManager.Player.TogglePlayerInput(true);
+                }
+
                 onComplete?.Invoke();
             });
             sequenceFadeIn.Restart();   // 기존 시퀀스 재사용
