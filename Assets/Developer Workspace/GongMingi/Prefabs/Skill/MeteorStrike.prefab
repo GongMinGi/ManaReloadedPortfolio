@@ -65,5 +65,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   groundDuration: 5
-  groundAttackTickInterval: 0.5
-  groundAttackDamage: 50
+  groundAttackTickInterval: 0.2
+  groundAttackDamage: 60

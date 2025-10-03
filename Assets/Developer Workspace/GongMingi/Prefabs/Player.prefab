@@ -80,7 +80,7 @@ MonoBehaviour:
   muzzle: {fileID: 0}
   projectileSpeed: 15
   projectileRange: 18
-  explosionRadius: 4
+  explosionRadius: 2
   baseDamage: 10
   damageStep: 300
   maxDamage: 2000
@@ -5849,12 +5849,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargeVFX: {fileID: 902737888669017459}
   attackVFX: {fileID: 6609921311501273855}
-  radius: 6
-  angle: 60
+  radius: 8
+  angle: 120
   flatcone: 1
   baseDamage: 100
-  damageStep: 400
-  maxDamage: 2000
+  damageStep: 500
+  maxDamage: 3000
   chargeInterval: 0.2
   enemyLayer:
     serializedVersion: 2
@@ -17684,9 +17684,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd1991eaf87f9e44837f369aac388ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 3
-  angle: 60
-  damage: 500
+  radius: 2
+  angle: 150
+  damage: 400
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
