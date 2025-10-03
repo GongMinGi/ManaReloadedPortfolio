@@ -47,9 +47,9 @@ MonoBehaviour:
   skill_ID: 2000004
   coolTime: 10
   projectilePrefab: {fileID: 6094168604853758788, guid: d404664c600e97342897a604e05f2705, type: 3}
-  wallDuration: 10
+  wallDuration: 12
   wallSpawnTime: 0.5
-  wallXSize: 6
+  wallXSize: 15
   wallYSize: 6
   wallZSize: 1
   spawnDistance: 4

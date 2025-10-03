@@ -835,7 +835,7 @@ MonoBehaviour:
   autoRelease: 0
   releaseTime: 0
   pool: {fileID: 0}
-  range: 2
+  range: 3
   guardianObjs:
   - {fileID: 3156169947673572976}
   - {fileID: 7322654330705960682}
