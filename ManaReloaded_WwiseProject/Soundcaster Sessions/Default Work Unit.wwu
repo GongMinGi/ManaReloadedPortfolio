@@ -57,6 +57,10 @@
 							<ObjectRef Name="Play_Sfx_Player_Range_Stone_Ready" ID="{F5630B57-D1DA-45FE-BA61-DEE0A3EC583C}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
 							<Position X="5" Y="0"/>
 						</Module>
+						<Module>
+							<ObjectRef Name="Stop_Bgm_Dummy_Stage01" ID="{C02DD3DA-0298-4DED-9676-E96006EBF5CB}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
+							<Position X="5" Y="2"/>
+						</Module>
 					</ModuleList>
 					<RTPCValueList ShowAll="true"/>
 					<CurrentStateList ShowAll="true"/>

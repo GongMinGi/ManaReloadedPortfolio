@@ -225,7 +225,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 9659267799b4a4408b8781215ffa905f
     GuidInternal: 
-    m_lastTime: -8584424549453466852
+    m_lastTime: -8584421241317453615
     List:
     - name: Bgm
       guid: 98a035c8cb5d724f8f788b399bfc3e8f
@@ -735,6 +735,26 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Stop_Bgm_Dummy_Stage01
+      guid: dad32dc09802ed4d9676e96006ebf5cb
+      id: 93889357
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Bgm
+        ObjectType: 4
+        guid: 98a035c8cb5d724f8f788b399bfc3e8f
+      - ElementName: Stop_Bgm_Dummy_Stage01
+        ObjectType: 3
+        guid: dad32dc09802ed4d9676e96006ebf5cb
+      Path: Events\Default Work Unit\Bgm\Stop_Bgm_Dummy_Stage01
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:

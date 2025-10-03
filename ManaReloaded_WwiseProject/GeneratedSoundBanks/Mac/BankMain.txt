@@ -1,4 +1,5 @@
 Event	ID	Name			Wwise Object Path	Notes
+	93889357	Stop_Bgm_Dummy_Stage01			\Default Work Unit\Bgm\Stop_Bgm_Dummy_Stage01	
 	113452689	Play_Sfx_Player_Cast_Button_06			\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_06	
 	113452690	Play_Sfx_Player_Cast_Button_05			\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_05	
 	113452691	Play_Sfx_Player_Cast_Button_04			\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_04	

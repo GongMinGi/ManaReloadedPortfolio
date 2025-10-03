@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5011789713464017756}
   - component: {fileID: -5047269518904374460}
   - component: {fileID: 7998200405073131513}
+  - component: {fileID: 2112561996085635706}
   m_Layer: 0
   m_Name: MeteorProjectile
   m_TagString: Untagged
@@ -211,6 +212,22 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &2112561996085635706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533332212705691418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a01d20866b69944bc7dee9aab98c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLaunchEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: e687e13d2cb316541822b4d2c998aaa0, type: 2}
 --- !u!1001 &8419908218236955593
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -266,36 +283,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8793510976239746625, guid: 8fa5143051527e949b0ae174c8430414, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4470829194649195579}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fa5143051527e949b0ae174c8430414, type: 3}
---- !u!1 &1067729477089580424 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8793510976239746625, guid: 8fa5143051527e949b0ae174c8430414, type: 3}
-  m_PrefabInstance: {fileID: 8419908218236955593}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4470829194649195579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067729477089580424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80c96789241d85c4b9854f44ef4e0353, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onPlayEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: e687e13d2cb316541822b4d2c998aaa0, type: 2}
-  onStopEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
 --- !u!4 &6726436611893174342 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2990565645700352911, guid: 8fa5143051527e949b0ae174c8430414, type: 3}

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{9E5C0702-FD74-45F2-9031-C5185B1BEDDB}",
     "Language": "SFX",
-    "Hash": "{61999752-2966-A524-BA6F-891FD44103E8}",
+    "Hash": "{C5665727-D024-6EB5-EE53-08B5B0D1A678}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\BankMain",
     "ShortName": "BankMain",
     "Path": "BankMain.bnk",
@@ -515,10 +515,20 @@
         "Id": "733546473"
        }
       ]
+     },
+     {
+      "Id": "93889357",
+      "Name": "Stop_Bgm_Dummy_Stage01",
+      "ObjectPath": "\\Events\\Default Work Unit\\Bgm\\Stop_Bgm_Dummy_Stage01",
+      "GUID": "{C02DD3DA-0298-4DED-9676-E96006EBF5CB}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
      }
     ]
    }
   ],
-  "FileHash": "{44B7D4A8-E2EB-D30F-C7C8-C24A4D58BD16}"
+  "FileHash": "{4A5CB24C-4050-7AA7-4F53-86EA231009CA}"
  }
 }
