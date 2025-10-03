@@ -26,18 +26,20 @@ public class GameLogicManager : MonoBehaviour
     #region Timer Info
     [SerializeField] TMP_Text timeText;
     private int time;   // 경과한 시간
-    public int Time => time;
+    public int Timer => time;
     Coroutine timer;            // 게임 시간 추적용 코루틴 핸들
     #endregion
 
     #region Game Over Setting
     [SerializeField] GameObject gameOverUI;     // 게임 오버 UI 오브젝트
+    [SerializeField] GameObject pauseGameUI;    // 게임 정지 UI 오브젝트
     [SerializeField] TMP_Text totalPlayTimeText;    // 총 게임 진행 시간 텍스트
     public bool IsGameOver { get; set; } = false;
     #endregion
 
     #region State
     bool isFinish = false;  // 게임 종료 여부
+    bool isPaused = false;
     #endregion
 
     #region Initialization
@@ -84,6 +86,41 @@ public class GameLogicManager : MonoBehaviour
     }
 
     /// <summary>
+    /// - 인게임에서 esc를 눌렀을 때 실행돼는 메서드
+    /// - 시간을 멈추고, pause ui를 활성화시킨다. 
+    /// </summary>
+    public void PauseGame()
+    {
+        if (isPaused == true)
+        {
+            return;
+        }
+
+        isPaused = true;
+        Time.timeScale = 0f;
+        GameModeManager.UIManager.ResetDmgTextPoolExist();      // 데미지 텍스트 풀 존재 여부 플래그를 초기화
+        pauseGameUI.SetActive(true);     // 게임 오버 UI 활성화
+    }
+
+    /// <summary>
+    /// - paused ui에서 버튼을 눌렀을때 실행돼는 메서드
+    /// - 시간을 다시 흐르게 하고 ui를 비활성화 시킨다.
+    /// </summary>
+    public void ResumeGame()
+    {
+        //Debug.Log("resume game 들어옴");
+        if (isPaused == false)
+        {
+            return;
+        }
+
+        isPaused = false;
+        Time.timeScale = 1.0f;                  // 시간을 원래대로 되돌림
+        pauseGameUI.SetActive(false);           // 정지 UI 비활성화
+            
+    }
+
+    /// <summary>
     /// 게임 종료 로직을 실행하는 메서드
     /// </summary>
     public void GameOver()
@@ -91,6 +128,8 @@ public class GameLogicManager : MonoBehaviour
         IsGameOver = true;
         StopCoroutine(timer);   // 타이머 종류
         totalPlayTimeText.text = $"{time / 60:D2} : {time % 60:D2}";    // 총 플레이 시간 텍스트 설정
+
+        Time.timeScale = 0f;
         GameModeManager.UIManager.ResetDmgTextPoolExist();      // 데미지 텍스트 풀 존재 여부 플래그를 초기화
 
         Sequence gameOverUISequence = DOTween.Sequence();
@@ -148,7 +187,7 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     public void GameRetry()
     {
-        //GameModeManager.SoundManager.StopBGM();     // 게임 BGM 종료
+        ResumeGame();
 
         GameModeManager.UIManager.FadeOut(() =>
         {
@@ -162,7 +201,7 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     public void GoToMainMenu()
     {
-        //GameModeManager.SoundManager.StopBGM();     // 게임 BGM 종료
+        ResumeGame();
 
         GameModeManager.UIManager.LoadIntoLoadoutUI = false;
         GameModeManager.UIManager.FadeOut(() => 
@@ -176,7 +215,7 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     public void GoToLoadout()
     {
-        //GameModeManager.SoundManager.StopBGM();     // 게임 BGM 종료
+        ResumeGame();
 
         GameModeManager.UIManager.LoadIntoLoadoutUI = true;
         GameModeManager.UIManager.FadeOut(() =>
@@ -191,6 +230,7 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     public void ExitGame()
     {
+        ResumeGame();
         GameModeManager.ExitGame();
     }
     #endregion

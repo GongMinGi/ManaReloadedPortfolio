@@ -538,8 +538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70ccf8e4fc290424c89158f5f6415090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeSlider: {fileID: 151229398}
-  isBGMController: 0
 --- !u!114 &151229398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4990,8 +4988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70ccf8e4fc290424c89158f5f6415090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeSlider: {fileID: 1069816574}
-  isBGMController: 1
 --- !u!114 &1069816574
 MonoBehaviour:
   m_ObjectHideFlags: 0
