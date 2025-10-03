@@ -127,6 +127,7 @@ public class SkillCastingManager : MonoBehaviour
         foreach(var item in allSkilltable)
         {
             allSkillTableDict.Add(item.currentHashID, item);    // 에디터에서 입력해놓은 조합 마법의 고유값과 대응되는 스킬을 게임 실행 중에 사용할 변수로 복사해 온다.
+            item.castSkill.SetCanUseSkill(true);
         }
 
         for (int i = 0; i < skillIDList.Count; i++)

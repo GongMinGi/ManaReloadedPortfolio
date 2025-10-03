@@ -75,7 +75,6 @@ public class GameLogicManager : MonoBehaviour
     private void StartGame()
     {
         //GameModeManager.SoundManager.PlayBGM(bgmClip.game);     // 게임 BGM 실행
-
         // FadeIn 후 게임 로직 실행
         GameModeManager.UIManager.FadeIn(() => 
         {
@@ -129,7 +128,6 @@ public class GameLogicManager : MonoBehaviour
         StopCoroutine(timer);   // 타이머 종류
         totalPlayTimeText.text = $"{time / 60:D2} : {time % 60:D2}";    // 총 플레이 시간 텍스트 설정
 
-        Time.timeScale = 0f;
         GameModeManager.UIManager.ResetDmgTextPoolExist();      // 데미지 텍스트 풀 존재 여부 플래그를 초기화
 
         Sequence gameOverUISequence = DOTween.Sequence();

@@ -14,9 +14,9 @@ public class PoolManager : MonoBehaviour
     [SerializeField] Transform worldSpaceCanvas;
 
     // 오브젝트 풀을 관리하는 딕셔너리
-    private Dictionary<int, ObjectPool> poolDic = new Dictionary<int, ObjectPool>();
+    private Dictionary<int, ObjectPool> poolDic;
     // 적 오브젝트 풀을 관리하는 딕셔너리
-    private Dictionary<int, EnemyPool> enemyPoolDic = new Dictionary<int, EnemyPool>();
+    private Dictionary<int, EnemyPool> enemyPoolDic;
 
     public EnemyPool FindEnemyPoolDic(EnemyPooledObject enemy) => enemyPoolDic[enemy.GetInstanceID()];
 
@@ -32,7 +32,12 @@ public class PoolManager : MonoBehaviour
             GameModeManager.PoolManager = instance;
         }
         else
+        {
             Destroy(gameObject);
+        }
+
+        poolDic = new Dictionary<int, ObjectPool>();
+        enemyPoolDic = new Dictionary<int, EnemyPool>();
     }
     #endregion
 
