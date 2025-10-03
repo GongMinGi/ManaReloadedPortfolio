@@ -128,6 +128,7 @@ MonoBehaviour:
   curHp: 0
   moveSpeed: 0
   effectHandler: {fileID: 336111260888615720}
+  IS_DEV_MODE: 0
 --- !u!114 &336111260888615720
 MonoBehaviour:
   m_ObjectHideFlags: 0

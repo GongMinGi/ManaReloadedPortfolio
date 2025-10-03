@@ -1,15 +1,14 @@
-using DG.Tweening;
-using System;
+ï»¿using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// °ÔÀÓ ·ÎÁ÷ÀÇ ÀüÃ¼ Èå¸§À» Á¦¾îÇÏ´Â ¸Å´ÏÀú Å¬·¡½º
-/// ÆäÀÌÁî ÁøÇà, Å¸ÀÌ¸Ó ÃßÀû, ÃÊ±âÈ­ µîÀ» ´ã´ç
+/// ê²Œì„ ë¡œì§ì˜ ì „ì²´ íë¦„ì„ ì œì–´í•˜ëŠ” ë§¤ë‹ˆì € í´ë˜ìŠ¤
+/// í˜ì´ì¦ˆ ì§„í–‰, íƒ€ì´ë¨¸ ì¶”ì , ì´ˆê¸°í™” ë“±ì„ ë‹´ë‹¹
 /// </summary>
 public class GameLogicManager : MonoBehaviour
 {
@@ -18,32 +17,34 @@ public class GameLogicManager : MonoBehaviour
     #endregion
 
     #region Phase Info
-    [SerializeField] int totalPhases = 0;   // °ÔÀÓ ÀüÃ¼ ÆäÀÌÁî ¼ö
-    [SerializeField] int currentPhase = 0;  // ÇöÀç ÁøÇà ÁßÀÎ ÆäÀÌÁî ¹øÈ£
-    [SerializeField] TMP_Text phaseText;    // ÆäÀÌÁî ÅØ½ºÆ®
+    [SerializeField] int totalPhases = 0;   // ê²Œì„ ì „ì²´ í˜ì´ì¦ˆ ìˆ˜
+    [SerializeField] int currentPhase = 0;  // í˜„ì¬ ì§„í–‰ ì¤‘ì¸ í˜ì´ì¦ˆ ë²ˆí˜¸
+    [SerializeField] TMP_Text phaseText;    // í˜ì´ì¦ˆ í…ìŠ¤íŠ¸
     [SerializeField] float phaseTextOffsetX = 322f;
     #endregion
 
     #region Timer Info
     [SerializeField] TMP_Text timeText;
-    private int time;   // °æ°úÇÑ ½Ã°£
-    public int Time => time;
-    Coroutine timer;            // °ÔÀÓ ½Ã°£ ÃßÀû¿ë ÄÚ·çÆ¾ ÇÚµé
+    private int time;   // ê²½ê³¼í•œ ì‹œê°„
+    public int Timer => time;
+    Coroutine timer;            // ê²Œì„ ì‹œê°„ ì¶”ì ìš© ì½”ë£¨í‹´ í•¸ë“¤
     #endregion
 
     #region Game Over Setting
-    [SerializeField] GameObject gameOverUI;     // °ÔÀÓ ¿À¹ö UI ¿ÀºêÁ§Æ®
-    [SerializeField] TMP_Text totalPlayTimeText;    // ÃÑ °ÔÀÓ ÁøÇà ½Ã°£ ÅØ½ºÆ®
+    [SerializeField] GameObject gameOverUI;     // ê²Œì„ ì˜¤ë²„ UI ì˜¤ë¸Œì íŠ¸
+    [SerializeField] GameObject pauseGameUI;    // ê²Œì„ ì •ì§€ UI ì˜¤ë¸Œì íŠ¸
+    [SerializeField] TMP_Text totalPlayTimeText;    // ì´ ê²Œì„ ì§„í–‰ ì‹œê°„ í…ìŠ¤íŠ¸
     public bool IsGameOver { get; set; } = false;
     #endregion
 
     #region State
-    bool isFinish = false;  // °ÔÀÓ Á¾·á ¿©ºÎ
+    bool isFinish = false;  // ê²Œì„ ì¢…ë£Œ ì—¬ë¶€
+    bool isPaused = false;
     #endregion
 
     #region Initialization
     /// <summary>
-    /// ÀüÃ¼ ÆäÀÌÁî ¼ö¸¦ ÃÊ±âÈ­ÇÔ
+    /// ì „ì²´ í˜ì´ì¦ˆ ìˆ˜ë¥¼ ì´ˆê¸°í™”í•¨
     /// </summary>
     public void Initialization(int totalPhases) => this.totalPhases = totalPhases;
     #endregion
@@ -59,7 +60,7 @@ public class GameLogicManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        // GameModeManager ¼¼ÆÃ ¿Ï·á ¹× totalPhases ¼³Á¤ ´ë±â
+        // GameModeManager ì„¸íŒ… ì™„ë£Œ ë° totalPhases ì„¤ì • ëŒ€ê¸°
         yield return new WaitUntil(() => totalPhases != 0  && GameModeManager.IsReady);
 
         StartGame();
@@ -68,39 +69,76 @@ public class GameLogicManager : MonoBehaviour
 
     #region Game Control
     /// <summary>
-    /// °ÔÀÓ ½ÃÀÛ ½Ã È£ÃâµÇ´Â ¸Ş¼­µå
-    /// Ã¹ ÆäÀÌÁî¸¦ ÁøÇàÇÏ°í Å¸ÀÌ¸Ó ½ÃÀÛÇÔ
+    /// ê²Œì„ ì‹œì‘ ì‹œ í˜¸ì¶œë˜ëŠ” ë©”ì„œë“œ
+    /// ì²« í˜ì´ì¦ˆë¥¼ ì§„í–‰í•˜ê³  íƒ€ì´ë¨¸ ì‹œì‘í•¨
     /// </summary>
     private void StartGame()
     {
-        GameModeManager.SoundManager.PlayBGM(bgmClip.game);     // °ÔÀÓ BGM ½ÇÇà
+        //GameModeManager.SoundManager.PlayBGM(bgmClip.game);     // ê²Œì„ BGM ì‹¤í–‰
 
-        // FadeIn ÈÄ °ÔÀÓ ·ÎÁ÷ ½ÇÇà
+        // FadeIn í›„ ê²Œì„ ë¡œì§ ì‹¤í–‰
         GameModeManager.UIManager.FadeIn(() => 
         {
-            GameModeManager.UIManager.ClearPopupHistory();  // UIManagerÀÇ PopupHistory ½ºÅÃ ÃÊ±âÈ­
+            GameModeManager.UIManager.ClearPopupHistory();  // UIManagerì˜ PopupHistory ìŠ¤íƒ ì´ˆê¸°í™”
             ProceedPhase();
             timer = StartCoroutine(TrackGameTime());
         });
     }
 
     /// <summary>
-    /// °ÔÀÓ Á¾·á ·ÎÁ÷À» ½ÇÇàÇÏ´Â ¸Ş¼­µå
+    /// - ì¸ê²Œì„ì—ì„œ escë¥¼ ëˆŒë €ì„ ë•Œ ì‹¤í–‰ë¼ëŠ” ë©”ì„œë“œ
+    /// - ì‹œê°„ì„ ë©ˆì¶”ê³ , pause uië¥¼ í™œì„±í™”ì‹œí‚¨ë‹¤. 
+    /// </summary>
+    public void PauseGame()
+    {
+        if (isPaused == true)
+        {
+            return;
+        }
+
+        isPaused = true;
+        Time.timeScale = 0f;
+        GameModeManager.UIManager.ResetDmgTextPoolExist();      // ë°ë¯¸ì§€ í…ìŠ¤íŠ¸ í’€ ì¡´ì¬ ì—¬ë¶€ í”Œë˜ê·¸ë¥¼ ì´ˆê¸°í™”
+        pauseGameUI.SetActive(true);     // ê²Œì„ ì˜¤ë²„ UI í™œì„±í™”
+    }
+
+    /// <summary>
+    /// - paused uiì—ì„œ ë²„íŠ¼ì„ ëˆŒë €ì„ë•Œ ì‹¤í–‰ë¼ëŠ” ë©”ì„œë“œ
+    /// - ì‹œê°„ì„ ë‹¤ì‹œ íë¥´ê²Œ í•˜ê³  uië¥¼ ë¹„í™œì„±í™” ì‹œí‚¨ë‹¤.
+    /// </summary>
+    public void ResumeGame()
+    {
+        //Debug.Log("resume game ë“¤ì–´ì˜´");
+        if (isPaused == false)
+        {
+            return;
+        }
+
+        isPaused = false;
+        Time.timeScale = 1.0f;                  // ì‹œê°„ì„ ì›ë˜ëŒ€ë¡œ ë˜ëŒë¦¼
+        pauseGameUI.SetActive(false);           // ì •ì§€ UI ë¹„í™œì„±í™”
+            
+    }
+
+    /// <summary>
+    /// ê²Œì„ ì¢…ë£Œ ë¡œì§ì„ ì‹¤í–‰í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     public void GameOver()
     {
         IsGameOver = true;
-        StopCoroutine(timer);   // Å¸ÀÌ¸Ó Á¾·ù
-        totalPlayTimeText.text = $"{time / 60:D2} : {time % 60:D2}";    // ÃÑ ÇÃ·¹ÀÌ ½Ã°£ ÅØ½ºÆ® ¼³Á¤
-        GameModeManager.UIManager.ResetDmgTextPoolExist();      // µ¥¹ÌÁö ÅØ½ºÆ® Ç® Á¸Àç ¿©ºÎ ÇÃ·¡±×¸¦ ÃÊ±âÈ­
+        StopCoroutine(timer);   // íƒ€ì´ë¨¸ ì¢…ë¥˜
+        totalPlayTimeText.text = $"{time / 60:D2} : {time % 60:D2}";    // ì´ í”Œë ˆì´ ì‹œê°„ í…ìŠ¤íŠ¸ ì„¤ì •
+
+        Time.timeScale = 0f;
+        GameModeManager.UIManager.ResetDmgTextPoolExist();      // ë°ë¯¸ì§€ í…ìŠ¤íŠ¸ í’€ ì¡´ì¬ ì—¬ë¶€ í”Œë˜ê·¸ë¥¼ ì´ˆê¸°í™”
 
         Sequence gameOverUISequence = DOTween.Sequence();
 
-        gameOverUISequence.AppendInterval(1.2f);    // ÇÃ·¹ÀÌ¾î »ç¸Á ¾Ö´Ï¸ŞÀÌ¼Ç¸¸Å­ ½Ã°£Â÷¸¦ µĞ ÈÄ
+        gameOverUISequence.AppendInterval(1.2f);    // í”Œë ˆì´ì–´ ì‚¬ë§ ì• ë‹ˆë©”ì´ì…˜ë§Œí¼ ì‹œê°„ì°¨ë¥¼ ë‘” í›„
 
         gameOverUISequence.AppendCallback(() => 
         {
-            gameOverUI.SetActive(true);     // °ÔÀÓ ¿À¹ö UI È°¼ºÈ­
+            gameOverUI.SetActive(true);     // ê²Œì„ ì˜¤ë²„ UI í™œì„±í™”
         });
 
     }
@@ -108,22 +146,22 @@ public class GameLogicManager : MonoBehaviour
 
     #region Phase Logic
     /// <summary>
-    /// ÇöÀç ÆäÀÌÁî¸¦ ÁøÇàÇÏ°í, ÀüÃ¼ ÆäÀÌÁî°¡ Á¾·áµÇ¾ú´ÂÁö ¿©ºÎ¸¦ ÆÇ´ÜÇÏ¿© ´ÙÀ½ ´Ü°è·Î ÁøÇàÇÏ´Â ¸Ş¼­µå
-    /// Á¾·á°¡ ¾Æ´Ò ½Ã ´ÙÀ½ ÆäÀÌÁî¸¦ ÁøÇà,
-    /// Á¾·á ½Ã °ÔÀÓ Á¾·á ·ÎÁ÷À» ½ÇÇàÇÔ
+    /// í˜„ì¬ í˜ì´ì¦ˆë¥¼ ì§„í–‰í•˜ê³ , ì „ì²´ í˜ì´ì¦ˆê°€ ì¢…ë£Œë˜ì—ˆëŠ”ì§€ ì—¬ë¶€ë¥¼ íŒë‹¨í•˜ì—¬ ë‹¤ìŒ ë‹¨ê³„ë¡œ ì§„í–‰í•˜ëŠ” ë©”ì„œë“œ
+    /// ì¢…ë£Œê°€ ì•„ë‹ ì‹œ ë‹¤ìŒ í˜ì´ì¦ˆë¥¼ ì§„í–‰,
+    /// ì¢…ë£Œ ì‹œ ê²Œì„ ì¢…ë£Œ ë¡œì§ì„ ì‹¤í–‰í•¨
     /// </summary>
     public void ProceedPhase()
     {
         if (currentPhase < totalPhases)
         {
             GameModeManager.EnemyManager.StartSpawnEnemyLoop(currentPhase++);
-            phaseText.text = $"{currentPhase} Phase";   // ÆäÀÌÁî Á¤º¸ ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
-            GameModeManager.UIManager.ShowPhaseStartText(phaseText, phaseTextOffsetX);    // ÆäÀÌÁî Å×½ºÆ® ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+            phaseText.text = $"{currentPhase} Phase";   // í˜ì´ì¦ˆ ì •ë³´ í…ìŠ¤íŠ¸ ì—…ë°ì´íŠ¸
+            GameModeManager.UIManager.ShowPhaseStartText(phaseText, phaseTextOffsetX);    // í˜ì´ì¦ˆ í…ŒìŠ¤íŠ¸ ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
         }
         else
         {
-            Debug.Log("°ÔÀÓ ÆäÀÌÁî ·ÎÁ÷ÀÌ ÀüºÎ Á¾·áµÇ¾ú½À´Ï´Ù.");
-            GameOver();     // °ÔÀÓ Á¾·á ·ÎÁ÷ ½ÇÇà
+            Debug.Log("ê²Œì„ í˜ì´ì¦ˆ ë¡œì§ì´ ì „ë¶€ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+            GameOver();     // ê²Œì„ ì¢…ë£Œ ë¡œì§ ì‹¤í–‰
         }
     }
     #endregion
@@ -145,25 +183,25 @@ public class GameLogicManager : MonoBehaviour
 
     #region After Game Over
     /// <summary>
-    /// ÆäÀÌµå ¾Æ¿ô ÈÄ °ÔÀÓÀ» ´Ù½Ã ½ÃÀÛÇÏ´Â ¸Ş¼­µå
+    /// í˜ì´ë“œ ì•„ì›ƒ í›„ ê²Œì„ì„ ë‹¤ì‹œ ì‹œì‘í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     public void GameRetry()
     {
-        GameModeManager.SoundManager.StopBGM();     // °ÔÀÓ BGM Á¾·á
+        ResumeGame();
 
         GameModeManager.UIManager.FadeOut(() =>
         {
-            GameModeManager.UIManager.ClearPopupHistory();      // UIManagerÀÇ ClearPopupHistory ½ºÅÃ ÃÊ±âÈ­
+            GameModeManager.UIManager.ClearPopupHistory();      // UIManagerì˜ ClearPopupHistory ìŠ¤íƒ ì´ˆê¸°í™”
             SceneManager.LoadScene("Game Scene");
         });
     }
 
     /// <summary>
-    /// ÆäÀÌµå ¾Æ¿ô ÈÄ °ÔÀÓ ¸ŞÀÎ ¸Ş´º È­¸éÀ¸·Î ÀÌµ¿ÇÏ´Â ¸Ş¼­µå
+    /// í˜ì´ë“œ ì•„ì›ƒ í›„ ê²Œì„ ë©”ì¸ ë©”ë‰´ í™”ë©´ìœ¼ë¡œ ì´ë™í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     public void GoToMainMenu()
     {
-        GameModeManager.SoundManager.StopBGM();     // °ÔÀÓ BGM Á¾·á
+        ResumeGame();
 
         GameModeManager.UIManager.LoadIntoLoadoutUI = false;
         GameModeManager.UIManager.FadeOut(() => 
@@ -173,11 +211,11 @@ public class GameLogicManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÆäÀÌµå ¾Æ¿ô ÈÄ ·Îµå¾Æ¿ô È­¸éÀ¸·Î ÀÌµ¿ÇÏ´Â ¸Ş¼­µå
+    /// í˜ì´ë“œ ì•„ì›ƒ í›„ ë¡œë“œì•„ì›ƒ í™”ë©´ìœ¼ë¡œ ì´ë™í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     public void GoToLoadout()
     {
-        GameModeManager.SoundManager.StopBGM();     // °ÔÀÓ BGM Á¾·á
+        ResumeGame();
 
         GameModeManager.UIManager.LoadIntoLoadoutUI = true;
         GameModeManager.UIManager.FadeOut(() =>
@@ -187,11 +225,12 @@ public class GameLogicManager : MonoBehaviour
     }
 
     /// <summary>
-    /// °ÔÀÓÀ» Á¾·áÇÏ´Â ¸Ş¼­µå
-    /// ÇÃ·§Æû¿¡ ¸Â´Â Á¾·á Ã³¸® ¼öÇà
+    /// ê²Œì„ì„ ì¢…ë£Œí•˜ëŠ” ë©”ì„œë“œ
+    /// í”Œë«í¼ì— ë§ëŠ” ì¢…ë£Œ ì²˜ë¦¬ ìˆ˜í–‰
     /// </summary>
     public void ExitGame()
     {
+        ResumeGame();
         GameModeManager.ExitGame();
     }
     #endregion

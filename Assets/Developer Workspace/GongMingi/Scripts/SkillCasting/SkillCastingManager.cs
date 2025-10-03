@@ -6,7 +6,6 @@ using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 /// <summary>
 /// 개발자: 공민기
 /// 
@@ -16,10 +15,8 @@ using UnityEngine.UI;
 /// - GetCastTypeHashTable()로 조합을 유일 해시로 변환한 뒤 GetSkill()을 통해 대응 스킬을 반환합니다.
 /// 
 /// </summary>
-
 public class SkillCastingManager : MonoBehaviour
 {
-
     #region Field and Property
     // 싱글톤
     private static SkillCastingManager instance;
@@ -48,7 +45,6 @@ public class SkillCastingManager : MonoBehaviour
 
     #endregion
 
-
     private void Awake()
     {
         if (instance == null)
@@ -56,18 +52,14 @@ public class SkillCastingManager : MonoBehaviour
             instance = this;
             GameModeManager.SkillCastingManager = instance;
         }
+
         else
         {
             Destroy(this.gameObject);
         }
 
-
         Init(); // 게임시작 후 초기화 
-
     }
-
-
-
 
     /// <summary>
     /// 플레이어가 입력한 캐스팅을 => 문자열 => 해시 코드 순서로 변환한다.
@@ -77,7 +69,9 @@ public class SkillCastingManager : MonoBehaviour
     public static int GetCastTypeHashTable(List<E_CastingType> playerCast)
     {
         if (playerCast.Count <= 0)                      // 입력한 원소 조합이 비어있으면 0을 반환해 에러 표시
+        {
             return 0;
+        }
 
         string tempString = "";                         // 입력으로 들어온 원소 데이터를 문자로 바꿔 저장할 변수
 
@@ -88,8 +82,6 @@ public class SkillCastingManager : MonoBehaviour
 
         return tempString.GetHashCode();                // 변환한 문자열에 대한 고유한 번호를 만들어 해당 번호를 반환한다.
     }
-
-
 
     /// <summary>
     /// 플레이가 입력한 캐스팅을 받아서 GetCastTypeHashTable을 통해 해시값으로 변환,
@@ -107,17 +99,13 @@ public class SkillCastingManager : MonoBehaviour
             Debug.LogError("값 이상함 확인 요망");
         }
 
-
-        if(allSkillTableDict.ContainsKey(hashValue))            // 플레이어가 입력한 원소 조합에 해당하는 고유번호가 조합 마법 리스트에 존재하는지 판단
+        if( allSkillTableDict.ContainsKey(hashValue) )            // 플레이어가 입력한 원소 조합에 해당하는 고유번호가 조합 마법 리스트에 존재하는지 판단
         {
             return allSkillTableDict[hashValue].castSkill;      // 마법이 존재한다면, 해당 조합에 할당된 스킬을 실행한다.
         }
 
-
         return null;
     }
-
-
 
     /// <summary>
     /// 인스펙터에 등록된 <see cref="SkillHashTable"/> 리스트를
@@ -128,21 +116,23 @@ public class SkillCastingManager : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        if (isInit) return;     // 중복 초기화 방지
-
+        if (isInit)
+        {
+            return;     // 중복 초기화 방지
+        }
 
         isInit = true;
-
         allSkillTableDict.Clear();                          // 게임 실행 중에 원소조합을 저장해놓을 변수를 초기화 시킨다
 
         foreach(var item in allSkilltable)
         {
             allSkillTableDict.Add(item.currentHashID, item);    // 에디터에서 입력해놓은 조합 마법의 고유값과 대응되는 스킬을 게임 실행 중에 사용할 변수로 복사해 온다.
-
         }
 
-        for(int i = 0; i < skillIDList.Count; i++)
+        for (int i = 0; i < skillIDList.Count; i++)
+        {
             skillUIMap.Add(skillIDList[i], skillUIInfoList[i]);   // 각 스킬 ID와 UI정보를 매핑
+        }
     }
 }
 

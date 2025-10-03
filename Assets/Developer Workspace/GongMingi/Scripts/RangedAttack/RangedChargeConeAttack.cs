@@ -1,4 +1,4 @@
-using Game.Combat.Stats;
+ï»¿using Game.Combat.Stats;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering.UI;
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///   - Àü±â ¼Ó¼º Àü¿ë 'Â÷Áö ÈÄ ºÎÃ¤²Ã' °ø°İ
-///   - Ä³½ºÆÃÇÑ ¿ø¼Ò¿¡ Àü±â ¼Ó¼ºÀÌ Æ÷ÇÔµÇ¾î ÀÕ´Â °æ¿ì ½ÃÀüµÇ´Â ¿ø°Å¸® °ø°İ
-///   - ¸¶¿ì½º ÁÂÅ¬¸¯À» ´©¸£´Â µ¿¾È ÃæÀüÇÏ°í ¶§´Â ¼ø°£¿¡ ¸¶¹ıÀ» ¹ß»çÇÑ´Ù
+/// * ì‘ì„±ì : ê³µë¯¼ê¸°
+///   - ì „ê¸° ì†ì„± ì „ìš© 'ì°¨ì§€ í›„ ë¶€ì±„ê¼´' ê³µê²©
+///   - ìºìŠ¤íŒ…í•œ ì›ì†Œì— ì „ê¸° ì†ì„±ì´ í¬í•¨ë˜ì–´ ì‡ëŠ” ê²½ìš° ì‹œì „ë˜ëŠ” ì›ê±°ë¦¬ ê³µê²©
+///   - ë§ˆìš°ìŠ¤ ì¢Œí´ë¦­ì„ ëˆ„ë¥´ëŠ” ë™ì•ˆ ì¶©ì „í•˜ê³  ë•ŒëŠ” ìˆœê°„ì— ë§ˆë²•ì„ ë°œì‚¬í•œë‹¤
 ///   
 /// </summary>
 public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
@@ -18,7 +18,7 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
 
     private RangedAttackContext _ctx;
 
-    [Header("VFX Setting")]     // ±¸Çö: ÀÌ¿¹¸°
+    [Header("VFX Setting")]     // êµ¬í˜„: ì´ì˜ˆë¦°
     [SerializeField] VFXObject chargeVFX;
     [SerializeField] VFXObject attackVFX;
 
@@ -28,27 +28,27 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
     public event Action Interrupted;
 
     [Header("Cone Parameters")]
-    [SerializeField] private float radius = 6f;                 // Àû Å½Áö ¹İ°æ
-    [SerializeField] private float angle = 60f;                 // ÀüÃ¼ ºÎÃ¤²Ã °¢µµ
-    [SerializeField] private bool flatcone = true;              // yÃà ³ôÀÌ ¹«½Ã
+    [SerializeField] private float radius = 6f;                 // ì  íƒì§€ ë°˜ê²½
+    [SerializeField] private float angle = 60f;                 // ì „ì²´ ë¶€ì±„ê¼´ ê°ë„
+    [SerializeField] private bool flatcone = true;              // yì¶• ë†’ì´ ë¬´ì‹œ
 
     [Header("Charge Parameter")]
-    [SerializeField] private int baseDamage = 12;               // ÃÖ¼Ò µ¥¹ÌÁö
-    [SerializeField] private int damageStep = 8;                // 1½ºÅÃ´ç Áõ°¡·®
-    [SerializeField] private int maxDamage = 60;                // »óÇÑ¼±
-    [SerializeField] private float chargeInterval = 0.5f;       // ½ºÅÃ ÁÖ±â (sec) 
+    [SerializeField] private int baseDamage = 12;               // ìµœì†Œ ë°ë¯¸ì§€
+    [SerializeField] private int damageStep = 8;                // 1ìŠ¤íƒë‹¹ ì¦ê°€ëŸ‰
+    [SerializeField] private int maxDamage = 60;                // ìƒí•œì„ 
+    [SerializeField] private float chargeInterval = 0.5f;       // ìŠ¤íƒ ì£¼ê¸° (sec) 
 
 
     [Header("Layers")]
-    [SerializeField] private LayerMask enemyLayer;              // °¨ÁöÇÒ Àû ·¹ÀÌ¾î 
+    [SerializeField] private LayerMask enemyLayer;              // ê°ì§€í•  ì  ë ˆì´ì–´ 
 
     [Header("SoundSetting")]
-    [SerializeField] int sfxId = 110015;                                                        // Àç»ıÇÒ »ç¿îµå ¸®¼Ò½º ¾ÆÀÌµğ
+    [SerializeField] int sfxId = 110015;                                                        // ì¬ìƒí•  ì‚¬ìš´ë“œ ë¦¬ì†ŒìŠ¤ ì•„ì´ë””
 
-    float cosThreshold;                                         // °ø°İ¹üÀ§ ºÎÃ¤²Ã °¢µµ
-    int currentDamage;                                          // ÇöÀç ´©Àû(½ºÅÃ)µ¥¹ÌÁö
-    bool isCharging;                                            // Â÷Áö Áß ¿©ºÎ
-    Coroutine chargeRoutine;                                    // ÄÚ·çÆ¾ ÇÚµé·¯
+    float cosThreshold;                                         // ê³µê²©ë²”ìœ„ ë¶€ì±„ê¼´ ê°ë„
+    int currentDamage;                                          // í˜„ì¬ ëˆ„ì (ìŠ¤íƒ)ë°ë¯¸ì§€
+    bool isCharging;                                            // ì°¨ì§€ ì¤‘ ì—¬ë¶€
+    Coroutine chargeRoutine;                                    // ì½”ë£¨í‹´ í•¸ë“¤ëŸ¬
 
     #endregion
 
@@ -56,7 +56,7 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
     #region Unity Event
 
     /// <summary>
-    /// - ÀÎ½ºÆåÅÍ¿¡ µé¾î¿Â °¢µµ °ªÀ¸·Î ºÎÃ¤²Ã(°ø°İ¹üÀ§)ÀÇ °¢À» Á¤ÇÑ´Ù.
+    /// - ì¸ìŠ¤í™í„°ì— ë“¤ì–´ì˜¨ ê°ë„ ê°’ìœ¼ë¡œ ë¶€ì±„ê¼´(ê³µê²©ë²”ìœ„)ì˜ ê°ì„ ì •í•œë‹¤.
     /// </summary>
     private void Awake() => cosThreshold = Mathf.Cos(angle * 0.5f *  Mathf.Deg2Rad);
 
@@ -68,18 +68,18 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
     #region Interface Implementation
     public void ExecuteAttack(E_CastingType type)
     {
-        if (isCharging) return;                                  // Áßº¹ ¹æÁö
-        Debug.Log("Â÷Áö½ÃÀÛ");
+        if (isCharging) return;                                  // ì¤‘ë³µ ë°©ì§€
+        Debug.Log("ì°¨ì§€ì‹œì‘");
         chargeRoutine = StartCoroutine(ChargeProcess());         
         
     }
 
-    public void Stop()                                           // ¿ÜºÎ¿¡¼­ °­Á¦ Ãë¼ÒÇÏ°í ½ÍÀ» ¶§
+    public void Stop()                                           // ì™¸ë¶€ì—ì„œ ê°•ì œ ì·¨ì†Œí•˜ê³  ì‹¶ì„ ë•Œ
     {
-        if(!isCharging) return;                                  // Â÷Áö Ãë¼Ò
+        if(!isCharging) return;                                  // ì°¨ì§€ ì·¨ì†Œ
         StopCoroutine(chargeRoutine);
         isCharging = false;
-        Interrupted?.Invoke();          // ¾Ö´Ï¸ŞÀÌ¼Ç °­Á¦Ãë¼Ò   
+        Interrupted?.Invoke();          // ì• ë‹ˆë©”ì´ì…˜ ê°•ì œì·¨ì†Œ   
     }
     #endregion
 
@@ -87,76 +87,76 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
     #region Charge And Attack
     IEnumerator ChargeProcess()
     {
-        isCharging = true;                                        // Â÷Áö Áß ¿©ºÎ true ·Î ÀüÈ¯
-        currentDamage = baseDamage;                               // ÃÊ±â µ¥¹ÌÁö ¼³Á¤
-        float elapsed = 0f;                                       // Â÷Áö °£°İ Å¸ÀÌ¸Ó
+        isCharging = true;                                        // ì°¨ì§€ ì¤‘ ì—¬ë¶€ true ë¡œ ì „í™˜
+        currentDamage = baseDamage;                               // ì´ˆê¸° ë°ë¯¸ì§€ ì„¤ì •
+        float elapsed = 0f;                                       // ì°¨ì§€ ê°„ê²© íƒ€ì´ë¨¸
 
-        Started?.Invoke();              // Â÷Áö ½ÃÀÛ
-        chargeVFX.Play();               // Â÷Â¡ VFX ½ÇÇà
+        Started?.Invoke();              // ì°¨ì§€ ì‹œì‘
+        chargeVFX.Play();               // ì°¨ì§• VFX ì‹¤í–‰
 
-        // Â÷Áö ´Ü°è
-        while (Mouse.current.leftButton.isPressed)                // ¹öÆ° È¦µå °¨Áö
+        // ì°¨ì§€ ë‹¨ê³„
+        while (Mouse.current.leftButton.isPressed)                // ë²„íŠ¼ í™€ë“œ ê°ì§€
         {
-            elapsed += Time.deltaTime;                            // Å¸ÀÌ¸Ó Áõ°¡
+            elapsed += Time.deltaTime;                            // íƒ€ì´ë¨¸ ì¦ê°€
 
-            if(elapsed >= chargeInterval)                         // Â÷Áö ½Ã°£ÀÌ ÀÏÁ¤ °£°İÀ» ³Ñ´Â °æ¿ì
+            if(elapsed >= chargeInterval)                         // ì°¨ì§€ ì‹œê°„ì´ ì¼ì • ê°„ê²©ì„ ë„˜ëŠ” ê²½ìš°
             {
-                elapsed -= chargeInterval;                        // Å¸ÀÌ¸Ó ÃÊ±âÈ­
-                currentDamage = Mathf.Min(currentDamage + damageStep, maxDamage);   // µ¥¹ÌÁö °­È­
-                Debug.Log("Â÷Áö´Ü°è Áõ°¡");
+                elapsed -= chargeInterval;                        // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
+                currentDamage = Mathf.Min(currentDamage + damageStep, maxDamage);   // ë°ë¯¸ì§€ ê°•í™”
+                Debug.Log("ì°¨ì§€ë‹¨ê³„ ì¦ê°€");
             }
 
             float denom = Mathf.Max(1, maxDamage - baseDamage); 
             float t = Mathf.Clamp01((currentDamage - baseDamage) / (float)denom);
             Progress?.Invoke(t);
             
-            yield return null;                                    // ´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ´ë±â
+            yield return null;                                    // ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ëŒ€ê¸°
         }
         
-        chargeVFX.Stop();                                         // Â÷Â¡ VFX Á¾·á
-        attackVFX.Play();                                         // ¹üÀ§ °ø°İ VFX ½ÇÇà
+        chargeVFX.Stop();                                         // ì°¨ì§• VFX ì¢…ë£Œ
+        attackVFX.Play();                                         // ë²”ìœ„ ê³µê²© VFX ì‹¤í–‰
 
-        FireConeDamage();                                         // ¸¶¿ì½º¸¦ ¶®À» ¶§ °İ¹ß
-        isCharging = false;                                       // Â÷Áö Áß ¿©ºÎ false·Î ÀüÈ¯
-        Ended?.Invoke();            // ¹ß»ç ÈÄ Á¾·á
+        FireConeDamage();                                         // ë§ˆìš°ìŠ¤ë¥¼ ë• ì„ ë•Œ ê²©ë°œ
+        isCharging = false;                                       // ì°¨ì§€ ì¤‘ ì—¬ë¶€ falseë¡œ ì „í™˜
+        Ended?.Invoke();            // ë°œì‚¬ í›„ ì¢…ë£Œ
     }
 
 
     /// <summary>
-    /// ºÎÃ¤²Ã ¹üÀ§ ³» Àû¿¡°Ô currentDamage Àû¿ë
-    ///  - °¨ÁöµÈ ÀûÀÇ ¹æÇâº¤ÅÍ¿Í ÇÃ·¹ÀÌ¾îÀÇ Á¤¸é º¤ÅÍ¸¦ ³»Àû.
-    ///  - °¢µµ°¡ ÀÏÁ¤ ÀÌ»óÀÎ Àû¿¡°Ô¸¸ ´ë¹ÌÁö¸¦ Àû¿ëÇÏ´Â °Í.
+    /// ë¶€ì±„ê¼´ ë²”ìœ„ ë‚´ ì ì—ê²Œ currentDamage ì ìš©
+    ///  - ê°ì§€ëœ ì ì˜ ë°©í–¥ë²¡í„°ì™€ í”Œë ˆì´ì–´ì˜ ì •ë©´ ë²¡í„°ë¥¼ ë‚´ì .
+    ///  - ê°ë„ê°€ ì¼ì • ì´ìƒì¸ ì ì—ê²Œë§Œ ëŒ€ë¯¸ì§€ë¥¼ ì ìš©í•˜ëŠ” ê²ƒ.
     /// </summary>
     void FireConeDamage()
     {
-        GameModeManager.SoundManager.PlaySFX(sfxId);                                       //Àü±â°ø°İ °İ¹ß »ç¿îµå
+        //GameModeManager.SoundManager.PlaySFX(sfxId);                                       //ì „ê¸°ê³µê²© ê²©ë°œ ì‚¬ìš´ë“œ
 
         Collider[] hits = Physics.OverlapSphere(
             transform.position, 
             radius, 
             enemyLayer, 
-            QueryTriggerInteraction.Ignore);    // ±¸Ã¼ ¹üÀ§ ³»¿¡ Àû °¨Áö
-        Vector3 forward = transform.forward;                                                // ÇÃ·¹ÀÌ¾îÀÇ Á¤¸é º¤ÅÍ ÃßÃâ
-        if (flatcone) forward.y = 0;                                                        // yÃà °ª ¹«½Ã
-        forward.Normalize();                                                                // º¤ÅÍ Á¤±ÔÈ­
+            QueryTriggerInteraction.Ignore);    // êµ¬ì²´ ë²”ìœ„ ë‚´ì— ì  ê°ì§€
+        Vector3 forward = transform.forward;                                                // í”Œë ˆì´ì–´ì˜ ì •ë©´ ë²¡í„° ì¶”ì¶œ
+        if (flatcone) forward.y = 0;                                                        // yì¶• ê°’ ë¬´ì‹œ
+        forward.Normalize();                                                                // ë²¡í„° ì •ê·œí™”
 
-        Debug.Log("Â÷Áö°ø°İ ¹ß»ç");
+        Debug.Log("ì°¨ì§€ê³µê²© ë°œì‚¬");
 
-        foreach (var hit in hits)                                                           // Ãæµ¹ÇÑ Àû °¢°¢¸¶´Ù µ¥¹ÌÁö Àû¿ë
+        foreach (var hit in hits)                                                           // ì¶©ëŒí•œ ì  ê°ê°ë§ˆë‹¤ ë°ë¯¸ì§€ ì ìš©
         {
-            Vector3 dir = hit.transform.position - transform.position;                      // ÇÃ·¹ÀÌ¾î => Àû ¹æÇâº¤ÅÍ ÃßÃâ
-            if (flatcone) dir.y = 0;                                                        // yÃà ¹«½Ã
-            dir.Normalize();                                                                // º¤ÅÍ Á¤±ÔÈ­
+            Vector3 dir = hit.transform.position - transform.position;                      // í”Œë ˆì´ì–´ => ì  ë°©í–¥ë²¡í„° ì¶”ì¶œ
+            if (flatcone) dir.y = 0;                                                        // yì¶• ë¬´ì‹œ
+            dir.Normalize();                                                                // ë²¡í„° ì •ê·œí™”
 
-            if (Vector3.Dot(forward, dir) >= cosThreshold)                                  // Á¤±ÔÈ­½ÃÅ² µÎ º¤ÅÍ ³»Àû°ªÀÌ Æ¯Á¤ °¢µµ ÀÌ»óÀÏ¶§¸¸
+            if (Vector3.Dot(forward, dir) >= cosThreshold)                                  // ì •ê·œí™”ì‹œí‚¨ ë‘ ë²¡í„° ë‚´ì ê°’ì´ íŠ¹ì • ê°ë„ ì´ìƒì¼ë•Œë§Œ
             {
                 if (hit.TryGetComponent(out UnitStats target))
                     target.TakeDamage(currentDamage);
-                // µ¥¹ÌÁö Àû¿ë
+                // ë°ë¯¸ì§€ ì ìš©
             }
         }
 
-        // ¹ß»ç ÆÄÆ¼Å¬ Ãß°¡ Àû¿ë ÇÊ¿ä
+        // ë°œì‚¬ íŒŒí‹°í´ ì¶”ê°€ ì ìš© í•„ìš”
     }
 
     #endregion 

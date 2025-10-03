@@ -1,0 +1,91 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Mac",
+  "BasePlatform": "Mac",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "154",
+  "SoundBanks": [
+   {
+    "Id": "1355168291",
+    "Type": "User",
+    "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
+    "Language": "SFX",
+    "Hash": "{B57B4918-0200-BFE8-BC1C-C916B8087EA0}",
+    "ObjectPath": "Init",
+    "ShortName": "Init",
+    "Path": "Init.bnk",
+    "Plugins": {
+     "AudioDevices": [
+      {
+       "Id": "2317455096",
+       "Name": "No_Output",
+       "ObjectPath": "\\Audio Devices\\Default Work Unit\\No_Output",
+       "GUID": "{E6C41653-15A0-4B46-AE55-575B352C9A7D}",
+       "LibName": "No Output",
+       "LibId": "11862023"
+      },
+      {
+       "Id": "3859886410",
+       "Name": "System",
+       "ObjectPath": "\\Audio Devices\\Default Work Unit\\System",
+       "GUID": "{A7B49406-E243-4845-8D1F-9990335D272F}",
+       "LibName": "System",
+       "LibId": "11403271"
+      }
+     ]
+    },
+    "Busses": [
+     {
+      "Id": "78360149",
+      "Name": "Stinger",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Stinger",
+      "GUID": "{CD16B3FA-7837-46C0-9275-4EECFCBA72FE}"
+     },
+     {
+      "Id": "85412153",
+      "Name": "Ambience",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Sfx\\Ambience",
+      "GUID": "{0B48BE3F-5B47-4890-9B09-0A8A1C80A4E9}"
+     },
+     {
+      "Id": "393239870",
+      "Name": "Sfx",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Sfx",
+      "GUID": "{79D9137E-85EB-40C4-824F-0503EE0CFA46}"
+     },
+     {
+      "Id": "412724365",
+      "Name": "Bgm",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Bgm",
+      "GUID": "{2A5E9FCB-F7A6-4356-B489-0EB0A354A8FD}"
+     },
+     {
+      "Id": "1069431850",
+      "Name": "Player",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Sfx\\Player",
+      "GUID": "{78E651A6-557D-4121-AB5B-7F5FCA84D4FD}"
+     },
+     {
+      "Id": "1551306167",
+      "Name": "Ui",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Sfx\\Ui",
+      "GUID": "{0F39B678-2955-4FFC-B008-55C99F4437C0}"
+     },
+     {
+      "Id": "2376328173",
+      "Name": "Monster",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Sfx\\Monster",
+      "GUID": "{EE34853B-4744-43BA-BABB-436B4FC0E93A}"
+     },
+     {
+      "Id": "4056684167",
+      "Name": "Master",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master",
+      "GUID": "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
+     }
+    ]
+   }
+  ],
+  "FileHash": "{E9F8E7A0-FA4D-D936-9599-42D266D65FE9}"
+ }
+}

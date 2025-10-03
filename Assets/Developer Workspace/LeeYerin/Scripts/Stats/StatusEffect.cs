@@ -1,104 +1,106 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 
 namespace Game.Combat.Stats
 {
     /// <summary>
-    /// °³¹ßÀÚ: ÀÌ¿¹¸°
+    /// ê°œë°œì: ì´ì˜ˆë¦°
     /// 
-    /// »óÅÂ È¿°úÀÇ ±âº» ±¸Á¶¸¦ Á¤ÀÇÇÏ´Â Ãß»ó Å¬·¡½º
-    /// Áö¼Ó ½Ã°£, Æ½(Tick) Ã³¸®, Àû¿ë/¸¸·á ·ÎÁ÷À» °øÅëÀ¸·Î °ü¸®ÇÔ
+    /// ìƒíƒœ íš¨ê³¼ì˜ ê¸°ë³¸ êµ¬ì¡°ë¥¼ ì •ì˜í•˜ëŠ” ì¶”ìƒ í´ë˜ìŠ¤
+    /// ì§€ì† ì‹œê°„, í‹±(Tick) ì²˜ë¦¬, ì ìš©/ë§Œë£Œ ë¡œì§ì„ ê³µí†µìœ¼ë¡œ ê´€ë¦¬í•¨
     /// </summary>
     public abstract class StatusEffect
     {
         #region Tick-related Variables and Properties
-        public int EffectId { get; set; }   // »óÅÂ È¿°úÀÇ °íÀ¯ ID
-        public float Duration { get; set; } // »óÅÂ È¿°úÀÇ ÃÑ Áö¼Ó ½Ã°£À» ÀúÀå
-        public float TickInterval { get; set; } = 1.0f;  // Æ½ ÁÖ±â(ÃÊ ´ÜÀ§)¸¦ ÀúÀåÇÔ. ±âº»°ªÀº 1ÃÊ
+        public int EffectId { get; set; }   // ìƒíƒœ íš¨ê³¼ì˜ ê³ ìœ  ID
+        public float Duration { get; set; } // ìƒíƒœ íš¨ê³¼ì˜ ì´ ì§€ì† ì‹œê°„ì„ ì €ì¥
+        public float TickInterval { get; set; } = 1.0f;  // í‹± ì£¼ê¸°(ì´ˆ ë‹¨ìœ„)ë¥¼ ì €ì¥í•¨. ê¸°ë³¸ê°’ì€ 1ì´ˆ
 
-        private float tickTimer = 0f;           // Æ½ Å¸ÀÌ¸Ó¸¦ °ü¸®
-        private Action<UnitStats> tickAction;    // Æ½¸¶´Ù ½ÇÇàÇÒ ·ÎÁ÷À» µ¨¸®°ÔÀÌÆ®·Î ÀúÀå
+        private float tickTimer = 0f;           // í‹± íƒ€ì´ë¨¸ë¥¼ ê´€ë¦¬
+        private Action<UnitStats> tickAction;    // í‹±ë§ˆë‹¤ ì‹¤í–‰í•  ë¡œì§ì„ ë¸ë¦¬ê²Œì´íŠ¸ë¡œ ì €ì¥
 
         /// <summary>
-        /// Áßº¹ µî·ÏÀ» ¹æÁöÇÏ±â À§ÇØ ÇöÀç µî·ÏµÈ Æ½ È¿°ú µ¨¸®°ÔÀÌÆ®¸¦ °ü¸®ÇÏ´Â ÄÃ·º¼ÇÀÔ´Ï´Ù.
-        /// HashSetÀ» »ç¿ëÇÏ¿© ºü¸¥ °Ë»ö ¹× Áßº¹ Ã¼Å©¸¦ ¼öÇàÇÕ´Ï´Ù.
+        /// ì¤‘ë³µ ë“±ë¡ì„ ë°©ì§€í•˜ê¸° ìœ„í•´ í˜„ì¬ ë“±ë¡ëœ í‹± íš¨ê³¼ ë¸ë¦¬ê²Œì´íŠ¸ë¥¼ ê´€ë¦¬í•˜ëŠ” ì»¬ë ‰ì…˜ì…ë‹ˆë‹¤.
+        /// HashSetì„ ì‚¬ìš©í•˜ì—¬ ë¹ ë¥¸ ê²€ìƒ‰ ë° ì¤‘ë³µ ì²´í¬ë¥¼ ìˆ˜í–‰í•©ë‹ˆë‹¤.
         /// </summary>
         private HashSet<Action<UnitStats>> registeredTickActions = new();
 
-        public bool HasTickEffect { get; set; }  // Æ½ È¿°ú À¯¹«
+        public bool HasTickEffect { get; set; }  // í‹± íš¨ê³¼ ìœ ë¬´
         #endregion
 
         /// <summary>
-        /// »ı¼ºÀÚ: »óÅÂ È¿°ú Áö¼Ó ½Ã°£, Æ½ ¿©ºÎ, ID¸¦ ÃÊ±âÈ­
+        /// ìƒì„±ì: ìƒíƒœ íš¨ê³¼ ì§€ì† ì‹œê°„, í‹± ì—¬ë¶€, IDë¥¼ ì´ˆê¸°í™”
         /// </summary>
-        /// <param name="duration">Áö¼Ó ½Ã°£(ÃÊ). -1ÀÌ¸é ¹«ÇÑ Áö¼Ó</param>
-        /// <param name="hasTickEffect">Æ½ È¿°ú°¡ ÀÖ´ÂÁö ¿©ºÎ¸¦ ¼³Á¤</param>
-        /// <param name="effectId">»óÅÂ È¿°úÀÇ °íÀ¯ ID¸¦ ¼³Á¤</param>
+        /// <param name="duration">ì§€ì† ì‹œê°„(ì´ˆ). -1ì´ë©´ ë¬´í•œ ì§€ì†</param>
+        /// <param name="hasTickEffect">í‹± íš¨ê³¼ê°€ ìˆëŠ”ì§€ ì—¬ë¶€ë¥¼ ì„¤ì •</param>
+        /// <param name="effectId">ìƒíƒœ íš¨ê³¼ì˜ ê³ ìœ  IDë¥¼ ì„¤ì •</param>
         protected StatusEffect(float duration, bool hasTickEffect, int effectId)
         {
-            Duration = duration;    // Áö¼Ó ½Ã°£À» ¼³Á¤
-            HasTickEffect = hasTickEffect;  // Æ½ È¿°ú ¿©ºÎ¸¦ ¼³Á¤
-            EffectId = effectId;    // È¿°ú ID¸¦ ¼³Á¤
+            Duration = duration;    // ì§€ì† ì‹œê°„ì„ ì„¤ì •
+            HasTickEffect = hasTickEffect;  // í‹± íš¨ê³¼ ì—¬ë¶€ë¥¼ ì„¤ì •
+            EffectId = effectId;    // íš¨ê³¼ IDë¥¼ ì„¤ì •
         }
 
         /// <summary>
-        /// »óÅÂ È¿°ú¸¦ Àû¿ëÇÒ ¶§ È£Ãâ
-        /// UnitStats¿¡ ÇÊ¿äÇÑ Modifier Ãß°¡ µî Ã³¸®
+        /// ìƒíƒœ íš¨ê³¼ë¥¼ ì ìš©í•  ë•Œ í˜¸ì¶œ
+        /// UnitStatsì— í•„ìš”í•œ Modifier ì¶”ê°€ ë“± ì²˜ë¦¬
         /// </summary>
         public abstract void OnApply(UnitStats unitStats);
 
         /// <summary>
-        /// »óÅÂ È¿°ú°¡ ¸¸·áµÇ°Å³ª Á¦°ÅµÉ ¶§ È£Ãâ
-        /// UnitStats¿¡¼­ Modifier Á¦°Å µî Ã³¸®
+        /// ìƒíƒœ íš¨ê³¼ê°€ ë§Œë£Œë˜ê±°ë‚˜ ì œê±°ë  ë•Œ í˜¸ì¶œ
+        /// UnitStatsì—ì„œ Modifier ì œê±° ë“± ì²˜ë¦¬
         /// </summary>
         public abstract void OnExpire(UnitStats unitStats);
 
         /// <summary>
-        /// Æ½¸¶´Ù È£ÃâµÇ´Â ·ÎÁ÷À» ½ÇÇàÇÏ´Â ¸Ş¼­µå
-        /// TickActionÀÌ ¼³Á¤µÇ¾î ÀÖÀ¸¸é ÇØ´ç µ¨¸®°ÔÀÌÆ®¸¦ È£ÃâÇÔ
+        /// í‹±ë§ˆë‹¤ í˜¸ì¶œë˜ëŠ” ë¡œì§ì„ ì‹¤í–‰í•˜ëŠ” ë©”ì„œë“œ
+        /// TickActionì´ ì„¤ì •ë˜ì–´ ìˆìœ¼ë©´ í•´ë‹¹ ë¸ë¦¬ê²Œì´íŠ¸ë¥¼ í˜¸ì¶œí•¨
         /// </summary>
         public virtual void OnTick(UnitStats unitStats) => tickAction?.Invoke(unitStats);
 
         /// <summary>
-        /// Æ½ È¿°ú¿ë µ¨¸®°ÔÀÌÆ®¸¦ Áßº¹ ¾øÀÌ µî·ÏÇÏ´Â ¸Ş¼­µå
+        /// ìŠ¤í‚¬ ì§€ì† ì‹œê°„ ë™ì•ˆë§Œ ì ìš©ë˜ëŠ” í‹± íš¨ê³¼ë¥¼ ë“±ë¡í•˜ëŠ” ë©”ì„œë“œ
+        /// 
+        /// - ê°™ì€ ë¸ë¦¬ê²Œì´íŠ¸ê°€ ì¤‘ë³µ ë“±ë¡ë˜ëŠ” ê²ƒì„ ë°©ì§€í•¨
         /// </summary>
-        /// <param name="tickAction">µî·ÏÇÒ Æ½ È¿°ú µ¨¸®°ÔÀÌÆ® (UnitStats¸¦ ¸Å°³º¯¼ö·Î ¹ŞÀ½)</param>
+        /// <param name="tickAction">ë“±ë¡í•  í‹± íš¨ê³¼ ë¸ë¦¬ê²Œì´íŠ¸ (UnitStatsë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ìŒ)</param>
         public void RegisterTickAction(Action<UnitStats> tickAction)
         {
-            // ÀÌ¹Ì µî·ÏµÈ µ¨¸®°ÔÀÌÆ®°¡ ¾Æ´Ï¶ó¸é
+            // ì´ë¯¸ ë“±ë¡ëœ ë¸ë¦¬ê²Œì´íŠ¸ê°€ ì•„ë‹ˆë¼ë©´
             if (!registeredTickActions.Contains(tickAction))
             {
-                // Æ½ ¾×¼Ç µ¨¸®°ÔÀÌÆ®¿¡ Ãß°¡ÇÏ°í
+                // í‹± ì•¡ì…˜ ë¸ë¦¬ê²Œì´íŠ¸ì— ì¶”ê°€í•˜ê³ 
                 this.tickAction += tickAction;
-                // µî·ÏµÈ µ¨¸®°ÔÀÌÆ® ¸ñ·Ï¿¡µµ Ãß°¡ÇÏ¿© Áßº¹ ¹æÁö
+                // ë“±ë¡ëœ ë¸ë¦¬ê²Œì´íŠ¸ ëª©ë¡ì—ë„ ì¶”ê°€í•˜ì—¬ ì¤‘ë³µ ë°©ì§€
                 registeredTickActions.Add(tickAction);
             }
         }
 
         /// <summary>
-        /// ¸Å ÇÁ·¹ÀÓ¸¶´Ù È£ÃâÇÏ¿© Æ½ Å¸ÀÌ¸Ó¸¦ °ü¸®ÇÏ´Â ¸Ş¼­µå
-        /// TickIntervalÀÌ 0 ÀÌÇÏÀÌ¸é Æ½ Ã³¸®¸¦ ÇÏÁö ¾ÊÀ½
+        /// ë§¤ í”„ë ˆì„ë§ˆë‹¤ í˜¸ì¶œí•˜ì—¬ í‹± íƒ€ì´ë¨¸ë¥¼ ê´€ë¦¬í•˜ëŠ” ë©”ì„œë“œ
+        /// TickIntervalì´ 0 ì´í•˜ì´ë©´ í‹± ì²˜ë¦¬ë¥¼ í•˜ì§€ ì•ŠìŒ
         /// </summary>
-        /// <param name="deltaTime">ÇÁ·¹ÀÓ °æ°ú ½Ã°£(ÃÊ)</param>
-        /// <param name="unitStats">´ë»ó À¯´Ö ½ºÅÈ</param>
+        /// <param name="deltaTime">í”„ë ˆì„ ê²½ê³¼ ì‹œê°„(ì´ˆ)</param>
+        /// <param name="unitStats">ëŒ€ìƒ ìœ ë‹› ìŠ¤íƒ¯</param>
         public void UpdateTick(float deltaTime, UnitStats unitStats)
         {
-            if (TickInterval <= 0) return;  // Tick ºÒÇÊ¿äÇÑ °æ¿ì Ã³¸®
+            if (TickInterval <= 0) return;  // Tick ë¶ˆí•„ìš”í•œ ê²½ìš° ì²˜ë¦¬
 
-            tickTimer += deltaTime;     // Å¸ÀÌ¸Ó¸¦ Áõ°¡
+            tickTimer += deltaTime;     // íƒ€ì´ë¨¸ë¥¼ ì¦ê°€
 
-            // ´©ÀûµÈ ½Ã°£ÀÌ Æ½ °£°İ ÀÌ»óÀÏ ¶§ ÇÑ ¹ø¸¸ Æ½ ½ÇÇà
+            // ëˆ„ì ëœ ì‹œê°„ì´ í‹± ê°„ê²© ì´ìƒì¼ ë•Œ í•œ ë²ˆë§Œ í‹± ì‹¤í–‰
             if (tickTimer >= TickInterval)
             {
-                tickTimer -= TickInterval;  // Æ½ °£°İ¸¸Å­ Å¸ÀÌ¸Ó Â÷°¨
-                OnTick(unitStats);          // Æ½ ·ÎÁ÷ ½ÇÇà
+                tickTimer -= TickInterval;  // í‹± ê°„ê²©ë§Œí¼ íƒ€ì´ë¨¸ ì°¨ê°
+                OnTick(unitStats);          // í‹± ë¡œì§ ì‹¤í–‰
             }
         }
 
         /// <summary>
-        /// »óÅÂ È¿°ú °»½Å(ÀçÀû¿ë) ½Ã È£Ãâ
-        /// ±âº» ±¸ÇöÀº Duration °»½Å
-        /// ÇÊ¿äÇÏ¸é ÆÄ»ı Å¬·¡½º¿¡¼­ ¿À¹ö¶óÀÌµå °¡´É
+        /// ìƒíƒœ íš¨ê³¼ ê°±ì‹ (ì¬ì ìš©) ì‹œ í˜¸ì¶œ
+        /// ê¸°ë³¸ êµ¬í˜„ì€ Duration ê°±ì‹ 
+        /// í•„ìš”í•˜ë©´ íŒŒìƒ í´ë˜ìŠ¤ì—ì„œ ì˜¤ë²„ë¼ì´ë“œ ê°€ëŠ¥
         /// </summary>
         /// <param name="newDuration"></param>
         public virtual void Refresh() { }

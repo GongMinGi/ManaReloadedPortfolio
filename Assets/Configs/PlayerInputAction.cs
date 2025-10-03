@@ -71,6 +71,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OptionButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""b53501f5-7ebe-4093-be3d-ac33853c072b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,11 +174,22 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f25efe17-d607-4fb6-853a-696895e1da67"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CombinationMagicAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2fecfb9c-3111-42a3-bea8-e50bf760dc61"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OptionButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -185,6 +205,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_player_MeleeAttack = m_player.FindAction("MeleeAttack", throwIfNotFound: true);
         m_player_RangedAttack = m_player.FindAction("RangedAttack", throwIfNotFound: true);
         m_player_CombinationMagicAttack = m_player.FindAction("CombinationMagicAttack", throwIfNotFound: true);
+        m_player_OptionButton = m_player.FindAction("OptionButton", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -256,6 +277,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_player_MeleeAttack;
     private readonly InputAction m_player_RangedAttack;
     private readonly InputAction m_player_CombinationMagicAttack;
+    private readonly InputAction m_player_OptionButton;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -265,6 +287,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @MeleeAttack => m_Wrapper.m_player_MeleeAttack;
         public InputAction @RangedAttack => m_Wrapper.m_player_RangedAttack;
         public InputAction @CombinationMagicAttack => m_Wrapper.m_player_CombinationMagicAttack;
+        public InputAction @OptionButton => m_Wrapper.m_player_OptionButton;
         public InputActionMap Get() { return m_Wrapper.m_player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -289,6 +312,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @CombinationMagicAttack.started += instance.OnCombinationMagicAttack;
             @CombinationMagicAttack.performed += instance.OnCombinationMagicAttack;
             @CombinationMagicAttack.canceled += instance.OnCombinationMagicAttack;
+            @OptionButton.started += instance.OnOptionButton;
+            @OptionButton.performed += instance.OnOptionButton;
+            @OptionButton.canceled += instance.OnOptionButton;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -308,6 +334,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @CombinationMagicAttack.started -= instance.OnCombinationMagicAttack;
             @CombinationMagicAttack.performed -= instance.OnCombinationMagicAttack;
             @CombinationMagicAttack.canceled -= instance.OnCombinationMagicAttack;
+            @OptionButton.started -= instance.OnOptionButton;
+            @OptionButton.performed -= instance.OnOptionButton;
+            @OptionButton.canceled -= instance.OnOptionButton;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -332,5 +361,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnMeleeAttack(InputAction.CallbackContext context);
         void OnRangedAttack(InputAction.CallbackContext context);
         void OnCombinationMagicAttack(InputAction.CallbackContext context);
+        void OnOptionButton(InputAction.CallbackContext context);
     }
 }

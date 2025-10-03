@@ -1,30 +1,30 @@
-using JetBrains.Annotations;
+ï»¿using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// ÁöÁ¤µÈ PooledObject¸¦ ¹Ì¸® »ı¼ºÇØ º¸°üÇÏ°í, ÇÊ¿ä ½Ã Àç»ç¿ëÇÏ°Å³ª »õ·Î »ı¼ºÇÏ´Â Ç®¸µ ½Ã½ºÅÛÀÌ ±¸ÇöµÈ Å¬·¡½º
+/// ì§€ì •ëœ PooledObjectë¥¼ ë¯¸ë¦¬ ìƒì„±í•´ ë³´ê´€í•˜ê³ , í•„ìš” ì‹œ ì¬ì‚¬ìš©í•˜ê±°ë‚˜ ìƒˆë¡œ ìƒì„±í•˜ëŠ” í’€ë§ ì‹œìŠ¤í…œì´ êµ¬í˜„ëœ í´ë˜ìŠ¤
 /// </summary>
 public class ObjectPool : MonoBehaviour
 {
     [Header("Object Pool Settings")]
-    [SerializeField] PooledObject poolObj;  // Ç®¸µÇÒ ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ
-    [Tooltip("ÃÊ±â »ı¼ºÇÒ ¿ÀºêÁ§Æ® °³¼ö")]
+    [SerializeField] PooledObject poolObj;  // í’€ë§í•  ì˜¤ë¸Œì íŠ¸ í”„ë¦¬íŒ¹
+    [Tooltip("ì´ˆê¸° ìƒì„±í•  ì˜¤ë¸Œì íŠ¸ ê°œìˆ˜")]
     [SerializeField] int size;
-    [Tooltip("º¸°ü °¡´ÉÇÑ ¿ÀºêÁ§Æ®ÀÇ ÃÖ´ë ¼ö")]
+    [Tooltip("ë³´ê´€ ê°€ëŠ¥í•œ ì˜¤ë¸Œì íŠ¸ì˜ ìµœëŒ€ ìˆ˜")]
     [SerializeField] int capacity;
 
     private Stack<PooledObject> objectPool;
 
     #region Object Pool
     /// <summary>
-    /// ObjectPoolÀ» ÃÊ±âÈ­ÇÏ°í ÁöÁ¤µÈ °³¼ö¸¸Å­ ¿ÀºêÁ§Æ® ÀÎ½ºÅÏ½º¸¦ ¹Ì¸® »ı¼ºÇÏ¿© ºñÈ°¼º »óÅÂ·Î º¸°üÇÏ´Â ¸Ş¼­µå
+    /// ObjectPoolì„ ì´ˆê¸°í™”í•˜ê³  ì§€ì •ëœ ê°œìˆ˜ë§Œí¼ ì˜¤ë¸Œì íŠ¸ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë¯¸ë¦¬ ìƒì„±í•˜ì—¬ ë¹„í™œì„± ìƒíƒœë¡œ ë³´ê´€í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
-    /// <param name="poolObj">Ç®¸µ ´ë»óÀÌ µÇ´Â ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ</param>
-    /// <param name="size">ÃÊ±â »ı¼ºÇÒ ¿ÀºêÁ§Æ® °³¼ö</param>
-    /// <param name="capacity">Ç®¿¡¼­ º¸°ü °¡´ÉÇÑ ÃÖ´ë ¿ÀºêÁ§Æ® °³¼ö</param>
+    /// <param name="poolObj">í’€ë§ ëŒ€ìƒì´ ë˜ëŠ” ì˜¤ë¸Œì íŠ¸ í”„ë¦¬íŒ¹</param>
+    /// <param name="size">ì´ˆê¸° ìƒì„±í•  ì˜¤ë¸Œì íŠ¸ ê°œìˆ˜</param>
+    /// <param name="capacity">í’€ì—ì„œ ë³´ê´€ ê°€ëŠ¥í•œ ìµœëŒ€ ì˜¤ë¸Œì íŠ¸ ê°œìˆ˜</param>
     public void CreatePool(PooledObject poolObj, int size, int capacity)
     {
         this.poolObj = poolObj;
@@ -33,24 +33,24 @@ public class ObjectPool : MonoBehaviour
 
         objectPool = new Stack<PooledObject>(capacity);
 
-        // size¸¸Å­ ¿ÀºêÁ§Æ® »ı¼º
+        // sizeë§Œí¼ ì˜¤ë¸Œì íŠ¸ ìƒì„±
         for (int i = 0; i < size; i++)
         {
             PooledObject instance = Instantiate(poolObj);
             instance.gameObject.SetActive(false);
             instance.Pool = this;
-            instance.transform.SetParent(transform);    // ¿ÀºêÁ§Æ®¸¦ PoolÀÇ ÀÚ½ÄÀ¸·Î »ı¼º
+            instance.transform.SetParent(transform);    // ì˜¤ë¸Œì íŠ¸ë¥¼ Poolì˜ ìì‹ìœ¼ë¡œ ìƒì„±
             objectPool.Push(instance);
         }
     }
 
     /// <summary>
-    /// Pool¿¡¼­ Àç»ç¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ®¸¦ ¹İÈ¯¹Ş¾Æ ÁöÁ¤ À§Ä¡¿Í È¸ÀüÀ¸·Î È°¼ºÈ­ÇÏ´Â ¸Ş¼­µå
-    /// ¸¸¾à PoolÀÌ ºñ¾îÀÖ´Ù¸é »õ·Î¿î ÀÎ½ºÅÏ½º¸¦ »ı¼ºÇÑ´Ù.
+    /// Poolì—ì„œ ì¬ì‚¬ìš© ê°€ëŠ¥í•œ ì˜¤ë¸Œì íŠ¸ë¥¼ ë°˜í™˜ë°›ì•„ ì§€ì • ìœ„ì¹˜ì™€ íšŒì „ìœ¼ë¡œ í™œì„±í™”í•˜ëŠ” ë©”ì„œë“œ
+    /// ë§Œì•½ Poolì´ ë¹„ì–´ìˆë‹¤ë©´ ìƒˆë¡œìš´ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ìƒì„±í•œë‹¤.
     /// </summary>
-    /// <param name="position">¿ÀºêÁ§Æ®¸¦ ¹èÄ¡ÇÒ ¿ùµå À§Ä¡</param>
-    /// <param name="rotation">¿ÀºêÁ§Æ®ÀÇ È¸Àü°ª</param>
-    /// <returns>È°¼ºÈ­µÈ PooledObject ÀÎ½ºÅÏ½º</returns>
+    /// <param name="position">ì˜¤ë¸Œì íŠ¸ë¥¼ ë°°ì¹˜í•  ì›”ë“œ ìœ„ì¹˜</param>
+    /// <param name="rotation">ì˜¤ë¸Œì íŠ¸ì˜ íšŒì „ê°’</param>
+    /// <returns>í™œì„±í™”ëœ PooledObject ì¸ìŠ¤í„´ìŠ¤</returns>
     public PooledObject GetPool(Vector3 position, Quaternion rotation)
     {
         if (objectPool == null) return null;
@@ -67,7 +67,7 @@ public class ObjectPool : MonoBehaviour
         {
             PooledObject instance = Instantiate(poolObj);
             instance.Pool = this;
-            instance.transform.SetParent(transform);    // ¿ÀºêÁ§Æ®¸¦ PoolÀÇ ÀÚ½ÄÀ¸·Î »ı¼º
+            instance.transform.SetParent(transform);    // ì˜¤ë¸Œì íŠ¸ë¥¼ Poolì˜ ìì‹ìœ¼ë¡œ ìƒì„±
             instance.transform.position = position;
             instance.transform.rotation = rotation;
             instance.gameObject.SetActive(true);
@@ -76,8 +76,8 @@ public class ObjectPool : MonoBehaviour
     }
 
     /// <summary>
-    /// »ç¿ëÀÌ ³¡³­ ObjectPool·Î ¹İÈ¯ÇÏ´Â ¸Ş¼­µå
-    /// PoolÀÇ ¿ë·®À» ÃÊ°úÇÏ¸é ¿ÀºêÁ§Æ®¸¦ ÆÄ±«ÇÏ¿© ¸Ş¸ğ¸®¸¦ ÇØÁ¦ÇÑ´Ù.
+    /// ì‚¬ìš©ì´ ëë‚œ ObjectPoolë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì„œë“œ
+    /// Poolì˜ ìš©ëŸ‰ì„ ì´ˆê³¼í•˜ë©´ ì˜¤ë¸Œì íŠ¸ë¥¼ íŒŒê´´í•˜ì—¬ ë©”ëª¨ë¦¬ë¥¼ í•´ì œí•œë‹¤.
     /// </summary>
     /// <param name="instance"></param>
     public void ReturnPool(PooledObject instance)

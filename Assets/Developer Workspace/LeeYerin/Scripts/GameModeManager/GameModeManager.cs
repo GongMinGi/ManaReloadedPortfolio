@@ -1,19 +1,19 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// ÇöÀç °ÔÀÓ ¸ğµå¿¡¼­ »ç¿ëµÇ´Â ÁÖ¿ä ¸Å´ÏÀúµé ¹× ÇÃ·¹ÀÌ¾î ÀÎ½ºÅÏ½º¸¦
-/// Á¤ÀûÀ¸·Î Áß¾Ó¿¡¼­ °ü¸®ÇÏ±â À§ÇÑ ÆÛ»çµå Å¬·¡½º
+/// í˜„ì¬ ê²Œì„ ëª¨ë“œì—ì„œ ì‚¬ìš©ë˜ëŠ” ì£¼ìš” ë§¤ë‹ˆì €ë“¤ ë° í”Œë ˆì´ì–´ ì¸ìŠ¤í„´ìŠ¤ë¥¼
+/// ì •ì ìœ¼ë¡œ ì¤‘ì•™ì—ì„œ ê´€ë¦¬í•˜ê¸° ìœ„í•œ í¼ì‚¬ë“œ í´ë˜ìŠ¤
 /// 
-/// ÀÌ Å¬·¡½º¸¦ ÅëÇØ PoolManager, MapTileManager, EnemyManager, SkillCastingManager µîÀÇ
-/// ±â´ÉÀû ¸Å´ÏÀú¿¡ ´ëÇÑ Á¢±ÙÀ» ´ÜÀÏ ÁøÀÔÁ¡À¸·Î ÅëÇÕÇÔ
+/// ì´ í´ë˜ìŠ¤ë¥¼ í†µí•´ PoolManager, MapTileManager, EnemyManager, SkillCastingManager ë“±ì˜
+/// ê¸°ëŠ¥ì  ë§¤ë‹ˆì €ì— ëŒ€í•œ ì ‘ê·¼ì„ ë‹¨ì¼ ì§„ì…ì ìœ¼ë¡œ í†µí•©í•¨
 /// </summary>
 public static class GameModeManager
 {
     #region Player
-    /// ÇöÀç È°¼ºÈ­µÈ ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯ ÀÎ½ºÅÏ½º
-    /// ÇÃ·¹ÀÌ¾î¸¦ ¾Ë¾Æ¾ß ÇÏ´Â ¸Å´ÏÀúµéÀº ¼³Á¤ ½Ã ÀÚµ¿À¸·Î ÁÖÀÔ
+    /// í˜„ì¬ í™œì„±í™”ëœ í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬ ì¸ìŠ¤í„´ìŠ¤
+    /// í”Œë ˆì´ì–´ë¥¼ ì•Œì•„ì•¼ í•˜ëŠ” ë§¤ë‹ˆì €ë“¤ì€ ì„¤ì • ì‹œ ìë™ìœ¼ë¡œ ì£¼ì…
     [SerializeField] static PlayerController player;
     public static PlayerController Player { get { return player; }set { player = value; } }
     #endregion
@@ -23,43 +23,40 @@ public static class GameModeManager
     public static UIManager UIManager { get { return uiManager; } set { uiManager = value; } }
     #endregion
 
-    #region Sound Manager
-    private static SoundManager soundManager;
-    public static SoundManager SoundManager { get { return soundManager; } set { soundManager = value; } }
-    #endregion
-
     #region Game Scene's Manager
     private static GameLogicManager gameLogicManager;
     private static PoolManager poolManager;
     private static MapTileManager mapTileManager;
     private static EnemyManager enemyManager;
     private static SkillCastingManager skillCastingManager;
+    private static QARoomManager qaRoomManager;
 
     public static GameLogicManager GameLogicManager { get { return gameLogicManager; } set { gameLogicManager = value; } }
     public static PoolManager PoolManager { get { return poolManager; } set { poolManager = value;} }
     public static MapTileManager MapTileManager { get { return mapTileManager; } set { mapTileManager = value; mapTileManager.Player = player; } }
     public static EnemyManager EnemyManager { get { return enemyManager; } set { enemyManager = value; enemyManager.Player = player; } }
     public static SkillCastingManager SkillCastingManager { get { return skillCastingManager; } set { skillCastingManager = value; } }
+    public static QARoomManager QARoomManager { get { return qaRoomManager; } set { qaRoomManager = value; } }
 
     /// <summary>
-    /// ¸ğµç ÇÊ¼ö ¸Å´ÏÀú°¡ ÁØºñµÈ »óÅÂÀÎÁö ¹İÈ¯
+    /// ëª¨ë“  í•„ìˆ˜ ë§¤ë‹ˆì €ê°€ ì¤€ë¹„ëœ ìƒíƒœì¸ì§€ ë°˜í™˜
     /// </summary>
     public static bool IsReady => MapTileManager.IsReady && EnemyManager.IsReady;
     #endregion
 
     #region ExitGame
     /// <summary>
-    /// ¾ÖÇÃ¸®ÄÉÀÌ¼ÇÀ» Á¾·áÇÏ´Â ¸Ş¼­µå
+    /// ì• í”Œë¦¬ì¼€ì´ì…˜ì„ ì¢…ë£Œí•˜ëŠ” ë©”ì„œë“œ
     /// 
-    /// - ºôµåµÈ °ÔÀÓ¿¡¼­´Â Application.Quit()¸¦ È£ÃâÇÏ¿© °ÔÀÓÀ» Á¾·á
-    /// - À¯´ÏÆ¼ ¿¡µğÅÍ È¯°æ¿¡¼­´Â Application.Quit()°¡ µ¿ÀÛÇÏÁö ¾ÊÀ¸¹Ç·Î,
-    ///   ¿¡µğÅÍ Àç»ı ¸ğµå¸¦ ÁßÁö½ÃÅ°´Â ÄÚµå°¡ º°µµ·Î Æ÷ÇÔµÇ¾î ÀÖÀ½
+    /// - ë¹Œë“œëœ ê²Œì„ì—ì„œëŠ” Application.Quit()ë¥¼ í˜¸ì¶œí•˜ì—¬ ê²Œì„ì„ ì¢…ë£Œ
+    /// - ìœ ë‹ˆí‹° ì—ë””í„° í™˜ê²½ì—ì„œëŠ” Application.Quit()ê°€ ë™ì‘í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ,
+    ///   ì—ë””í„° ì¬ìƒ ëª¨ë“œë¥¼ ì¤‘ì§€ì‹œí‚¤ëŠ” ì½”ë“œê°€ ë³„ë„ë¡œ í¬í•¨ë˜ì–´ ìˆìŒ
     /// </summary>
     public static void ExitGame()
     {
         Application.Quit();
 
-        // ¿¡µğÅÍ¿¡¼­´Â QuitÀÌ ÀÛµ¿ÇÏÁö ¾Ê±â ¶§¹®¿¡, ¾Æ·¡ ÄÚµå´Â µğ¹ö±ë¿ë
+        // ì—ë””í„°ì—ì„œëŠ” Quitì´ ì‘ë™í•˜ì§€ ì•Šê¸° ë•Œë¬¸ì—, ì•„ë˜ ì½”ë“œëŠ” ë””ë²„ê¹…ìš©
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif

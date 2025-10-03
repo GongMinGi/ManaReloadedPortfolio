@@ -1,26 +1,26 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// Àû Ç®¸µÀ» À§ÇÑ È®Àå Å¬·¡½º
-/// ObjectPoolÀ» »ó¼ÓÇÏ¸ç, °¢ Ç®¸¶´Ù ÀûÀÇ »ı¼º/»ç¸ÁÀ» ÃßÀûÇÏ´Â EnemySpawnTracker¸¦ ÇÔ²² °ü¸®
-/// EnemySpawnTracker´Â Àû Å¸ÀÔº°·Î °³º° »ı¼º ¼ö Á¦ÇÑ ¹× »óÅÂ ÃßÀûÀ» ´ã´çÇÔ
+/// ì  í’€ë§ì„ ìœ„í•œ í™•ì¥ í´ë˜ìŠ¤
+/// ObjectPoolì„ ìƒì†í•˜ë©°, ê° í’€ë§ˆë‹¤ ì ì˜ ìƒì„±/ì‚¬ë§ì„ ì¶”ì í•˜ëŠ” EnemySpawnTrackerë¥¼ í•¨ê»˜ ê´€ë¦¬
+/// EnemySpawnTrackerëŠ” ì  íƒ€ì…ë³„ë¡œ ê°œë³„ ìƒì„± ìˆ˜ ì œí•œ ë° ìƒíƒœ ì¶”ì ì„ ë‹´ë‹¹í•¨
 /// </summary>
 public class EnemyPool : ObjectPool
 {
     [SerializeField] EnemySpawnTracker tracker;
 
     /// <summary>
-    /// Àû »ı¼º °¡´É ¿©ºÎ ¶Ç´Â Á¤¸® ¿Ï·á ¿©ºÎ µîÀ» ÆÇ´ÜÇÒ ¶§ »ç¿ë
+    /// ì  ìƒì„± ê°€ëŠ¥ ì—¬ë¶€ ë˜ëŠ” ì •ë¦¬ ì™„ë£Œ ì—¬ë¶€ ë“±ì„ íŒë‹¨í•  ë•Œ ì‚¬ìš©
     /// </summary>
     public EnemySpawnTracker Tracker => tracker;
 
     /// <summary>
-    /// EnemySpawnTracker¸¦ Pool¿¡ ¼³Á¤ÇÏ´Â ÃÊ±âÈ­ ¸Ş¼­µå
-    /// º¸Åë EnemyPool »ı¼º Á÷ÈÄ 1È¸ È£ÃâµÊ
+    /// EnemySpawnTrackerë¥¼ Poolì— ì„¤ì •í•˜ëŠ” ì´ˆê¸°í™” ë©”ì„œë“œ
+    /// ë³´í†µ EnemyPool ìƒì„± ì§í›„ 1íšŒ í˜¸ì¶œë¨
     /// </summary>
-    /// <param name="tracker">»ı¼º ¼ö/»ç¸Á ¼ö »óÅÂ¸¦ ÃßÀûÇÒ EnemySpawnTracker ÀÎ½ºÅÏ½º</param>
+    /// <param name="tracker">ìƒì„± ìˆ˜/ì‚¬ë§ ìˆ˜ ìƒíƒœë¥¼ ì¶”ì í•  EnemySpawnTracker ì¸ìŠ¤í„´ìŠ¤</param>
     public void Initialize(EnemySpawnTracker tracker)
     {
         this.tracker = tracker;

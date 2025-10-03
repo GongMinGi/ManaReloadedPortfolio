@@ -1,4 +1,4 @@
-using Cinemachine;
+ï»¿using Cinemachine;
 using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
@@ -6,80 +6,66 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// °³¹ßÀÚ: °ø¹Î±â 
-///  - ÇÃ·¹ÀÌ¾î ¸Ó¸® À§¿¡¼­ »ı¼ºµÇ¾î, ¸¶¿ì½º Ä¿¼­°¡ °¡¸®Å°´Â ÁöÁ¡À¸·Î ÀÏÁ¤½Ã°£ ÀÌµ¿.
-///  - º¸°£ ÀÌµ¿ÇÑ µÚ ÂøÅº/ ÇÇÇØ/ ÀÌÆåÆ®¸¦ Ã³¸®ÇÏ´Â ¿î¼® ½ºÅ³
+/// ê°œë°œì: ê³µë¯¼ê¸° 
+///  - í”Œë ˆì´ì–´ ë¨¸ë¦¬ ìœ„ì—ì„œ ìƒì„±ë˜ì–´, ë§ˆìš°ìŠ¤ ì»¤ì„œê°€ ê°€ë¦¬í‚¤ëŠ” ì§€ì ìœ¼ë¡œ ì¼ì •ì‹œê°„ ì´ë™.
+///  - ë³´ê°„ ì´ë™í•œ ë’¤ ì°©íƒ„/ í”¼í•´/ ì´í™íŠ¸ë¥¼ ì²˜ë¦¬í•˜ëŠ” ìš´ì„ ìŠ¤í‚¬
 /// </summary>
 public class MeteorStrike : BaseCombinationMagic
 {
-
     [Header("Projectile")]
-    [SerializeField] private BurningGroundProjectile addtionalProjectilePrefab;     // Ãæµ¹ ÀÌÈÄ Ãß°¡·Î ¼ÒÈ¯ÇÒ ºÒÀåÆÇ ÇÁ¸®ÆÕ
-    [SerializeField] private MeteorProjectile projectilePrefab;   // Åõ»çÃ¼·Î »ç¿ëÇÒ ÇÁ¸®ÆÕ º¯¼ö
-    private MeteorProjectile projectileInstance;                  // Ç®¿¡¼­ °¡Á®¿Â ¿ÀºêÁ§Æ®¸¦ ´Ù¿î Ä³½ºÆÃ ÇÏ±â À§ÇÑ ÀÎ½ºÅÏ½º º¯¼ö
+    [SerializeField] private BurningGroundProjectile addtionalProjectilePrefab;     // ì¶©ëŒ ì´í›„ ì¶”ê°€ë¡œ ì†Œí™˜í•  ë¶ˆì¥íŒ í”„ë¦¬íŒ¹
+    [SerializeField] private MeteorProjectile projectilePrefab;   // íˆ¬ì‚¬ì²´ë¡œ ì‚¬ìš©í•  í”„ë¦¬íŒ¹ ë³€ìˆ˜
+    private MeteorProjectile projectileInstance;                  // í’€ì—ì„œ ê°€ì ¸ì˜¨ ì˜¤ë¸Œì íŠ¸ë¥¼ ë‹¤ìš´ ìºìŠ¤íŒ… í•˜ê¸° ìœ„í•œ ì¸ìŠ¤í„´ìŠ¤ ë³€ìˆ˜
 
     [Header("Spawn")]
-    [SerializeField] private float spawnHeight = 5f;              // Ä³½ºÅÍ ¸Ó¸® À§ »ı¼º ³ôÀÌ
-    [SerializeField] private float travleTime = 0.6f;             // ÀÌµ¿(³«ÇÏ) ½Ã°£
+    [SerializeField] private float spawnHeight = 5f;              // ìºìŠ¤í„° ë¨¸ë¦¬ ìœ„ ìƒì„± ë†’ì´
+    [SerializeField] private float travleTime = 0.6f;             // ì´ë™(ë‚™í•˜) ì‹œê°„
 
     [Header("Targeting")]
-    [SerializeField] private LayerMask groundLayer;               // ¹Ù´Ú ·¹ÀÌ¾î
-    [SerializeField] private float maxRayDistance = 1000f;        // Å¸°Ù ·¹ÀÌ °Å¸®
-    [SerializeField] private float fallbackPlaneY = 0f;           // ¹Ù´ÚÀÌ ¾øÀ» ¶§ »ç¿ëÇÒ Æò¸é ³ôÀÌ (¿î¼® ÃÖÀú °íµµ)
+    [SerializeField] private LayerMask groundLayer;               // ë°”ë‹¥ ë ˆì´ì–´
+    [SerializeField] private float maxRayDistance = 1000f;        // íƒ€ê²Ÿ ë ˆì´ ê±°ë¦¬
+    [SerializeField] private float fallbackPlaneY = 0f;           // ë°”ë‹¥ì´ ì—†ì„ ë•Œ ì‚¬ìš©í•  í‰ë©´ ë†’ì´ (ìš´ì„ ìµœì € ê³ ë„)
 
     [Header("Impact")]
-    [SerializeField] private float impactRadius = 3f;             // ÂøÅº ¹üÀ§
-    [SerializeField] private int damage = 20;                     // ÇÇÇØ·®(ÇÁ·ÎÅäÅ¸ÀÔ)
-    [SerializeField] private GameObject impactVfxPrefab;          // ÂøÅº ÀÌÆåÆ®
-    [SerializeField] private LayerMask enemyLayer;                // Àû Å½Áö ·¹ÀÌ¾î
+    [SerializeField] private float impactRadius = 3f;             // ì°©íƒ„ ë²”ìœ„
+    [SerializeField] private int damage = 20;                     // í”¼í•´ëŸ‰(í”„ë¡œí† íƒ€ì…)
+    [SerializeField] private GameObject impactVfxPrefab;          // ì°©íƒ„ ì´í™íŠ¸
+    [SerializeField] private LayerMask enemyLayer;                // ì  íƒì§€ ë ˆì´ì–´
 
 
     [Header("BurningGround")]
-    [SerializeField] public float groundDuration = 2f;                           // ºÒÀåÆÇ Áö¼Ó½Ã°£
-    [SerializeField] public float groundAttackTickInterval = 0.5f;               // ºÒÀåÆÇ µµÆ®µ¥¹ÌÁö Æ½ °£°İ
-    [SerializeField] public float groundAttackDamage = 50f;                      // ºÒÀåÆÇ µµÆ®¸Ş¹ÌÁö 
+    [SerializeField] public float groundDuration = 2f;                           // ë¶ˆì¥íŒ ì§€ì†ì‹œê°„
+    [SerializeField] public float groundAttackTickInterval = 0.5f;               // ë¶ˆì¥íŒ ë„íŠ¸ë°ë¯¸ì§€ í‹± ê°„ê²©
+    [SerializeField] public float groundAttackDamage = 50f;                      // ë¶ˆì¥íŒ ë„íŠ¸ë©”ë¯¸ì§€ 
 
-
-    private Transform caster;                                     // ½ºÅ³ ½ÃÀüÀÚ (ÇÃ·¹ÀÌ¾î)
-    private Camera cam;                                           // ¸¶¿ì½º ±âÁØ Ä«¸Ş¶ó
-    [System.NonSerialized] private bool poolCreated = false;        // SOÀÇ º¯¼ö´Â ·±Å¸ÀÓÁß¿¡ º¯°æµÈ °ªÀÌ ÀúÀåµÉ ¼ö ÀÖÀ¸¹Ç·Î nonserialzable
-
-
-    public void OnEnable()                                          // È®½ÇÇÏ°Ô È°¼ºÈ­µÉ¶§¸¶´Ù false·Î ÀüÈ¯
-    {
-        poolCreated = false;
-    }
+    private Transform caster;                                     // ìŠ¤í‚¬ ì‹œì „ì (í”Œë ˆì´ì–´)
+    private Camera cam;                                           // ë§ˆìš°ìŠ¤ ê¸°ì¤€ ì¹´ë©”ë¼
 
     public void Init()
     {
-        Debug.Log("poolcreated:" + poolCreated);
-        if (poolCreated) return; 
+        if (GameModeManager.PoolManager.HasPool(projectilePrefab))
+        {
+            return;
+        }
 
-        Debug.Log("init µé¾î¿È");
-        GameModeManager.PoolManager.CreatePool(projectilePrefab, 5, 10);   // Ç®¸Å´ÏÀú¿¡ Åõ»çÃ¼ Ç® »ı¼º (ÃÊ±â5°³, ÃÖ´ë 10°³) 
-        GameModeManager.PoolManager.CreatePool(addtionalProjectilePrefab, 5, 10);   // Ãæµ¹ ÀÌÈÄ ºÒÀåÆÇÀ» À§ÇÑ Ç® »ı¼º
-
-        poolCreated = true;
-        Debug.Log("init ¸¶Áö¸·ÁÙ");
-
+        GameModeManager.PoolManager.CreatePool(projectilePrefab, 5, 10);   // í’€ë§¤ë‹ˆì €ì— íˆ¬ì‚¬ì²´ í’€ ìƒì„± (ì´ˆê¸°5ê°œ, ìµœëŒ€ 10ê°œ) 
+        GameModeManager.PoolManager.CreatePool(addtionalProjectilePrefab, 5, 10);   // ì¶©ëŒ ì´í›„ ë¶ˆì¥íŒì„ ìœ„í•œ í’€ ìƒì„±
     }
 
-
     /// <summary>
-    /// - ¼ÒÈ¯ÇÒ ¿î¼®ÀÇ ½ÃÀÛÁ¡°ú ÂøÅº ÁöÁ¡À» ¿¬»ê 
-    /// - ¿î¼®°ú ÈÄ¼ÓÀ¸·Î ¼ÒÈ¯µÉ ºÒÀåÆÇ¿¡ ÇÊ¿äÇÑ º¯¼ö°ª projectile param¿¡ ÀúÀå
-    /// - ¿î¼® Åõ»çÃ¼ ½ºÅ©¸³Æ®ÀÇ setup ÇÔ¼ö È£Ãâ
+    /// - ì†Œí™˜í•  ìš´ì„ì˜ ì‹œì‘ì ê³¼ ì°©íƒ„ ì§€ì ì„ ì—°ì‚° 
+    /// - ìš´ì„ê³¼ í›„ì†ìœ¼ë¡œ ì†Œí™˜ë  ë¶ˆì¥íŒì— í•„ìš”í•œ ë³€ìˆ˜ê°’ projectile paramì— ì €ì¥
+    /// - ìš´ì„ íˆ¬ì‚¬ì²´ ìŠ¤í¬ë¦½íŠ¸ì˜ setup í•¨ìˆ˜ í˜¸ì¶œ
     /// </summary>
     public override void ExecuteSkill()
     {
-
         Init();
 
         Debug.Log("canuseSkill:" + canUseSkill);
-        if (!canUseSkill)   // ½ºÅ³ ÄğÅ¸ÀÓÀÌ ³¡³µ´ÂÁö È®ÀÎ
+        if (!canUseSkill)   // ìŠ¤í‚¬ ì¿¨íƒ€ì„ì´ ëë‚¬ëŠ”ì§€ í™•ì¸
             return;
 
-        base.ExecuteSkill();    // ½ºÅ³ ÄğÅ¸ÀÌ¸Ó ½ÇÇà
+        base.ExecuteSkill();    // ìŠ¤í‚¬ ì¿¨íƒ€ì´ë¨¸ ì‹¤í–‰
 
         this.caster = GameModeManager.Player.transform;
         this.cam = Camera.main;
@@ -87,32 +73,30 @@ public class MeteorStrike : BaseCombinationMagic
 
         if (cam == null || caster == null)
         {
-            Debug.LogWarning("[MeteorStrike] Ä«¸Ş¶ó / Ä³½ºÅÍ°¡ ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("[MeteorStrike] ì¹´ë©”ë¼ / ìºìŠ¤í„°ê°€ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
-        Vector2 mousePos = Mouse.current.position.ReadValue();              // ¸¶¿ì½º ½ºÅ©¸° ÁÂÇ¥ È¹µæ 
-        if (mousePos == null) Debug.LogWarning("[MeteorStrike] ¸¶¿ì½º À§Ä¡°¡ null ÀÔ´Ï´Ù.");
-        Ray ray = cam.ScreenPointToRay(mousePos);                           // ¸¶¿ì½º ½ºÅ©¸° ÁÂÇ¥ÀÌ¿ëÇØ Ray ±¸Á¶Ã¼ È¹µæ ( Ä«¸Ş¶ó ¿ùµå ÁÂÇ¥ + perspective ¹æÇâ º¤ÅÍ)
+        Vector2 mousePos = Mouse.current.position.ReadValue();              // ë§ˆìš°ìŠ¤ ìŠ¤í¬ë¦° ì¢Œí‘œ íšë“ 
+        if (mousePos == null) Debug.LogWarning("[MeteorStrike] ë§ˆìš°ìŠ¤ ìœ„ì¹˜ê°€ null ì…ë‹ˆë‹¤.");
+        Ray ray = cam.ScreenPointToRay(mousePos);                           // ë§ˆìš°ìŠ¤ ìŠ¤í¬ë¦° ì¢Œí‘œì´ìš©í•´ Ray êµ¬ì¡°ì²´ íšë“ ( ì¹´ë©”ë¼ ì›”ë“œ ì¢Œí‘œ + perspective ë°©í–¥ ë²¡í„°)
 
-        Vector3 targetPoint;                                                // ¿î¼®ÀÌ ¶³¾îÁú À§Ä¡ º¯¼ö
+        Vector3 targetPoint;                                                // ìš´ì„ì´ ë–¨ì–´ì§ˆ ìœ„ì¹˜ ë³€ìˆ˜
         if (Physics.Raycast(ray, out var hit, maxRayDistance, groundLayer,
-            QueryTriggerInteraction.Ignore))                                // Ray¸¦ ½÷¼­ ¿î¼®À» ¶³¾îÆ®¸± ¶¥ÀÇ ÁÂÇ¥¸¦ ¾ò¾î³½´Ù.
+            QueryTriggerInteraction.Ignore))                                // Rayë¥¼ ì´ì„œ ìš´ì„ì„ ë–¨ì–´íŠ¸ë¦´ ë•…ì˜ ì¢Œí‘œë¥¼ ì–»ì–´ë‚¸ë‹¤.
             targetPoint = hit.point;
-        else                                                                // ¶¥ÀÌ ¾ø´Â °æ¿ì ÀÓÀÇÀÇ Æò¸éÀ» ¸¸µé¾î¼­ ¿î¼®À» Ãæµ¹½ÃÅ²´Ù.
+        else                                                                // ë•…ì´ ì—†ëŠ” ê²½ìš° ì„ì˜ì˜ í‰ë©´ì„ ë§Œë“¤ì–´ì„œ ìš´ì„ì„ ì¶©ëŒì‹œí‚¨ë‹¤.
         {
             Plane plane = new Plane(Vector3.up, new Vector3(0, fallbackPlaneY, 0));
-            if (!plane.Raycast(ray, out float dist))                        // ±¤¼±ÀÇ ½ÃÀÛÁ¡°ú Æò¸é »çÀÌÀÇ °Å¸®¸¦ ¹İÈ¯ÇÑ´Ù. ±¤¼±°ú Æò¸éÀÌ ¸¸³ªÁö ¾ÊÀ¸¸é false¸¦ ¹İÈ¯ÇÏ°í °Å¸®¸¦ 0À¸·Î ¼³Á¤ÇÑ´Ù.
+            if (!plane.Raycast(ray, out float dist))                        // ê´‘ì„ ì˜ ì‹œì‘ì ê³¼ í‰ë©´ ì‚¬ì´ì˜ ê±°ë¦¬ë¥¼ ë°˜í™˜í•œë‹¤. ê´‘ì„ ê³¼ í‰ë©´ì´ ë§Œë‚˜ì§€ ì•Šìœ¼ë©´ falseë¥¼ ë°˜í™˜í•˜ê³  ê±°ë¦¬ë¥¼ 0ìœ¼ë¡œ ì„¤ì •í•œë‹¤.
             {
-                Debug.LogWarning("[MeteorStrike] Å¸°Ù Æò¸é ±³Â÷ ½ÇÆĞ");
+                Debug.LogWarning("[MeteorStrike] íƒ€ê²Ÿ í‰ë©´ êµì°¨ ì‹¤íŒ¨");
                 return;
             }
-            targetPoint = ray.GetPoint(dist);                               // ray ¹æÇâÀ¸·Î dist¸¸Å­ ¶³¾îÁø °÷ÀÇ ÁÂÇ¥¸¦ ¹İÈ¯ÇÑ´Ù. 
+            targetPoint = ray.GetPoint(dist);                               // ray ë°©í–¥ìœ¼ë¡œ distë§Œí¼ ë–¨ì–´ì§„ ê³³ì˜ ì¢Œí‘œë¥¼ ë°˜í™˜í•œë‹¤. 
         }
 
-
-        Vector3 start = targetPoint + Vector3.up * spawnHeight;             // ½ÃÀÛ À§Ä¡ : ÂøÅº ÁöÁ¡ »ó°ø
-
+        Vector3 start = targetPoint + Vector3.up * spawnHeight;             // ì‹œì‘ ìœ„ì¹˜ : ì°©íƒ„ ì§€ì  ìƒê³µ
 
         PooledObject go = GameModeManager.PoolManager.GetPool(
             projectilePrefab, start, caster.rotation);
@@ -120,26 +104,25 @@ public class MeteorStrike : BaseCombinationMagic
 
         var projectileParams = new MeteorParams
         {
-            // < °øÅë ÆÄ¶ó¹ÌÅÍ >
-            radius = impactRadius,                                          // ÂøÅº Æø¹ß ¹İ°æ
-            damage = damage,                                                // ÁÖ´Â µ¥¹ÌÁö
-            enemyL = enemyLayer,                                            // Àû ·¹ÀÌ¾î
+            // < ê³µí†µ íŒŒë¼ë¯¸í„° >
+            radius = impactRadius,                                          // ì°©íƒ„ í­ë°œ ë°˜ê²½
+            damage = damage,                                                // ì£¼ëŠ” ë°ë¯¸ì§€
+            enemyL = enemyLayer,                                            // ì  ë ˆì´ì–´
 
-            // < ¿î¼® Åõ»çÃ¼ Àü¿ë ÆÄ¶ó¹ÌÅÍ >
-            start = start,                                                  // ¿î¼® ½ÃÀÛÁöÁ¡
-            target = targetPoint,                                           // ¿î¼® Ãæµ¹ÁöÁ¡
-            travelTime = travleTime,                                         // ¿î¼® ³«ÇÏ½Ã°£(¼Óµµ)
+            // < ìš´ì„ íˆ¬ì‚¬ì²´ ì „ìš© íŒŒë¼ë¯¸í„° >
+            start = start,                                                  // ìš´ì„ ì‹œì‘ì§€ì 
+            target = targetPoint,                                           // ìš´ì„ ì¶©ëŒì§€ì 
+            travelTime = travleTime,                                         // ìš´ì„ ë‚™í•˜ì‹œê°„(ì†ë„)
 
-            // < ÈÄ¼Ó ÀåÆÇ ÆÄ¶ó¹ÌÅÍ >
+            // < í›„ì† ì¥íŒ íŒŒë¼ë¯¸í„° >
             addtionalProjectilePrefab = this.addtionalProjectilePrefab,
             groundDuration = this.groundDuration,
             groundAttackTickInterval  = this.groundAttackTickInterval,
             groundAttackDamage = this.groundAttackDamage,
         };
 
-
-        GameModeManager.SoundManager.PlaySFX(110020);                       // ¿î¼® ¼ÒÈ¯ Á÷Àü ¿î¼® ³«ÇÏ »ç¿îµå Àç»ı ½ÃÀÛ
-        projectileInstance.Setup(projectileParams);                         // ¿î¼® ¼ÒÈ¯
+        //GameModeManager.SoundManager.PlaySFX(110020);                       // ìš´ì„ ì†Œí™˜ ì§ì „ ìš´ì„ ë‚™í•˜ ì‚¬ìš´ë“œ ì¬ìƒ ì‹œì‘
+        projectileInstance.Setup(projectileParams);                         // ìš´ì„ ì†Œí™˜
     }
 
 }

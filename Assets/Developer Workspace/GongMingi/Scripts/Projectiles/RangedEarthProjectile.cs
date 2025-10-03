@@ -1,35 +1,35 @@
-using Game.Combat.Stats;
+ï»¿using Game.Combat.Stats;
 using UnityEngine;
 
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///  - ¶¥ ¼Ó¼º ¿ø°Å¸®°ø°İ Åõ»çÃ¼ ·ÎÁ÷ ±¸Çö
+/// * ì‘ì„±ì : ê³µë¯¼ê¸°
+///  - ë•… ì†ì„± ì›ê±°ë¦¬ê³µê²© íˆ¬ì‚¬ì²´ ë¡œì§ êµ¬í˜„
 /// </summary>
 public class RangedEarthProjectile : AbstractProjectile
 {
 
     #region Field and Property
 
-    float speed;                                        // ÀÌµ¿¼Óµµ
-    float maxRange;                                     // ÃÖ´ë »ç°Å¸®
-    float damage;                                         // ÇÇÇØ·®
-    float explosionRadius;                                       // Æø¹ß ¹İ°æ
-    LayerMask enemyLayer;                               // Àû ·¹ÀÌ¾î
-    LayerMask obstacleLayer;                            // Àå¾Ö¹° ·¹ÀÌ¾î
+    float speed;                                        // ì´ë™ì†ë„
+    float maxRange;                                     // ìµœëŒ€ ì‚¬ê±°ë¦¬
+    float damage;                                         // í”¼í•´ëŸ‰
+    float explosionRadius;                                       // í­ë°œ ë°˜ê²½
+    LayerMask enemyLayer;                               // ì  ë ˆì´ì–´
+    LayerMask obstacleLayer;                            // ì¥ì• ë¬¼ ë ˆì´ì–´
 
-    [SerializeField] private Rigidbody rb;              // ¹°¸® ÀÌµ¿¿ë rigidbody
+    [SerializeField] private Rigidbody rb;              // ë¬¼ë¦¬ ì´ë™ìš© rigidbody
 
-    Vector3 startPos;                                   // Åõ»çÃ¼ ¹ß»ç ½ÃÀÛ À§Ä¡
-    bool initialized;                                   // ÃÊ±âÈ­ ¿©ºÎ
+    Vector3 startPos;                                   // íˆ¬ì‚¬ì²´ ë°œì‚¬ ì‹œì‘ ìœ„ì¹˜
+    bool initialized;                                   // ì´ˆê¸°í™” ì—¬ë¶€
 
-    // ÇÊ¿ä¾øÀ¸¸é Áö¿ì°Å³ª »óÀ§ Ãß»ó Å¬·¡½º·Î ¿Ã¸®±â
+    // í•„ìš”ì—†ìœ¼ë©´ ì§€ìš°ê±°ë‚˜ ìƒìœ„ ì¶”ìƒ í´ë˜ìŠ¤ë¡œ ì˜¬ë¦¬ê¸°
     public delegate void OnSetup(float speed, float range, float radius, int damage,
                   LayerMask enemyL, LayerMask obstacleL);
-    public static OnSetup onSetup;                      // µ¨¸®°ÔÀÌÆ® (¾ÆÁ÷ Å×½ºÆ®¿ë)
+    public static OnSetup onSetup;                      // ë¸ë¦¬ê²Œì´íŠ¸ (ì•„ì§ í…ŒìŠ¤íŠ¸ìš©)
 
     [Header("SoundSetting")]
-    [SerializeField] int sfxId = 110014;                                                        // Àç»ıÇÒ »ç¿îµå ¸®¼Ò½º ¾ÆÀÌµğ
+    [SerializeField] int sfxId = 110014;                                                        // ì¬ìƒí•  ì‚¬ìš´ë“œ ë¦¬ì†ŒìŠ¤ ì•„ì´ë””
 
     #endregion
 
@@ -43,10 +43,10 @@ public class RangedEarthProjectile : AbstractProjectile
 
     private void FixedUpdate()
     {
-        if (!initialized) return;                           // ÇÊ¿äÇÑ Á¤º¸°¡ ÃÊ±âÈ­µÇÁö ¾ÊÀº °æ¿ì ¹«½Ã
+        if (!initialized) return;                           // í•„ìš”í•œ ì •ë³´ê°€ ì´ˆê¸°í™”ë˜ì§€ ì•Šì€ ê²½ìš° ë¬´ì‹œ
 
-        if (Vector3.SqrMagnitude(transform.position - startPos) >= maxRange * maxRange)  // ÀÌµ¿°Å¸®¸¦ Á¦°öÀ¸·Î °è»ê
-            Explode();                                      // ÀÌµ¿°Å¸®ÀÇ Á¦°öÀÌ maxRange Á¦°öº¸´Ù Å©´Ù¸é Explode È£Ãâ
+        if (Vector3.SqrMagnitude(transform.position - startPos) >= maxRange * maxRange)  // ì´ë™ê±°ë¦¬ë¥¼ ì œê³±ìœ¼ë¡œ ê³„ì‚°
+            Explode();                                      // ì´ë™ê±°ë¦¬ì˜ ì œê³±ì´ maxRange ì œê³±ë³´ë‹¤ í¬ë‹¤ë©´ Explode í˜¸ì¶œ
     }
 
     #endregion
@@ -55,7 +55,7 @@ public class RangedEarthProjectile : AbstractProjectile
     #region AbstractProjectile Implementation
 
     /// <summary>
-    /// - °¡Á®¿Â Åõ»çÃ¼ °ª ÃÊ±âÈ­
+    /// - ê°€ì ¸ì˜¨ íˆ¬ì‚¬ì²´ ê°’ ì´ˆê¸°í™”
     /// </summary>
     /// <param name="speed"></param>
     /// <param name="range"></param>
@@ -73,10 +73,10 @@ public class RangedEarthProjectile : AbstractProjectile
         enemyLayer = param.enemyL;
         obstacleLayer = param.obstacleL;
         
-        startPos = transform.position;                      // ½ÃÀÛ ÁöÁ¡ ±â·Ï
-        initialized = true;                                 // È°¼ºÈ­ true·Î º¯°æ
+        startPos = transform.position;                      // ì‹œì‘ ì§€ì  ê¸°ë¡
+        initialized = true;                                 // í™œì„±í™” trueë¡œ ë³€ê²½
 
-        rb.linearVelocity = transform.forward * speed;      // ÇÃ·¹ÀÌ¾î Àü¹æ ¹æÇâÀ¸·Î ¹ß»ç
+        rb.linearVelocity = transform.forward * speed;      // í”Œë ˆì´ì–´ ì „ë°© ë°©í–¥ìœ¼ë¡œ ë°œì‚¬
     }
 
     #endregion
@@ -86,7 +86,7 @@ public class RangedEarthProjectile : AbstractProjectile
 
     private void OnTriggerEnter(Collider other)
     {
-        // Æ®¸®°Å°¡ ¾Æ´Ï¸é¼­(ÀûÀÇ °ø°İ¹Ú½º µî°ú´Â Ãæµ¹ ¹«½Ã), Àû ·¹ÀÌ¾î¿¡ ¼ÓÇÏ¸é Æø¹ß
+        // íŠ¸ë¦¬ê±°ê°€ ì•„ë‹ˆë©´ì„œ(ì ì˜ ê³µê²©ë°•ìŠ¤ ë“±ê³¼ëŠ” ì¶©ëŒ ë¬´ì‹œ), ì  ë ˆì´ì–´ì— ì†í•˜ë©´ í­ë°œ
         if (!other.isTrigger && enemyLayer.Contain(other.gameObject.layer))
         {
             Explode();
@@ -97,30 +97,30 @@ public class RangedEarthProjectile : AbstractProjectile
 
 
     /// <summary>
-    /// - Àå¾Ö¹°ÀÌ³ª Àû°ú Ãæµ¹ÇßÀ» °æ¿ì ÇØ´ç À§Ä¡¿¡¼­ Æø¹ß¹İ°æ ¾È Àû¿¡°Ô µ¥¹ÌÁö Àû¿ë
-    /// - Æø¹ß ÀÌÆåÆ® »ı¼º
+    /// - ì¥ì• ë¬¼ì´ë‚˜ ì ê³¼ ì¶©ëŒí–ˆì„ ê²½ìš° í•´ë‹¹ ìœ„ì¹˜ì—ì„œ í­ë°œë°˜ê²½ ì•ˆ ì ì—ê²Œ ë°ë¯¸ì§€ ì ìš©
+    /// - í­ë°œ ì´í™íŠ¸ ìƒì„±
     /// </summary>
     void Explode()
     {
-        GameModeManager.SoundManager.PlaySFX(sfxId);       // µ¹ ¿ø°Å¸® Åõ»çÃ¼ Æø¹ß »ç¿îµå
+        //GameModeManager.SoundManager.PlaySFX(sfxId);       // ëŒ ì›ê±°ë¦¬ íˆ¬ì‚¬ì²´ í­ë°œ ì‚¬ìš´ë“œ
 
 
         Collider[] hits = Physics.OverlapSphere(
             transform.position, 
             explosionRadius, 
             enemyLayer, 
-            QueryTriggerInteraction.Ignore);    // Æø¹ß ¹üÀ§ ³» Àû Å½»ö
+            QueryTriggerInteraction.Ignore);    // í­ë°œ ë²”ìœ„ ë‚´ ì  íƒìƒ‰
         foreach (var hit in hits)
         {
             if (hit.TryGetComponent(out UnitStats target))
                 target.TakeDamage(damage);
         }
 
-        // ÃßÈÄ Æø¹ß ÀÌÆåÆ® Àû¿ë ÇÊ¿ä
+        // ì¶”í›„ í­ë°œ ì´í™íŠ¸ ì ìš© í•„ìš”
 
-        rb.linearVelocity = Vector3.zero;                   // ¼Óµµ Á¤Áö
-        Release();                                          // Ç®·Î ¹İÈ¯
-        initialized = false;                                // Àç»ç¿ë ´ë±â
+        rb.linearVelocity = Vector3.zero;                   // ì†ë„ ì •ì§€
+        Release();                                          // í’€ë¡œ ë°˜í™˜
+        initialized = false;                                // ì¬ì‚¬ìš© ëŒ€ê¸°
     }
 
     #endregion
@@ -130,7 +130,7 @@ public class RangedEarthProjectile : AbstractProjectile
 #if UNITY_EDITOR
     //private void OnDrawGizmos()
     //{
-    //    void OnDrawGizemoSelected()                         // ¼±ÅÃ ½Ã Æø¹ß ¹İ°æ ½Ã°¢È­
+    //    void OnDrawGizemoSelected()                         // ì„ íƒ ì‹œ í­ë°œ ë°˜ê²½ ì‹œê°í™”
     //    {
     //        Gizmos.color = new Color(1, 0.5f, 0, 0.25f);
     //        Gizmos.DrawSphere(transform.position, radius);

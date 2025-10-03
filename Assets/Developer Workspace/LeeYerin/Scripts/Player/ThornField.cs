@@ -1,51 +1,80 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// °¡½Ã¹ç Á¶ÇÕ ¸¶¹ı Å¬·¡½º
-/// ÇÃ·¹ÀÌ¾î ¾Õ ÀÏÁ¤ °Å¸® À§Ä¡¿¡ Thorn(°¡½Ã¹ç) ¿ÀºêÁ§Æ®¸¦ ¿ÀºêÁ§Æ® Ç®¿¡¼­ ²¨³» ¹èÄ¡ÇÔ
+/// ê°€ì‹œë°­ ì¡°í•© ë§ˆë²• í´ë˜ìŠ¤
+/// í”Œë ˆì´ì–´ ì• ì¼ì • ê±°ë¦¬ ìœ„ì¹˜ì— Thorn(ê°€ì‹œë°­) ì˜¤ë¸Œì íŠ¸ë¥¼ ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ êº¼ë‚´ ë°°ì¹˜í•¨
 /// 
-/// - ThornPooledObject Å¸ÀÔÀÇ ¿ÀºêÁ§Æ® Ç®À» °ü¸®ÇÏ¸ç, ÃÖÃÊ ½ÇÇà ½Ã Ç®À» »ı¼ºÇÔ
-/// - ÇÃ·¹ÀÌ¾îÀÇ ÇöÀç À§Ä¡¿Í ¾Õ ¹æÇâÀ» ±âÁØÀ¸·Î Thorn »ı¼º À§Ä¡¸¦ °è»êÇÔ
+/// - ThornPooledObject íƒ€ì…ì˜ ì˜¤ë¸Œì íŠ¸ í’€ì„ ê´€ë¦¬í•˜ë©°, ìµœì´ˆ ì‹¤í–‰ ì‹œ í’€ì„ ìƒì„±í•¨
+/// - í”Œë ˆì´ì–´ì˜ í˜„ì¬ ìœ„ì¹˜ì™€ ì• ë°©í–¥ì„ ê¸°ì¤€ìœ¼ë¡œ Thorn ìƒì„± ìœ„ì¹˜ë¥¼ ê³„ì‚°í•¨
 /// </summary>
 public class ThornField : BaseCombinationMagic
 {
     [Tooltip("Thorn object prefab to use")]
-    [SerializeField] ThornPooledObject thorn;   // »ç¿ëÇÒ Thorn ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ
-    [SerializeField] int size;                  // Ç®¿¡ ¹Ì¸® »ı¼ºÇÒ ¿ÀºêÁ§Æ® ¼ö
-    [SerializeField] int capacity;              // Ç®ÀÇ ÃÖ´ë ¼ö¿ë °¡´É ¿ÀºêÁ§Æ® ¼ö
+    [SerializeField] ThornPooledObject thorn;   // ì‚¬ìš©í•  Thorn ì˜¤ë¸Œì íŠ¸ í”„ë¦¬íŒ¹
+    [SerializeField] int size;                  // í’€ì— ë¯¸ë¦¬ ìƒì„±í•  ì˜¤ë¸Œì íŠ¸ ìˆ˜
+    [SerializeField] int capacity;              // í’€ì˜ ìµœëŒ€ ìˆ˜ìš© ê°€ëŠ¥ ì˜¤ë¸Œì íŠ¸ ìˆ˜
 
-    [SerializeField] float distance = 1f;        // ÇÃ·¹ÀÌ¾î ¾Õ¿¡ ¹èÄ¡ÇÒ ±âº» °Å¸®
+    [SerializeField] float distance = 1f;        // í”Œë ˆì´ì–´ ì•ì— ë°°ì¹˜í•  ê¸°ë³¸ ê±°ë¦¬
 
-    PlayerController player = null;             // ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯ ÂüÁ¶ (ÃÊ±âÈ­ Àü null)
+    [Header("Effect Range / Damage")]
+    [SerializeField] private float range;         // íš¨ê³¼ ì ìš© ë²”ìœ„ ë°˜ê²½
+    [SerializeField] private float damage;        // í‹±ë§ˆë‹¤ ì…íˆëŠ” í”¼í•´ëŸ‰ (ì¼ì • ì£¼ê¸°ë¡œ ê°€í•´ì§)
+
+    [Header("Slow Effect Settings")]
+    [SerializeField] private int effectId;        // ìŠ¬ë¡œìš° íš¨ê³¼ ID (EffectHandlerì—ì„œ êµ¬ë¶„ìš©)
+    [SerializeField] private float duration;      // ìŠ¬ë¡œìš° íš¨ê³¼ ì§€ì† ì‹œê°„
+    [SerializeField] private float value;         // ìŠ¬ë¡œìš° ê°•ë„ (ê³±ì—°ì‚° ë¹„ìœ¨, ex. 0.8f â†’ 20% ìŠ¬ë¡œìš°)
+
+    [Header("Lifetime & Tick Settings")]
+    [SerializeField] private float lifeTime;      // ì „ì²´ ì§€ì† ì‹œê°„ (ê°€ì‹œë°­ì´ ì‚¬ë¼ì§€ê¸° ì „ê¹Œì§€)
+    [SerializeField] private float tickInterval;  // í‹± ì£¼ê¸° (ex. 0.5ì´ˆë§ˆë‹¤ ë°ë¯¸ì§€ & ìŠ¬ë¡œìš° ì¬ì ìš©)
+
+    PlayerController player = null;             // í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬ ì°¸ì¡° (ì´ˆê¸°í™” ì „ null)
 
     public override void ExecuteSkill()
     {
-        // player°¡ nullÀÌ¸é, ¿ÀºêÁ§Æ® Ç®À» »ı¼ºÇÏ°í ÇÃ·¹ÀÌ¾î ÂüÁ¶¸¦ °¡Á®¿È
+        // playerê°€ nullì´ë©´, ì˜¤ë¸Œì íŠ¸ í’€ì„ ìƒì„±í•˜ê³  í”Œë ˆì´ì–´ ì°¸ì¡°ë¥¼ ê°€ì ¸ì˜´
         if (player == null)
         {
             GameModeManager.PoolManager.CreatePool(thorn, size, capacity);
             player = GameModeManager.Player;
         }
 
-        if (!canUseSkill)   // ½ºÅ³ ÄğÅ¸ÀÓÀÌ ³¡³µ´ÂÁö È®ÀÎ
+        if (!canUseSkill)   // ìŠ¤í‚¬ ì¿¨íƒ€ì„ì´ ëë‚¬ëŠ”ì§€ í™•ì¸
             return;
 
-        base.ExecuteSkill();    // ½ºÅ³ ÄğÅ¸ÀÌ¸Ó ½ÇÇà
+        base.ExecuteSkill();    // ìŠ¤í‚¬ ì¿¨íƒ€ì´ë¨¸ ì‹¤í–‰
 
-        // ÇÃ·¹ÀÌ¾î ÇöÀç À§Ä¡
+        // í”Œë ˆì´ì–´ í˜„ì¬ ìœ„ì¹˜
         Vector3 playerPosition = player.transform.position;
-        // ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸´Â ¾Õ ¹æÇâ (Á¤±ÔÈ­µÈ ´ÜÀ§ º¤ÅÍ)
+        // í”Œë ˆì´ì–´ê°€ ë°”ë¼ë³´ëŠ” ì• ë°©í–¥ (ì •ê·œí™”ëœ ë‹¨ìœ„ ë²¡í„°)
         Vector3 forwardDirection = player.transform.forward.normalized;
 
-        // ÇÃ·¹ÀÌ¾î À§Ä¡¿¡¼­ ¾Õ ¹æÇâÀ¸·Î distance¸¸Å­ ÀÌµ¿ÇÑ µÚ, thornÀÇ Range¸¸Å­ ´õÇÑ À§Ä¡¸¦ °è»êÇÏ°í,
-        // yÃà ¹æÇâÀ¸·Î -1¸¸Å­ ³»·Á°£ À§Ä¡
-        Vector3 targetPosition = playerPosition + forwardDirection * (distance + thorn.Range) + -Vector3.up;
+        // í”Œë ˆì´ì–´ ìœ„ì¹˜ì—ì„œ ì• ë°©í–¥ìœ¼ë¡œ distanceë§Œí¼ ì´ë™í•œ ë’¤, thornì˜ Rangeë§Œí¼ ë”í•œ ìœ„ì¹˜ë¥¼ ê³„ì‚°í•˜ê³ ,
+        // yì¶• ë°©í–¥ìœ¼ë¡œ -1ë§Œí¼ ë‚´ë ¤ê°„ ìœ„ì¹˜
+        Vector3 targetPosition = playerPosition + forwardDirection * (distance + range) + Vector3.down;
 
-        // »ı¼º Á÷Àü °¡½Ã¹ç »ı¼º »ç¿îµå ½ÇÇà
-        GameModeManager.SoundManager.PlaySFX(110018);
-        // °è»êµÈ À§Ä¡¿¡ thorn ¿ÀºêÁ§Æ®¸¦ Ç®¿¡¼­ ²¨³»¼­ »ı¼º (È¸ÀüÀº ±âº»°ª)
-        GameModeManager.PoolManager.GetPool(thorn, targetPosition, Quaternion.identity);
+        // ìƒì„± ì§ì „ ê°€ì‹œë°­ ìƒì„± ì‚¬ìš´ë“œ ì‹¤í–‰
+        //GameModeManager.SoundManager.PlaySFX(110018);
+        // ê³„ì‚°ëœ ìœ„ì¹˜ì— thorn ì˜¤ë¸Œì íŠ¸ë¥¼ í’€ì—ì„œ êº¼ë‚´ì„œ ìƒì„± (íšŒì „ì€ ê¸°ë³¸ê°’)
+        var obj = GameModeManager.PoolManager.GetPool(thorn, targetPosition, Quaternion.identity) as ThornPooledObject;
+
+        var projectileParams = new ThornParams
+        {
+            // < ê³µí†µ íŒŒë¼ë¯¸í„° >
+            radius = range,                                                 // íš¨ê³¼ ì ìš© ë²”ìœ„ ë°˜ê²½
+            damage = damage,                                                // ì£¼ëŠ” ë°ë¯¸ì§€
+
+            // < Thorn ì „ìš© íŒŒë¼ë¯¸í„° >
+            effectId = effectId,                                            // ìŠ¬ë¡œìš° íš¨ê³¼ ID
+            lifeTime = lifeTime,
+            duration = duration,
+            value = value,
+            tickInterval = tickInterval
+        };
+
+        obj.Setup(projectileParams);
     }
 }

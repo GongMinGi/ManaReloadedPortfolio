@@ -1,4 +1,4 @@
-using Game.Combat.Stats;
+ï»¿using Game.Combat.Stats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,25 +7,25 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///   - ºû / ¾îµÒ ¼Ó¼º Àü¿ë
-///   - Ä³½ºÆÃÇÑ ¿ø¼Ò¿¡ ºûÀÌ³ª ¾îµÒ¼Ó¼ºÀÌ Æ÷ÇÔµÇ¾î ÀÖÀ» ¶§ ½ÇÇàµÇ´Â ¿ø°Å¸® °ø°İ
-///   - ¸¶¿ì½º ÁÂÅ¬¸¯À» ´©¸£°í ÀÖ´Â µ¿¾È ºö ÇüÅÂÀÇ °ø°İÀÌ °è¼Ó ³ª°¡´Â È¦µåÇü °ø°İ
-///   - °è¼Ó È¦µåÇÏ°í ÀÖ´õ¶óµµ ¸¶¹ı ½ÃÀü½Ã°£ÀÌ ³¡³ª¸é °ø°İÀÌ ³¡³­´Ù.
+/// * ì‘ì„±ì : ê³µë¯¼ê¸°
+///   - ë¹› / ì–´ë‘  ì†ì„± ì „ìš©
+///   - ìºìŠ¤íŒ…í•œ ì›ì†Œì— ë¹›ì´ë‚˜ ì–´ë‘ ì†ì„±ì´ í¬í•¨ë˜ì–´ ìˆì„ ë•Œ ì‹¤í–‰ë˜ëŠ” ì›ê±°ë¦¬ ê³µê²©
+///   - ë§ˆìš°ìŠ¤ ì¢Œí´ë¦­ì„ ëˆ„ë¥´ê³  ìˆëŠ” ë™ì•ˆ ë¹” í˜•íƒœì˜ ê³µê²©ì´ ê³„ì† ë‚˜ê°€ëŠ” í™€ë“œí˜• ê³µê²©
+///   - ê³„ì† í™€ë“œí•˜ê³  ìˆë”ë¼ë„ ë§ˆë²• ì‹œì „ì‹œê°„ì´ ëë‚˜ë©´ ê³µê²©ì´ ëë‚œë‹¤.
 /// </summary>
 [RequireComponent(typeof(LineRenderer))]
 public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
 {
     #region Field and Property
 
-    private RangedAttackContext _ctx;        // º¯¼ö ÀÌ¸§ ¼öÁ¤ ÇÊ¿ä
+    private RangedAttackContext _ctx;        // ë³€ìˆ˜ ì´ë¦„ ìˆ˜ì • í•„ìš”
 
-    [Header("VFX Setting")]     // ±¸Çö: ÀÌ¿¹¸°
+    [Header("VFX Setting")]     // êµ¬í˜„: ì´ì˜ˆë¦°
     //[SerializeField] VFXObject beamVFX;
     //[SerializeField] ParticleSystem vfxObjects;
     [SerializeField] private ParticleSystem beamloopParticle;   // 
-    [SerializeField] private ParticleSystem impactParticle;     // Ãæµ¹ÁöÁ¡ ÀÌÆåÆ®
-    [SerializeField] private float surfaceOffset = 0.02f;       // z-fighting ¹æÁö 
+    [SerializeField] private ParticleSystem impactParticle;     // ì¶©ëŒì§€ì  ì´í™íŠ¸
+    [SerializeField] private float surfaceOffset = 0.02f;       // z-fighting ë°©ì§€ 
 
     public event Action Started;
     public event Action<float> Progress;
@@ -34,25 +34,25 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
 
     [Header("Beam Settings")]
-    [SerializeField] private float maxDistance = 15f;       // ºö ÃÖ´ë »ç°Å¸®
-    [SerializeField] private float maxDuration = 4f;        // ÇÑ ¹ø¿¡ Áö¼Ó °¡´ÉÇÑ ÃÖ´ë ½Ã°£
-    [SerializeField] private float tickInterval = 0.25f;    // ÇÇÇØ ÁÖ±â
-    [SerializeField] private int damagePerTick = 6;         // Æ½´ç ÇÇÇØ·®
-    [SerializeField] private LayerMask enemyLayer;          // Àû ·¹ÀÌ¾î
-    [SerializeField] private LayerMask obstacleLayer;       // ºöÀ» ¸·´Â ÁöÇü ·¹ÀÌ¾î
+    [SerializeField] private float maxDistance = 15f;       // ë¹” ìµœëŒ€ ì‚¬ê±°ë¦¬
+    [SerializeField] private float maxDuration = 4f;        // í•œ ë²ˆì— ì§€ì† ê°€ëŠ¥í•œ ìµœëŒ€ ì‹œê°„
+    [SerializeField] private float tickInterval = 0.25f;    // í”¼í•´ ì£¼ê¸°
+    [SerializeField] private int damagePerTick = 6;         // í‹±ë‹¹ í”¼í•´ëŸ‰
+    [SerializeField] private LayerMask enemyLayer;          // ì  ë ˆì´ì–´
+    [SerializeField] private LayerMask obstacleLayer;       // ë¹”ì„ ë§‰ëŠ” ì§€í˜• ë ˆì´ì–´
 
     [Header("SoundSetting")]
-    [SerializeField] int sfxId = 110016;                                                        // Àç»ıÇÒ »ç¿îµå ¸®¼Ò½º ¾ÆÀÌµğ
+    [SerializeField] int sfxId = 110016;                                                        // ì¬ìƒí•  ì‚¬ìš´ë“œ ë¦¬ì†ŒìŠ¤ ì•„ì´ë””
 
 
     [Header("Visual")]
-    [SerializeField] private Transform muzzle;              // ºö ½ÃÀÛ ÁöÁ¡
+    [SerializeField] private Transform muzzle;              // ë¹” ì‹œì‘ ì§€ì 
 
     [Tooltip("For prototype visualization of beam")]
-    [SerializeField] private LineRenderer lr;               // ºöÀ» ½Ã°¢ÀûÀ¸·Î Ç¥ÇöÇÏ±â À§ÇÑ ¶óÀÎ ·»´õ·¯ 
+    [SerializeField] private LineRenderer lr;               // ë¹”ì„ ì‹œê°ì ìœ¼ë¡œ í‘œí˜„í•˜ê¸° ìœ„í•œ ë¼ì¸ ë Œë”ëŸ¬ 
 
-    private Coroutine beamRoutine;                          // ÇöÀç ½ÇÇàÁßÀÎ ºö ÄÚ·çÆ¾ ÇÚµé
-    private bool isFiring;                                  // ºö °ø°İ ½ÇÇà Áß ¿©ºÎ
+    private Coroutine beamRoutine;                          // í˜„ì¬ ì‹¤í–‰ì¤‘ì¸ ë¹” ì½”ë£¨í‹´ í•¸ë“¤
+    private bool isFiring;                                  // ë¹” ê³µê²© ì‹¤í–‰ ì¤‘ ì—¬ë¶€
 
     #endregion
 
@@ -60,8 +60,8 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
     private void Awake()
     {
-        lr.enabled = false;                                 // ÃÊ±âÈ­ ½Ã¿¡ ÀÏ´Ü ¶óÀÎ·£´õ·¯¸¦ ²¨ ³õ´Â´Ù.
-        if (muzzle == null) muzzle = transform;             // µğÆúÆ® : ÇÃ·¹ÀÌ¾î transform
+        lr.enabled = false;                                 // ì´ˆê¸°í™” ì‹œì— ì¼ë‹¨ ë¼ì¸ëœë”ëŸ¬ë¥¼ êº¼ ë†“ëŠ”ë‹¤.
+        if (muzzle == null) muzzle = transform;             // ë””í´íŠ¸ : í”Œë ˆì´ì–´ transform
     }
 
     #endregion
@@ -74,22 +74,22 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
     public void ExecuteAttack(E_CastingType type)
     {       
-        if (isFiring) return;                               // ÀÌ¹Ì ¹ß»ç ÁßÀÌ¸é ¹«½Ã
-        GameModeManager.SoundManager.PlaySFX(110016);       // ºö ¹ß»ç »ç¿îµå , ÇÏµåÄÚµùÀ¸·Î ºôµå¿ë ¹ö±× ¾øÀÌ ¼öÁ¤
-        beamRoutine = StartCoroutine(FireBeam());           // ºö ÄÚ·çÆ¾ ½ÃÀÛ
+        if (isFiring) return;                               // ì´ë¯¸ ë°œì‚¬ ì¤‘ì´ë©´ ë¬´ì‹œ
+        //GameModeManager.SoundManager.PlaySFX(110016);       // ë¹” ë°œì‚¬ ì‚¬ìš´ë“œ , í•˜ë“œì½”ë”©ìœ¼ë¡œ ë¹Œë“œìš© ë²„ê·¸ ì—†ì´ ìˆ˜ì •
+        beamRoutine = StartCoroutine(FireBeam());           // ë¹” ì½”ë£¨í‹´ ì‹œì‘
       
     }
 
     /// <summary>
-    /// ¿ÜºÎ¿¡¼­ ÄÚ·çÆ¾À» Á¤Áö½ÃÅ°°í ½ÍÀ» ¶§ »ç¿ëÇÑ´Ù
+    /// ì™¸ë¶€ì—ì„œ ì½”ë£¨í‹´ì„ ì •ì§€ì‹œí‚¤ê³  ì‹¶ì„ ë•Œ ì‚¬ìš©í•œë‹¤
     /// </summary>
     public void Stop()
     {
-        if (!isFiring) return;                              // ¹ß»ç ÁßÀÌ ¾Æ´Ï¸é ¹«½Ã
-        StopCoroutine(beamRoutine);                         // ÄÚ·çÆ¾ Á¾·á
-        lr.enabled = false;                                 // ¶óÀÎ ¼û±è
-        isFiring = false;                                   // »óÅÂ ¸®¼Â
-        Interrupted?.Invoke();          // ¾Ö´Ï¸ŞÀÌ¼Ç °­Á¦Ãë¼Ò ½ÅÈ£
+        if (!isFiring) return;                              // ë°œì‚¬ ì¤‘ì´ ì•„ë‹ˆë©´ ë¬´ì‹œ
+        StopCoroutine(beamRoutine);                         // ì½”ë£¨í‹´ ì¢…ë£Œ
+        lr.enabled = false;                                 // ë¼ì¸ ìˆ¨ê¹€
+        isFiring = false;                                   // ìƒíƒœ ë¦¬ì…‹
+        Interrupted?.Invoke();          // ì• ë‹ˆë©”ì´ì…˜ ê°•ì œì·¨ì†Œ ì‹ í˜¸
     }
     #endregion
 
@@ -100,66 +100,66 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     IEnumerator FireBeam()
     {
 
-        isFiring = true;                                    // ¹ß»ç »óÅÂ ON
-        //lr.enabled = true;                                // ¶óÀÎ Ç¥½Ã ON
-        Started?.Invoke();                                  // ½ÃÀÛ ½ÅÈ£
+        isFiring = true;                                    // ë°œì‚¬ ìƒíƒœ ON
+        //lr.enabled = true;                                // ë¼ì¸ í‘œì‹œ ON
+        Started?.Invoke();                                  // ì‹œì‘ ì‹ í˜¸
 
         if(beamloopParticle) beamloopParticle.Play(true);
 
-        float startTime = Time.time;                        // ÇöÀç ½Ã°£À» ½ÃÀÛ ½Ã°£À¸·Î ¼³Á¤ 
-        float nextTickTime = 0f;                            // ´ÙÀ½ µ¥¹ÌÁö Æ½ ½Ã°£ (Äğ´Ù¿î Å¸ÀÌ¸Ó)
+        float startTime = Time.time;                        // í˜„ì¬ ì‹œê°„ì„ ì‹œì‘ ì‹œê°„ìœ¼ë¡œ ì„¤ì • 
+        float nextTickTime = 0f;                            // ë‹¤ìŒ ë°ë¯¸ì§€ í‹± ì‹œê°„ (ì¿¨ë‹¤ìš´ íƒ€ì´ë¨¸)
 
-        // ÁÂÅ¬¸¯ÀÌ ´­·Á ÀÖ°í, ÃÖ´ë Áö¼Ó ½Ã°£À» ³ÑÁö ¾ÊÀ» ¶§±îÁö ·çÇÁ
+        // ì¢Œí´ë¦­ì´ ëˆŒë ¤ ìˆê³ , ìµœëŒ€ ì§€ì† ì‹œê°„ì„ ë„˜ì§€ ì•Šì„ ë•Œê¹Œì§€ ë£¨í”„
         while (Mouse.current.leftButton.isPressed && Time.time -startTime < maxDuration)
         {
-            Vector3 origin = muzzle.position;               // ·¹ÀÌ ½ÃÀÛÁ¡
-            Vector3 dir = muzzle.forward;                   // ¹ß»ç ¹æÇâ( transform.forward)
+            Vector3 origin = muzzle.position;               // ë ˆì´ ì‹œì‘ì 
+            Vector3 dir = muzzle.forward;                   // ë°œì‚¬ ë°©í–¥( transform.forward)
             
-            float beamLength = maxDistance;                 // ÃÖÁ¾ ºö ±æÀÌ ÃÊ±â°ª.
-            RaycastHit hit;                                 // ´ÜÀÏ Raycast °á°ú ÀúÀå¿ë
+            float beamLength = maxDistance;                 // ìµœì¢… ë¹” ê¸¸ì´ ì´ˆê¸°ê°’.
+            RaycastHit hit;                                 // ë‹¨ì¼ Raycast ê²°ê³¼ ì €ì¥ìš©
 
-            // Àå¾Ö¹° / Àû ·¹ÀÌ¾î¿¡¸¸ Ãæµ¹ °Ë»ç (Æ®¸®°Å´Â ¹«½Ã)
+            // ì¥ì• ë¬¼ / ì  ë ˆì´ì–´ì—ë§Œ ì¶©ëŒ ê²€ì‚¬ (íŠ¸ë¦¬ê±°ëŠ” ë¬´ì‹œ)
             if (Physics.Raycast(origin, dir, out hit, maxDistance,
                 enemyLayer | obstacleLayer , QueryTriggerInteraction.Ignore))
             {
-                beamLength = hit.distance;                                      // ºö ±æÀÌ¸¦ Ãæµ¹ÁöÁ¡±îÁö·Î ÁÙÀÓ
+                beamLength = hit.distance;                                      // ë¹” ê¸¸ì´ë¥¼ ì¶©ëŒì§€ì ê¹Œì§€ë¡œ ì¤„ì„
 
-                // ºöÀÌ Àû/ Àå¾Ö¹°À» ¸ÂÃèÀ» ¶§ À§Ä¡/È¸Àü °»½Å 
+                // ë¹”ì´ ì / ì¥ì• ë¬¼ì„ ë§ì·„ì„ ë•Œ ìœ„ì¹˜/íšŒì „ ê°±ì‹  
                 if(impactParticle)
                 {
                     impactParticle.transform.SetPositionAndRotation(
-                        hit.point + hit.normal * surfaceOffset,                 // Ãæµ¹ ÁöÁ¡
-                        Quaternion.LookRotation(hit.normal)                     // Ç¥¸é ¹ı¼± ¹æÇâÀ¸·Î È¸Àü
+                        hit.point + hit.normal * surfaceOffset,                 // ì¶©ëŒ ì§€ì 
+                        Quaternion.LookRotation(hit.normal)                     // í‘œë©´ ë²•ì„  ë°©í–¥ìœ¼ë¡œ íšŒì „
                     );
-                    if (!impactParticle.isPlaying) impactParticle.Play(true);   // ²¨Á® ÀÖÀ¸¸é Å²´Ù
+                    if (!impactParticle.isPlaying) impactParticle.Play(true);   // êº¼ì ¸ ìˆìœ¼ë©´ í‚¨ë‹¤
                 }
 
-                // µ¥¹ÌÁö´Â Æ½ °£°İ À¸·Î¸¸ Àû¿ë ( ÇÁ·¹ÀÓ¸¶´Ù°¡ ¾Æ´Ô)
+                // ë°ë¯¸ì§€ëŠ” í‹± ê°„ê²© ìœ¼ë¡œë§Œ ì ìš© ( í”„ë ˆì„ë§ˆë‹¤ê°€ ì•„ë‹˜)
                 bool hitEnemy = enemyLayer.Contain(hit.collider.gameObject.layer);
                 if( hitEnemy && Time.time >= nextTickTime )
                 {
                     if (hit.collider.TryGetComponent(out UnitStats target))
-                        target.TakeDamage(damagePerTick);                       // µ¥¹ÌÁö 1Æ½ Àû¿ë
+                        target.TakeDamage(damagePerTick);                       // ë°ë¯¸ì§€ 1í‹± ì ìš©
 
-                    nextTickTime = Time.time + tickInterval;                    // ´ÙÀ½ Æ½ ½Ã°£ °»½Å
+                    nextTickTime = Time.time + tickInterval;                    // ë‹¤ìŒ í‹± ì‹œê°„ ê°±ì‹ 
                 }
 
             }
             else
             {
-                // È÷Æ®°¡ ¾øÀ¸¸é ÀÓÆÑÆ® ÆÄÆ¼Å¬ ²ô±â ( ÀÜ»ó ¾øÀÌ ÀÚ¿¬½º·´°Ô)
+                // íˆíŠ¸ê°€ ì—†ìœ¼ë©´ ì„íŒ©íŠ¸ íŒŒí‹°í´ ë„ê¸° ( ì”ìƒ ì—†ì´ ìì—°ìŠ¤ëŸ½ê²Œ)
                 if( impactParticle && impactParticle.isPlaying)
                     impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting );
             }
 
 
-            //// ¶óÀÎ ·»´õ·¯ ±æÀÌ °»½Å
-            //lr.SetPosition(0, origin);                      // ½ÃÀÛÁ¡
-            //lr.SetPosition(1, origin + dir * beamLength);   // Ãæµ¹ÁöÁ¡( È¤Àº ÃÖ´ë »ç°Å¸® ÁöÁ¡)
+            //// ë¼ì¸ ë Œë”ëŸ¬ ê¸¸ì´ ê°±ì‹ 
+            //lr.SetPosition(0, origin);                      // ì‹œì‘ì 
+            //lr.SetPosition(1, origin + dir * beamLength);   // ì¶©ëŒì§€ì ( í˜¹ì€ ìµœëŒ€ ì‚¬ê±°ë¦¬ ì§€ì )
 
 
 
-            // ÀüÃ¼ Áö¼Ó½Ã°£ ´ëºñ ÁøÇà·ü ÀÌº¥Æ® ( UI °ÔÀÌÁö µî¿¡¼­ È°¿ë °¡´É)
+            // ì „ì²´ ì§€ì†ì‹œê°„ ëŒ€ë¹„ ì§„í–‰ë¥  ì´ë²¤íŠ¸ ( UI ê²Œì´ì§€ ë“±ì—ì„œ í™œìš© ê°€ëŠ¥)
             float t = Mathf.InverseLerp(0f, maxDuration, Time.time - startTime);
             Progress?.Invoke(t);
 
@@ -167,20 +167,20 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
             yield return null;
         }
 
-        //Á¾·á Ã³¸®
-        //lr.enabled = false;                                 //ºö ¶óÀÎ ¼û±è 
+        //ì¢…ë£Œ ì²˜ë¦¬
+        //lr.enabled = false;                                 //ë¹” ë¼ì¸ ìˆ¨ê¹€ 
         if (beamloopParticle) beamloopParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         if (impactParticle && impactParticle.isPlaying)
             impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
-        GameModeManager.SoundManager.StopSFX();
-        isFiring = false;                                   // »óÅÂ ¸®¼Â ( ºö ¹ß»ç Áß false º¯°æ)            
-        Ended?.Invoke();                                    // ¾Ö´Ï¸ŞÀÌ¼Ç Á¤»ó Á¾·á
+        //GameModeManager.SoundManager.StopSFX();
+        isFiring = false;                                   // ìƒíƒœ ë¦¬ì…‹ ( ë¹” ë°œì‚¬ ì¤‘ false ë³€ê²½)            
+        Ended?.Invoke();                                    // ì• ë‹ˆë©”ì´ì…˜ ì •ìƒ ì¢…ë£Œ
     }
 
     #endregion
 
-#if UNITY_EDITOR // SCENE ºä µğ¹ö±×
+#if UNITY_EDITOR // SCENE ë·° ë””ë²„ê·¸
     void OnDrawGizmoSelected()
     {
         if (muzzle == null) return;

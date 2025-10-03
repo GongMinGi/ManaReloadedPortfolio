@@ -49,9 +49,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 601675802512590717}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 1
 --- !u!114 &5896600815526188955
 MonoBehaviour:
@@ -121,10 +121,8 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   cam: {fileID: 0}
   hideWhenFull: 1
-  worldCanvas: {fileID: 0}
   group: {fileID: -800984857224515737}
   hideThreshold: 0.999
-  showthreshold: 0.995
 --- !u!114 &4408056073400506447
 MonoBehaviour:
   m_ObjectHideFlags: 0

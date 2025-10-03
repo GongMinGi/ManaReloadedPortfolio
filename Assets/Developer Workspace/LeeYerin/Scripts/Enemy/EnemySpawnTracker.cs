@@ -1,34 +1,34 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// Àû »ı¼º Á¦ÇÑ ¹× »ıÁ¸ »óÅÂ¸¦ ÃßÀûÇÏ±â À§ÇÑ ÇïÆÛ Å¬·¡½º
+/// ì  ìƒì„± ì œí•œ ë° ìƒì¡´ ìƒíƒœë¥¼ ì¶”ì í•˜ê¸° ìœ„í•œ í—¬í¼ í´ë˜ìŠ¤
 /// 
-/// Æ¯Á¤ Å¸ÀÔÀÇ Àû¿¡ ´ëÇØ ½ºÆù ¼ö Á¦ÇÑ, ÇöÀç »ì¾ÆÀÖ´Â ÀûÀÇ ¼ö
-/// ÇØ´ç Àû Å¸ÀÔÀÌ ¸ğµÎ »ı¼ºµÇ°í Á¦°ÅµÇ¾ú´ÂÁö¸¦ ÆÇ´ÜÇÏ´Â µ¥ »ç¿ëµÊ
+/// íŠ¹ì • íƒ€ì…ì˜ ì ì— ëŒ€í•´ ìŠ¤í° ìˆ˜ ì œí•œ, í˜„ì¬ ì‚´ì•„ìˆëŠ” ì ì˜ ìˆ˜
+/// í•´ë‹¹ ì  íƒ€ì…ì´ ëª¨ë‘ ìƒì„±ë˜ê³  ì œê±°ë˜ì—ˆëŠ”ì§€ë¥¼ íŒë‹¨í•˜ëŠ” ë° ì‚¬ìš©ë¨
 /// 
-/// EnemyPool ¶Ç´Â ½ºÆù Á¦¾î ·ÎÁ÷¿¡¼­ È°¿ëµÊ
+/// EnemyPool ë˜ëŠ” ìŠ¤í° ì œì–´ ë¡œì§ì—ì„œ í™œìš©ë¨
 /// </summary>
 public class EnemySpawnTracker
 {
-    private int maxEnemyCount = 0;  // ÇØ´ç Å¸ÀÔÀÇ ÃÖ´ë »ı¼º °¡´ÉÇÑ Àû °³¼ö (½ºÆù Á¦ÇÑ ¼ö)
-    private int spawnedEnemyCount = 0;  // ÇöÀç±îÁö »ı¼ºµÈ Àû °³¼ö
-    private int currentAliveCount;  // ÇöÀç »ì¾Æ ÀÖ´Â Àû °³¼ö
+    private int maxEnemyCount = 0;  // í•´ë‹¹ íƒ€ì…ì˜ ìµœëŒ€ ìƒì„± ê°€ëŠ¥í•œ ì  ê°œìˆ˜ (ìŠ¤í° ì œí•œ ìˆ˜)
+    private int spawnedEnemyCount = 0;  // í˜„ì¬ê¹Œì§€ ìƒì„±ëœ ì  ê°œìˆ˜
+    private int currentAliveCount;  // í˜„ì¬ ì‚´ì•„ ìˆëŠ” ì  ê°œìˆ˜
 
     /// <summary>
-    /// ÇöÀç ÇØ´ç Å¸ÀÔÀÇ ÀûÀ» »ı¼ºÇÒ ¼ö ÀÖ´ÂÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â ¼Ó¼º
+    /// í˜„ì¬ í•´ë‹¹ íƒ€ì…ì˜ ì ì„ ìƒì„±í•  ìˆ˜ ìˆëŠ”ì§€ ì—¬ë¶€ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ì†ì„±
     /// </summary>
     public bool CanSpawn => spawnedEnemyCount < maxEnemyCount;
 
     /// <summary>
-    /// ÇØ´ç Å¸ÀÔÀÇ ÀûÀ» Á¤ÇØÁø ¼ö¸¸Å­ »ı¼ºÇß°í, ±× ¸ğµÎ°¡ »ç¸ÁÇß´Â°¡¸¦ ÆÇ´ÜÇÏ´Â ¼Ó¼º
+    /// í•´ë‹¹ íƒ€ì…ì˜ ì ì„ ì •í•´ì§„ ìˆ˜ë§Œí¼ ìƒì„±í–ˆê³ , ê·¸ ëª¨ë‘ê°€ ì‚¬ë§í–ˆëŠ”ê°€ë¥¼ íŒë‹¨í•˜ëŠ” ì†ì„±
     /// </summary>
     private bool IsCleared => !CanSpawn && currentAliveCount == 0;
 
     /// <summary>
-    /// ÇöÀç±îÁö ½ºÆùÇÑ ÇØ´ç Å¸ÀÔÀÇ Àû ¹× »ıÁ¸ Àû ¼ö·®À» ¾÷µ¥ÀÌÆ®ÇÏ´Â ¸Ş¼­µå
-    /// È£Ãâ ½Ã spawnedEnemyCount¿Í currentAliveCount +1
+    /// í˜„ì¬ê¹Œì§€ ìŠ¤í°í•œ í•´ë‹¹ íƒ€ì…ì˜ ì  ë° ìƒì¡´ ì  ìˆ˜ëŸ‰ì„ ì—…ë°ì´íŠ¸í•˜ëŠ” ë©”ì„œë“œ
+    /// í˜¸ì¶œ ì‹œ spawnedEnemyCountì™€ currentAliveCount +1
     /// </summary>
     public void NotifySpawned()
     {
@@ -40,17 +40,27 @@ public class EnemySpawnTracker
     {
         currentAliveCount--;
 
-        if (IsCleared)  // ÇöÀç ÆäÀÌÁî¿¡¼­ ÇØ´ç Å¸ÀÔÀÇ ¸ğµç ÀûÀÌ »ç¸ÁÇßÀ» °æ¿ì
-            GameModeManager.EnemyManager.TryAdvancePhase(); // ÀÌ¸¦ EnemyManager¿¡ ¾Ë¸²   
+        if (IsCleared)  // í˜„ì¬ í˜ì´ì¦ˆì—ì„œ í•´ë‹¹ íƒ€ì…ì˜ ëª¨ë“  ì ì´ ì‚¬ë§í–ˆì„ ê²½ìš°
+            GameModeManager.EnemyManager.TryAdvancePhase(); // ì´ë¥¼ EnemyManagerì— ì•Œë¦¼   
     }
 
     /// <summary>
-    /// EnemyPoolLimiterÀÇ ÃÖ´ë Àû »ı¼º ¼ö¸¦ ¼³Á¤ÇÏ°í,
-    /// ÇöÀç±îÁö »ı¼ºµÈ ¹× »ì¾ÆÀÖ´Â ÀûÀÇ °³¼ö¸¦ ÃÊ±âÈ­ÇÏ´Â ¸Ş¼­µå
-    /// 
-    /// ÆäÀÌÁî ÀüÈ¯ µî ¿ÜºÎ Á¶°Ç¿¡ µû¶ó Àû »ı¼º ÇÑµµ¸¦ °»½ÅÇÒ ¶§ »ç¿ëÇÔ
+    /// NavMesh ì´íƒˆ ë“± ë¹„ì •ìƒ ì¢…ë£Œë¡œ ë°˜í™˜ëœ ê²½ìš° í˜¸ì¶œ
+    /// ë‹¤ì‹œ ìŠ¤í°í•  ìˆ˜ ìˆë„ë¡ spawnedEnemyCountë„ ê°ì†Œ
     /// </summary>
-    /// <param name="maxEnemyCount">ÃÖ´ë »ı¼º °¡´ÉÇÑ Àû °³¼ö (½ºÆù Á¦ÇÑ ¼ö)</param>
+    public void NotifyDespawned()
+    {
+        spawnedEnemyCount--;
+        currentAliveCount--;    // ë‹¤ì‹œ ìŠ¤í° ê°€ëŠ¥í•˜ë„ë¡
+    }
+
+    /// <summary>
+    /// EnemyPoolLimiterì˜ ìµœëŒ€ ì  ìƒì„± ìˆ˜ë¥¼ ì„¤ì •í•˜ê³ ,
+    /// í˜„ì¬ê¹Œì§€ ìƒì„±ëœ ë° ì‚´ì•„ìˆëŠ” ì ì˜ ê°œìˆ˜ë¥¼ ì´ˆê¸°í™”í•˜ëŠ” ë©”ì„œë“œ
+    /// 
+    /// í˜ì´ì¦ˆ ì „í™˜ ë“± ì™¸ë¶€ ì¡°ê±´ì— ë”°ë¼ ì  ìƒì„± í•œë„ë¥¼ ê°±ì‹ í•  ë•Œ ì‚¬ìš©í•¨
+    /// </summary>
+    /// <param name="maxEnemyCount">ìµœëŒ€ ìƒì„± ê°€ëŠ¥í•œ ì  ê°œìˆ˜ (ìŠ¤í° ì œí•œ ìˆ˜)</param>
     public void Set(int maxEnemyCount)
     {
         this.maxEnemyCount = maxEnemyCount;

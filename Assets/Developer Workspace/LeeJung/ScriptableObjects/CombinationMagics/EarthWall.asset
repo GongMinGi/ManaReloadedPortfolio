@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0981f42e9106d9a458cc47c005c70806, type: 3}
+  m_Name: EarthWall
+  m_EditorClassIdentifier: 
+  currentHashID: 1628606902
+  CastList: 0000000000000000000000000000000000000000
+  castSkill: {fileID: 5583578488557551116, guid: fe87cbef3abdd0d46a4cff3c3967e8c3, type: 3}
