@@ -37,17 +37,6 @@ public class EnemyController : MonoBehaviour
     public Animator Animator => animator;
     #endregion
 
-    #region Sound
-    [Header("Sound Setting")]
-    [SerializeField] AudioSource source;
-    [SerializeField] int deathSfxId = 110009;
-    /// <summary>
-    /// 지정된 사운드 ID에 해당하는 효과음을 재생하는 메서드
-    /// </summary>
-    /// <param name="id">재생할 사운드의 고유 ID</param>
-    public void PlaySFX(int id) => GameModeManager.SoundManager.PlaySFX(id, source);
-    #endregion
-
     #region Movement
     [Header("Enemy Movement Setting")]
     [Tooltip("NavMeshAgent component used for enemy movement")]

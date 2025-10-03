@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -20,15 +19,11 @@ public class PreGameFlowManager : MonoBehaviour
     [SerializeField] string qaSceneName = "QA Scene";
 
     #region Unity Event
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitUntil(() => GameModeManager.UIManager != null && GameModeManager.SoundManager != null);
-
-        //GameModeManager.SoundManager.PlayBGM(bgmClip.title);    // PreGameFlow의 BGM 실행
-
         if (GameModeManager.UIManager.IsFirstLaunch)    // 게임 실행 후 첫 진입일 경우
         {
-            yield break;
+            return;
         }
 
         GameModeManager.UIManager.ClearPopupHistory();      // UIManager의 ClearPopupHistory 스택 초기화
@@ -39,8 +34,11 @@ public class PreGameFlowManager : MonoBehaviour
             loadOutUI.SetActive(true);
             GameModeManager.UIManager.FadeIn();
         }
-        else                                               // 게임 메인 메뉴로 이동일 경우
+        else
+        {
+            // 게임 메인 메뉴로 이동일 경우
             GameModeManager.UIManager.FadeIn();
+        }
     }
     #endregion
 
