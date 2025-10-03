@@ -49,10 +49,10 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4597946207220317269, guid: 22e3ed38b66eb6e439fd97021cb568ab, type: 3}
   duration: 1
   spawnTime: 0.5
-  radius: 1
-  damage: 1000
+  radius: 2.5
+  damage: 3000
   spawnDistance: 1
-  lightBeamLength: 10
+  lightBeamLength: 30
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
