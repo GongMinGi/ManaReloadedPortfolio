@@ -10,11 +10,43 @@
     "Type": "User",
     "GUID": "{9E5C0702-FD74-45F2-9031-C5185B1BEDDB}",
     "Language": "SFX",
-    "Hash": "{C5665727-D024-6EB5-EE53-08B5B0D1A678}",
+    "Hash": "{EC5F6E68-2838-302C-5163-13F96CE504AA}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\BankMain",
     "ShortName": "BankMain",
     "Path": "BankMain.bnk",
     "Media": [
+     {
+      "Id": "12306844",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Lightbeam_Cast.wav",
+      "CachePath": "0E/{0E6049AE-84C2-DB04-4EE0-9E320E8F0E86}.wem"
+     },
+     {
+      "Id": "76410846",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Firewall_Cast.wav",
+      "CachePath": "70/{70C18BE8-F469-8576-06B2-03E75CB351F7}.wem"
+     },
+     {
+      "Id": "135897028",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Gaurdianspirit_Cast.wav",
+      "CachePath": "B7/{B7C79F1B-E19C-92BB-CA18-E8B4B404342A}.wem"
+     },
+     {
+      "Id": "186125483",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Ui_MouseClick.wav",
+      "CachePath": "3B/{3B61F72C-33B7-B767-F63C-CAA4479CE927}.wem"
+     },
      {
       "Id": "195260871",
       "Language": "SFX",
@@ -54,6 +86,14 @@
       "Location": "Memory",
       "ShortName": "Sfx_Player_Range_Thunder_Ready_Loop.wav",
       "CachePath": "4F/{4F351ED3-1FC6-C583-A920-B8F94BB7AEAF}.wem"
+     },
+     {
+      "Id": "360501858",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Gaurdianspirit_Loop.wav",
+      "CachePath": "D0/{D00805BA-77EF-112E-3E66-F16F45A6D2E4}.wem"
      },
      {
       "Id": "388576457",
@@ -104,12 +144,44 @@
       "CachePath": "5B/{5BD8E02F-8942-F37E-5EAE-4F4F387E2633}.wem"
      },
      {
+      "Id": "560842875",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Firewall_Loop.wav",
+      "CachePath": "3E/{3E0D9FF0-D955-D01A-BDE9-03D21005C5BB}.wem"
+     },
+     {
+      "Id": "580627274",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Melee_Sword_Whoosh_02.wav",
+      "CachePath": "07/{07EB8860-F28C-6C7C-D5FB-0E9AC714E4BF}.wem"
+     },
+     {
+      "Id": "637998478",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Melee_Sword_Whoosh_01.wav",
+      "CachePath": "70/{70FC33F9-9246-FD8E-9426-CC41DB0B8009}.wem"
+     },
+     {
       "Id": "639882568",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Sfx_Player_Cast_Button_03.wav",
       "CachePath": "86/{8676AD7A-EFF8-6934-A614-AB6DA984043D}.wem"
+     },
+     {
+      "Id": "640230904",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Icestorm_Cast.wav",
+      "CachePath": "A7/{A74CF54C-534B-A9F8-3249-6EF655D341AB}.wem"
      },
      {
       "Id": "729105472",
@@ -152,12 +224,36 @@
       "CachePath": "ED/{ED852D5D-1C42-81CA-0840-1F275E4DFC47}.wem"
      },
      {
+      "Id": "846647222",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Melee_Sword_Whoosh_04.wav",
+      "CachePath": "B4/{B471E7D5-3D11-33BD-556B-82655B2C2E3F}.wem"
+     },
+     {
       "Id": "890369340",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Sfx_Player_Range_Fire_End.wav",
       "CachePath": "F1/{F10860C6-6335-7DEA-3F12-53462D19F35E}.wem"
+     },
+     {
+      "Id": "897161034",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Melee_Sword_Whoosh_03.wav",
+      "CachePath": "2E/{2ED8E4F4-DA7C-F6DC-AD4F-B06D9614919E}.wem"
+     },
+     {
+      "Id": "899456662",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Icestorm_Loop_01.wav",
+      "CachePath": "8C/{8C881488-320A-045B-B9B2-D2239DA15095}.wem"
      },
      {
       "Id": "919186472",
@@ -184,12 +280,36 @@
       "CachePath": "AA/{AA5B4E2B-0951-3B3F-188E-48504A80AF82}.wem"
      },
      {
+      "Id": "995143563",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Push_Cast.wav",
+      "CachePath": "47/{47EC537F-4E30-3553-B0F2-5ED35EC3504D}.wem"
+     },
+     {
       "Id": "1017066739",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Bgm_Dummy_MainTitle.wav",
       "CachePath": "68/{68862E28-1FCF-9508-60B2-48F9628C87E5}.wem"
+     },
+     {
+      "Id": "1024437499",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Icestorm_Cast_02.wav",
+      "CachePath": "45/{45D9CEA8-C269-0EE4-CD98-FD94394FC271}.wem"
+     },
+     {
+      "Id": "1034363424",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sfx_Player_Spell_Icestorm_Loop_02.wav",
+      "CachePath": "D5/{D51D8015-872B-EA28-E209-D8E0F9AD13F0}.wem"
      },
      {
       "Id": "1046122808",
@@ -332,6 +452,29 @@
       ]
      },
      {
+      "Id": "2803404595",
+      "Name": "Play_Sfx_Player_Melee_Sword_Whoosh",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Melee\\Play_Sfx_Player_Melee_Sword_Whoosh",
+      "GUID": "{4DD5596D-1BF7-4839-949D-FB7231C333E6}",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0.25072327",
+      "MediaRefs": [
+       {
+        "Id": "580627274"
+       },
+       {
+        "Id": "637998478"
+       },
+       {
+        "Id": "846647222"
+       },
+       {
+        "Id": "897161034"
+       }
+      ]
+     },
+     {
       "Id": "4189576160",
       "Name": "Play_Sfx_Player_Range_Fire_End",
       "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Range\\Play_Sfx_Player_Range_Fire_End",
@@ -461,6 +604,57 @@
       ]
      },
      {
+      "Id": "3194123681",
+      "Name": "Play_Sfx_Player_Spell_Firewall",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Play_Sfx_Player_Spell_Firewall",
+      "GUID": "{88C51EE5-4AC8-4813-A05E-9B64AC3715B4}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "76410846"
+       },
+       {
+        "Id": "560842875"
+       }
+      ]
+     },
+     {
+      "Id": "2685515267",
+      "Name": "Play_Sfx_Player_Spell_Gaurdianspirit_Cast",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Play_Sfx_Player_Spell_Gaurdianspirit_Cast",
+      "GUID": "{0E199488-0399-4C5C-AAA0-0ACE8D565BAD}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.554625",
+      "DurationMax": "2.554625",
+      "MediaRefs": [
+       {
+        "Id": "135897028"
+       }
+      ]
+     },
+     {
+      "Id": "1010764456",
+      "Name": "Play_Sfx_Player_Spell_Gaurdianspirit_Loop",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Play_Sfx_Player_Spell_Gaurdianspirit_Loop",
+      "GUID": "{229DF481-99C3-4A2E-BD78-7505C83DCE6C}",
+      "DurationType": "OneShot",
+      "DurationMin": "5.665042",
+      "DurationMax": "5.665042",
+      "MediaRefs": [
+       {
+        "Id": "360501858"
+       }
+      ],
+      "AuxBusRefs": [
+       {
+        "Id": "348963605",
+        "Name": "Reverb",
+        "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Sfx\\Player\\Reverb",
+        "GUID": "{3F8CAC12-9779-4E4C-855E-8DDA4FC29C55}"
+       }
+      ]
+     },
+     {
       "Id": "3736043187",
       "Name": "Play_Sfx_Player_Spell_Heal",
       "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Play_Sfx_Player_Spell_Heal",
@@ -471,6 +665,52 @@
       "MediaRefs": [
        {
         "Id": "199008611"
+       }
+      ]
+     },
+     {
+      "Id": "2755194937",
+      "Name": "Play_Sfx_Player_Spell_Icestorm_01",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Play_Sfx_Player_Spell_Icestorm_01",
+      "GUID": "{DDFAFE74-6DC7-411C-8930-56729C348700}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "640230904"
+       },
+       {
+        "Id": "899456662"
+       },
+       {
+        "Id": "1034363424"
+       }
+      ]
+     },
+     {
+      "Id": "2755194938",
+      "Name": "Play_Sfx_Player_Spell_Icestorm_02",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Play_Sfx_Player_Spell_Icestorm_02",
+      "GUID": "{CC520EA8-7F17-4383-A9D1-FCD6F7DCA3B4}",
+      "DurationType": "OneShot",
+      "DurationMin": "6.3591876",
+      "DurationMax": "6.3591876",
+      "MediaRefs": [
+       {
+        "Id": "1024437499"
+       }
+      ]
+     },
+     {
+      "Id": "3822606624",
+      "Name": "Play_Sfx_Player_Spell_Lightbeam_Cast",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Play_Sfx_Player_Spell_Lightbeam_Cast",
+      "GUID": "{E73A9F9B-71EB-464B-8A51-B21E600B9388}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.5067905",
+      "DurationMax": "1.5067905",
+      "MediaRefs": [
+       {
+        "Id": "12306844"
        }
       ]
      },
@@ -503,6 +743,20 @@
       ]
      },
      {
+      "Id": "2481457237",
+      "Name": "Play_Sfx_Player_Spell_Push_Cast",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Play_Sfx_Player_Spell_Push_Cast",
+      "GUID": "{06A7F2CA-BA9F-4AAE-A19A-37788C365495}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.9225833",
+      "DurationMax": "1.9225833",
+      "MediaRefs": [
+       {
+        "Id": "995143563"
+       }
+      ]
+     },
+     {
       "Id": "3010407773",
       "Name": "Play_Sfx_Player_Spell_Spike",
       "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Play_Sfx_Player_Spell_Spike",
@@ -517,6 +771,20 @@
       ]
      },
      {
+      "Id": "3896565648",
+      "Name": "Play_Sfx_Ui_MouseClick",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Generic\\Play_Sfx_Ui_MouseClick",
+      "GUID": "{229D584A-5A54-4EB4-92D5-37F86D9AEDA2}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.13602084",
+      "DurationMax": "0.13602084",
+      "MediaRefs": [
+       {
+        "Id": "186125483"
+       }
+      ]
+     },
+     {
       "Id": "93889357",
       "Name": "Stop_Bgm_Dummy_Stage01",
       "ObjectPath": "\\Events\\Default Work Unit\\Bgm\\Stop_Bgm_Dummy_Stage01",
@@ -525,10 +793,40 @@
       "DurationType": "OneShot",
       "DurationMin": "0",
       "DurationMax": "0"
+     },
+     {
+      "Id": "1083501015",
+      "Name": "Stop_Sfx_Player_Spell_Firewall_LoopEnd",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Stop_Sfx_Player_Spell_Firewall_LoopEnd",
+      "GUID": "{3AD21A52-B4CE-47A5-8323-C42A766D20C4}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "3500558130",
+      "Name": "Stop_Sfx_Player_Spell_Gaurdianspirit_Loop",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Stop_Sfx_Player_Spell_Gaurdianspirit_Loop",
+      "GUID": "{E90E06D5-AF2A-4DCA-AD37-CAA5D4626E87}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "253396559",
+      "Name": "Stop_Sfx_Player_Spell_Icestorm_LoopEnd",
+      "ObjectPath": "\\Events\\Default Work Unit\\Sfx_Spell\\Stop_Sfx_Player_Spell_Icestorm_LoopEnd",
+      "GUID": "{25FB4CE6-E67B-47C7-9DFF-AFB53FA88672}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
      }
     ]
    }
   ],
-  "FileHash": "{E9C3EBCB-3C66-9949-A44F-438D7902033B}"
+  "FileHash": "{002793B8-A588-E96C-84FE-915229151EF2}"
  }
 }

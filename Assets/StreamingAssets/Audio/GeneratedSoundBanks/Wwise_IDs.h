@@ -22,6 +22,7 @@ namespace AK
         static const AkUniqueID PLAY_SFX_PLAYER_CAST_BUTTON_05 = 113452690U;
         static const AkUniqueID PLAY_SFX_PLAYER_CAST_BUTTON_06 = 113452689U;
         static const AkUniqueID PLAY_SFX_PLAYER_CAST_START = 4230574424U;
+        static const AkUniqueID PLAY_SFX_PLAYER_MELEE_SWORD_WHOOSH = 2803404595U;
         static const AkUniqueID PLAY_SFX_PLAYER_RANGE_FIRE_END = 4189576160U;
         static const AkUniqueID PLAY_SFX_PLAYER_RANGE_FIRE_READY = 1802017886U;
         static const AkUniqueID PLAY_SFX_PLAYER_RANGE_FIRE_SHOT = 3384474145U;
@@ -31,11 +32,22 @@ namespace AK
         static const AkUniqueID PLAY_SFX_PLAYER_RANGE_STONE_SHOT = 3098527288U;
         static const AkUniqueID PLAY_SFX_PLAYER_RANGE_THUNDER_READY = 3694778788U;
         static const AkUniqueID PLAY_SFX_PLAYER_RANGE_THUNDER_SHOT = 3382960767U;
+        static const AkUniqueID PLAY_SFX_PLAYER_SPELL_FIREWALL = 3194123681U;
+        static const AkUniqueID PLAY_SFX_PLAYER_SPELL_GAURDIANSPIRIT_CAST = 2685515267U;
+        static const AkUniqueID PLAY_SFX_PLAYER_SPELL_GAURDIANSPIRIT_LOOP = 1010764456U;
         static const AkUniqueID PLAY_SFX_PLAYER_SPELL_HEAL = 3736043187U;
+        static const AkUniqueID PLAY_SFX_PLAYER_SPELL_ICESTORM_01 = 2755194937U;
+        static const AkUniqueID PLAY_SFX_PLAYER_SPELL_ICESTORM_02 = 2755194938U;
+        static const AkUniqueID PLAY_SFX_PLAYER_SPELL_LIGHTBEAM_CAST = 3822606624U;
         static const AkUniqueID PLAY_SFX_PLAYER_SPELL_METEOR_IMPACT = 2051525014U;
         static const AkUniqueID PLAY_SFX_PLAYER_SPELL_METEOR_START = 244784452U;
+        static const AkUniqueID PLAY_SFX_PLAYER_SPELL_PUSH_CAST = 2481457237U;
         static const AkUniqueID PLAY_SFX_PLAYER_SPELL_SPIKE = 3010407773U;
+        static const AkUniqueID PLAY_SFX_UI_MOUSECLICK = 3896565648U;
         static const AkUniqueID STOP_BGM_DUMMY_STAGE01 = 93889357U;
+        static const AkUniqueID STOP_SFX_PLAYER_SPELL_FIREWALL_LOOPEND = 1083501015U;
+        static const AkUniqueID STOP_SFX_PLAYER_SPELL_GAURDIANSPIRIT_LOOP = 3500558130U;
+        static const AkUniqueID STOP_SFX_PLAYER_SPELL_ICESTORM_LOOPEND = 253396559U;
     } // namespace EVENTS
 
     namespace BANKS
@@ -55,6 +67,11 @@ namespace AK
         static const AkUniqueID STINGER = 78360149U;
         static const AkUniqueID UI = 1551306167U;
     } // namespace BUSSES
+
+    namespace AUX_BUSSES
+    {
+        static const AkUniqueID REVERB = 348963605U;
+    } // namespace AUX_BUSSES
 
     namespace AUDIO_DEVICES
     {

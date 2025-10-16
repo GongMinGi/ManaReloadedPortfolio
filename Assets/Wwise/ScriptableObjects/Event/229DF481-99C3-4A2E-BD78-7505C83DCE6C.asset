@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbba56e12489cb429d96054657c897f, type: 3}
+  m_Name: 229DF481-99C3-4A2E-BD78-7505C83DCE6C
+  m_EditorClassIdentifier: 
+  objectName: Play_Sfx_Player_Spell_Gaurdianspirit_Loop
+  id: 1010764456
+  guid: 229DF481-99C3-4A2E-BD78-7505C83DCE6C
+  IsInUserDefinedSoundBank: 1

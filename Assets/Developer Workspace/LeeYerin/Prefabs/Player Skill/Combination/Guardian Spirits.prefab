@@ -622,6 +622,7 @@ GameObject:
   - component: {fileID: 2243378747337204956}
   - component: {fileID: 3459322726996612638}
   - component: {fileID: 3156169947673572976}
+  - component: {fileID: 3537661342167314995}
   m_Layer: 0
   m_Name: Guardian Spirit
   m_TagString: Untagged
@@ -760,6 +761,22 @@ MonoBehaviour:
   enemyL:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &3537661342167314995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6851289967657569289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a01d20866b69944bc7dee9aab98c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLaunchEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 0607427f566c7944191a9e9953a0ebf0, type: 2}
 --- !u!1 &7484713928106130397
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +788,7 @@ GameObject:
   - component: {fileID: 5349184896888497484}
   - component: {fileID: 1112871499436098907}
   - component: {fileID: 3379912040428739202}
+  - component: {fileID: 131470926471002529}
   m_Layer: 0
   m_Name: Guardian Spirits
   m_TagString: Untagged
@@ -844,3 +862,19 @@ MonoBehaviour:
   - {fileID: 6856392567658747897}
   damage: 150
   lifeTime: 6
+--- !u!114 &131470926471002529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7484713928106130397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a01d20866b69944bc7dee9aab98c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLaunchEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d30af7b98fbedee44a8e881350222f7e, type: 2}

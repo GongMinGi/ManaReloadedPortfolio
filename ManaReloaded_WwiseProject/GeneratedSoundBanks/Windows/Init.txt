@@ -8,6 +8,12 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	2376328173	Monster			\Default Work Unit\Master\Sfx\Monster	
 	4056684167	Master			\Default Work Unit\Master	
 
+Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	348963605	Reverb			\Default Work Unit\Master\Sfx\Player\Reverb	
+
+Effect plug-ins	ID	Name	Type				Notes
+	1259256166	New_RoomVerb	Wwise RoomVerb			
+
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			
 	3859886410	System	System			

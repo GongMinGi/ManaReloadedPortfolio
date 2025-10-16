@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8310677412732755391}
   - component: {fileID: 3243814491303584677}
   - component: {fileID: 4597946207220317269}
+  - component: {fileID: 3619760179752972589}
   m_Layer: 0
   m_Name: LightBeamProjectile
   m_TagString: Untagged
@@ -157,6 +158,22 @@ MonoBehaviour:
   releaseTime: 0
   pool: {fileID: 0}
   magicCircle: {fileID: 55941729293443744}
+--- !u!114 &3619760179752972589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3424647644552796872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a01d20866b69944bc7dee9aab98c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLaunchEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 527d4d29c272227408e5e36d3351e678, type: 2}
 --- !u!1001 &6480128877274458969
 PrefabInstance:
   m_ObjectHideFlags: 0
