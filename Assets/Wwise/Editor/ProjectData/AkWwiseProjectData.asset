@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 186e5f416507af45807e7899b72af7f9
     GuidInternal: 
-    m_lastTime: -8584429927034164166
+    m_lastTime: -8584410098190061579
     List:
     - name: Ambience
       guid: 3fbe480b475b90489b090a8a1c80a4e9
@@ -131,6 +131,29 @@ MonoBehaviour:
         ObjectType: 2
         guid: a651e6787d552141ab5b7f5fca84d4fd
       Path: Master-Mixer Hierarchy\Default Work Unit\Master\Sfx\Player
+    - name: Reverb
+      guid: 12ac8c3f79974c4e855e8dda4fc29c55
+      id: 348963605
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 186e5f416507af45807e7899b72af7f9
+      - ElementName: Master
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Sfx
+        ObjectType: 2
+        guid: 7e13d979eb85c440824f0503ee0cfa46
+      - ElementName: Player
+        ObjectType: 2
+        guid: a651e6787d552141ab5b7f5fca84d4fd
+      - ElementName: Reverb
+        ObjectType: 1
+        guid: 12ac8c3f79974c4e855e8dda4fc29c55
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master\Sfx\Player\Reverb
     - name: Sfx
       guid: 7e13d979eb85c440824f0503ee0cfa46
       id: 393239870
@@ -197,7 +220,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 09e13529a604244e997c15901e6c6099
     GuidInternal: 
-    m_lastTime: -8584425623666763642
+    m_lastTime: -8584410159789899940
     List:
     - name: BankMain
       guid: 02075c9e74fdf2459031c5185b1beddb
@@ -225,7 +248,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 9659267799b4a4408b8781215ffa905f
     GuidInternal: 
-    m_lastTime: -8584421241317453615
+    m_lastTime: -8584410097512377095
     List:
     - name: Bgm
       guid: 98a035c8cb5d724f8f788b399bfc3e8f
@@ -424,6 +447,26 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 1.2239584
       minDuration: 1.2239584
+    - name: Play_Sfx_Player_Melee_Sword_Whoosh
+      guid: 6d59d54df71b3948949dfb7231c333e6
+      id: 2803404595
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Melee
+        ObjectType: 4
+        guid: 6c489c8358490b4e90b5346647b856c7
+      - ElementName: Play_Sfx_Player_Melee_Sword_Whoosh
+        ObjectType: 3
+        guid: 6d59d54df71b3948949dfb7231c333e6
+      Path: Events\Default Work Unit\Sfx_Melee\Play_Sfx_Player_Melee_Sword_Whoosh
+      maxAttenuation: 0
+      maxDuration: 0.25072327
+      minDuration: 0
     - name: Play_Sfx_Player_Range_Fire_End
       guid: bd449f257dbb144090eb9638152aa9a5
       id: 4189576160
@@ -604,6 +647,66 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 2.8275208
       minDuration: 2.8275208
+    - name: Play_Sfx_Player_Spell_Firewall
+      guid: e51ec588c84a1348a05e9b64ac3715b4
+      id: 3194123681
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Firewall
+        ObjectType: 3
+        guid: e51ec588c84a1348a05e9b64ac3715b4
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Firewall
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Play_Sfx_Player_Spell_Gaurdianspirit_Cast
+      guid: 8894190e99035c4caaa00ace8d565bad
+      id: 2685515267
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Gaurdianspirit_Cast
+        ObjectType: 3
+        guid: 8894190e99035c4caaa00ace8d565bad
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Gaurdianspirit_Cast
+      maxAttenuation: 0
+      maxDuration: 2.554625
+      minDuration: 2.554625
+    - name: Play_Sfx_Player_Spell_Gaurdianspirit_Loop
+      guid: 81f49d22c3992e4abd787505c83dce6c
+      id: 1010764456
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Gaurdianspirit_Loop
+        ObjectType: 3
+        guid: 81f49d22c3992e4abd787505c83dce6c
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Gaurdianspirit_Loop
+      maxAttenuation: 0
+      maxDuration: 5.665042
+      minDuration: 5.665042
     - name: Play_Sfx_Player_Spell_Heal
       guid: 6baab96c960a954c98744af6d0438465
       id: 3736043187
@@ -624,6 +727,66 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 6.526979
       minDuration: 6.526979
+    - name: Play_Sfx_Player_Spell_Icestorm_01
+      guid: 74fefaddc76d1c41893056729c348700
+      id: 2755194937
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Icestorm_01
+        ObjectType: 3
+        guid: 74fefaddc76d1c41893056729c348700
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Icestorm_01
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Play_Sfx_Player_Spell_Icestorm_02
+      guid: a80e52cc177f8343a9d1fcd6f7dca3b4
+      id: 2755194938
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Icestorm_02
+        ObjectType: 3
+        guid: a80e52cc177f8343a9d1fcd6f7dca3b4
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Icestorm_02
+      maxAttenuation: 0
+      maxDuration: 6.3591876
+      minDuration: 6.3591876
+    - name: Play_Sfx_Player_Spell_Lightbeam_Cast
+      guid: 9b9f3ae7eb714b468a51b21e600b9388
+      id: 3822606624
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Lightbeam_Cast
+        ObjectType: 3
+        guid: 9b9f3ae7eb714b468a51b21e600b9388
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Lightbeam_Cast
+      maxAttenuation: 0
+      maxDuration: 1.5067905
+      minDuration: 1.5067905
     - name: Play_Sfx_Player_Spell_Meteor_Impact
       guid: 66c420eb6ac67f4a8fe18ba8d901e00c
       id: 2051525014
@@ -664,6 +827,26 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 1.9665359
       minDuration: 1.9665359
+    - name: Play_Sfx_Player_Spell_Push_Cast
+      guid: caf2a7069fbaae4aa19a37788c365495
+      id: 2481457237
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Play_Sfx_Player_Spell_Push_Cast
+        ObjectType: 3
+        guid: caf2a7069fbaae4aa19a37788c365495
+      Path: Events\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Push_Cast
+      maxAttenuation: 0
+      maxDuration: 1.9225833
+      minDuration: 1.9225833
     - name: Play_Sfx_Player_Spell_Spike
       guid: 165526b1ffca4547a4f9de44746c78ca
       id: 3010407773
@@ -684,6 +867,26 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 3.1964376
       minDuration: 3.1964376
+    - name: Play_Sfx_Ui_MouseClick
+      guid: 4a589d22545ab44e92d537f86d9aeda2
+      id: 3896565648
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Generic
+        ObjectType: 4
+        guid: cf3161eaf0c11d479397b09f15ca45d3
+      - ElementName: Play_Sfx_Ui_MouseClick
+        ObjectType: 3
+        guid: 4a589d22545ab44e92d537f86d9aeda2
+      Path: Events\Default Work Unit\Sfx_Generic\Play_Sfx_Ui_MouseClick
+      maxAttenuation: 0
+      maxDuration: 0.13602084
+      minDuration: 0.13602084
     - name: Sfx_Generic
       guid: cf3161eaf0c11d479397b09f15ca45d3
       id: 381113440
@@ -698,6 +901,23 @@ MonoBehaviour:
         ObjectType: 4
         guid: cf3161eaf0c11d479397b09f15ca45d3
       Path: Events\Default Work Unit\Sfx_Generic
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Sfx_Melee
+      guid: 6c489c8358490b4e90b5346647b856c7
+      id: 3206128171
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Melee
+        ObjectType: 4
+        guid: 6c489c8358490b4e90b5346647b856c7
+      Path: Events\Default Work Unit\Sfx_Melee
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -752,6 +972,66 @@ MonoBehaviour:
         ObjectType: 3
         guid: dad32dc09802ed4d9676e96006ebf5cb
       Path: Events\Default Work Unit\Bgm\Stop_Bgm_Dummy_Stage01
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Stop_Sfx_Player_Spell_Firewall_LoopEnd
+      guid: 521ad23aceb4a5478323c42a766d20c4
+      id: 1083501015
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Stop_Sfx_Player_Spell_Firewall_LoopEnd
+        ObjectType: 3
+        guid: 521ad23aceb4a5478323c42a766d20c4
+      Path: Events\Default Work Unit\Sfx_Spell\Stop_Sfx_Player_Spell_Firewall_LoopEnd
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Stop_Sfx_Player_Spell_Gaurdianspirit_Loop
+      guid: d5060ee92aafca4dad37caa5d4626e87
+      id: 3500558130
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Stop_Sfx_Player_Spell_Gaurdianspirit_Loop
+        ObjectType: 3
+        guid: d5060ee92aafca4dad37caa5d4626e87
+      Path: Events\Default Work Unit\Sfx_Spell\Stop_Sfx_Player_Spell_Gaurdianspirit_Loop
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Stop_Sfx_Player_Spell_Icestorm_LoopEnd
+      guid: e64cfb257be6c7479dffafb53fa88672
+      id: 253396559
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 9659267799b4a4408b8781215ffa905f
+      - ElementName: Sfx_Spell
+        ObjectType: 4
+        guid: b04f7dfb5a1c83458be8ce6960e73eb6
+      - ElementName: Stop_Sfx_Player_Spell_Icestorm_LoopEnd
+        ObjectType: 3
+        guid: e64cfb257be6c7479dffafb53fa88672
+      Path: Events\Default Work Unit\Sfx_Spell\Stop_Sfx_Player_Spell_Icestorm_LoopEnd
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -812,7 +1092,7 @@ MonoBehaviour:
     m_lastTime: -8584445458468015602
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 0600000007000000080000000b0000000d0000000e0000000f0000001500000016000000
+  ExpandedWaapiItemIds: 060000000700000008000000090000000b0000000c0000000d0000000e0000000f0000001100000012000000140000001500000016000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

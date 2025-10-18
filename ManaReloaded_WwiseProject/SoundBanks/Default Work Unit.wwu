@@ -8,6 +8,7 @@
 						<ObjectRef Name="Sfx_Spell" ID="{FB7D4FB0-1C5A-4583-8BE8-CE6960E73EB6}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Sfx_Generic" ID="{EA6131CF-C1F0-471D-9397-B09F15CA45D3}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Sfx_Range" ID="{89E8E3A1-CFB0-47DB-8241-C9BCEAD62272}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Sfx_Melee" ID="{839C486C-4958-4E0B-90B5-346647B856C7}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Bgm" ID="{C835A098-5DCB-4F72-8F78-8B399BFC3E8F}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>

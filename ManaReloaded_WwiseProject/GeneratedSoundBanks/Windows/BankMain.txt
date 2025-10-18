@@ -7,45 +7,72 @@ Event	ID	Name			Wwise Object Path	Notes
 	113452693	Play_Sfx_Player_Cast_Button_02			\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_02	
 	113452694	Play_Sfx_Player_Cast_Button_01			\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Button_01	
 	244784452	Play_Sfx_Player_Spell_Meteor_Start			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Meteor_Start	
+	253396559	Stop_Sfx_Player_Spell_Icestorm_LoopEnd			\Default Work Unit\Sfx_Spell\Stop_Sfx_Player_Spell_Icestorm_LoopEnd	
 	317117249	Play_Sfx_Player_Range_Light_Shot			\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Light_Shot	
+	1010764456	Play_Sfx_Player_Spell_Gaurdianspirit_Loop			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Gaurdianspirit_Loop	
+	1083501015	Stop_Sfx_Player_Spell_Firewall_LoopEnd			\Default Work Unit\Sfx_Spell\Stop_Sfx_Player_Spell_Firewall_LoopEnd	
 	1306791755	Play_Bgm_Dummy_Stage01			\Default Work Unit\Bgm\Play_Bgm_Dummy_Stage01	
 	1802017886	Play_Sfx_Player_Range_Fire_Ready			\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Fire_Ready	
 	1990083467	Play_Bgm_Dummy_MainTitle			\Default Work Unit\Bgm\Play_Bgm_Dummy_MainTitle	
 	2051525014	Play_Sfx_Player_Spell_Meteor_Impact			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Meteor_Impact	
+	2481457237	Play_Sfx_Player_Spell_Push_Cast			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Push_Cast	
+	2685515267	Play_Sfx_Player_Spell_Gaurdianspirit_Cast			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Gaurdianspirit_Cast	
+	2755194937	Play_Sfx_Player_Spell_Icestorm_01			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Icestorm_01	
+	2755194938	Play_Sfx_Player_Spell_Icestorm_02			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Icestorm_02	
+	2803404595	Play_Sfx_Player_Melee_Sword_Whoosh			\Default Work Unit\Sfx_Melee\Play_Sfx_Player_Melee_Sword_Whoosh	
 	3010407773	Play_Sfx_Player_Spell_Spike			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Spike	
 	3098527288	Play_Sfx_Player_Range_Stone_Shot			\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Stone_Shot	
 	3186217726	Play_Sfx_Player_Range_Light_Ready			\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Light_Ready	
+	3194123681	Play_Sfx_Player_Spell_Firewall			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Firewall	
 	3327860805	Play_Sfx_Player_Range_Stone_Ready			\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Stone_Ready	
 	3382960767	Play_Sfx_Player_Range_Thunder_Shot			\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Thunder_Shot	
 	3384474145	Play_Sfx_Player_Range_Fire_Shot			\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Fire_Shot	
+	3500558130	Stop_Sfx_Player_Spell_Gaurdianspirit_Loop			\Default Work Unit\Sfx_Spell\Stop_Sfx_Player_Spell_Gaurdianspirit_Loop	
 	3694778788	Play_Sfx_Player_Range_Thunder_Ready			\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Thunder_Ready	
 	3736043187	Play_Sfx_Player_Spell_Heal			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Heal	
+	3822606624	Play_Sfx_Player_Spell_Lightbeam_Cast			\Default Work Unit\Sfx_Spell\Play_Sfx_Player_Spell_Lightbeam_Cast	
+	3896565648	Play_Sfx_Ui_MouseClick			\Default Work Unit\Sfx_Generic\Play_Sfx_Ui_MouseClick	
 	4189576160	Play_Sfx_Player_Range_Fire_End			\Default Work Unit\Sfx_Range\Play_Sfx_Player_Range_Fire_End	
 	4230574424	Play_Sfx_Player_Cast_Start			\Default Work Unit\Sfx_Generic\Play_Sfx_Player_Cast_Start	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	12306844	Sfx_Player_Spell_Lightbeam_Cast	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\0E\{0E6049AE-84C2-DB04-4EE0-9E320E8F0E86}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Lightbeam_Cast		17668
+	76410846	Sfx_Player_Spell_Firewall_Cast	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\70\{70C18BE8-F469-8576-06B2-03E75CB351F7}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Firewall_Cast		24170
+	135897028	Sfx_Player_Spell_Gaurdianspirit_Cast	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\B7\{B7C79F1B-E19C-92BB-CA18-E8B4B404342A}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Gaurdianspirit_Cast		55525
+	186125483	Sfx_Ui_MouseClick	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\3B\{3B61F72C-33B7-B767-F63C-CAA4479CE927}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Generic\Sfx_Ui_MouseClick		7528
 	195260871	Sfx_Player_Range_Thunder_Ready	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\B2\{B2DAF7FA-59EE-760B-AEB0-656BCE3A8983}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Thunder_Ready		20194
 	199008611	Sfx_Player_Spell_Heal	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\15\{150E6541-7D6B-66E3-2868-EDDC79C52A90}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Heal		98399
 	256483112	Sfx_Player_Spell_Meteor_Start	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\9D\{9D676CC1-70D5-63C4-9624-0A342DDA78FF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Meteor_Start		22022
 	285390691	Sfx_Player_Cast_Button_06	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\57\{57FA4D41-F94A-E70D-65E9-D454CCA0B996}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Generic\Sfx_Player_Cast_Button_06		18976
 	321400083	Sfx_Player_Range_Thunder_Ready_Loop	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\4F\{4F351ED3-1FC6-C583-A920-B8F94BB7AEAF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Thunder_Ready_Loop		37279
+	360501858	Sfx_Player_Spell_Gaurdianspirit_Loop	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\D0\{D00805BA-77EF-112E-3E66-F16F45A6D2E4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Gaurdianspirit_Loop		9032
 	388576457	Sfx_Player_Range_Stone_Ready	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\C8\{C8B620FE-F6E0-C0B5-E1D0-D46164A809C5}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Stone_Ready		22453
 	460832648	Bgm_Dummy_Stage01	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\BB\{BBF1AEB4-39B8-1032-78EE-9C0E4E7A84EE}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Bgm\Bgm_Dummy_Stage01		2163145
 	465528905	Sfx_Player_Range_Fire_Loop	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\C6\{C67DC587-65D5-0FB2-2652-84007A2EAC4D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Fire_Loop		14165
 	535745719	Sfx_Player_Cast_Button_02	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\C1\{C171F703-712B-0989-51A2-4870EE85A6DF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Generic\Sfx_Player_Cast_Button_02		22072
 	554049364	Sfx_Player_Range_Stone_Shot	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\FB\{FBEDA41B-FAF6-BA7D-8912-1C037404E4D3}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Stone_Shot		21880
 	555933638	Sfx_Player_Range_Light_Ready	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\5B\{5BD8E02F-8942-F37E-5EAE-4F4F387E2633}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Light_Ready		31317
+	560842875	Sfx_Player_Spell_Firewall_Loop	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\3E\{3E0D9FF0-D955-D01A-BDE9-03D21005C5BB}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Firewall_Loop		103049
+	580627274	Sfx_Player_Melee_Sword_Whoosh_02	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\07\{07EB8860-F28C-6C7C-D5FB-0E9AC714E4BF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Melee\Sfx_Player_Melee_Sword_Whoosh_02		2586
+	637998478	Sfx_Player_Melee_Sword_Whoosh_01	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\70\{70FC33F9-9246-FD8E-9426-CC41DB0B8009}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Melee\Sfx_Player_Melee_Sword_Whoosh_01		2940
 	639882568	Sfx_Player_Cast_Button_03	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\86\{8676AD7A-EFF8-6934-A614-AB6DA984043D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Generic\Sfx_Player_Cast_Button_03		21784
+	640230904	Sfx_Player_Spell_Icestorm_Cast_01	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\A7\{A74CF54C-534B-A9F8-3249-6EF655D341AB}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Icestorm_Cast_01		22267
 	729105472	Sfx_Player_Range_Thunder_Shot	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\27\{27649D1A-E229-57E1-9467-B4EB29C0A7E1}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Thunder_Shot		41994
 	730362341	Sfx_Player_Range_Fire_Shot	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\66\{66C6E83D-2901-F8D4-4F0B-811FCE145C52}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Fire_Shot		20012
 	733546473	Sfx_Player_Spell_Spike	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\3A\{3A228AEE-64D6-774F-6791-47F9DE84D8B2}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Spike		66728
 	780305106	Sfx_Player_Cast_Button_05	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\EA\{EA60924F-FEE0-F663-9F2B-4AAD4B0BE525}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Generic\Sfx_Player_Cast_Button_05		21352
 	839467173	Sfx_Player_Spell_Meteor_Impact	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\ED\{ED852D5D-1C42-81CA-0840-1F275E4DFC47}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Meteor_Impact		98612
+	846647222	Sfx_Player_Melee_Sword_Whoosh_04	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\B4\{B471E7D5-3D11-33BD-556B-82655B2C2E3F}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Melee\Sfx_Player_Melee_Sword_Whoosh_04		3180
 	890369340	Sfx_Player_Range_Fire_End	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\F1\{F10860C6-6335-7DEA-3F12-53462D19F35E}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Fire_End		7071
+	897161034	Sfx_Player_Melee_Sword_Whoosh_03	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\2E\{2ED8E4F4-DA7C-F6DC-AD4F-B06D9614919E}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Melee\Sfx_Player_Melee_Sword_Whoosh_03		2899
+	899456662	Sfx_Player_Spell_Icestorm_Loop_01	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\8C\{8C881488-320A-045B-B9B2-D2239DA15095}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Icestorm_Loop_01		35775
 	919186472	Sfx_Player_Cast_Button_01	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\3B\{3BD6FCDB-D33E-3216-2694-CC134417D83F}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Generic\Sfx_Player_Cast_Button_01		21928
 	920033835	Sfx_Player_Cast_Button_04	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\12\{12057CBB-7026-60A7-13EB-313832EEFB40}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Generic\Sfx_Player_Cast_Button_04		22000
 	947236540	Sfx_Player_Range_Fire_Ready	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\AA\{AA5B4E2B-0951-3B3F-188E-48504A80AF82}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Fire_Ready		8480
+	995143563	Sfx_Player_Spell_Push_Cast	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\47\{47EC537F-4E30-3553-B0F2-5ED35EC3504D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Push_Cast		18297
 	1017066739	Bgm_Dummy_MainTitle	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\68\{68862E28-1FCF-9508-60B2-48F9628C87E5}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Bgm\Bgm_Dummy_MainTitle		1234982
+	1024437499	Sfx_Player_Spell_Icestorm_Cast_02	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\45\{45D9CEA8-C269-0EE4-CD98-FD94394FC271}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Icestorm_Cast_02		61696
+	1034363424	Sfx_Player_Spell_Icestorm_Loop_02	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\D5\{D51D8015-872B-EA28-E209-D8E0F9AD13F0}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Spell\Sfx_Player_Spell_Icestorm_Loop_02		26622
 	1046122808	Sfx_Player_Range_Light_Shot	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\22\{2283ABDE-6E59-AA4E-95F4-395B55543CA4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Range\Sfx_Player_Range_Light_Shot		50728
 	1058679197	Sfx_Player_Cast_Start	C:\Users\tlswl\Desktop\ManaReloaded\ManaReloaded_WwiseProject\.cache\C5\{C59AFF13-115F-6E48-4F7A-4769DD12F52C}.wem		\Actor-Mixer Hierarchy\Default Work Unit\Main\Sfx_Generic\Sfx_Player_Cast_Start		17740
 

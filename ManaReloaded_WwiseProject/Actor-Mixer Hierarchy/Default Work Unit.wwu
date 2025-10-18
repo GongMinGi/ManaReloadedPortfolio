@@ -114,6 +114,298 @@
 										<ActiveSource Name="Sfx_Player_Spell_Meteor" ID="{F51F4B18-C0FD-47DF-BAC5-C67C48067FA8}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<Sound Name="Sfx_Player_Spell_Firewall_Cast" ID="{1774A732-ECED-4796-9C04-499F3E725296}" ShortID="525321980">
+									<PropertyList>
+										<Property Name="EnableLoudnessNormalization" Type="bool" Value="True"/>
+										<Property Name="LoudnessNormalizationTarget" Type="Real64" Value="-17"/>
+										<Property Name="OverrideAnalysis" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Firewall_Cast" ID="{C7627A47-1E21-457C-8ACB-002F1E89E98F}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.109087195270173"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.226254923523322"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Firewall_Cast.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="76410846"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Firewall_Cast" ID="{C7627A47-1E21-457C-8ACB-002F1E89E98F}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Firewall_Loop" ID="{980F4F18-51A1-4D46-B1DC-8C7567FA586D}" ShortID="622880194">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Firewall_Loop" ID="{BDF7C310-DAD1-40D6-85AA-24235C9EC54C}">
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Firewall_Loop.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="560842875"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Firewall_Loop" ID="{BDF7C310-DAD1-40D6-85AA-24235C9EC54C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Icestorm_Cast_01" ID="{92B7F272-21AB-4446-A2EF-97674C25FE0A}" ShortID="507910553">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Icestorm_Cast" ID="{5431286B-0452-4EA4-8C65-A397745E0BB1}">
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Icestorm_Cast.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="640230904"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Icestorm_Cast" ID="{5431286B-0452-4EA4-8C65-A397745E0BB1}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Icestorm_Loop_01" ID="{49145628-CB61-4CCC-9C56-BD130EF7FBC7}" ShortID="265010300">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Icestorm_Loop_01" ID="{EED3C177-49F8-48B2-AC47-6A7205AE35EE}">
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Icestorm_Loop_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="899456662"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Icestorm_Loop_01" ID="{EED3C177-49F8-48B2-AC47-6A7205AE35EE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Icestorm_Loop_02" ID="{BA95623E-8F10-46A1-B8DB-C218806412F1}" ShortID="158227341">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Icestorm_Loop_02" ID="{CE19C5E5-1D97-4BEE-8285-37003C142E5C}">
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Icestorm_Loop_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1034363424"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Icestorm_Loop_02" ID="{CE19C5E5-1D97-4BEE-8285-37003C142E5C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Icestorm_Cast_02" ID="{8A397C3D-1E3F-4135-A54D-1D2D8F5CD993}" ShortID="234192453">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Icestorm_Cast_02" ID="{D8FCBF83-86D0-436F-81DE-8F5CFFB0FD1E}">
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Icestorm_Cast_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1024437499"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Icestorm_Cast_02" ID="{D8FCBF83-86D0-436F-81DE-8F5CFFB0FD1E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Lightbeam_Cast" ID="{1CFCC830-B90A-45E7-A853-771B68119C2E}" ShortID="818141350">
+									<PropertyList>
+										<Property Name="EnableLoudnessNormalization" Type="bool" Value="True"/>
+										<Property Name="LoudnessNormalizationTarget" Type="Real64" Value="-18"/>
+										<Property Name="OverrideAnalysis" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Lightbeam_Cast" ID="{658F5044-4CE0-42E9-A5A9-E0709F74FF9D}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.616317671816607"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.50679046181862"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Lightbeam_Cast.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="12306844"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Lightbeam_Cast" ID="{658F5044-4CE0-42E9-A5A9-E0709F74FF9D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Push_Cast" ID="{781948C4-6C84-46DF-AA80-2B5E517F929B}" ShortID="844125051">
+									<PropertyList>
+										<Property Name="EnableLoudnessNormalization" Type="bool" Value="True"/>
+										<Property Name="LoudnessNormalizationTarget" Type="Real64" Value="-17"/>
+										<Property Name="OverrideAnalysis" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Push_Cast" ID="{C952468F-5CB9-482E-92F8-B14A5380AEA6}">
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Push_Cast.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="995143563"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Push_Cast" ID="{C952468F-5CB9-482E-92F8-B14A5380AEA6}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Gaurdianspirit_Cast" ID="{17FB5AD5-4DD4-4034-AA7C-9D7CCC3A9C2A}" ShortID="942312470">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Gaurdianspirit_Cast" ID="{4C36D56B-4AE6-4636-AEE1-0812C60B4492}">
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Gaurdianspirit_Cast.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="135897028"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Gaurdianspirit_Cast" ID="{4C36D56B-4AE6-4636-AEE1-0812C60B4492}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Spell_Gaurdianspirit_Loop" ID="{315E36B7-2ECD-4C33-BCDF-7E9D15B15060}" ShortID="292592961">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="IsLoopingInfinite" Type="bool" Value="False"/>
+										<Property Name="LoopCount" Type="int32" Value="7"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{0068FDB0-C73A-4B84-8477-B6A55D239D41}">
+														<PropertyList>
+															<Property Name="Max" Type="Real64" Value="150"/>
+															<Property Name="Min" Type="Real64" Value="-150"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{FDE1B2B0-B2E2-416E-83C0-1BA2C532FED3}">
+														<PropertyList>
+															<Property Name="Max" Type="Real64" Value="5"/>
+															<Property Name="Min" Type="Real64" Value="-5"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Reverb" ID="{3F8CAC12-9779-4E4C-855E-8DDA4FC29C55}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Spell_Gaurdianspirit_Loop" ID="{6C027472-773A-424B-AE26-BC1491D81545}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.185428333683072"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.159056304003702"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Spell_Gaurdianspirit_Loop.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="360501858"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Spell_Gaurdianspirit_Loop" ID="{6C027472-773A-424B-AE26-BC1491D81545}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="Sfx_Range" ID="{8443CF21-61E6-4872-AA06-D0D52F2407AA}" ShortID="624469526">
@@ -395,6 +687,120 @@
 									<ObjectRef Name="Player" ID="{78E651A6-557D-4121-AB5B-7F5FCA84D4FD}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
 								</Reference>
 							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="Sfx_Player_Melee_Sword_Whoosh_01" ID="{CE37BAAD-F70F-4D5F-BAF3-4BD0E24BA926}" ShortID="148646494">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Melee_Sword_Whoosh_01" ID="{6835067D-54F3-4116-801E-CDEE6B79A5EA}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.00298803471135025"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0347698584593483"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0160267316336059"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Melee_Sword_Whoosh_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="637998478"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Melee_Sword_Whoosh_01" ID="{6835067D-54F3-4116-801E-CDEE6B79A5EA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Melee_Sword_Whoosh_02" ID="{018A07A8-DB01-480E-8EA3-9472195FCF3C}" ShortID="338737065">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Melee_Sword_Whoosh_02" ID="{60F7B4AC-D811-408B-83F1-BAF5822164AE}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.00597653612342726"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0537888251108453"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0263510910896565"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.226293384133758"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Melee_Sword_Whoosh_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="580627274"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Melee_Sword_Whoosh_02" ID="{60F7B4AC-D811-408B-83F1-BAF5822164AE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Melee_Sword_Whoosh_03" ID="{04361280-EC4C-47E5-AF30-1A88132425F0}" ShortID="425703405">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Melee_Sword_Whoosh_03" ID="{5D3F6F36-BAD7-43AD-B028-DABA12FD0766}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0317818237479981"/>
+												<Property Name="LoopBegin" Type="Real64" Value="0.0190147663449561"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.212693735676482"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Melee_Sword_Whoosh_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="897161034"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Melee_Sword_Whoosh_03" ID="{5D3F6F36-BAD7-43AD-B028-DABA12FD0766}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Player_Melee_Sword_Whoosh_04" ID="{C2AF5074-DEBA-49D1-A614-2AA614CB6798}" ShortID="254142134">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{94C30071-DB59-4255-A09A-9AB94B6BEFC1}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Player_Melee_Sword_Whoosh_04" ID="{D06A5299-52A9-4DD7-9E5A-77E5B4424B50}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0179296083702818"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.203202221838698"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Player_Melee_Sword_Whoosh_04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="846647222"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Player_Melee_Sword_Whoosh_04" ID="{D06A5299-52A9-4DD7-9E5A-77E5B4424B50}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="Sfx_Monster" ID="{2EE80372-6BC0-423C-8EFC-C7C51A428ED4}" ShortID="244375324">
 							<PropertyList>
@@ -633,6 +1039,31 @@
 									</ChildrenList>
 									<ActiveSourceList>
 										<ActiveSource Name="Sfx_Player_Cast_Start" ID="{BC5B61D8-7111-49DD-B1CA-4C55047458EA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Sfx_Ui_MouseClick" ID="{A21A6EB9-092C-463F-9E07-7A446C32AE1F}" ShortID="721433337">
+									<PropertyList>
+										<Property Name="OverrideConversion" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="ADPCM As Input" ID="{844B7EC4-A8FF-43AD-821E-25B9459D4413}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{415F6E18-0765-45AF-807E-7899B72AF7F9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Sfx_Ui_MouseClick" ID="{E49D9237-F634-4C79-9DA4-2AF835D6D986}">
+											<Language>SFX</Language>
+											<AudioFile>Sfx_Ui_MouseClick.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="186125483"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sfx_Ui_MouseClick" ID="{E49D9237-F634-4C79-9DA4-2AF835D6D986}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>

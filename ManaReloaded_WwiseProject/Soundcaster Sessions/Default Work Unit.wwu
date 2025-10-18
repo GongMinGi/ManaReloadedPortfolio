@@ -30,12 +30,20 @@
 							<Position X="1" Y="2"/>
 						</Module>
 						<Module>
+							<ObjectRef Name="Play_Sfx_Player_Spell_Gaurdianspirit_Loop" ID="{229DF481-99C3-4A2E-BD78-7505C83DCE6C}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
+							<Position X="1" Y="3"/>
+						</Module>
+						<Module>
 							<ObjectRef Name="Play_Sfx_Player_Range_Fire_Shot" ID="{12EC44CF-6916-42DD-85F3-9D29FFD80BA5}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
 							<Position X="2" Y="0"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Play_Sfx_Player_Range_Thunder_Shot" ID="{3E423FD8-B5A3-4E68-8FC6-06BA56C311A0}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
 							<Position X="2" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Stop_Sfx_Player_Spell_Gaurdianspirit_Loop" ID="{E90E06D5-AF2A-4DCA-AD37-CAA5D4626E87}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
+							<Position X="2" Y="3"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Play_Sfx_Player_Range_Light_Ready" ID="{DE1B9CBF-260A-4FE3-8EAB-54C1FDA66C55}" WorkUnitID="{77265996-B499-40A4-8B87-81215FFA905F}"/>
