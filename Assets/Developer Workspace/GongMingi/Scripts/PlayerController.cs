@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
     private readonly List<E_CastingType> currentCastingList = new();
 
-    private static readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()
+    private readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()       // 변경 가능한 매핑으로 전환
     {
         {Key.W, E_CastingType.Fire },
         {Key.A, E_CastingType.Light },
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Unity Update
+    #region Unity Event
 
     /// <summary>
     /// 물리 프레임마다 호출.
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         GameModeManager.Player = this;                                  // 현재 플레이어 인스턴스를 GameModeManager에 등록
-
+        GameModeManager.ApplyElementBinding(this);                      // 로드아웃에서 결정한 원소를 현재 플레이어에게 적용
         // 원거리 공격을 위한 초기 세팅 작업
         foreach (var mapping in castingKeyMapping)
         {
@@ -188,6 +188,15 @@ public class PlayerController : MonoBehaviour
         Debug.Log("사망");
 
         GameModeManager.GameLogicManager.GameOver();
+    }
+
+    /// <summary>
+    /// - wasd에 매핑된 속성을 바꾸는 메서드
+    /// - 매개변수로 바꿀 키와 변경할 속성을 받아서 변경한다.
+    /// </summary>
+    public void SetCastingKeyBinding(Key keyToChange, E_CastingType typeToChange)
+    {
+        castingKeyMapping[keyToChange] = typeToChange;
     }
 
     #region 속성 캐스팅

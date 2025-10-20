@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// 개발자: 이예린
@@ -15,7 +17,23 @@ public static class GameModeManager
     /// 현재 활성화된 플레이어 컨트롤러 인스턴스
     /// 플레이어를 알아야 하는 매니저들은 설정 시 자동으로 주입
     [SerializeField] static PlayerController player;
-    public static PlayerController Player { get { return player; }set { player = value; } }
+    private static readonly Dictionary<Key, E_CastingType> tempElementBindings = new();
+
+    public static PlayerController Player { get { return player; } set { player = value; } }
+
+    public static void SetElementBinding(Key key, E_CastingType type)
+    {
+        tempElementBindings[key] = type;
+    }
+
+    public static void ApplyElementBinding(PlayerController player)
+    {
+        foreach(var element in tempElementBindings)
+        {
+            player.SetCastingKeyBinding(element.Key, element.Value);
+        }
+    }
+
     #endregion
 
     #region UI Manager

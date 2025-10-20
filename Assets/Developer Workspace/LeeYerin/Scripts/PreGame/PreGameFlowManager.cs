@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 개발자: 이예린
+/// 개발자: 이예린, 공민기
 /// 
 /// 전 게임 메뉴 흐름을 관리하는 매니저 클래스
 /// 게임 시작 전 로드아웃 UI 전환, 게임 씬 이동, 게임 종료 기능을 포함되어 있음
@@ -10,13 +10,18 @@ using UnityEngine.SceneManagement;
 public class PreGameFlowManager : MonoBehaviour
 {
     [Header("UI Setting")]
-    [SerializeField] GameObject gameMenuUI;     // 게임 메뉴 UI
-    [SerializeField] GameObject loadOutUI;      // 로드아웃 UI
-    [SerializeField] Animator playerAnimator;   // 로드아웃의 플레이어 애니메이터
+    [SerializeField] GameObject gameMenuUI;           // 게임 메뉴 UI
+    [SerializeField] GameObject loadOutUI;            // 로드 아웃 UI
+    [SerializeField] GameObject elementListUI;        // 원소 선택 UI
+    [SerializeField] GameObject itemSlotListUI;       // 아이템 슬롯 UI
+    [SerializeField] GameObject notImplementedUI;     // 미구현 표시 이미지 UI
+    [SerializeField] Animator playerAnimator;         // 로드아웃의 플레이어 애니메이터
 
     [Tooltip("Game scene name string")]
     [SerializeField] string gameSceneName = "Game Scene";
     [SerializeField] string qaSceneName = "QA Scene";
+
+    private ElementSlot selectedSlot;                   // 속성 교체를 위해 현재 선택된 원소 슬롯
 
     #region Unity Event
     private void Start()
@@ -41,6 +46,36 @@ public class PreGameFlowManager : MonoBehaviour
         }
     }
     #endregion
+
+    /// <summary>
+    /// 바꿀 속성을 골랐을때 ( a <= b 로 바꿀때 b를 눌렀을때) 호출되는 메서드
+    /// 실제 elemental slot의 값들을 변경한다.
+    /// </summary>
+    public void ChangeToSelectedElement(ElementSlot elementToChange)
+    {
+        if(selectedSlot == null)                                    // 선택된 슬롯이 없는 경우 리턴
+        {
+            return;
+        }
+
+        selectedSlot.SetElementToThisSlot(elementToChange.curType);  // 바꿀속성으로 슬롯이 들고 있는 속성 변경
+        GameModeManager.SetElementBinding(selectedSlot.curKey, selectedSlot.curType);
+
+        selectedSlot = null;
+    }
+
+    /// <summary>
+    /// 장비 슬롯 창을 비활성화하고 원소 선택 창을띄우는 메서드
+    /// 전달 받은 슬롯을 선택한 슬롯에 저장
+    /// </summary>
+    public void OpenElementList(ElementSlot selectedSlotParam)
+    {
+        selectedSlot = selectedSlotParam;                       // 전달 받은 슬롯을 선택한 슬롯에 저장
+
+        itemSlotListUI.SetActive(false);                        // 속성 변경창을 띄우고 인벤토리 비활성하ㅗ
+        notImplementedUI.SetActive(false);
+        elementListUI.SetActive(true);
+    }
 
     /// <summary>
     /// 게임 메뉴에서 로드아웃 UI로 전환하는 메서드

@@ -15,5 +15,9 @@ MonoBehaviour:
   priorityGroups:
   - elements: 00000000
   - elements: 01000000
-  - elements: 0200000003000000
-  - elements: 0400000005000000
+  - elements: 06000000
+  - elements: 02000000
+  - elements: 03000000
+  - elements: 04000000
+  - elements: 05000000
+  - elements: 07000000
