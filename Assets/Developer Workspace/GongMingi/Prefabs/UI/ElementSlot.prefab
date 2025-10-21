@@ -212,7 +212,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b9ec7751e5a83594382b730e7b4a5533, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3e2b644d8e863b247ad5c9eb59a03816, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -266,9 +266,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 591039078247309847}
         m_TargetAssemblyTypeName: PreGameFlowManager, Assembly-CSharp
-        m_MethodName: OpenElementList
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

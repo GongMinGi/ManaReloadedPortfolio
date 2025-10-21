@@ -212,13 +212,18 @@ public class ElementalRangedAttackController : MonoBehaviour
                     Debug.Log("물 속성 원거리 공격 출력");
                     break;
                 case E_CastingType.Light:
-                case E_CastingType.Darkness:
                     BeamAttack(castingType.Value);
                     break;
-
+                case E_CastingType.Darkness:
+                    BeamAttack(castingType.Value);
+                    Debug.Log("어둠 속성 원거리 공격 출력");
+                    break;
                 case E_CastingType.Fire:
+                    ConeAttack(castingType.Value);
+                    break;
                 case E_CastingType.Cold:
                     ConeAttack(castingType.Value);
+                    Debug.Log("얼음속성 원거리 공격 출력");
                     break;
                 case E_CastingType.Air:
                     Debug.Log("바람속성 원거리공격 출력");

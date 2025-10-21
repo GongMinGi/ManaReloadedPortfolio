@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     [Header("Event -> UI 연결")]
     public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
     public UnityEvent onCastReset;
+    public UnityEvent onPlayerElementIsSet;
 
     [SerializeField] Animator playerAnim;                                   // 플레이어 애니메이션
     [SerializeField] float animDamp = 0.15f;                                // 애니메이션 전환 시의 보간 값 
