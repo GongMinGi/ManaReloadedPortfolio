@@ -35,6 +35,7 @@ public class ElementalRangedAttackController : MonoBehaviour
     [SerializeField] RangedBeamAttack beamAttack;
     [SerializeField] RangedConeAttack coneAttack;
     [SerializeField] RangedIceConeAttack iceConeAttack;
+    [SerializeField] RangedChargeProjectileAttack darkProjectileAttack;
 
     private IAnimationDriver _anim;                                         // Animator를 감싼 추상 드라이버
     private RangedAttackContext _ctx;                                       // 공격 공용 컨텍스트..(Ow
@@ -216,7 +217,7 @@ public class ElementalRangedAttackController : MonoBehaviour
                     BeamAttack(castingType.Value);
                     break;
                 case E_CastingType.Darkness:
-                    BeamAttack(castingType.Value);
+                    ChargeAttack(castingType.Value);
                     Debug.Log("어둠 속성 원거리 공격 출력");
                     break;
                 case E_CastingType.Fire:
@@ -297,6 +298,9 @@ public class ElementalRangedAttackController : MonoBehaviour
             case E_CastingType.Thunder:
                 chargeConeAttack.ExecuteAttack(castingType);
                 break;
+            case E_CastingType.Darkness:  // TODO: 어둠 속성 차후 클릭 공격으로 분리 예정
+                darkProjectileAttack.ExecuteAttack(castingType);
+                break;
             default:
                 break;
         }
@@ -304,7 +308,7 @@ public class ElementalRangedAttackController : MonoBehaviour
 
     /// <summary>
     /// Hold 방식으로 지속되는 빔 공격을 수행하는 메서드
-    /// 빛/어둠: 전방 직선 방향으로 지속 피해
+    /// 빛: 전방 직선 방향으로 지속 피해
     /// </summary>
     /// <param name="castingType">실행할 속성</param>
     private void BeamAttack(E_CastingType castingType)
@@ -312,9 +316,6 @@ public class ElementalRangedAttackController : MonoBehaviour
         switch (castingType)
         {
             case E_CastingType.Light:
-                beamAttack.ExecuteAttack(castingType);
-                break;
-            case E_CastingType.Darkness:
                 beamAttack.ExecuteAttack(castingType);
                 break;
             default:

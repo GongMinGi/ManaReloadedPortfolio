@@ -1,13 +1,13 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///  - Ä³½ºÆÃ ¼Ó¼º¿¡ ¶¥ ¼Ó¼ºÀÌ Æ÷ÇÔµÇ¾î ÀÖÀ» ¶§ ½ÃÀüµÇ´Â ¿ø°Å¸®°ø°İ
-///  - ¸¶¿ì½º ÁÂÅ¬¸¯À» ´©¸£´Â µ¿¾È Â÷ÁöÇÏ°í ¶§´Â ¼ø°£ Åõ»çÃ¼¸¦ ¹ß»çÇÑ´Ù
-///  - Ç®¸µÀ¸·Î °ü¸®
+/// * ì‘ì„±ì : ê³µë¯¼ê¸°
+///  - ìºìŠ¤íŒ… ì†ì„±ì— ë•… ì†ì„±ì´ í¬í•¨ë˜ì–´ ìˆì„ ë•Œ ì‹œì „ë˜ëŠ” ì›ê±°ë¦¬ê³µê²©
+///  - ë§ˆìš°ìŠ¤ ì¢Œí´ë¦­ì„ ëˆ„ë¥´ëŠ” ë™ì•ˆ ì°¨ì§€í•˜ê³  ë•ŒëŠ” ìˆœê°„ íˆ¬ì‚¬ì²´ë¥¼ ë°œì‚¬í•œë‹¤
+///  - í’€ë§ìœ¼ë¡œ ê´€ë¦¬
 /// </summary>
 public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
 {
@@ -23,30 +23,31 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
 
 
     [Header("Projectile Pool / Muzzle")]
-    [SerializeField] private RangedEarthProjectile projectilePrefab;    // ¿ø°Å¸® °ø°İ ½Ã ¹ß»çÇÒ ¹ÙÀ§ ÇÁ¸®ÆÕ
-    [SerializeField] private Transform muzzle;                          // ¹ß»çÇÒ À§Ä¡ ( ¹ß»çÃ¼ ½ÃÀÛ À§Ä¡ )
+    [SerializeField] private AbstractProjectile projectilePrefab;    // ì›ê±°ë¦¬ ê³µê²© ì‹œ í”„ë¦¬íŒ¹
+    [SerializeField] private Transform muzzle;                          // ë°œì‚¬í•  ìœ„ì¹˜ ( ë°œì‚¬ì²´ ì‹œì‘ ìœ„ì¹˜ )
 
 
     [Header("Projectile Spec")]
-    [SerializeField] private float projectileSpeed = 15f;               // Åõ»çÃ¼ ¼Óµµ
-    [SerializeField] private float projectileRange = 18f;               // Åõ»çÃ¼ ÃÖ´ë »ç°Å¸®
-    [SerializeField] private float explosionRadius = 4f;                // Åõ»çÃ¼ Æø¹ß ¹İ°æ
+    [SerializeField] private float projectileSpeed = 15f;               // íˆ¬ì‚¬ì²´ ì†ë„
+    [SerializeField] private float projectileRange = 18f;               // íˆ¬ì‚¬ì²´ ìµœëŒ€ ì‚¬ê±°ë¦¬
+    [SerializeField] private float explosionRadius = 4f;                // íˆ¬ì‚¬ì²´ í­ë°œ ë°˜ê²½
 
 
     [Header("Charge")]
-    [SerializeField] private int baseDamage = 20;                       // ÃÖ¼Ò µ¥¹ÌÁö
-    [SerializeField] private int damageStep = 10;                       // Â÷Áö ÇÑ ´Ü°è´ç µ¥¹ÌÁö Áõ°¡·®
-    [SerializeField] private int maxDamage = 100;                       // Â÷Áö ÇÑ°è µ¥¹ÌÁö
-    [SerializeField] private float chargeInteval = 0.4f;                // Â÷Áö µ¥¹ÌÁö »ó½Â °£°İ(ÃÊ)
+    [SerializeField] private bool isChargeable = true;                // ì°¨ì§€ ê°€ëŠ¥ ì—¬ë¶€
+    [SerializeField] private int baseDamage = 20;                       // ìµœì†Œ ë°ë¯¸ì§€
+    [SerializeField] private int damageStep = 10;                       // ì°¨ì§€ í•œ ë‹¨ê³„ë‹¹ ë°ë¯¸ì§€ ì¦ê°€ëŸ‰
+    [SerializeField] private int maxDamage = 100;                       // ì°¨ì§€ í•œê³„ ë°ë¯¸ì§€
+    [SerializeField] private float chargeInteval = 0.4f;                // ì°¨ì§€ ë°ë¯¸ì§€ ìƒìŠ¹ ê°„ê²©(ì´ˆ)
 
     [Header("Layers")]
-    [SerializeField] private LayerMask enemyLayer;                      // Àû ½Äº° ·¹ÀÌ¾î
-    [SerializeField] private LayerMask obstacleLayer;                   // Àå¾Ö¹° ½Äº° ·¹ÀÌ¾î
+    [SerializeField] private LayerMask enemyLayer;                      // ì  ì‹ë³„ ë ˆì´ì–´
+    [SerializeField] private LayerMask obstacleLayer;                   // ì¥ì• ë¬¼ ì‹ë³„ ë ˆì´ì–´
 
-    Coroutine chargeCo;                                                 // Â÷Áö ÄÚ·çÆ¾ ÇÚµé·¯
-    bool isCharging;                                                    // Â÷Áö Áß ¿©ºÎ
-    int currentDamage;                                                  // ÇöÀç ´©Àû(°­È­)µÈ µ¥¹ÌÁö
-    RangedEarthProjectile projectileInstance;                           // ¹ß»çÇÒ Åõ»çÃ¼¿¡ Á¤º¸(¸Å°³º¯¼ö)¸¦ Àü´ŞÇÏ±â À§ÇØ ´Ù¿îÄ³½ºÆÃÇÑ ÀÎ½ºÅÏ½º¸¦ ÀúÀå ÇÒ
+    Coroutine chargeCo;                                                 // ì°¨ì§€ ì½”ë£¨í‹´ í•¸ë“¤ëŸ¬
+    bool isCharging;                                                    // ì°¨ì§€ ì¤‘ ì—¬ë¶€
+    int currentDamage;                                                  // í˜„ì¬ ëˆ„ì (ê°•í™”)ëœ ë°ë¯¸ì§€
+    AbstractProjectile projectileInstance;                           // ë°œì‚¬í•  íˆ¬ì‚¬ì²´ì— ì •ë³´(ë§¤ê°œë³€ìˆ˜)ë¥¼ ì „ë‹¬í•˜ê¸° ìœ„í•´ ë‹¤ìš´ìºìŠ¤íŒ…í•œ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì €ì¥ í• 
 
     #endregion
 
@@ -54,12 +55,12 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
     #region Unity Event
     void Awake()
     {
-        if (!muzzle) muzzle = transform;                                // Åõ»çÃ¼ ½ÃÀÛ À§Ä¡°¡ Á¤ÇØÁöÁö ¾Ê¾Ò´Ù¸é º»ÀÎÀÇ transform »ç¿ë
+        if (!muzzle) muzzle = transform;                                // íˆ¬ì‚¬ì²´ ì‹œì‘ ìœ„ì¹˜ê°€ ì •í•´ì§€ì§€ ì•Šì•˜ë‹¤ë©´ ë³¸ì¸ì˜ transform ì‚¬ìš©
     }
 
     void Start()
     {
-        GameModeManager.PoolManager.CreatePool(projectilePrefab, 20, 30);   // Ç®¸Å´ÏÀú¿¡ Åõ»çÃ¼ Ç® »ı¼º (ÃÊ±â20°³, ÃÖ´ë 30°³) 
+        GameModeManager.PoolManager.CreatePool(projectilePrefab, 20, 30);   // í’€ë§¤ë‹ˆì €ì— íˆ¬ì‚¬ì²´ í’€ ìƒì„± (ì´ˆê¸°20ê°œ, ìµœëŒ€ 30ê°œ) 
     }
 
     #endregion
@@ -71,25 +72,32 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
     #region Interface Implementation
 
     /// <summary>
-    /// - rangedAttackÀ» »ó¼ÓÇÏ´Â Å¬·¡½º°¡ °øÅëÀ¸·Î °¡Áö´Â ¸Ş¼­µå
-    /// - ¿ø°Å¸® °ø°İÀ» ½ÇÇà½ÃÅ°´Â Æ®¸®°Å
-    /// - ÇöÀç´Â Â÷Áö¿©ºÎ¸¦ È®ÀÎÇÏ°í Â÷Áö¸¦ ½ÃÀÛ.
+    /// - rangedAttackì„ ìƒì†í•˜ëŠ” í´ë˜ìŠ¤ê°€ ê³µí†µìœ¼ë¡œ ê°€ì§€ëŠ” ë©”ì„œë“œ
+    /// - ì›ê±°ë¦¬ ê³µê²©ì„ ì‹¤í–‰ì‹œí‚¤ëŠ” íŠ¸ë¦¬ê±°
+    /// - í˜„ì¬ëŠ” ì°¨ì§€ì—¬ë¶€ë¥¼ í™•ì¸í•˜ê³  ì°¨ì§€ë¥¼ ì‹œì‘.
     /// </summary>
     /// <param name="type"></param>
     public void ExecuteAttack(E_CastingType type)
     {
-        if (isCharging) return;                                         // ÀÌ¹Ì Â÷Áö ÁßÀÌ¶ó¸é ¹«½Ã
-        chargeCo = StartCoroutine(ChargeProcess());                     // Â÷Áö ½ÃÀÛ
+        if (isCharging) return;                                         // ì´ë¯¸ ì°¨ì§€ ì¤‘ì´ë¼ë©´ ë¬´ì‹œ
+        if (isChargeable == true)
+        {
+            chargeCo = StartCoroutine(ChargeProcess());                     // ì°¨ì§€ ì‹œì‘
+        }
+        else
+        {
+            FireProjectile();                                            // ì°¨ì§€ ë¶ˆê°€ëŠ¥ ìƒíƒœë¼ë©´ ë°”ë¡œ ë°œì‚¬
+        }
     }
 
 
     /// <summary>
-    /// - Å¬·¡½º ¿ÜºÎ¿¡¼­ Â÷Áö¸¦ ¸ØÃâ ¼ö ÀÖ´Â ¸Ş¼­µå
+    /// - í´ë˜ìŠ¤ ì™¸ë¶€ì—ì„œ ì°¨ì§€ë¥¼ ë©ˆì¶œ ìˆ˜ ìˆëŠ” ë©”ì„œë“œ
     /// </summary>
     public void Stop()
     {
-        if (!isCharging) return;                                        // Â÷Áö ÁßÀÌ ¾Æ´Ï¶ó¸é ¹«½Ã
-        StopCoroutine(chargeCo);                                        // Â÷Áö Ãë¼Ò
+        if (!isCharging) return;                                        // ì°¨ì§€ ì¤‘ì´ ì•„ë‹ˆë¼ë©´ ë¬´ì‹œ
+        StopCoroutine(chargeCo);                                        // ì°¨ì§€ ì·¨ì†Œ
         isCharging = false;
 
     }
@@ -100,65 +108,65 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
     #region Charge And Projectile
 
     /// <summary>
-    /// - ¸¶¿ì½º( ¿ø°Å¸® °ø°İ ¹öÆ° )¸¦ ´©¸£°í ÀÖ´Â µ¿¾È °è¼ÓÇØ¼­ Â÷Áö
-    /// - ÀÏÁ¤ ½Ã°£ÀÌ Áö³¯ ¶§¸¶´Ù µ¥¹ÌÁö°¡ ´Ü°èÀûÀ¸·Î Áõ°¡ÇÑ´Ù
-    /// - ¸¶¿ì½º¿¡¼­ ¼ÕÀ» ¶®À» ¶§ Â÷Áö¸¦ Á¾·áÇÏ°í Åõ»çÃ¼¸¦ ¹ß»çÇÕ´Ï´Ù.
+    /// - ë§ˆìš°ìŠ¤( ì›ê±°ë¦¬ ê³µê²© ë²„íŠ¼ )ë¥¼ ëˆ„ë¥´ê³  ìˆëŠ” ë™ì•ˆ ê³„ì†í•´ì„œ ì°¨ì§€
+    /// - ì¼ì • ì‹œê°„ì´ ì§€ë‚  ë•Œë§ˆë‹¤ ë°ë¯¸ì§€ê°€ ë‹¨ê³„ì ìœ¼ë¡œ ì¦ê°€í•œë‹¤
+    /// - ë§ˆìš°ìŠ¤ì—ì„œ ì†ì„ ë• ì„ ë•Œ ì°¨ì§€ë¥¼ ì¢…ë£Œí•˜ê³  íˆ¬ì‚¬ì²´ë¥¼ ë°œì‚¬í•©ë‹ˆë‹¤.
     /// </summary>
     /// <returns></returns>
     IEnumerator ChargeProcess()
     {
         isCharging = true;
-        currentDamage = baseDamage;                                     // ÃÊ±â µ¥¹ÌÁö ¼³Á¤
-        float timer = 0f;                                               // Â÷Áö °£°İ Å¸ÀÌ¸Ó
+        currentDamage = baseDamage;                                     // ì´ˆê¸° ë°ë¯¸ì§€ ì„¤ì •
+        float timer = 0f;                                               // ì°¨ì§€ ê°„ê²© íƒ€ì´ë¨¸
 
-        Started?.Invoke();              // Â÷Áö ½ÃÀÛ
+        Started?.Invoke();              // ì°¨ì§€ ì‹œì‘
 
-        while (Mouse.current.leftButton.isPressed)                      // ¸¶¿ì½º¸¦ ´©¸£°í ÀÖ´Â µ¿¾È
+        while (Mouse.current.leftButton.isPressed)                      // ë§ˆìš°ìŠ¤ë¥¼ ëˆ„ë¥´ê³  ìˆëŠ” ë™ì•ˆ
         {
-            timer += Time.deltaTime;                                    // Å¸ÀÌ¸Ó Áõ°¡
-            if ( timer >= chargeInteval )                               // ÀÏÁ¤ °£°İÀ» ³ÑÀ¸¸é
+            timer += Time.deltaTime;                                    // íƒ€ì´ë¨¸ ì¦ê°€
+            if ( timer >= chargeInteval )                               // ì¼ì • ê°„ê²©ì„ ë„˜ìœ¼ë©´
             {
-                timer -= chargeInteval;                                 // Å¸ÀÌ¸Ó ÃÊ±âÈ­
-                currentDamage = Mathf.Min(currentDamage + damageStep, maxDamage);   // µ¥¹ÌÁö °­È­
-                // Todo: Â÷Áö ´Ü°è¹ú VFX / UI °ÔÀÌÁö ¾÷µ¥ÀÌÆ®
+                timer -= chargeInteval;                                 // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
+                currentDamage = Mathf.Min(currentDamage + damageStep, maxDamage);   // ë°ë¯¸ì§€ ê°•í™”
+                // Todo: ì°¨ì§€ ë‹¨ê³„ë²Œ VFX / UI ê²Œì´ì§€ ì—…ë°ì´íŠ¸
             }
 
-            //ÁøÇàÁß Ã³¸®
+            //ì§„í–‰ì¤‘ ì²˜ë¦¬
             float denom = Mathf.Max(1, maxDamage - baseDamage);
             float t = Mathf.Clamp01((currentDamage - baseDamage) / (float)denom);
             Progress?.Invoke(t);
 
 
-            yield return null;                                          // ´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ´ë±â
+            yield return null;                                          // ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ëŒ€ê¸°
         }
 
-        FireProjectile();                                               // ¹öÆ°À» ³õ´Â ¼ø°£ ¹ß»ç
-        isCharging = false;                                             // Â÷Áö Á¾·á
-        Ended?.Invoke();        // ¹ß»ç ÈÄ Á¾·á
+        FireProjectile();                                               // ë²„íŠ¼ì„ ë†“ëŠ” ìˆœê°„ ë°œì‚¬
+        isCharging = false;                                             // ì°¨ì§€ ì¢…ë£Œ
+        Ended?.Invoke();        // ë°œì‚¬ í›„ ì¢…ë£Œ
     }   
 
 
     /// <summary>
-    /// - ÀÎ½ºÆåÅÍ¿¡ µî·ÏµÈ Åõ»çÃ¼ ÇÁ¸®ÆÕÀ» ¹ß»çÇÑ´Ù.
+    /// - ì¸ìŠ¤í™í„°ì— ë“±ë¡ëœ íˆ¬ì‚¬ì²´ í”„ë¦¬íŒ¹ì„ ë°œì‚¬í•œë‹¤.
     /// </summary>
     void FireProjectile()
     {
         PooledObject go = GameModeManager.PoolManager.GetPool(
-            projectilePrefab, muzzle.position, muzzle.rotation);        // Ç®¿¡¼­ ¿ÀºêÁ§Æ® °¡Á®¿À±â (À§Ä¡, È¸Àü ÁöÁ¤)
-        projectileInstance = go as RangedEarthProjectile;               // Åõ»çÃ¼ ³»ºÎ¿¡ setupÇÔ¼ö¸¦ È£ÃâÇÏ±â À§ÇØ¼­ ´Ù¿îÄ³½ºÆÃ
+            projectilePrefab, muzzle.position, muzzle.rotation);        // í’€ì—ì„œ ì˜¤ë¸Œì íŠ¸ ê°€ì ¸ì˜¤ê¸° (ìœ„ì¹˜, íšŒì „ ì§€ì •)
+        projectileInstance = go as AbstractProjectile;               // íˆ¬ì‚¬ì²´ ë‚´ë¶€ì— setupí•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ê¸° ìœ„í•´ì„œ ë‹¤ìš´ìºìŠ¤íŒ…
 
         var projectileParam = new ProjectileParams
         {
             speed = projectileSpeed,
             maxRange = projectileRange,
             radius = explosionRadius,
-            damage = currentDamage,
+            damage = isChargeable ? currentDamage : baseDamage,
             enemyL = enemyLayer,
             obstacleL = obstacleLayer,
         };
 
 
-        projectileInstance.Setup(projectileParam);                                      // Åõ»çÃ¼ ¿ÀºêÁ§Æ®¿¡ º¯¼ö Àü
+        projectileInstance.Setup(projectileParam);                    // íˆ¬ì‚¬ì²´ ì˜¤ë¸Œì íŠ¸ì— ë³€ìˆ˜ ì „ë‹¬
     }
 
     #endregion
