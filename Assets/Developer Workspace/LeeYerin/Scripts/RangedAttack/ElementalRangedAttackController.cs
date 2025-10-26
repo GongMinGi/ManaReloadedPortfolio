@@ -34,6 +34,7 @@ public class ElementalRangedAttackController : MonoBehaviour
     [SerializeField] RangedChargeProjectileAttack chargeProjectileAttack;
     [SerializeField] RangedBeamAttack beamAttack;
     [SerializeField] RangedConeAttack coneAttack;
+    [SerializeField] RangedIceConeAttack iceConeAttack;
 
     private IAnimationDriver _anim;                                         // Animator를 감싼 추상 드라이버
     private RangedAttackContext _ctx;                                       // 공격 공용 컨텍스트..(Ow
@@ -335,7 +336,7 @@ public class ElementalRangedAttackController : MonoBehaviour
                 coneAttack.ExecuteAttack(castingType);
                 break;
             case E_CastingType.Cold:
-                coneAttack.ExecuteAttack(castingType);
+                iceConeAttack.ExecuteAttack(castingType);
                 break;
             default:
                 Debug.LogWarning("ConeAttack 할 수 없는 원소 속성입니다.");
