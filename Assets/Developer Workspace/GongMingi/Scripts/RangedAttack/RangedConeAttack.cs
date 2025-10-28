@@ -25,10 +25,9 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     //[SerializeField] private int damage = 12;           // 1회 피해량
     [SerializeField] private bool flatCone = true;      // Y축 높이 무시 여부
 
-
     [Header("Hold & Tick")]
     [SerializeField] private float maxDuration = 4f;
-    [SerializeField] private float tickInterval = 0.25f;
+    [SerializeField] protected float tickInterval = 0.25f;
     [SerializeField] private int damagePerTick = 60;
     [SerializeField] private LayerMask enemyLayer;      // Enemy 전용 레이어 , 
 
@@ -39,6 +38,8 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
     [Header("SoundSetting")]
     [SerializeField] int sfxId = 110017;                                                        // 재생할 사운드 리소스 아이디
+
+    protected StatusEffect effect;
 
     private RangedAttackContext _ctx;
     private Coroutine coneAttackRoutine;
@@ -54,7 +55,7 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     #endregion endregion
 
     #region Unity Event
-    void Awake()
+    virtual protected void Awake()
     {
         if (!lr) lr = GetComponent<LineRenderer>();
         if (!muzzle) muzzle = transform;
@@ -162,6 +163,11 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
                 {
                     if(detectedEnemyCollider.TryGetComponent(out UnitStats target))
                     {
+                        if(effect != null)
+                        {
+                            target.EffectHandler.AddStatusEffect(effect);
+                        }
+
                         target.TakeDamage(damagePerTick);
                     }
                 }
