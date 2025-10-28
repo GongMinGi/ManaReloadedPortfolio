@@ -1650,6 +1650,7 @@ GameObject:
   - component: {fileID: 252126573}
   - component: {fileID: 252126576}
   - component: {fileID: 252126577}
+  - component: {fileID: 252126579}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1785,6 +1786,20 @@ MonoBehaviour:
   gameOverUI: {fileID: 383542597}
   pauseGameUI: {fileID: 321208392}
   totalPlayTimeText: {fileID: 873254258}
+--- !u!114 &252126579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252126572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9c97fad502c1de489bbde40ca797dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  escAction: {fileID: 1214316593831310790, guid: b493458396c12f44391c33c7fee1898e, type: 3}
+  pauseUI: {fileID: 321208392}
 --- !u!1 &291728992
 GameObject:
   m_ObjectHideFlags: 0
@@ -4139,9 +4154,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252126578}
-        m_TargetAssemblyTypeName: GameLogicManager, Assembly-CSharp
-        m_MethodName: GoToMainMenu
+      - m_Target: {fileID: 252126579}
+        m_TargetAssemblyTypeName: PauseOverlayManager, Assembly-CSharp
+        m_MethodName: OnClickGoToMain
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7586,9 +7601,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252126578}
-        m_TargetAssemblyTypeName: GameLogicManager, Assembly-CSharp
-        m_MethodName: ResumeGame
+      - m_Target: {fileID: 252126579}
+        m_TargetAssemblyTypeName: PauseOverlayManager, Assembly-CSharp
+        m_MethodName: OnClickResume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9862,9 +9877,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252126578}
-        m_TargetAssemblyTypeName: GameLogicManager, Assembly-CSharp
-        m_MethodName: ExitGame
+      - m_Target: {fileID: 252126579}
+        m_TargetAssemblyTypeName: PauseOverlayManager, Assembly-CSharp
+        m_MethodName: OnClickExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11543,9 +11558,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252126578}
-        m_TargetAssemblyTypeName: GameLogicManager, Assembly-CSharp
-        m_MethodName: GoToMainMenu
+      - m_Target: {fileID: 252126579}
+        m_TargetAssemblyTypeName: PauseOverlayManager, Assembly-CSharp
+        m_MethodName: OnClickGoToMain
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11924,9 +11939,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252126578}
-        m_TargetAssemblyTypeName: GameLogicManager, Assembly-CSharp
-        m_MethodName: ExitGame
+      - m_Target: {fileID: 252126579}
+        m_TargetAssemblyTypeName: PauseOverlayManager, Assembly-CSharp
+        m_MethodName: OnClickExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

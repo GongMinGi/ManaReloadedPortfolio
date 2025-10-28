@@ -38,7 +38,9 @@ public static class GameModeManager
 
     #region UI Manager
     private static UIManager uiManager;
+    private static PauseOverlayManager pauseOverlayManager;
     public static UIManager UIManager { get { return uiManager; } set { uiManager = value; } }
+    public static PauseOverlayManager PauseOverlayManager { get { return pauseOverlayManager; } set { pauseOverlayManager = value; } }
     #endregion
 
     #region Game Scene's Manager

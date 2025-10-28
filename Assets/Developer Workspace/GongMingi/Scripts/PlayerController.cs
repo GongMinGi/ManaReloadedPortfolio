@@ -171,15 +171,15 @@ public class PlayerController : MonoBehaviour
     /// - 게임 일시정지 입력 트리거
     /// - esc 버튼을 누르면 게임 시간을 멈추고, 일시정지 ui를 띄운다. 
     /// </summary>
-    public void OnOptionButton(InputAction.CallbackContext ctx)
-    {
-        if ( ctx.performed == false )
-        {
-            return;
-        }
+    //public void OnOptionButton(InputAction.CallbackContext ctx)
+    //{
+    //    if ( ctx.performed == false )
+    //    {
+    //        return;
+    //    }
 
-        GameModeManager.GameLogicManager.PauseGame();
-    }
+    //    GameModeManager.GameLogicManager.PauseGame();
+    //}
 
     public void OnDie(float tmp = 0)
     {
