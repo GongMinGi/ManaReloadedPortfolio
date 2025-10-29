@@ -152,6 +152,8 @@ public class GameLogicManager : MonoBehaviour
     {
         GameModeManager.PauseOverlayManager.ResumeGame();
 
+        GameModeManager.UIManager.ResetDmgTextPoolExist();
+
         GameModeManager.UIManager.FadeOut(() =>
         {
             GameModeManager.UIManager.ClearPopupHistory();      // UIManager의 ClearPopupHistory 스택 초기화
@@ -165,6 +167,8 @@ public class GameLogicManager : MonoBehaviour
     public void GoToLoadout()
     {
         GameModeManager.PauseOverlayManager.ResumeGame();
+
+        GameModeManager.UIManager.ResetDmgTextPoolExist();
 
         GameModeManager.UIManager.LoadIntoLoadoutUI = true;
         GameModeManager.UIManager.FadeOut(() =>
