@@ -1,4 +1,5 @@
 ﻿using Game.Combat.Stats;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private readonly List<E_CastingType> currentCastingList = new();
 
+    // TODO: elememtManager에도 매핑정보가 있으니 나중에 elementmanager를 통하게끔 통일
     private readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()       // 변경 가능한 매핑으로 전환
     {
         {Key.W, E_CastingType.Fire },
@@ -92,16 +94,17 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        GameModeManager.Player = this;                                  // 현재 플레이어 인스턴스를 GameModeManager에 등록
+        GameModeManager.Player = this;                                          // 현재 플레이어 인스턴스를 GameModeManager에 등록
         GameModeManager.ElementManager.ApplyElementBindingsToPlayer(this);                      // 로드아웃에서 결정한 원소를 현재 플레이어에게 적용
+
         // 원거리 공격을 위한 초기 세팅 작업
-        foreach (var mapping in castingKeyMapping)
+        foreach (E_CastingType element in Enum.GetValues(typeof(E_CastingType)))
         {
-            rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
+            rangedAttackController.CastedElementCount.Add(element, 0);
         }
 
         stats.OnDie += OnDie;
-        rangedAttackController.PlayerAnim = playerAnim;                 // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
+        rangedAttackController.PlayerAnim = playerAnim;                         // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
     }
     #endregion
 
