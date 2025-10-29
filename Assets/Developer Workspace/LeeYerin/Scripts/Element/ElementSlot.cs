@@ -11,7 +11,6 @@ using UnityEngine.UI;
 /// </summary>
 public class ElementSlot : MonoBehaviour
 {
-    [SerializeField] PreGameFlowManager gameFlowManager;
     [SerializeField] Image  elementIcon;    // 슬롯에 표시되는 원소 아이콘 이미지
     public Image Slot => elementIcon;
 
@@ -28,8 +27,7 @@ public class ElementSlot : MonoBehaviour
 
     public void OnClickEquipedElement()
     {
-        gameFlowManager.OpenElementList(this);
-        GameModeManager.ElementManager.targetElementSlot = this;
+        GameModeManager.ElementManager.TargetElementSlot = this;
     }
 
     /// <summary>

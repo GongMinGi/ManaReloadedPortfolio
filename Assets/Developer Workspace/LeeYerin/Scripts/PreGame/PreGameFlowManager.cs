@@ -12,9 +12,6 @@ public class PreGameFlowManager : MonoBehaviour
     [Header("UI Setting")]
     [SerializeField] GameObject gameMenuUI;           // 게임 메뉴 UI
     [SerializeField] GameObject loadOutUI;            // 로드 아웃 UI
-    [SerializeField] GameObject elementListUI;        // 원소 선택 UI
-    [SerializeField] GameObject itemSlotListUI;       // 아이템 슬롯 UI
-    [SerializeField] GameObject notImplementedUI;     // 미구현 표시 이미지 UI
     [SerializeField] Animator playerAnimator;         // 로드아웃의 플레이어 애니메이터
 
     [Tooltip("Game scene name string")]
@@ -44,17 +41,6 @@ public class PreGameFlowManager : MonoBehaviour
         }
     }
     #endregion
-
-    /// <summary>
-    /// 장비 슬롯 창을 비활성화하고 원소 선택 창을띄우는 메서드
-    /// 전달 받은 슬롯을 선택한 슬롯에 저장
-    /// </summary>
-    public void OpenElementList(ElementSlot selectedSlotParam)
-    {
-        itemSlotListUI.SetActive(false);                        // 속성 변경창을 띄우고 인벤토리 비활성하ㅗ
-        notImplementedUI.SetActive(false);
-        elementListUI.SetActive(true);
-    }
 
     /// <summary>
     /// 게임 메뉴에서 로드아웃 UI로 전환하는 메서드

@@ -18,7 +18,22 @@ public class ElementManager : MonoBehaviour
     [Tooltip("Element types currently bound to each key (W, A, S, D). Index mapping: 0 = W, 1 = A, 2 = S, 3 = D.")]
     [SerializeField] E_CastingType [] boundElements = new E_CastingType[4];
 
-    public ElementSlot targetElementSlot;
+    [SerializeField] private ElementSlot targetElementSlot;
+
+    public ElementSlot TargetElementSlot 
+    { 
+        get { return targetElementSlot; } 
+        set 
+        {
+            if (targetElementSlot == value)
+            {
+                return;
+            }
+
+            UpdateTargetSlotColor(value);
+            targetElementSlot = value;
+        } 
+    }
 
     #region Unity Event
     private void Awake()
@@ -127,4 +142,23 @@ public class ElementManager : MonoBehaviour
         };
     }
     #endregion
+
+    /// <summary>
+    /// 플레이어가 설정 중인 원소 슬롯의 시각적 상태를 갱신하는 메서드
+    /// </summary>
+    /// <param name="newTargetSlot">새로 지정될 타깃 슬롯</param>
+    private void UpdateTargetSlotColor(ElementSlot newTargetSlot)
+    {
+        // 이전 슬롯의 색상을 기본값으로 되돌림
+        if (targetElementSlot != null)
+        {
+            targetElementSlot.Slot.color = Color.white;
+        }
+
+        // 플레이어가 설정 중인 슬롯을 시각적으로 표시
+        if (newTargetSlot != null)
+        {
+            newTargetSlot.Slot.color = Color.gray;
+        }
+    }
 }
