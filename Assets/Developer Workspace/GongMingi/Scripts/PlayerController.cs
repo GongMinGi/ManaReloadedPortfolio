@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         GameModeManager.Player = this;                                  // 현재 플레이어 인스턴스를 GameModeManager에 등록
-        GameModeManager.ApplyElementBinding(this);                      // 로드아웃에서 결정한 원소를 현재 플레이어에게 적용
+        GameModeManager.ElementManager.ApplyElementBindingsToPlayer(this);                      // 로드아웃에서 결정한 원소를 현재 플레이어에게 적용
         // 원거리 공격을 위한 초기 세팅 작업
         foreach (var mapping in castingKeyMapping)
         {

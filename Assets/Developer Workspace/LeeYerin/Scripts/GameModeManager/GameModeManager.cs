@@ -20,20 +20,6 @@ public static class GameModeManager
     private static readonly Dictionary<Key, E_CastingType> tempElementBindings = new();
 
     public static PlayerController Player { get { return player; } set { player = value; } }
-
-    public static void SetElementBinding(Key key, E_CastingType type)
-    {
-        tempElementBindings[key] = type;
-    }
-
-    public static void ApplyElementBinding(PlayerController player)
-    {
-        foreach(var element in tempElementBindings)
-        {
-            player.SetCastingKeyBinding(element.Key, element.Value);
-        }
-    }
-
     #endregion
 
     #region UI Manager
@@ -44,6 +30,7 @@ public static class GameModeManager
     #endregion
 
     #region Game Scene's Manager
+    private static ElementManager elementManager;
     private static GameLogicManager gameLogicManager;
     private static PoolManager poolManager;
     private static MapTileManager mapTileManager;
@@ -51,6 +38,7 @@ public static class GameModeManager
     private static SkillCastingManager skillCastingManager;
     private static QARoomManager qaRoomManager;
 
+    public static ElementManager ElementManager { get { return elementManager; }  set { elementManager = value; } }
     public static GameLogicManager GameLogicManager { get { return gameLogicManager; } set { gameLogicManager = value; } }
     public static PoolManager PoolManager { get { return poolManager; } set { poolManager = value;} }
     public static MapTileManager MapTileManager { get { return mapTileManager; } set { mapTileManager = value; mapTileManager.Player = player; } }

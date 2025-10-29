@@ -1,7 +1,6 @@
 ﻿using DG.Tweening;
 using System;
 using System.Collections.Generic;
-using System.Xml;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,12 +25,14 @@ public class UIManager : MonoBehaviour
     Sequence sequenceFadeIn;
     Sequence sequenceFadeOut;
 
+    [Header("Element Icon Setting")]
+    [SerializeField] ElementSpriteData elementSpriteData;
+
     [Header("Enemy DmgText Object Pool Settings")]
     [SerializeField] DmgFloatPooledObject dmgTextObj;
     [SerializeField] int size;
     [SerializeField] int capacity;
     private bool isDmgTextPoolExist;
-
 
     [Header("Enemy Health Bar Pool Setting")]
     [SerializeField] EnemyHealthBarPooledObj enemyHealthBarPooledObj;
@@ -48,7 +49,11 @@ public class UIManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);  // 씬 전환 시 유지
         }
         else
+        {
             Destroy(gameObject);
+        }
+
+        elementSpriteData.Initialization();
     }
     #endregion
 
@@ -165,7 +170,9 @@ public class UIManager : MonoBehaviour
     public void OpenPopup(PopupController popup)
     {
         if (popupHistory.Count == 0)
+        {
             popup.Backdrop.SetActive(true);
+        }
 
         popup.PopupUI.SetActive(true);
 
@@ -178,12 +185,17 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void ClosePopup()
     {
-        if (popupHistory.Count == 0) return;
+        if (popupHistory.Count == 0)
+        {
+            return;
+        }
 
         PopupController top = popupHistory.Pop();
 
         if (popupHistory.Count == 0)
+        {
             top.Backdrop.SetActive(false);
+        }
 
         top.PopupUI.SetActive(false);
     }
@@ -286,6 +298,18 @@ public class UIManager : MonoBehaviour
             target.position,                            // 적 위치 위치
             Quaternion.identity
         ) as EnemyHealthBarPooledObj;
+    }
+    #endregion
+
+    #region Element Icon
+    /// <summary>
+    /// 원소 타입에 해당하는 sprite를 반환해주는 메서드
+    /// </summary>
+    /// <param name="type">이미지 찾고자 하는 원소 타입</param>
+    /// <returns>원소 타입의 이미지</returns>
+    public Sprite GetElementSprite(E_CastingType type)
+    {
+        return elementSpriteData.GetElemtSprite(type);
     }
     #endregion
 }
