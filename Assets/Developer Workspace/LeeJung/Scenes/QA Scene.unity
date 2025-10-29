@@ -1095,6 +1095,10 @@ MonoBehaviour:
     color: {r: 1, g: 0.9759154, b: 0.5518868, a: 0}
   - type: 3
     color: {r: 0.23529412, g: 0.14017445, b: 0.2830189, a: 0}
+  - type: 7
+    color: {r: 0, g: 1, b: 0.06871343, a: 0}
+  - type: 6
+    color: {r: 0, g: 0.20915246, b: 1, a: 0}
 --- !u!114 &110074649
 MonoBehaviour:
   m_ObjectHideFlags: 0

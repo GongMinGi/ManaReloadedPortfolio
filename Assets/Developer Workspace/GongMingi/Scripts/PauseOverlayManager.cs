@@ -131,6 +131,8 @@ public class PauseOverlayManager : MonoBehaviour
     {
         ResumeGame();
 
+        GameModeManager.UIManager.ResetDmgTextPoolExist();
+
         GameModeManager.UIManager.LoadIntoLoadoutUI = false;
         GameModeManager.UIManager.FadeOut(() =>
         {
