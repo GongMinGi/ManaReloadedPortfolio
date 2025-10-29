@@ -13,6 +13,8 @@ public class ElementSelectionSlot : MonoBehaviour
     [SerializeField] E_CastingType castingType;
     [SerializeField] Image slot;
 
+    [SerializeField] bool isQA = false;
+
     private void Start()
     {
         slot.sprite = GameModeManager.UIManager.GetElementSprite(castingType);
@@ -26,6 +28,12 @@ public class ElementSelectionSlot : MonoBehaviour
         if (GameModeManager.ElementManager.SetElementBinding(castingType) == false)
         {
             Debug.LogWarning("올바르지 않은 키 세팅을 가진 원소 슬롯에 대한 세팅 시도입니다. 원소 슬롯에 할당된 키 세팅을 확인해주세요.");
+        }
+
+        if (isQA)   // QA Room일 시
+        {
+            GameModeManager.ElementManager.ApplyElementBindingsToPlayer(GameModeManager.Player);
+            GameModeManager.ElementManager.TargetElementSlot = null;
         }
     }
 }
