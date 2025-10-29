@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0981f42e9106d9a458cc47c005c70806, type: 3}
   m_Name: Guardian Spirit Skill
   m_EditorClassIdentifier: 
-  currentHashID: 86863962
-  CastList: 04000000000000000200000004000000
+  currentHashID: -110835782
+  CastList: 05000000000000000200000005000000
   castSkill: {fileID: 2116082328283968175, guid: dce3a3119cb4ed64c866e2d406e35760, type: 3}

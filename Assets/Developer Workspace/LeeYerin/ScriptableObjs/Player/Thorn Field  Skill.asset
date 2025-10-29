@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0981f42e9106d9a458cc47c005c70806, type: 3}
   m_Name: Thorn Field  Skill
   m_EditorClassIdentifier: 
-  currentHashID: 1740511102
-  CastList: 000000000000000000000000000000000000000000000000
+  currentHashID: -315362735
+  CastList: 000000000300000000000000030000000000000003000000
   castSkill: {fileID: 3093853921750639937, guid: 47d4db67a67277547b7dc7b6136b6a8c, type: 3}
