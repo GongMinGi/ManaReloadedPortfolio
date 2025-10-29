@@ -21,7 +21,7 @@ public class ElementSelectionSlot : MonoBehaviour
     /// <summary>
     /// 슬롯이 클릭되었을 때 원소 바인딩을 시도하는 메서드
     /// </summary>
-    public void SetElementTest()
+    public void TrySetElementBinding()
     {
         if (GameModeManager.ElementManager.SetElementBinding(castingType) == false)
         {
