@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class RangedEarthProjectile : AbstractProjectile
 {
-
     #region Field and Property
 
     float speed;                                        // 이동속도
@@ -24,15 +23,12 @@ public class RangedEarthProjectile : AbstractProjectile
     bool initialized;                                   // 초기화 여부
 
     // 필요없으면 지우거나 상위 추상 클래스로 올리기
-    public delegate void OnSetup(float speed, float range, float radius, int damage,
-                  LayerMask enemyL, LayerMask obstacleL);
+    public delegate void OnSetup(float speed, float range, float radius, int damage, LayerMask enemyL, LayerMask obstacleL);
     public static OnSetup onSetup;                      // 델리게이트 (아직 테스트용)
 
     [Header("SoundSetting")]
     [SerializeField] int sfxId = 110014;                                                        // 재생할 사운드 리소스 아이디
-
     #endregion
-
 
     #region Unity Event
     void Awake()
@@ -40,20 +36,21 @@ public class RangedEarthProjectile : AbstractProjectile
         //onSetup = new OnSetup(Setup);
     }
 
-
     private void FixedUpdate()
     {
-        if (!initialized) return;                           // 필요한 정보가 초기화되지 않은 경우 무시
+        if (initialized == false)
+        {
+            return;                           // 필요한 정보가 초기화되지 않은 경우 무시
+        }
 
         if (Vector3.SqrMagnitude(transform.position - startPos) >= maxRange * maxRange)  // 이동거리를 제곱으로 계산
+        {
             Explode();                                      // 이동거리의 제곱이 maxRange 제곱보다 크다면 Explode 호출
+        }
     }
-
     #endregion
 
-
     #region AbstractProjectile Implementation
-
     /// <summary>
     /// - 가져온 투사체 값 초기화
     /// </summary>
@@ -65,7 +62,6 @@ public class RangedEarthProjectile : AbstractProjectile
     /// <param name="obstacleL"></param>
     public override void Setup(ProjectileParams param)
     {
-
         this.speed = param.speed;
         this.maxRange = param.maxRange;
         this.damage = param.damage;
@@ -78,12 +74,9 @@ public class RangedEarthProjectile : AbstractProjectile
 
         rb.linearVelocity = transform.forward * speed;      // 플레이어 전방 방향으로 발사
     }
-
     #endregion
 
-
     #region Collision And Explode
-
     private void OnTriggerEnter(Collider other)
     {
         // 트리거가 아니면서(적의 공격박스 등과는 충돌 무시), 적 레이어에 속하면 폭발
@@ -91,10 +84,12 @@ public class RangedEarthProjectile : AbstractProjectile
         {
             Explode();
         }
-        else if (obstacleLayer.Contain(other.gameObject.layer))
-            Release();
-    }
 
+        else if (obstacleLayer.Contain(other.gameObject.layer))
+        {
+            Release();
+        }
+    }
 
     /// <summary>
     /// - 장애물이나 적과 충돌했을 경우 해당 위치에서 폭발반경 안 적에게 데미지 적용
@@ -102,30 +97,26 @@ public class RangedEarthProjectile : AbstractProjectile
     /// </summary>
     void Explode()
     {
-        //GameModeManager.SoundManager.PlaySFX(sfxId);       // 돌 원거리 투사체 폭발 사운드
-
-
         Collider[] hits = Physics.OverlapSphere(
             transform.position, 
             explosionRadius, 
             enemyLayer, 
             QueryTriggerInteraction.Ignore);    // 폭발 범위 내 적 탐색
+
         foreach (var hit in hits)
         {
             if (hit.TryGetComponent(out UnitStats target))
+            {
                 target.TakeDamage(damage);
+            }
         }
 
         // 추후 폭발 이펙트 적용 필요
-
         rb.linearVelocity = Vector3.zero;                   // 속도 정지
         Release();                                          // 풀로 반환
         initialized = false;                                // 재사용 대기
     }
-
     #endregion
-
-
 
 #if UNITY_EDITOR
     //private void OnDrawGizmos()

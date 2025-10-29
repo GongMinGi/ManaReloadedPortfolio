@@ -377,6 +377,7 @@ MonoBehaviour:
   coneAttack: {fileID: 1677093843945389770}
   iceConeAttack: {fileID: 2422817394289410748}
   darkProjectileAttack: {fileID: 8663279892640076302}
+  waterProjectileAttack: {fileID: 4231306616950606917}
 --- !u!114 &339908038149689468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6128,6 +6129,7 @@ Transform:
   - {fileID: 1457438885046779087}
   - {fileID: 8426635973754379844}
   - {fileID: 7300699304145194395}
+  - {fileID: 2966553602635649138}
   m_Father: {fileID: 3974701883712897950}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1626934319178054949
@@ -11681,6 +11683,66 @@ Transform:
   - {fileID: 5797488540803720046}
   m_Father: {fileID: 6996013101523511107}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3024484014481071671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2966553602635649138}
+  - component: {fileID: 4231306616950606917}
+  m_Layer: 0
+  m_Name: WaterProjectileAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2966553602635649138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3024484014481071671}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7206174755586428063}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4231306616950606917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3024484014481071671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 559221d0ab3cc654c9d466df155f1ea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 6524277455397829551, guid: 7c1b4e92da948d7469767de5019ac0c2, type: 3}
+  muzzle: {fileID: 0}
+  projectileSpeed: 4
+  projectileRange: 8
+  explosionRadius: 0
+  isChargeable: 0
+  baseDamage: 200
+  damageStep: 0
+  maxDamage: 0
+  chargeInteval: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &3118718038144025592
 GameObject:
   m_ObjectHideFlags: 0
