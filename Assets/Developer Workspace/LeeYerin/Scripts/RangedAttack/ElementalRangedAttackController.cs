@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -36,6 +37,7 @@ public class ElementalRangedAttackController : MonoBehaviour
     [SerializeField] RangedConeAttack coneAttack;
     [SerializeField] RangedIceConeAttack iceConeAttack;
     [SerializeField] RangedChargeProjectileAttack darkProjectileAttack;
+    [SerializeField] RangedChargeProjectileAttack waterProjectileAttack;
 
     private IAnimationDriver _anim;                                         // Animator를 감싼 추상 드라이버
     private RangedAttackContext _ctx;                                       // 공격 공용 컨텍스트..(Ow
@@ -211,6 +213,7 @@ public class ElementalRangedAttackController : MonoBehaviour
                     ChargeAttack(castingType.Value);
                     break;
                 case E_CastingType.Water:
+                    ChargeAttack(castingType.Value);
                     Debug.Log("물 속성 원거리 공격 출력");
                     break;
                 case E_CastingType.Light:
@@ -297,6 +300,9 @@ public class ElementalRangedAttackController : MonoBehaviour
                 break;
             case E_CastingType.Thunder:
                 chargeConeAttack.ExecuteAttack(castingType);
+                break;
+            case E_CastingType.Water:
+                waterProjectileAttack.ExecuteAttack(castingType);
                 break;
             case E_CastingType.Darkness:  // TODO: 어둠 속성 차후 클릭 공격으로 분리 예정
                 darkProjectileAttack.ExecuteAttack(castingType);
