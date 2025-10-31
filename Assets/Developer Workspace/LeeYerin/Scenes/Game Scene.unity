@@ -1728,23 +1728,32 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 47b553f9bbe4697459fae6b5bf5ba108, type: 2}
   skillIDList: 86841e0089841e008a841e0082841e0084841e0081841e0083841e0085841e0088841e00
   skillUIInfoList:
-  - coolTimeUI: {fileID: 69794836}
+  - skillIcon: {fileID: 1020112330}
+    coolTimeUI: {fileID: 69794836}
     coolTimeText: {fileID: 612541987}
-  - coolTimeUI: {fileID: 1026010391}
+  - skillIcon: {fileID: 2115361913}
+    coolTimeUI: {fileID: 1026010391}
     coolTimeText: {fileID: 1394452921}
-  - coolTimeUI: {fileID: 1321468445}
+  - skillIcon: {fileID: 597433183}
+    coolTimeUI: {fileID: 1321468445}
     coolTimeText: {fileID: 231712734}
-  - coolTimeUI: {fileID: 989321083}
+  - skillIcon: {fileID: 1811246909}
+    coolTimeUI: {fileID: 989321083}
     coolTimeText: {fileID: 841520837}
-  - coolTimeUI: {fileID: 879643891}
+  - skillIcon: {fileID: 219382633}
+    coolTimeUI: {fileID: 879643891}
     coolTimeText: {fileID: 480175603}
-  - coolTimeUI: {fileID: 1940924686}
+  - skillIcon: {fileID: 903960489}
+    coolTimeUI: {fileID: 1940924686}
     coolTimeText: {fileID: 1217910393}
-  - coolTimeUI: {fileID: 703763941}
+  - skillIcon: {fileID: 515549420}
+    coolTimeUI: {fileID: 703763941}
     coolTimeText: {fileID: 489849386}
-  - coolTimeUI: {fileID: 37191631}
+  - skillIcon: {fileID: 1278744859}
+    coolTimeUI: {fileID: 37191631}
     coolTimeText: {fileID: 95623312}
-  - coolTimeUI: {fileID: 951535566}
+  - skillIcon: {fileID: 1627589530}
+    coolTimeUI: {fileID: 951535566}
     coolTimeText: {fileID: 1696167124}
 --- !u!114 &252126577
 MonoBehaviour:
@@ -6746,7 +6755,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 20, y: 20}
-  m_SizeDelta: {x: 750, y: 200}
+  m_SizeDelta: {x: 750, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &1090224673
 CanvasRenderer:
@@ -6773,8 +6782,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
+  m_ChildAlignment: 6
+  m_StartCorner: 2
   m_StartAxis: 0
   m_CellSize: {x: 100, y: 100}
   m_Spacing: {x: 15, y: 15}

@@ -1,8 +1,5 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +24,9 @@ public class SkillCastingManager : MonoBehaviour
     // 런타임에 빠른 조회를 위해 변환해 두는 딕셔너리 ( 해시값 => 해시 테이블)
     protected Dictionary<int, SkillHashTable> allSkillTableDict = new Dictionary<int, SkillHashTable>();
 
+    [SerializeField] bool isQA = false;
+
+    [Header("Skill Icon Setting")]
     [SerializeField] List<int> skillIDList = new();     // 각 스킬 ID 담는 리스트
     [SerializeField] List<SkillUIInfo> skillUIInfoList = new();     // 각 스킬의 UI 정보를 담는 리스트
     private Dictionary<int, SkillUIInfo> skillUIMap = new ();   // 각 스킬 ID와 UI정보를 매핑한 딕셔너리
@@ -134,6 +134,44 @@ public class SkillCastingManager : MonoBehaviour
         {
             skillUIMap.Add(skillIDList[i], skillUIInfoList[i]);   // 각 스킬 ID와 UI정보를 매핑
         }
+
+        if (isQA == false)  // QA Room이 아닐 경우
+        {
+            ApplySkillFilter();
+        }
+    }
+
+    /// <summary>
+    /// 개발자: 이예린
+    /// 
+    /// 스킬 Icon 필터를 적용하는 메서드
+    /// 
+    /// isOn이 true일 경우, 현재 게임 모드에서 사용할 수 없는 스킬 아이콘을 비활성화
+    /// isOn이 false일 경우, 모든 스킬 아이콘을 활성화
+    /// </summary>
+    /// <param name="isOn">스킬 필터 적용 여부 (기본값: true)</param>
+    public void ApplySkillFilter(bool isOn = true)
+    {
+        // 필터가 꺼져 있는 경우 모든 스킬 아이콘을 활성화
+        if (isOn == false)
+        {
+            foreach (var skill in skillUIInfoList)
+            {
+                skill.Icon.SetActive(true);
+            }
+
+            return;
+        }
+
+        // 필터가 켜져 있는 경우
+        foreach (var skillTable in allSkillTableDict)
+        {
+            // 해당 스킬을 사용하기 위한 원소가 없는 경우
+            if (GameModeManager.ElementManager.HasElementsForSkill(skillTable.Value) == false)
+            {
+                GetSkillIcon(skillTable.Value.castSkill.ID).Icon.SetActive(false);
+            }
+        }
     }
 }
 
@@ -143,9 +181,11 @@ public class SkillCastingManager : MonoBehaviour
 [System.Serializable]
 public struct SkillUIInfo
 {
+    [SerializeField] private GameObject skillIcon;
     [SerializeField] private Image coolTimeUI;
     [SerializeField] private TMP_Text coolTimeText;
 
+    public GameObject Icon => skillIcon;
     public Image CoolTimeUI => coolTimeUI;
     public TMP_Text CoolTimeText => coolTimeText;
 }

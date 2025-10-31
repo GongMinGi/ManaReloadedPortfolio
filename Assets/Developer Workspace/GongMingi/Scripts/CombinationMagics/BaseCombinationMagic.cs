@@ -10,6 +10,7 @@ public class BaseCombinationMagic : MonoBehaviour
     protected Coroutine skillCoolTime;
     [NonSerialized]protected bool canUseSkill = true;
 
+    public int ID => skill_ID;
     public void SetCanUseSkill(bool flagParam) => canUseSkill = flagParam;
 
     public struct Context
