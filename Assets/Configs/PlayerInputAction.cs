@@ -80,6 +80,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HelpButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0de09af-6654-4c9f-a6ed-2ef346c61120"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -195,12 +204,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""da224074-caed-485d-aec2-6f0e01a9245e"",
+                    ""id"": ""4d764b73-7d63-4ed6-958c-47adaa363a6d"",
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""OptionButton"",
+                    ""action"": ""HelpButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -217,6 +226,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_player_RangedAttack = m_player.FindAction("RangedAttack", throwIfNotFound: true);
         m_player_CombinationMagicAttack = m_player.FindAction("CombinationMagicAttack", throwIfNotFound: true);
         m_player_OptionButton = m_player.FindAction("OptionButton", throwIfNotFound: true);
+        m_player_HelpButton = m_player.FindAction("HelpButton", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -289,6 +299,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_player_RangedAttack;
     private readonly InputAction m_player_CombinationMagicAttack;
     private readonly InputAction m_player_OptionButton;
+    private readonly InputAction m_player_HelpButton;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -299,6 +310,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @RangedAttack => m_Wrapper.m_player_RangedAttack;
         public InputAction @CombinationMagicAttack => m_Wrapper.m_player_CombinationMagicAttack;
         public InputAction @OptionButton => m_Wrapper.m_player_OptionButton;
+        public InputAction @HelpButton => m_Wrapper.m_player_HelpButton;
         public InputActionMap Get() { return m_Wrapper.m_player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -326,6 +338,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @OptionButton.started += instance.OnOptionButton;
             @OptionButton.performed += instance.OnOptionButton;
             @OptionButton.canceled += instance.OnOptionButton;
+            @HelpButton.started += instance.OnHelpButton;
+            @HelpButton.performed += instance.OnHelpButton;
+            @HelpButton.canceled += instance.OnHelpButton;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -348,6 +363,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @OptionButton.started -= instance.OnOptionButton;
             @OptionButton.performed -= instance.OnOptionButton;
             @OptionButton.canceled -= instance.OnOptionButton;
+            @HelpButton.started -= instance.OnHelpButton;
+            @HelpButton.performed -= instance.OnHelpButton;
+            @HelpButton.canceled -= instance.OnHelpButton;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -373,5 +391,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnRangedAttack(InputAction.CallbackContext context);
         void OnCombinationMagicAttack(InputAction.CallbackContext context);
         void OnOptionButton(InputAction.CallbackContext context);
+        void OnHelpButton(InputAction.CallbackContext context);
     }
 }

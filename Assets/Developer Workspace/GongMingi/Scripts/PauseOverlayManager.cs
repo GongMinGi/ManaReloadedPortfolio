@@ -12,6 +12,8 @@ public class PauseOverlayManager : MonoBehaviour
     private PauseOverlayManager instance;
 
     [SerializeField] InputActionReference escAction;
+    [SerializeField] InputActionReference tapAction;
+    [SerializeField] GameObject controlUI;
     [SerializeField] GameObject pauseUI;
 
     private bool isPaused;
@@ -47,6 +49,12 @@ public class PauseOverlayManager : MonoBehaviour
             escAction.action.performed += OnEscPerformed;       // esc가 눌렸을때 사용될 콜백 함수 등록
             escAction.action.Enable();                          // 인풋 액션을 실제로 활성화 시키는 코드 (esc 입력 감지 시작)
         }
+        
+        if (tapAction != null)
+        {
+            tapAction.action.performed += OnTabPerformed;
+            tapAction.action.Enable();
+        }
     }
 
     private void OnDisable()
@@ -57,7 +65,13 @@ public class PauseOverlayManager : MonoBehaviour
             escAction.action.Disable();
         }
 
-        if(isPaused == true)                                    // 비활성화 상태에서 씬 언로드 시 타임스케일 복구
+        if (tapAction != null)
+        {
+            tapAction.action.performed -= OnTabPerformed;
+            tapAction.action.Enable();
+        }
+
+        if (isPaused == true)                                    // 비활성화 상태에서 씬 언로드 시 타임스케일 복구
         {
             Time.timeScale = 1f;
         }
@@ -68,11 +82,44 @@ public class PauseOverlayManager : MonoBehaviour
         if (isPaused == false)
         {
             PauseGame();
+
+            if (pauseUI != null)
+            {
+                pauseUI.SetActive(true);
+            }
         }
 
         else
         {
             ResumeGame();
+
+            if (pauseUI != null)
+            {
+                pauseUI.SetActive(false);
+            }
+        }
+    }
+
+    void OnTabPerformed(InputAction.CallbackContext ctx)
+    {
+        if( isPaused == false)
+        {
+            PauseGame();
+
+            if (controlUI != null)
+            {
+                controlUI.SetActive(true);
+            }
+        }
+
+        else
+        {
+            ResumeGame();
+
+            if (controlUI != null)
+            {
+                controlUI.SetActive(false);
+            }
         }
     }
 
@@ -89,11 +136,6 @@ public class PauseOverlayManager : MonoBehaviour
 
         isPaused = true;
         Time.timeScale = 0f;
-
-        if (pauseUI != null)
-        {
-            pauseUI.SetActive(true);
-        }
     }
 
     /// <summary>
@@ -109,11 +151,6 @@ public class PauseOverlayManager : MonoBehaviour
 
         isPaused = false;
         Time.timeScale = 1f; 
-
-        if(pauseUI != null)
-        {
-            pauseUI.SetActive(false);
-        }
     }
 
     /// <summary>
