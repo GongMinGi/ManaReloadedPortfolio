@@ -13,13 +13,16 @@ public class QARoomManager : MonoBehaviour
     [SerializeField] private float testDamage = 100f;
     [SerializeField] private bool isNoCooldown = false;
     [SerializeField] private bool canEnemyMove = true;
+    [SerializeField] private bool isFilterOn = false; 
     [SerializeField] private EnemyPooledObject enemyPrefab;
     [SerializeField] private float spawnDistance = 5f;
     [SerializeField] private Toggle noCooldownToggle;
     [SerializeField] private Toggle enemyMovementToggle;
+    [SerializeField] private Toggle skillIconFilterToggle;
 
     public bool IsNoCooldown { get { return isNoCooldown; } }
     public bool CanEnemyMove { get { return canEnemyMove; } }
+    public bool IsFilterOn { get { return isFilterOn; } }
 
     private void Awake()
     {
@@ -39,6 +42,7 @@ public class QARoomManager : MonoBehaviour
     {
         noCooldownToggle.onValueChanged.AddListener(ToggleNoCooldown);
         enemyMovementToggle.onValueChanged.AddListener(ToggleAllEnemyMovement);
+        skillIconFilterToggle.onValueChanged.AddListener(ToggleSkillIconFilter);
     }
 
     /// <summary>
@@ -91,5 +95,17 @@ public class QARoomManager : MonoBehaviour
     public void SpawnEnemy()
     {
         GameModeManager.EnemyManager.SpawnEnemyForQA(enemyPrefab,spawnDistance,canEnemyMove);
+    }
+
+    /// <summary>
+    /// 스킬 Icon 필터링 토글
+    /// </summary>
+    /// <param name="isOn">스킬 필터 적용 여부</param>
+    public void ToggleSkillIconFilter(bool isOn)
+    {
+        Debug.Log($"가능한 원소 스킬 필터 기능: {isOn}");
+        isFilterOn = isOn;
+
+        GameModeManager.SkillCastingManager.ApplySkillFilter(isOn);
     }
 }

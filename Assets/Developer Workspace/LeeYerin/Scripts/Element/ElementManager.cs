@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using FullOpaqueVFX;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -142,6 +145,31 @@ public class ElementManager : MonoBehaviour
         };
     }
     #endregion
+
+    /// <summary>
+    /// 현재 플레이어가 소유한 원소 기반으로 스킬 사용 가능 여부를 판단하는 메서드
+    /// 
+    /// 조합 마법 스킬의 레시피(CastList)에 있는 모든 원소가
+    /// 플레이어의 boundElements에 포함되어 있는지 검사
+    /// </summary>
+    /// <param name="skill">검사할 스킬</param>
+    /// <returns>필요 원소를 모두 갖추면 true, 아니면 false</returns>
+    public bool HasElementsForSkill(SkillHashTable skill)
+    {
+        // 중복 제거를 위해 HashSet 생성
+        HashSet<E_CastingType> recipeSet = new(skill.CastList);
+
+        // 각 원소가 플레이어 소유 원소에 있는지 확인
+        foreach (var element in recipeSet)
+        {
+            if (boundElements.Contains(element) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     /// <summary>
     /// 플레이어가 설정 중인 원소 슬롯의 시각적 상태를 갱신하는 메서드
