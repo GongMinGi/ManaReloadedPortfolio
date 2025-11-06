@@ -694,7 +694,7 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: d716b9f06b574332a1a460729f9b13af, type: 3}
   m_Controller: {fileID: 9100000, guid: 66607571cf4b48e4092943d508c4880f, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -744,10 +744,9 @@ MonoBehaviour:
   animator: {fileID: 95690966028241422}
   dieAnimDuration: 2
   isDie: 0
-  source: {fileID: -8891037049590306554}
-  deathSfxId: 110009
   agent: {fileID: 6695889057837887313}
   isMove: 0
+  isBeingControlled: 0
   hitSphere: {fileID: 1635598596339555567}
   activeDmgText: {fileID: 0}
   enemyHealthBar: {fileID: 0}
@@ -781,6 +780,7 @@ MonoBehaviour:
   curHp: 500
   moveSpeed: 11
   effectHandler: {fileID: 1190323839493632652}
+  IS_DEV_MODE: 0
 --- !u!114 &3127943182980027977
 MonoBehaviour:
   m_ObjectHideFlags: 0
