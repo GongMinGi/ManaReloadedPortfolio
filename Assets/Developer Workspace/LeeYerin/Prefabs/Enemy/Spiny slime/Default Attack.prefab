@@ -68,7 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rangeData: {fileID: 11400000, guid: b08590143203fa14a9bb259e55733d3e, type: 2}
   attackInterval: 1.5
-  attackDamage: 50
+  attackDamage: 30
   coolTime: 0
   duration: 0
   enemy: {fileID: 0}
