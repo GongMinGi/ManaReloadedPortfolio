@@ -1,4 +1,5 @@
 ﻿using Game.Combat.Stats;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
     [Header("Event -> UI 연결")]
     public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
     public UnityEvent onCastReset;
+    public UnityEvent onPlayerElementIsSet;
 
     [SerializeField] Animator playerAnim;                                   // 플레이어 애니메이션
     [SerializeField] float animDamp = 0.15f;                                // 애니메이션 전환 시의 보간 값 
@@ -63,7 +65,8 @@ public class PlayerController : MonoBehaviour
 
     private readonly List<E_CastingType> currentCastingList = new();
 
-    private static readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()
+    // TODO: elememtManager에도 매핑정보가 있으니 나중에 elementmanager를 통하게끔 통일
+    private readonly Dictionary<Key, E_CastingType> castingKeyMapping = new()       // 변경 가능한 매핑으로 전환
     {
         {Key.W, E_CastingType.Fire },
         {Key.A, E_CastingType.Light },
@@ -73,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Unity Update
+    #region Unity Event
 
     /// <summary>
     /// 물리 프레임마다 호출.
@@ -91,16 +94,17 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        GameModeManager.Player = this;                                  // 현재 플레이어 인스턴스를 GameModeManager에 등록
+        GameModeManager.Player = this;                                          // 현재 플레이어 인스턴스를 GameModeManager에 등록
+        GameModeManager.ElementManager.ApplyElementBindingsToPlayer(this);                      // 로드아웃에서 결정한 원소를 현재 플레이어에게 적용
 
         // 원거리 공격을 위한 초기 세팅 작업
-        foreach (var mapping in castingKeyMapping)
+        foreach (E_CastingType element in Enum.GetValues(typeof(E_CastingType)))
         {
-            rangedAttackController.CastedElementCount.Add(mapping.Value, 0);
+            rangedAttackController.CastedElementCount.Add(element, 0);
         }
 
         stats.OnDie += OnDie;
-        rangedAttackController.PlayerAnim = playerAnim;                 // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
+        rangedAttackController.PlayerAnim = playerAnim;                         // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
     }
     #endregion
 
@@ -170,15 +174,15 @@ public class PlayerController : MonoBehaviour
     /// - 게임 일시정지 입력 트리거
     /// - esc 버튼을 누르면 게임 시간을 멈추고, 일시정지 ui를 띄운다. 
     /// </summary>
-    public void OnOptionButton(InputAction.CallbackContext ctx)
-    {
-        if ( ctx.performed == false )
-        {
-            return;
-        }
+    //public void OnOptionButton(InputAction.CallbackContext ctx)
+    //{
+    //    if ( ctx.performed == false )
+    //    {
+    //        return;
+    //    }
 
-        GameModeManager.GameLogicManager.PauseGame();
-    }
+    //    GameModeManager.GameLogicManager.PauseGame();
+    //}
 
     public void OnDie(float tmp = 0)
     {
@@ -188,6 +192,15 @@ public class PlayerController : MonoBehaviour
         Debug.Log("사망");
 
         GameModeManager.GameLogicManager.GameOver();
+    }
+
+    /// <summary>
+    /// - wasd에 매핑된 속성을 바꾸는 메서드
+    /// - 매개변수로 바꿀 키와 변경할 속성을 받아서 변경한다.
+    /// </summary>
+    public void SetCastingKeyBinding(Key keyToChange, E_CastingType typeToChange)
+    {
+        castingKeyMapping[keyToChange] = typeToChange;
     }
 
     #region 속성 캐스팅

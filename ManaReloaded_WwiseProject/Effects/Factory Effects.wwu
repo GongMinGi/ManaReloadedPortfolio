@@ -1501,6 +1501,7 @@
 										<Property Name="StereoWidth" Type="Real32" Value="150"/>
 									</PropertyList>
 								</Effect>
+								<Effect Name="New_RoomVerb" ID="{E806A03E-A7AD-4BED-82C2-2917EB64849D}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3"/>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Exteriors" ID="{F49A7F7F-6562-433E-A73C-FCF4A76B2582}" ShortID="1065687125">

@@ -83,8 +83,16 @@ public class EnemyController : MonoBehaviour
         SetupStatHandlers();    // 스탯 변경 핸들러 등록 및 이동 속도 초기화
 
     }
+
+    private void FixedUpdate()
+    {
+        agent.updatePosition = true;
+    }
+
     private void Update()
     {
+        agent.updatePosition = false;
+
         if (player == null || isBeingControlled == true)
         {
             return;     // 플레이어의 Transform이 null이면 리턴

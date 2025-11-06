@@ -14,7 +14,27 @@
 							<ChildrenList>
 								<Bus Name="Ui" ID="{0F39B678-2955-4FFC-B008-55C99F4437C0}"/>
 								<Bus Name="Monster" ID="{EE34853B-4744-43BA-BABB-436B4FC0E93A}"/>
-								<Bus Name="Player" ID="{78E651A6-557D-4121-AB5B-7F5FCA84D4FD}"/>
+								<Bus Name="Player" ID="{78E651A6-557D-4121-AB5B-7F5FCA84D4FD}">
+									<ChildrenList>
+										<AuxBus Name="Reverb" ID="{3F8CAC12-9779-4E4C-855E-8DDA4FC29C55}">
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<Reference>
+														<Local>
+															<EffectSlot Name="" ID="{8106F9E8-6E7C-4346-984D-A4887A3D879F}" ShortID="659518563">
+																<ReferenceList>
+																	<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+																		<ObjectRef Name="New_RoomVerb" ID="{E806A03E-A7AD-4BED-82C2-2917EB64849D}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</AuxBus>
+									</ChildrenList>
+								</Bus>
 								<Bus Name="Ambience" ID="{0B48BE3F-5B47-4890-9B09-0A8A1C80A4E9}"/>
 							</ChildrenList>
 							<DuckingList>

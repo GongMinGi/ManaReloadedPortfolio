@@ -14,8 +14,8 @@ using UnityEngine;
 /// </summary>
 public class PooledObject : MonoBehaviour
 {
-    [SerializeField] bool autoRelease;  // 활성화 시 ReleaseRoutine을 자동 실행할지 여부
-    [SerializeField] float releaseTime; // 반환까지 대기할 시간 (초 단위)
+    [SerializeField] protected bool autoRelease = false;  // 활성화 시 ReleaseRoutine을 자동 실행할지 여부
+    [SerializeField] protected float releaseTime; // 반환까지 대기할 시간 (초 단위)
 
     [SerializeField] ObjectPool pool;
     public ObjectPool Pool { get { return pool; } set { pool = value; } }

@@ -236,10 +236,9 @@ MonoBehaviour:
   animator: {fileID: 5611543388560993443}
   dieAnimDuration: 2
   isDie: 0
-  source: {fileID: -993288786923011620}
-  deathSfxId: 110009
   agent: {fileID: 8599949159003592550}
   isMove: 0
+  isBeingControlled: 0
   hitSphere: {fileID: 2616862490948204115}
   activeDmgText: {fileID: 0}
   enemyHealthBar: {fileID: 0}

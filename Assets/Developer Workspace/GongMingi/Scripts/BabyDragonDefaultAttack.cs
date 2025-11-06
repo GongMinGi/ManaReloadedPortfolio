@@ -6,10 +6,8 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-
 namespace Game.combat.EnemyAttack
 {
-
     /// <summary>
     /// *작성자 : 공민기
     /// Baby Dragon의 기본 원거리 공격 컨트롤러.
@@ -39,24 +37,24 @@ namespace Game.combat.EnemyAttack
         [SerializeField] private bool fireUsingForward = true;                  // 발사 순간에 적의 정면으로 바라봄
         [SerializeField] private float stopFollowDelayAfterFire = 0.05f;        // 마지막 발사 직후 살짝 더 따라보다 끊김
 
-
         private bool aimFollowActive;                                           // 조준 (타깃 추적 회전) 활성화 여부
         private Coroutine stopAimCo;                                            // 조준 해제 지연 코루틴 핸들
         private UnitStats cachedTarget;                                         // 현재 타깃 캐시 (없으면 player 사용)
-        static private bool poolIsCreated = false;                              // 풀 생성 여부 (동일 프리팹을 여러 적이 써도 1회만 생성)
-
 
         /// <summary>
         /// 투사체 풀 초기화.
         /// - 초기/최대 수량은 게임 상황에 맞게 튜닝.
-        /// - 한 번만 생성하도록 static 플래그를 둠.
+        /// - HasPool을 통해서 투사체 풀이 존재하는지 확인
         /// </summary>
         private void Init()
         {
-            GameModeManager.PoolManager.CreatePool(projectilePrefab, 20, 30);   // 풀매니저에 투사체 풀 생성 (초기5개, 최대 10개) 
-            poolIsCreated = true;
-        }
+            if(GameModeManager.PoolManager.HasPool(projectilePrefab))
+            {
+                return;
+            }
 
+            GameModeManager.PoolManager.CreatePool(projectilePrefab, 20, 30);   // 풀매니저에 투사체 풀 생성 (초기5개, 최대 10개) 
+        }
 
         /// <summary>
         /// BaseAttack의 공격 틱마다 호출되는 "실행부".
@@ -65,7 +63,7 @@ namespace Game.combat.EnemyAttack
         /// </summary>
         protected override void PerformAttack(UnitStats target = null)
         {
-            if (!poolIsCreated) Init();  // 첫 호출 시 풀 초기화
+            Init();
 
             // 타깃 캐시 (매 프레임 trasnform을 찾는 비용 절감) 
             cachedTarget = target != null ? target : GameModeManager.Player?.Stats;
@@ -96,7 +94,6 @@ namespace Game.combat.EnemyAttack
             enemy.transform.rotation = Quaternion.RotateTowards(enemy.transform.rotation, targetRot, maxStep);
         }
 
-
         /// <summary>
         /// (애니메이션 이벤트) 콤보 종료.
         /// - 마지막 발사 직후 '조금 더' 따라보다 끊으면 시각적으로 안정감이 좋음.
@@ -118,7 +115,6 @@ namespace Game.combat.EnemyAttack
             aimFollowActive = false;                        // 조준 off ( 필요 시 여기서 NavMeshAgent 회전 권한 복귀) 
         }
 
-
         /// <summary>
         /// (애니메이션 이벤트) 발사 지점.
         /// - fireUsingForward=true이면 '현재 forward'로 발사 → 애니메이션 포즈/총구 방향과 100% 일치.
@@ -127,8 +123,6 @@ namespace Game.combat.EnemyAttack
         public void BabyDragonFire()
         {
             if (projectilePrefab == null || proejctileMuzzle == null) return;
-
-            //enemy.PlaySFX(atkSfxId);   // 공격 사운드 출력
 
             Transform target = cachedTarget != null ? cachedTarget.transform : GameModeManager.Player.transform;
 
@@ -152,7 +146,6 @@ namespace Game.combat.EnemyAttack
             PooledObject go = GameModeManager.PoolManager.GetPool(
                 projectilePrefab, proejctileMuzzle.position, projectileRot );
             projectileInstance = go as FireballProjectile_BabyDragon;
-
 
             // 투사체 파라미터 구성( Setup에서 이동/충돌 등 초기화)
             var projectileParam = new FireBallParams

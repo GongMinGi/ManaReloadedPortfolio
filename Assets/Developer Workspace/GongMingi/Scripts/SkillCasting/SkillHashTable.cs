@@ -1,10 +1,6 @@
-using NUnit.Framework;
+ï»¿using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
-
-
-
-
 
 public enum E_CastingType
 {
@@ -14,59 +10,49 @@ public enum E_CastingType
     Darkness, 
     Fire,
     Cold,
-
+    Water,
+    Air,
 
     None,
-    // ¹Ì±¸Çö
-    
-
+    // ë¯¸êµ¬í˜„
 }
 
-
-
 /// <summary>
-/// Æ¯Á¤ ¿ø¼Ò Á¶ÇÕ°ú ±×¿¡ ´ëÀÀÇÏ´Â ½ºÅ³(BaseSkill)À» ÇÏ³ªÀÇ ¿¡¼ÂÀ¸·Î º¸°üÇÏ´Â ScriptableObjectÀÔ´Ï´Ù.
-/// - CastList¿¡ Á¶ÇÕÀ», castSkill¿¡ ½ÇÁ¦ ½ºÅ³À» ÁöÁ¤ÇÏ°í Editor¿¡¼­ UpdateSetHash()·Î ÇØ½Ã°ªÀ» ¹Ì¸® °è»ê-ÀúÀåÇÕ´Ï´Ù.
-/// - ·±Å¸ÀÓ¿¡¼­´Â SkillCastingManager°¡ ÀÌ ÇØ½Ã¸¦ Å°·Î »ç¿ëÇØ ºü¸£°Ô ½ºÅ³À» Á¶È¸ÇÕ´Ï´Ù.
+/// íŠ¹ì • ì›ì†Œ ì¡°í•©ê³¼ ê·¸ì— ëŒ€ì‘í•˜ëŠ” ìŠ¤í‚¬(BaseSkill)ì„ í•˜ë‚˜ì˜ ì—ì…‹ìœ¼ë¡œ ë³´ê´€í•˜ëŠ” ScriptableObjectì…ë‹ˆë‹¤.
+/// - CastListì— ì¡°í•©ì„, castSkillì— ì‹¤ì œ ìŠ¤í‚¬ì„ ì§€ì •í•˜ê³  Editorì—ì„œ UpdateSetHash()ë¡œ í•´ì‹œê°’ì„ ë¯¸ë¦¬ ê³„ì‚°-ì €ì¥í•©ë‹ˆë‹¤.
+/// - ëŸ°íƒ€ì„ì—ì„œëŠ” SkillCastingManagerê°€ ì´ í•´ì‹œë¥¼ í‚¤ë¡œ ì‚¬ìš©í•´ ë¹ ë¥´ê²Œ ìŠ¤í‚¬ì„ ì¡°íšŒí•©ë‹ˆë‹¤.
 /// </summary>
-[CreateAssetMenu(menuName = "¡Ú½ºÅ³ Ãß°¡ ¹öÆ°¡Ú")]
+[CreateAssetMenu(menuName = "â˜…ìŠ¤í‚¬ ì¶”ê°€ ë²„íŠ¼â˜…")]
 public class SkillHashTable : ScriptableObject
 {
+    public int currentHashID;                       // Editorì—ì„œ ê³„ì‚° - ì €ì¥í•´ë†“ëŠ” í•´ì‹œ(ê³ ìœ ) ê°’ (ì¤‘ë³µë˜ì§€ ì•ŠìŒ)
 
-    public int currentHashID;                       // Editor¿¡¼­ °è»ê - ÀúÀåÇØ³õ´Â ÇØ½Ã(°íÀ¯) °ª (Áßº¹µÇÁö ¾ÊÀ½)
-
-    [Header("±âÈ¹¿ë ½ºÅ³ Á¦Á¶±â")]
-    public List<E_CastingType> CastList;            // ÁÖ¹® Á¶ÇÕ
-    public BaseCombinationMagic castSkill;                     // ÀÌ Á¶ÇÕÀ¸·Î ¹ßµ¿µÉ ½ÇÁ¦ ½ºÅ³
-
-
-
+    [Header("ê¸°íšìš© ìŠ¤í‚¬ ì œì¡°ê¸°")]
+    public List<E_CastingType> CastList;            // ì£¼ë¬¸ ì¡°í•©
+    public BaseCombinationMagic castSkill;          // ì´ ì¡°í•©ìœ¼ë¡œ ë°œë™ë  ì‹¤ì œ ìŠ¤í‚¬
 
     /// <summary>
-    /// **Editor Àü¿ë** ÇØ½Ã°ª °»½Å À¯Æ¿¸®Æ¼.
-    /// CastList(¿ø¼Ò Á¶ÇÕ)¸¦ <see cref="SkillCastingManager.GetCastTypeHashTable(List{E_CastingType})"/>
-    /// ·Î º¯È¯ÇØ currentHashID¿¡ ÀúÀåÇÑ´Ù.  
-    /// - CastList°¡ ºñ¾î ÀÖÀ¸¸é 0À» ±â·ÏÇØ ¿À·ù »óÈ²À» ½Äº°.  
-    /// - castSkillÀÌ ÇÒ´çµÇÁö ¾Ê¾ÒÀ» °æ¿ì °³¹ßÀÚ¿¡°Ô °æ°í ·Î±×¸¦ Ãâ·Â.  
-    /// ¸Ş´º Ç×¸ñ(¿ìÅ¬¸¯ Context Menu)À¸·Î ³ëÃâµÅ ¼öµ¿À¸·Î È£ÃâÇÒ ¼ö ÀÖ´Ù.
+    /// **Editor ì „ìš©** í•´ì‹œê°’ ê°±ì‹  ìœ í‹¸ë¦¬í‹°.
+    /// CastList(ì›ì†Œ ì¡°í•©)ë¥¼ <see cref="SkillCastingManager.GetCastTypeHashTable(List{E_CastingType})"/>
+    /// ë¡œ ë³€í™˜í•´ currentHashIDì— ì €ì¥í•œë‹¤.  
+    /// - CastListê°€ ë¹„ì–´ ìˆìœ¼ë©´ 0ì„ ê¸°ë¡í•´ ì˜¤ë¥˜ ìƒí™©ì„ ì‹ë³„.  
+    /// - castSkillì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ì„ ê²½ìš° ê°œë°œìì—ê²Œ ê²½ê³  ë¡œê·¸ë¥¼ ì¶œë ¥.  
+    /// ë©”ë‰´ í•­ëª©(ìš°í´ë¦­ Context Menu)ìœ¼ë¡œ ë…¸ì¶œë¼ ìˆ˜ë™ìœ¼ë¡œ í˜¸ì¶œí•  ìˆ˜ ìˆë‹¤.
     /// </summary>
-    [ContextMenu("[ÄÚµå ¾÷µ¥ÀÌÆ®]")]
+    [ContextMenu("[ì½”ë“œ ì—…ë°ì´íŠ¸]")]
     private void UpdateSetHash()
     {
-        if( CastList.Count <0)              // ÇöÀç ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ®ÀÇ Ä³½ºÆÃ µÈ ¿ø¼Ò°¡ ¾øÀ¸¸é
+        if( CastList.Count <0)              // í˜„ì¬ ìŠ¤í¬ë¦½í„°ë¸” ì˜¤ë¸Œì íŠ¸ì˜ ìºìŠ¤íŒ… ëœ ì›ì†Œê°€ ì—†ìœ¼ë©´
         {
-            currentHashID = 0;              // Á¶ÇÕ¸¶¹ıÀÌ ¸¸µé¾îÁú ¼ö ¾øÀ¸¹Ç·Î °íÀ¯¹øÈ£¸¦ 0À¸·Î ÇÒ´ç
+            currentHashID = 0;              // ì¡°í•©ë§ˆë²•ì´ ë§Œë“¤ì–´ì§ˆ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ê³ ìœ ë²ˆí˜¸ë¥¼ 0ìœ¼ë¡œ í• ë‹¹
         }
 
+        currentHashID = SkillCastingManager.GetCastTypeHashTable(CastList);     // ë“±ë¡í•œ ì›ì†Œ ì¡°í•© ë¦¬ìŠ¤íŠ¸ë¥¼ ë§¤ë‹ˆì €ì—ê²Œ ë„˜ê²¨ì„œ ê³ ìœ ë²ˆí˜¸ë¥¼ ë°›ì•„ì˜¨ë‹¤.
 
-        currentHashID = SkillCastingManager.GetCastTypeHashTable(CastList);     // µî·ÏÇÑ ¿ø¼Ò Á¶ÇÕ ¸®½ºÆ®¸¦ ¸Å´ÏÀú¿¡°Ô ³Ñ°Ü¼­ °íÀ¯¹øÈ£¸¦ ¹Ş¾Æ¿Â´Ù.
-
-
-        // CastSkill ´©¶ô ½Ã °æ°í Ç¥½Ã
-        if(!castSkill)                                          // ÇØ´ç Á¶ÇÕÀ¸·Î ¹ßµ¿½ÃÅ³ ½ºÅ³ÀÌ ÇÒ´çµÇ¾î ÀÖÁö ¾ÊÀº °æ¿ì ¿À·ù¸¦ Ãâ·ÂÇÑ´Ù. 
+        // CastSkill ëˆ„ë½ ì‹œ ê²½ê³  í‘œì‹œ
+        if(!castSkill)                                          // í•´ë‹¹ ì¡°í•©ìœ¼ë¡œ ë°œë™ì‹œí‚¬ ìŠ¤í‚¬ì´ í• ë‹¹ë˜ì–´ ìˆì§€ ì•Šì€ ê²½ìš° ì˜¤ë¥˜ë¥¼ ì¶œë ¥í•œë‹¤. 
         {
-            Debug.LogError("½ºÅ³ ¾øÀ½. ¸Â´ÂÁö È®ÀÎÇÏ±â");      
+            Debug.LogError("ìŠ¤í‚¬ ì—†ìŒ. ë§ëŠ”ì§€ í™•ì¸í•˜ê¸°");      
         }
-
     }
 }

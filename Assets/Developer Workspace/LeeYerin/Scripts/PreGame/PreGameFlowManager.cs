@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 개발자: 이예린
+/// 개발자: 이예린, 공민기
 /// 
 /// 전 게임 메뉴 흐름을 관리하는 매니저 클래스
 /// 게임 시작 전 로드아웃 UI 전환, 게임 씬 이동, 게임 종료 기능을 포함되어 있음
@@ -10,9 +10,9 @@ using UnityEngine.SceneManagement;
 public class PreGameFlowManager : MonoBehaviour
 {
     [Header("UI Setting")]
-    [SerializeField] GameObject gameMenuUI;     // 게임 메뉴 UI
-    [SerializeField] GameObject loadOutUI;      // 로드아웃 UI
-    [SerializeField] Animator playerAnimator;   // 로드아웃의 플레이어 애니메이터
+    [SerializeField] GameObject gameMenuUI;           // 게임 메뉴 UI
+    [SerializeField] GameObject loadOutUI;            // 로드 아웃 UI
+    [SerializeField] Animator playerAnimator;         // 로드아웃의 플레이어 애니메이터
 
     [Tooltip("Game scene name string")]
     [SerializeField] string gameSceneName = "Game Scene";

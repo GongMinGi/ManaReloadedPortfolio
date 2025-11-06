@@ -10,6 +10,7 @@ public class BaseCombinationMagic : MonoBehaviour
     protected Coroutine skillCoolTime;
     [NonSerialized]protected bool canUseSkill = true;
 
+    public int ID => skill_ID;
     public void SetCanUseSkill(bool flagParam) => canUseSkill = flagParam;
 
     public struct Context
@@ -27,6 +28,7 @@ public class BaseCombinationMagic : MonoBehaviour
         }
 
         canUseSkill = false;
+
         // 스킬 쿨타임 실행
         skillCoolTime = GameModeManager.Player.StartCoroutine(SkillCoolTimer());
     }
@@ -49,11 +51,15 @@ public class BaseCombinationMagic : MonoBehaviour
 
         while (time > 0f)
         {
-            yield return new WaitForSeconds(1f);
-            info.CoolTimeText.text = $"{--time}";
+            time -= Time.deltaTime;
+            info.CoolTimeText.text = $"{Mathf.CeilToInt(time)}";
+            info.CoolTimeUI.fillAmount = time / coolTime;   // 현재 남은 쿨타임 비율에 따라 UI 채우기
+
+            yield return null;
         }
 
         canUseSkill = true;
         info.CoolTimeUI.gameObject.SetActive(false);
+        info.CoolTimeUI.fillAmount = 1;
     }
 }

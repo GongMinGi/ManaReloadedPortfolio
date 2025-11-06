@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0981f42e9106d9a458cc47c005c70806, type: 3}
   m_Name: IceTornado
   m_EditorClassIdentifier: 
-  currentHashID: 343866842
-  CastList: 040000000400000002000000000000000400000004000000
+  currentHashID: -1538479911
+  CastList: 050000000500000003000000000000000500000005000000
   castSkill: {fileID: 5357307563477393534, guid: fbb48c7c2f474c24b854a7371cf742a8, type: 3}

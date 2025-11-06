@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0981f42e9106d9a458cc47c005c70806, type: 3}
   m_Name: EarthWall
   m_EditorClassIdentifier: 
-  currentHashID: 1628606902
-  CastList: 0000000000000000000000000000000000000000
+  currentHashID: 447543422
+  CastList: 0000000000000000
   castSkill: {fileID: 5583578488557551116, guid: fe87cbef3abdd0d46a4cff3c3967e8c3, type: 3}

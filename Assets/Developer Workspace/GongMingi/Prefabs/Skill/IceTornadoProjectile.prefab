@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1082657678202864191
 Transform:
   m_ObjectHideFlags: 0
@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6990018290610310188}
+  - {fileID: 5410300844066958897}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7455997013847914201
@@ -73,7 +74,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  tornadoEffect: {fileID: 6752441412266972753}
+  tornadoEffect: {fileID: 5410300844066958899}
 --- !u!1001 &7892539184754796903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126,18 +127,132 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTornado
       objectReference: {fileID: 0}
+    - target: {fileID: 8015373888706998467, guid: 7d24261006e5ad0469f874a048673a4e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8015373888706998467, guid: 7d24261006e5ad0469f874a048673a4e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5939239857975398035}
   m_SourcePrefab: {fileID: 100100000, guid: 7d24261006e5ad0469f874a048673a4e, type: 3}
---- !u!198 &6752441412266972753 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3473000037764988726, guid: 7d24261006e5ad0469f874a048673a4e, type: 3}
+--- !u!1 &196956101218621860 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8015373888706998467, guid: 7d24261006e5ad0469f874a048673a4e, type: 3}
   m_PrefabInstance: {fileID: 7892539184754796903}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5939239857975398035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196956101218621860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a01d20866b69944bc7dee9aab98c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLaunchEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 4327efb83cc6dcc4b9192404adb9095d, type: 2}
 --- !u!4 &6990018290610310188 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 902520975758107979, guid: 7d24261006e5ad0469f874a048673a4e, type: 3}
   m_PrefabInstance: {fileID: 7892539184754796903}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8137939918897490411
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1082657678202864191}
+    m_Modifications:
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322042558168451035, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      propertyPath: m_Name
+      value: TornadosTornado_Frost_Loop
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4322042558168451035, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4064666699153235287}
+  m_SourcePrefab: {fileID: 100100000, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+--- !u!1 &5410300844066958896 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4322042558168451035, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+  m_PrefabInstance: {fileID: 8137939918897490411}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4064666699153235287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5410300844066958896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a01d20866b69944bc7dee9aab98c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLaunchEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 4327efb83cc6dcc4b9192404adb9095d, type: 2}
+--- !u!4 &5410300844066958897 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4322042558168451034, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+  m_PrefabInstance: {fileID: 8137939918897490411}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5410300844066958899 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4322042558168451032, guid: 48bc10cf06067de41b6fa44371e5d7a3, type: 3}
+  m_PrefabInstance: {fileID: 8137939918897490411}
   m_PrefabAsset: {fileID: 0}

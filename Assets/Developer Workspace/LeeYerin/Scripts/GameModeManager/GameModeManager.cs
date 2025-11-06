@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// 개발자: 이예린
@@ -15,15 +17,20 @@ public static class GameModeManager
     /// 현재 활성화된 플레이어 컨트롤러 인스턴스
     /// 플레이어를 알아야 하는 매니저들은 설정 시 자동으로 주입
     [SerializeField] static PlayerController player;
-    public static PlayerController Player { get { return player; }set { player = value; } }
+    private static readonly Dictionary<Key, E_CastingType> tempElementBindings = new();
+
+    public static PlayerController Player { get { return player; } set { player = value; } }
     #endregion
 
     #region UI Manager
     private static UIManager uiManager;
+    private static PauseOverlayManager pauseOverlayManager;
     public static UIManager UIManager { get { return uiManager; } set { uiManager = value; } }
+    public static PauseOverlayManager PauseOverlayManager { get { return pauseOverlayManager; } set { pauseOverlayManager = value; } }
     #endregion
 
     #region Game Scene's Manager
+    private static ElementManager elementManager;
     private static GameLogicManager gameLogicManager;
     private static PoolManager poolManager;
     private static MapTileManager mapTileManager;
@@ -31,6 +38,7 @@ public static class GameModeManager
     private static SkillCastingManager skillCastingManager;
     private static QARoomManager qaRoomManager;
 
+    public static ElementManager ElementManager { get { return elementManager; }  set { elementManager = value; } }
     public static GameLogicManager GameLogicManager { get { return gameLogicManager; } set { gameLogicManager = value; } }
     public static PoolManager PoolManager { get { return poolManager; } set { poolManager = value;} }
     public static MapTileManager MapTileManager { get { return mapTileManager; } set { mapTileManager = value; mapTileManager.Player = player; } }

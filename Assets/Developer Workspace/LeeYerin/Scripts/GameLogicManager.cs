@@ -85,41 +85,6 @@ public class GameLogicManager : MonoBehaviour
     }
 
     /// <summary>
-    /// - 인게임에서 esc를 눌렀을 때 실행돼는 메서드
-    /// - 시간을 멈추고, pause ui를 활성화시킨다. 
-    /// </summary>
-    public void PauseGame()
-    {
-        if (isPaused == true)
-        {
-            return;
-        }
-
-        isPaused = true;
-        Time.timeScale = 0f;
-        GameModeManager.UIManager.ResetDmgTextPoolExist();      // 데미지 텍스트 풀 존재 여부 플래그를 초기화
-        pauseGameUI.SetActive(true);     // 게임 오버 UI 활성화
-    }
-
-    /// <summary>
-    /// - paused ui에서 버튼을 눌렀을때 실행돼는 메서드
-    /// - 시간을 다시 흐르게 하고 ui를 비활성화 시킨다.
-    /// </summary>
-    public void ResumeGame()
-    {
-        //Debug.Log("resume game 들어옴");
-        if (isPaused == false)
-        {
-            return;
-        }
-
-        isPaused = false;
-        Time.timeScale = 1.0f;                  // 시간을 원래대로 되돌림
-        pauseGameUI.SetActive(false);           // 정지 UI 비활성화
-            
-    }
-
-    /// <summary>
     /// 게임 종료 로직을 실행하는 메서드
     /// </summary>
     public void GameOver()
@@ -185,7 +150,9 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     public void GameRetry()
     {
-        ResumeGame();
+        GameModeManager.PauseOverlayManager.ResumeGame();
+
+        GameModeManager.UIManager.ResetDmgTextPoolExist();
 
         GameModeManager.UIManager.FadeOut(() =>
         {
@@ -195,41 +162,19 @@ public class GameLogicManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 페이드 아웃 후 게임 메인 메뉴 화면으로 이동하는 메서드
-    /// </summary>
-    public void GoToMainMenu()
-    {
-        ResumeGame();
-
-        GameModeManager.UIManager.LoadIntoLoadoutUI = false;
-        GameModeManager.UIManager.FadeOut(() => 
-        { 
-            SceneManager.LoadScene("Main Menu & Loadout Scene");
-        });
-    }
-
-    /// <summary>
     /// 페이드 아웃 후 로드아웃 화면으로 이동하는 메서드
     /// </summary>
     public void GoToLoadout()
     {
-        ResumeGame();
+        GameModeManager.PauseOverlayManager.ResumeGame();
+
+        GameModeManager.UIManager.ResetDmgTextPoolExist();
 
         GameModeManager.UIManager.LoadIntoLoadoutUI = true;
         GameModeManager.UIManager.FadeOut(() =>
         {
             SceneManager.LoadScene("Main Menu & Loadout Scene");
         });
-    }
-
-    /// <summary>
-    /// 게임을 종료하는 메서드
-    /// 플랫폼에 맞는 종료 처리 수행
-    /// </summary>
-    public void ExitGame()
-    {
-        ResumeGame();
-        GameModeManager.ExitGame();
     }
     #endregion
 }

@@ -82,6 +82,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="Play_Sfx_Ui_MouseClick" ID="{229D584A-5A54-4EB4-92D5-37F86D9AEDA2}">
+							<ChildrenList>
+								<Action Name="" ID="{FC37D775-FC6A-4294-9ABF-D1E7BC0CCEC0}" ShortID="411094136">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Ui_MouseClick" ID="{A21A6EB9-092C-463F-9E07-7A446C32AE1F}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Sfx_Range" ID="{89E8E3A1-CFB0-47DB-8241-C9BCEAD62272}" ShortID="907868114">
@@ -276,6 +287,172 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="Play_Sfx_Player_Spell_Firewall" ID="{88C51EE5-4AC8-4813-A05E-9B64AC3715B4}">
+							<ChildrenList>
+								<Action Name="" ID="{212EFC90-BB16-4491-83B6-316334B57D0E}" ShortID="587989512">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Firewall_Cast" ID="{1774A732-ECED-4796-9C04-499F3E725296}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{4C1B1E62-A907-4993-9100-91805D2165FB}" ShortID="395913974">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="0.75"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Firewall_Loop" ID="{980F4F18-51A1-4D46-B1DC-8C7567FA586D}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Stop_Sfx_Player_Spell_Firewall_LoopEnd" ID="{3AD21A52-B4CE-47A5-8323-C42A766D20C4}">
+							<ChildrenList>
+								<Action Name="" ID="{7B07A34B-DB7E-4EF4-A4CF-0D890692DFE2}" ShortID="827866823">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Firewall_Loop" ID="{980F4F18-51A1-4D46-B1DC-8C7567FA586D}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Stop_Sfx_Player_Spell_Icestorm_LoopEnd" ID="{25FB4CE6-E67B-47C7-9DFF-AFB53FA88672}">
+							<ChildrenList>
+								<Action Name="" ID="{51949983-9FAF-4AAA-BDF1-3C80181A23EE}" ShortID="403193803">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+										<Property Name="Scope" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Icestorm_Loop_01" ID="{49145628-CB61-4CCC-9C56-BD130EF7FBC7}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{8EA7D561-6D4F-457D-9CF1-D9EA19ACDA23}" ShortID="432114822">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+										<Property Name="Scope" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Icestorm_Loop_02" ID="{BA95623E-8F10-46A1-B8DB-C218806412F1}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Sfx_Player_Spell_Icestorm_01" ID="{DDFAFE74-6DC7-411C-8930-56729C348700}">
+							<ChildrenList>
+								<Action Name="" ID="{D08F58F4-45FF-41FF-A710-256DD800D873}" ShortID="577455913">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Icestorm_Cast_01" ID="{92B7F272-21AB-4446-A2EF-97674C25FE0A}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{854559A0-4372-4530-8316-AF54C3950CE1}" ShortID="590854380">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Icestorm_Loop_01" ID="{49145628-CB61-4CCC-9C56-BD130EF7FBC7}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{550C26DB-2AF8-41C2-ADDC-DCC24AC5D22C}" ShortID="810691430">
+									<PropertyList>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Icestorm_Loop_02" ID="{BA95623E-8F10-46A1-B8DB-C218806412F1}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Sfx_Player_Spell_Icestorm_02" ID="{CC520EA8-7F17-4383-A9D1-FCD6F7DCA3B4}">
+							<ChildrenList>
+								<Action Name="" ID="{D1B7B1B9-B7D3-4D63-9E96-6B3B62BF5A61}" ShortID="937365446">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Icestorm_Cast_02" ID="{8A397C3D-1E3F-4135-A54D-1D2D8F5CD993}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Sfx_Player_Spell_Lightbeam_Cast" ID="{E73A9F9B-71EB-464B-8A51-B21E600B9388}">
+							<ChildrenList>
+								<Action Name="" ID="{1A6570E3-F71C-4A55-9CFD-B0CB443E241F}" ShortID="262641456">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Lightbeam_Cast" ID="{1CFCC830-B90A-45E7-A853-771B68119C2E}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Sfx_Player_Spell_Push_Cast" ID="{06A7F2CA-BA9F-4AAE-A19A-37788C365495}">
+							<ChildrenList>
+								<Action Name="" ID="{5FBFCCF5-E5EE-4BAF-94EA-0C57E887821C}" ShortID="477948829">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Push_Cast" ID="{781948C4-6C84-46DF-AA80-2B5E517F929B}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Stop_Sfx_Player_Spell_Gaurdianspirit_Loop" ID="{E90E06D5-AF2A-4DCA-AD37-CAA5D4626E87}">
+							<ChildrenList>
+								<Action Name="" ID="{DA2834B1-7566-4861-9724-26131BBDFDC7}" ShortID="345124290">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+										<Property Name="Scope" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Gaurdianspirit_Loop" ID="{315E36B7-2ECD-4C33-BCDF-7E9D15B15060}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Sfx_Player_Spell_Gaurdianspirit_Cast" ID="{0E199488-0399-4C5C-AAA0-0ACE8D565BAD}">
+							<ChildrenList>
+								<Action Name="" ID="{BC39CA39-3ECF-49EE-8E35-C35EAAF128B2}" ShortID="457091372">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Gaurdianspirit_Cast" ID="{17FB5AD5-4DD4-4034-AA7C-9D7CCC3A9C2A}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Sfx_Player_Spell_Gaurdianspirit_Loop" ID="{229DF481-99C3-4A2E-BD78-7505C83DCE6C}">
+							<ChildrenList>
+								<Action Name="" ID="{9B269402-54F0-4765-8D9A-2B449A3B8FC0}" ShortID="768284112">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Spell_Gaurdianspirit_Loop" ID="{315E36B7-2ECD-4C33-BCDF-7E9D15B15060}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Bgm" ID="{C835A098-5DCB-4F72-8F78-8B399BFC3E8F}" ShortID="301244409">
@@ -330,6 +507,54 @@
 										<Property Name="Scope" Type="int16" Value="1"/>
 									</PropertyList>
 									<ReferenceList/>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Sfx_Melee" ID="{839C486C-4958-4E0B-90B5-346647B856C7}" ShortID="395085388">
+					<ChildrenList>
+						<Event Name="Play_Sfx_Player_Melee_Sword_Whoosh" ID="{4DD5596D-1BF7-4839-949D-FB7231C333E6}">
+							<ChildrenList>
+								<Action Name="" ID="{08861F84-D48A-412E-86AD-EA173490A1CE}" ShortID="334377476">
+									<PropertyList>
+										<Property Name="Probability" Type="Real64" Value="25"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Melee_Sword_Whoosh_01" ID="{CE37BAAD-F70F-4D5F-BAF3-4BD0E24BA926}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{D4E033A2-E1E5-457F-902D-FD7AC00CEF9E}" ShortID="201476593">
+									<PropertyList>
+										<Property Name="Probability" Type="Real64" Value="25"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Melee_Sword_Whoosh_02" ID="{018A07A8-DB01-480E-8EA3-9472195FCF3C}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{9433A8F7-8FD6-45ED-9A45-5E5816ADFA97}" ShortID="476704243">
+									<PropertyList>
+										<Property Name="Probability" Type="Real64" Value="25"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Melee_Sword_Whoosh_03" ID="{04361280-EC4C-47E5-AF30-1A88132425F0}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{B5A5D7E0-AB90-4DCE-8845-C1049C09B08D}" ShortID="899532219">
+									<PropertyList>
+										<Property Name="Probability" Type="Real64" Value="25"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Sfx_Player_Melee_Sword_Whoosh_04" ID="{C2AF5074-DEBA-49D1-A614-2AA614CB6798}" WorkUnitID="{37787CBA-91AC-422A-9CD6-8BDE790D2F3F}"/>
+										</Reference>
+									</ReferenceList>
 								</Action>
 							</ChildrenList>
 						</Event>
