@@ -222,10 +222,9 @@ MonoBehaviour:
   animator: {fileID: 5981485489234978053}
   dieAnimDuration: 2
   isDie: 0
-  source: {fileID: 8222663402391867990}
-  deathSfxId: 110007
   agent: {fileID: 8360473207618100856}
   isMove: 0
+  isBeingControlled: 0
   hitSphere: {fileID: 6766282891042374190}
   activeDmgText: {fileID: 0}
   enemyHealthBar: {fileID: 0}
@@ -1416,15 +1415,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 509000015497472285, guid: 04c0b2ef998045547bf35ac798d34bf4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -787.26855
+      value: -0.433
       objectReference: {fileID: 0}
     - target: {fileID: 509000015497472285, guid: 04c0b2ef998045547bf35ac798d34bf4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.2403352
+      value: -0.068
       objectReference: {fileID: 0}
     - target: {fileID: 509000015497472285, guid: 04c0b2ef998045547bf35ac798d34bf4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.5642943
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 509000015497472285, guid: 04c0b2ef998045547bf35ac798d34bf4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1458,10 +1457,6 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 6888355102072993155}
-    - target: {fileID: 5459832064620350961, guid: 04c0b2ef998045547bf35ac798d34bf4, type: 3}
-      propertyPath: attackDamage
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 7634752201271978635, guid: 04c0b2ef998045547bf35ac798d34bf4, type: 3}
       propertyPath: m_Name
       value: Default Attack
