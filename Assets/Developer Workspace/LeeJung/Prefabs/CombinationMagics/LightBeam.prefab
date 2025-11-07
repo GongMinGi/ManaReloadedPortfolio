@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill_ID: 2000001
-  coolTime: 10
+  coolTime: 30
   projectilePrefab: {fileID: 4597946207220317269, guid: 22e3ed38b66eb6e439fd97021cb568ab, type: 3}
   duration: 1
   spawnTime: 0.5
-  radius: 2.5
+  radius: 2
   damage: 3000
   spawnDistance: 1
   lightBeamLength: 30
