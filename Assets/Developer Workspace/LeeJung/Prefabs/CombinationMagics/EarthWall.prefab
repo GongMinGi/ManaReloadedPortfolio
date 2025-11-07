@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill_ID: 2000004
-  coolTime: 10
+  coolTime: 8
   projectilePrefab: {fileID: 6094168604853758788, guid: d404664c600e97342897a604e05f2705, type: 3}
   wallDuration: 12
   wallSpawnTime: 0.5

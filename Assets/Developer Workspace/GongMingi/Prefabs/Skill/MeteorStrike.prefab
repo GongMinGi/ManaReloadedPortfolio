@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill_ID: 2000010
-  coolTime: 10
+  coolTime: 20
   addtionalProjectilePrefab: {fileID: 6968842181683009008, guid: 4957a99b781478b4b83bcefa87a08b2a, type: 3}
   projectilePrefab: {fileID: 5011789713464017756, guid: 79dfe37bfb7efe241b15408d3b804aba, type: 3}
   spawnHeight: 12
@@ -53,12 +53,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 256
   maxRayDistance: 1000
   fallbackPlaneY: 0
-  impactRadius: 6
+  impactRadius: 7
   damage: 5000
   impactVfxPrefab: {fileID: 0}
   enemyLayer:

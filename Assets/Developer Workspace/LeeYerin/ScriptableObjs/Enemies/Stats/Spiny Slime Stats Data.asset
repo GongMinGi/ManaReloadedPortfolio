@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Spiny Slime Stats Data
   m_EditorClassIdentifier: 
   baseHP: 2000
-  baseMoveSpeed: 7
+  baseMoveSpeed: 5
   baseDefense: 1

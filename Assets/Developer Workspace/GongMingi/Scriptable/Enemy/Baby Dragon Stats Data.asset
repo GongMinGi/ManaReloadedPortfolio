@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa2658a35aabc743ba988f127894cae, type: 3}
   m_Name: Baby Dragon Stats Data
   m_EditorClassIdentifier: 
-  baseHP: 800
-  baseMoveSpeed: 7
+  baseHP: 1200
+  baseMoveSpeed: 6
   baseDefense: 0
