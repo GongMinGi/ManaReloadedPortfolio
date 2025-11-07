@@ -7360,22 +7360,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 96983193637290781, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 339908038149689468, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
-      propertyPath: IS_DEV_MODE
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677093843945389770, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
-      propertyPath: tickInterval
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677093843945389770, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
-      propertyPath: damagePerTick
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 3974701883712897950, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.051
@@ -7416,25 +7400,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4618563446745205528, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
-      propertyPath: onCastAdded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 110074648}
-    - target: {fileID: 4618563446745205528, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
-      propertyPath: onCastReset.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 110074648}
-    - target: {fileID: 4618563446745205528, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
-      propertyPath: onCastAdded.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateSlot
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618563446745205528, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
-      propertyPath: onCastReset.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ResetAll
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 6993290839911245738, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b2e61ec1aa37074987d769697360b54, type: 3}

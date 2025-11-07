@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Knght StatsData
   m_EditorClassIdentifier: 
   baseHP: 4500
-  baseMoveSpeed: 6
+  baseMoveSpeed: 7
   baseDefense: 1

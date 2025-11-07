@@ -45,14 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill_ID: 2000002
-  coolTime: 2
+  coolTime: 10
   projectilePrefab: {fileID: -2329545541338644565, guid: 02072240e7c4786499b51aa2e0ed3b9c, type: 3}
-  areaDuration: 8
+  areaDuration: 12
   areaTickInterval: 0.1
   areaXSize: 6
   areaZSize: 10
   spawnDistance: 1
-  tickDamage: 60
+  tickDamage: 40
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128

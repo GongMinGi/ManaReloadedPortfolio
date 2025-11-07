@@ -80,11 +80,11 @@ MonoBehaviour:
   muzzle: {fileID: 0}
   projectileSpeed: 15
   projectileRange: 18
-  explosionRadius: 2
+  explosionRadius: 3.5
   isChargeable: 1
   baseDamage: 10
   damageStep: 300
-  maxDamage: 2000
+  maxDamage: 3000
   chargeInteval: 0.3
   enemyLayer:
     serializedVersion: 2
@@ -132,7 +132,6 @@ Transform:
   m_Children:
   - {fileID: 4860528794396609810}
   - {fileID: 4834316006775311618}
-  - {fileID: 1577329264515228837}
   - {fileID: 7206174755586428063}
   - {fileID: 7011744414313990953}
   - {fileID: 5723486083672844291}
@@ -291,9 +290,25 @@ MonoBehaviour:
     m_ActionId: 0d0fa949-5684-461a-a96b-6a19cd270092
     m_ActionName: 'player/CombinationMagicAttack[/Keyboard/space]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4618563446745205528}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnOptionButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b53501f5-7ebe-4093-be3d-ac33853c072b
     m_ActionName: 'player/OptionButton[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a0de09af-6654-4c9f-a6ed-2ef346c61120
+    m_ActionName: 'player/HelpButton[/Keyboard/tab]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: player
@@ -394,7 +409,7 @@ MonoBehaviour:
   curHp: 100
   moveSpeed: 0
   effectHandler: {fileID: 5827740171549540368}
-  IS_DEV_MODE: 1
+  IS_DEV_MODE: 0
 --- !u!114 &5827740171549540368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,12 +510,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireVFX: {fileID: 164998491898193741}
-  radius: 10
+  radius: 8
   angle: 60
   flatCone: 1
   maxDuration: 4
-  tickInterval: 0.2
-  damagePerTick: 400
+  tickInterval: 0.04
+  damagePerTick: 20
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -661,14 +676,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1216415333823126567, guid: 329949cb13da9024593828ad68f88294, type: 3}
   muzzle: {fileID: 0}
-  projectileSpeed: 10
-  projectileRange: 60
+  projectileSpeed: 12
+  projectileRange: 66
   explosionRadius: 0
-  isChargeable: 0
-  baseDamage: 1500
-  damageStep: 0
-  maxDamage: 0
-  chargeInteval: 0
+  isChargeable: 1
+  baseDamage: 0
+  damageStep: 6
+  maxDamage: 6666
+  chargeInteval: 0.004
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -5916,12 +5931,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargeVFX: {fileID: 902737888669017459}
   attackVFX: {fileID: 6609921311501273855}
-  radius: 8
+  radius: 7
   angle: 120
   flatcone: 1
   baseDamage: 100
-  damageStep: 500
-  maxDamage: 3000
+  damageStep: 300
+  maxDamage: 2000
   chargeInterval: 0.2
   enemyLayer:
     serializedVersion: 2
@@ -6091,7 +6106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   castingCircleRoot: {fileID: 7793413437790075016}
   castingCircleVFX: {fileID: 797784518864179116, guid: a34ebb0872409ac4289e3ab7685a081e, type: 3}
-  player: {fileID: 0}
+  player: {fileID: 3974701883712897950}
   yOffset: 0.02
   keepWorldRotation: 1
 --- !u!1 &1492580787734594042
@@ -6413,11 +6428,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireVFX: {fileID: 8316660211850504780}
-  radius: 4
-  angle: 80
+  radius: 8
+  angle: 60
   flatCone: 1
-  maxDuration: 6
-  tickInterval: 0.05
+  maxDuration: 4
+  tickInterval: 0.04
   damagePerTick: 20
   enemyLayer:
     serializedVersion: 2
@@ -18016,9 +18031,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd1991eaf87f9e44837f369aac388ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 2
+  radius: 2.2
   angle: 150
-  damage: 400
+  damage: 200
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -18150,124 +18165,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1429408929784084867}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6993290839911245738
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1577329264515228837}
-  - component: {fileID: 7025866016548733447}
-  - component: {fileID: 5795229970526878544}
-  - component: {fileID: 5623467714743046571}
-  m_Layer: 0
-  m_Name: 'For Enemy Tracking '
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 40
-  m_IsActive: 1
---- !u!4 &1577329264515228837
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6993290839911245738}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.13, z: 0.01}
-  m_LocalScale: {x: 20, y: 1, z: 20}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3974701883712897950}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7025866016548733447
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6993290839911245738}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5795229970526878544
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6993290839911245738}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials: []
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5623467714743046571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6993290839911245738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 55
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_GenerateLinks: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 1e6b5766b14492b45be62e6818aad75c, type: 2}
-  m_BuildHeightMesh: 0
 --- !u!1 &7313606391825394822
 GameObject:
   m_ObjectHideFlags: 0
@@ -23890,7 +23787,7 @@ MonoBehaviour:
   maxDistance: 15
   maxDuration: 4
   tickInterval: 0.2
-  damagePerTick: 700
+  damagePerTick: 500
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128

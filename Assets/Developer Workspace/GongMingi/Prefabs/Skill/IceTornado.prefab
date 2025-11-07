@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill_ID: 2000008
-  coolTime: 10
+  coolTime: 20
   maxRayDistance: 1000
   projectilePrefab: {fileID: 7455997013847914201, guid: 4b3a6e94bd6d321469d82c0af8be9674, type: 3}
   duration: 6

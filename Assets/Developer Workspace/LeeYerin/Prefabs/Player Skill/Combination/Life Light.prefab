@@ -53,7 +53,7 @@ MonoBehaviour:
   duration: 5
   value: 0
   tickInterval: 0.2
-  healingRatio: 1.5
+  healingRatio: 0.8
   buffVFX: {fileID: 250900152326225646}
 --- !u!1001 &4278132236462211241
 PrefabInstance:
