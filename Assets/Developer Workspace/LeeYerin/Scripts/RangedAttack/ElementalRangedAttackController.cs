@@ -34,6 +34,7 @@ public class ElementalRangedAttackController : MonoBehaviour
     [SerializeField] RangedChargeConeAttack chargeConeAttack;
     [SerializeField] RangedChargeProjectileAttack chargeProjectileAttack;
     [SerializeField] RangedBeamAttack beamAttack;
+    [SerializeField] RangedWindBeamAttack windBeamAttack;
     [SerializeField] RangedConeAttack coneAttack;
     [SerializeField] RangedIceConeAttack iceConeAttack;
     [SerializeField] RangedChargeProjectileAttack darkProjectileAttack;
@@ -87,11 +88,6 @@ public class ElementalRangedAttackController : MonoBehaviour
     ///  - 각 액션을 animator의 파라미터메서드와 결합시킨다.
     ///  - 어떤 스크립트인지 몰라도 Monobehavior라면 받아서 인터페이스 구현 여부만 보고 바인딩을 한다
     /// </summary>
-    /// <param name="rangedAttack"></param>
-    /// <param name="boolHash"></param>
-    /// <param name="useProgress"></param>
-    /// <param name="triggerHash"></param>
-    /// <returns></returns>
     private AttackBinding WireAttack(
         MonoBehaviour rangedAttack,                                                     // 모든 공격 클래스가 Monobehavior상속 => 특정 클래스 이름을 알 필요없이 어떤 공격이든 전달가능
         int?          boolHash    = null,                                               // 지속형 공격이면 Animator Bool 해시
@@ -147,21 +143,21 @@ public class ElementalRangedAttackController : MonoBehaviour
 
         public void Subscribe()                                                         // signal(이벤트)과 그 이벤트에서 호출할 함수(Acition)을 묶는다.
         {
-            if (rangedAttackSignal == null) { return; }                                           // signal(이벤트)이 없으면 아무것도 하지 않음
-            if (Started            != null) { rangedAttackSignal.Started     += Started;     }         // 시작 이벤트 연결
-            if (Ended              != null) { rangedAttackSignal.Ended       += Ended;       }           // 종료 이벤트 연결
+            if (rangedAttackSignal == null) { return; }                                            // signal(이벤트)이 없으면 아무것도 하지 않음
+            if (Started            != null) { rangedAttackSignal.Started     += Started;     }     // 시작 이벤트 연결
+            if (Ended              != null) { rangedAttackSignal.Ended       += Ended;       }     // 종료 이벤트 연결
             if (Interrupted        != null) { rangedAttackSignal.Interrupted += Interrupted; }     // 취소 이벤트 연결    
             if (Progress           != null) { rangedAttackSignal.Progress    += Progress;    }     // 진행도 이벤트 연결
         }
 
-        public void Dispose()                                                                  // IDisposeable을 이용하여 안전하게 구독 해제 
+        public void Dispose()                                                                     // IDisposeable을 이용하여 안전하게 구독 해제 
         {
             if (rangedAttackSignal == null) { return; }                                           // 이미 해제된 경우 바로 종료 
-            if (Started            != null) { rangedAttackSignal.Started     -= Started;     }        // 시작 이벤트 해제
-            if (Ended              != null) { rangedAttackSignal.Ended       -= Ended;       }       // 종료 이벤트 해제
-            if (Interrupted        != null) { rangedAttackSignal.Interrupted -= Interrupted; }  // 취소 이벤트 해제
-            if (Progress           != null) { rangedAttackSignal.Progress    -= Progress;    }     // 진행도 이벤트 해제
-            Started = Ended = Interrupted = null;                                              // 델리게이트 참조를 제거해 GC 대상화
+            if (Started            != null) { rangedAttackSignal.Started     -= Started;     }    // 시작 이벤트 해제
+            if (Ended              != null) { rangedAttackSignal.Ended       -= Ended;       }    // 종료 이벤트 해제
+            if (Interrupted        != null) { rangedAttackSignal.Interrupted -= Interrupted; }    // 취소 이벤트 해제
+            if (Progress           != null) { rangedAttackSignal.Progress    -= Progress;    }    // 진행도 이벤트 해제
+            Started = Ended = Interrupted = null;                                                 // 델리게이트 참조를 제거해 GC 대상화
             Progress = null;
         }
     }
@@ -231,6 +227,7 @@ public class ElementalRangedAttackController : MonoBehaviour
                     Debug.Log("얼음속성 원거리 공격 출력");
                     break;
                 case E_CastingType.Air:
+                    BeamAttack(castingType.Value);
                     Debug.Log("바람속성 원거리공격 출력");
                     break;
             }
@@ -323,6 +320,9 @@ public class ElementalRangedAttackController : MonoBehaviour
         {
             case E_CastingType.Light:
                 beamAttack.ExecuteAttack(castingType);
+                break;
+            case E_CastingType.Air:
+                windBeamAttack.ExecuteAttack(castingType);
                 break;
             default:
                 Debug.LogWarning("BeamAttack 할 수 없는 원소 속성입니다.");

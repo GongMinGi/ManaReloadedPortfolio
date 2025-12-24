@@ -11,27 +11,22 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
 {
-
     #region Field and Property
 
     private RangedAttackContext _ctx;
-
     public event Action Started;
     public event Action<float> Progress;
     public event Action Ended;
     public event Action Interrupted;
 
-
     [Header("Projectile Pool / Muzzle")]
     [SerializeField] private AbstractProjectile projectilePrefab;    // 원거리 공격 시 프리팹
     [SerializeField] private Transform muzzle;                          // 발사할 위치 ( 발사체 시작 위치 )
-
 
     [Header("Projectile Spec")]
     [SerializeField] private float projectileSpeed = 15f;               // 투사체 속도
     [SerializeField] private float projectileRange = 18f;               // 투사체 최대 사거리
     [SerializeField] private float explosionRadius = 4f;                // 투사체 폭발 반경
-
 
     [Header("Charge")]
     [SerializeField] private bool isChargeable = true;                // 차지 가능 여부
@@ -48,9 +43,7 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
     bool isCharging;                                                    // 차지 중 여부
     int currentDamage;                                                  // 현재 누적(강화)된 데미지
     AbstractProjectile projectileInstance;                           // 발사할 투사체에 정보(매개변수)를 전달하기 위해 다운캐스팅한 인스턴스를 저장 할
-
     #endregion
-
 
     #region Unity Event
     void Awake()
@@ -62,12 +55,9 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
     {
         GameModeManager.PoolManager.CreatePool(projectilePrefab, 20, 30);   // 풀매니저에 투사체 풀 생성 (초기20개, 최대 30개) 
     }
-
     #endregion
 
-
     public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
-
 
     #region Interface Implementation
 
@@ -90,7 +80,6 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
         }
     }
 
-
     /// <summary>
     /// - 클래스 외부에서 차지를 멈출 수 있는 메서드
     /// </summary>
@@ -99,11 +88,8 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
         if (!isCharging) return;                                        // 차지 중이 아니라면 무시
         StopCoroutine(chargeCo);                                        // 차지 취소
         isCharging = false;
-
     }
-
     #endregion
-
 
     #region Charge And Projectile
 
@@ -136,7 +122,6 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
             float t = Mathf.Clamp01((currentDamage - baseDamage) / (float)denom);
             Progress?.Invoke(t);
 
-
             yield return null;                                          // 다음 프레임까지 대기
         }
 
@@ -144,7 +129,6 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
         isCharging = false;                                             // 차지 종료
         Ended?.Invoke();        // 발사 후 종료
     }   
-
 
     /// <summary>
     /// - 인스펙터에 등록된 투사체 프리팹을 발사한다.
@@ -165,9 +149,7 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
             obstacleL = obstacleLayer,
         };
 
-
         projectileInstance.Setup(projectileParam);                    // 투사체 오브젝트에 변수 전달
     }
-
     #endregion
 }
