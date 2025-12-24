@@ -17,7 +17,6 @@ using UnityEngine.InputSystem;
 public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
 {
     #region Field and Property
-
     private RangedAttackContext _ctx;        // 변수 이름 수정 필요
 
     [Header("VFX Setting")]     // 구현: 이예린
@@ -32,7 +31,6 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     public event Action Ended;
     public event Action Interrupted;
 
-
     [Header("Beam Settings")]
     [SerializeField] private float maxDistance = 15f;       // 빔 최대 사거리
     [SerializeField] private float maxDuration = 4f;        // 한 번에 지속 가능한 최대 시간
@@ -40,10 +38,6 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     [SerializeField] private int damagePerTick = 6;         // 틱당 피해량
     [SerializeField] private LayerMask enemyLayer;          // 적 레이어
     [SerializeField] private LayerMask obstacleLayer;       // 빔을 막는 지형 레이어
-
-    [Header("SoundSetting")]
-    [SerializeField] int sfxId = 110016;                                                        // 재생할 사운드 리소스 아이디
-
 
     [Header("Visual")]
     [SerializeField] private Transform muzzle;              // 빔 시작 지점
@@ -53,31 +47,23 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
     private Coroutine beamRoutine;                          // 현재 실행중인 빔 코루틴 핸들
     private bool isFiring;                                  // 빔 공격 실행 중 여부
-
     #endregion
 
     #region Unity Event
-
     private void Awake()
     {
         lr.enabled = false;                                 // 초기화 시에 일단 라인랜더러를 꺼 놓는다.
         if (muzzle == null) muzzle = transform;             // 디폴트 : 플레이어 transform
     }
-
     #endregion
-
 
     public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
 
-
     #region IRangedAttack Implementation
-
     public void ExecuteAttack(E_CastingType type)
     {       
         if (isFiring) return;                               // 이미 발사 중이면 무시
-        //GameModeManager.SoundManager.PlaySFX(110016);       // 빔 발사 사운드 , 하드코딩으로 빌드용 버그 없이 수정
         beamRoutine = StartCoroutine(FireBeam());           // 빔 코루틴 시작
-      
     }
 
     /// <summary>
@@ -93,13 +79,10 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     }
     #endregion
 
-
-
     #region Beam Implementation
 
     IEnumerator FireBeam()
     {
-
         isFiring = true;                                    // 발사 상태 ON
         //lr.enabled = true;                                // 라인 표시 ON
         Started?.Invoke();                                  // 시작 신호
@@ -119,8 +102,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
             RaycastHit hit;                                 // 단일 Raycast 결과 저장용
 
             // 장애물 / 적 레이어에만 충돌 검사 (트리거는 무시)
-            if (Physics.Raycast(origin, dir, out hit, maxDistance,
-                enemyLayer | obstacleLayer , QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(origin, dir, out hit, maxDistance, enemyLayer | obstacleLayer , QueryTriggerInteraction.Ignore))
             {
                 beamLength = hit.distance;                                      // 빔 길이를 충돌지점까지로 줄임
 
@@ -136,48 +118,52 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
                 // 데미지는 틱 간격 으로만 적용 ( 프레임마다가 아님)
                 bool hitEnemy = enemyLayer.Contain(hit.collider.gameObject.layer);
+
                 if( hitEnemy && Time.time >= nextTickTime )
                 {
                     if (hit.collider.TryGetComponent(out UnitStats target))
+                    {
                         target.TakeDamage(damagePerTick);                       // 데미지 1틱 적용
+                    }
 
                     nextTickTime = Time.time + tickInterval;                    // 다음 틱 시간 갱신
                 }
-
             }
+
             else
             {
                 // 히트가 없으면 임팩트 파티클 끄기 ( 잔상 없이 자연스럽게)
                 if( impactParticle && impactParticle.isPlaying)
+                {
                     impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting );
+                }
             }
-
 
             //// 라인 렌더러 길이 갱신
             //lr.SetPosition(0, origin);                      // 시작점
             //lr.SetPosition(1, origin + dir * beamLength);   // 충돌지점( 혹은 최대 사거리 지점)
 
-
-
             // 전체 지속시간 대비 진행률 이벤트 ( UI 게이지 등에서 활용 가능)
             float t = Mathf.InverseLerp(0f, maxDuration, Time.time - startTime);
             Progress?.Invoke(t);
-
 
             yield return null;
         }
 
         //종료 처리
         //lr.enabled = false;                                 //빔 라인 숨김 
-        if (beamloopParticle) beamloopParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        if (beamloopParticle)
+        {
+            beamloopParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
         if (impactParticle && impactParticle.isPlaying)
+        {
             impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
 
-        //GameModeManager.SoundManager.StopSFX();
         isFiring = false;                                   // 상태 리셋 ( 빔 발사 중 false 변경)            
         Ended?.Invoke();                                    // 애니메이션 정상 종료
     }
-
     #endregion
 
 #if UNITY_EDITOR // SCENE 뷰 디버그
@@ -187,8 +173,6 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(muzzle.position, muzzle.position + muzzle.forward * maxDistance);
     }
-
-
 #endif
 
 }
