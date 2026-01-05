@@ -9,15 +9,17 @@ using UnityEngine.InputSystem;
 /// 원거리 바람 빔 공격을 관리하는 클래스.
 /// 마우스 왼쪽 버튼을 누르는 동안 전방으로 빔을 발사하며 틱 데미지와 슬로우 효과를 준다.
 /// </summary>
-public class RangedWindBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
+public class RangedWindBeamAttack : MonoBehaviour, IRangedAttack 
 {
-    private RangedAttackContext _ctx;
+    public int? AnimationBoolHash => throw new NotImplementedException();
+    public int? AnimationTriggerHash => throw new NotImplementedException();
+    public bool UseProgress => throw new NotImplementedException();
 
     // 공격 상태 알림을 위한 이벤트들
-    public event Action Started;            // 공격 시작 시 발생
-    public event Action<float> Progress;    // (현재미사용) 진행률 알림음
-    public event Action Ended;              // 공격 정상 종료 시 발생
-    public event Action Interrupted;        // 공격 중단 시 발생
+    public event Action OnAttackStarted;            // 공격 시작 시 발생
+    public event Action<float> OnProgressUpdated;    // (현재미사용) 진행률 알림음
+    public event Action OnAttackEnded;              // 공격 정상 종료 시 발생
+    public event Action OnAttackInterrupted;        // 공격 중단 시 발생
 
     [Header("VFX Setting")]
     [SerializeField] private ParticleSystem beamLoopParticle;
@@ -28,7 +30,6 @@ public class RangedWindBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttack
     [SerializeField] private float tickInterval = 0.5f;
     [SerializeField] private int damagePerTick = 150;
     [SerializeField] private Vector2 beamSize = new Vector2(2f, 30f);
-
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask obstacleLayer;
 
@@ -52,11 +53,6 @@ public class RangedWindBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttack
         }
 
         windSlowEffect = new SlowEffect(slowDuration, false, slowEffectId, slowAmount, ModifierMode.Multiply);
-    }
-
-    public void BindContext(RangedAttackContext ctx)
-    {
-        _ctx = ctx;
     }
 
     /// <summary>
@@ -84,7 +80,7 @@ public class RangedWindBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttack
 
         StopCoroutine(beamRoutine);
         isFiring = false;
-        Interrupted?.Invoke();
+        OnAttackInterrupted?.Invoke();
 
         beamLoopParticle.Stop(true);
         beamLoopParticle.Clear(true);
@@ -96,7 +92,7 @@ public class RangedWindBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttack
     IEnumerator FireBeam()
     {
         isFiring = true;
-        Started?.Invoke();
+        OnAttackStarted?.Invoke();
 
         float startTime = Time.time;
         float nextTicktime = 0f;
@@ -151,5 +147,15 @@ public class RangedWindBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttack
         beamLoopParticle.Clear(true);
         isFiring = false;
     }
-
 }
+
+#region legacy
+//private RangedAttackContext _ctx;
+
+
+//public void BindContext(RangedAttackContext ctx)
+//{
+//    _ctx = ctx;
+//}
+
+#endregion

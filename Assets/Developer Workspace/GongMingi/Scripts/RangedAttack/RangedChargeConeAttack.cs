@@ -12,20 +12,21 @@ using UnityEngine.Rendering.UI;
 ///   - 마우스 좌클릭을 누르는 동안 충전하고 때는 순간에 마법을 발사한다
 ///   
 /// </summary>
-public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
+public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack
 {
     #region Field and Property
-
-    private RangedAttackContext _ctx;
+    public int? AnimationBoolHash => AnimParams.ChargeCone;
+    public int? AnimationTriggerHash => null;
+    public bool UseProgress => false;
 
     [Header("VFX Setting")]     // 구현: 이예린
     [SerializeField] VFXObject chargeVFX;
     [SerializeField] VFXObject attackVFX;
 
-    public event Action Started;
-    public event Action<float> Progress;
-    public event Action Ended;
-    public event Action Interrupted;
+    public event Action OnAttackStarted;
+    public event Action<float> OnProgressUpdated;
+    public event Action OnAttackEnded;
+    public event Action OnAttackInterrupted;
 
     [Header("Cone Parameters")]
     [SerializeField] private float radius = 6f;                 // 적 탐지 반경
@@ -38,32 +39,21 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
     [SerializeField] private int maxDamage = 60;                // 상한선
     [SerializeField] private float chargeInterval = 0.5f;       // 스택 주기 (sec) 
 
-
     [Header("Layers")]
     [SerializeField] private LayerMask enemyLayer;              // 감지할 적 레이어 
-
-    [Header("SoundSetting")]
-    [SerializeField] int sfxId = 110015;                                                        // 재생할 사운드 리소스 아이디
 
     float cosThreshold;                                         // 공격범위 부채꼴 각도
     int currentDamage;                                          // 현재 누적(스택)데미지
     bool isCharging;                                            // 차지 중 여부
     Coroutine chargeRoutine;                                    // 코루틴 핸들러
-
     #endregion
 
-
     #region Unity Event
-
     /// <summary>
     /// - 인스펙터에 들어온 각도 값으로 부채꼴(공격범위)의 각을 정한다.
     /// </summary>
     private void Awake() => cosThreshold = Mathf.Cos(angle * 0.5f *  Mathf.Deg2Rad);
-
     #endregion
-
-    public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
-
 
     #region Interface Implementation
     public void ExecuteAttack(E_CastingType type)
@@ -71,7 +61,6 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
         if (isCharging) return;                                  // 중복 방지
         Debug.Log("차지시작");
         chargeRoutine = StartCoroutine(ChargeProcess());         
-        
     }
 
     public void Stop()                                           // 외부에서 강제 취소하고 싶을 때
@@ -79,10 +68,9 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
         if(!isCharging) return;                                  // 차지 취소
         StopCoroutine(chargeRoutine);
         isCharging = false;
-        Interrupted?.Invoke();          // 애니메이션 강제취소   
+        OnAttackInterrupted?.Invoke();          // 애니메이션 강제취소   
     }
     #endregion
-
 
     #region Charge And Attack
     IEnumerator ChargeProcess()
@@ -91,7 +79,7 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
         currentDamage = baseDamage;                               // 초기 데미지 설정
         float elapsed = 0f;                                       // 차지 간격 타이머
 
-        Started?.Invoke();              // 차지 시작
+        OnAttackStarted?.Invoke();              // 차지 시작
         chargeVFX.Play();               // 차징 VFX 실행
 
         // 차지 단계
@@ -108,7 +96,7 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
 
             float denom = Mathf.Max(1, maxDamage - baseDamage); 
             float t = Mathf.Clamp01((currentDamage - baseDamage) / (float)denom);
-            Progress?.Invoke(t);
+            OnProgressUpdated?.Invoke(t);
             
             yield return null;                                    // 다음 프레임까지 대기
         }
@@ -118,9 +106,8 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
 
         FireConeDamage();                                         // 마우스를 땠을 때 격발
         isCharging = false;                                       // 차지 중 여부 false로 전환
-        Ended?.Invoke();            // 발사 후 종료
+        OnAttackEnded?.Invoke();            // 발사 후 종료
     }
-
 
     /// <summary>
     /// 부채꼴 범위 내 적에게 currentDamage 적용
@@ -129,8 +116,6 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
     /// </summary>
     void FireConeDamage()
     {
-        //GameModeManager.SoundManager.PlaySFX(sfxId);                                       //전기공격 격발 사운드
-
         Collider[] hits = Physics.OverlapSphere(
             transform.position, 
             radius, 
@@ -155,10 +140,16 @@ public class RangedChargeConeAttack : MonoBehaviour, IRangedAttack, IRequireAtta
                 // 데미지 적용
             }
         }
-
         // 발사 파티클 추가 적용 필요
     }
 
     #endregion 
 
 }
+
+#region legacy
+//    private RangedAttackContext _ctx;
+
+//public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
+
+#endregion

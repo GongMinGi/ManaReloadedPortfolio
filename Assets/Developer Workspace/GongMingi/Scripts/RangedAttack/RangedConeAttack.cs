@@ -1,10 +1,8 @@
 ﻿using Game.Combat.Stats;
 using System;
 using System.Collections;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 
 /// <summary>
 /// * 작성자 : 공민기
@@ -12,17 +10,19 @@ using UnityEngine.InputSystem;
 ///   - 캐스팅한 원소가 불과 냉기 밖에 없는 경우 실행되는 원거리 공격
 ///   - 원거리공격을 시전하는 동시에, 원뿔형태의 마법 공격이 시전된다.
 /// </summary>
-public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
+public class RangedConeAttack : MonoBehaviour, IRangedAttack
 {
-
     #region Field And Property
+    public int? AnimationBoolHash => AnimParams.HoldConeAttack;
+    public int? AnimationTriggerHash => null;
+    public bool UseProgress => false;
+
     [Header("VFX Setting")]     // 구현: 이예린
     [SerializeField] VFXObject fireVFX;
 
     [Header("Cone Parameters")]
     [SerializeField] private float radius = 6f;         // 탐지 반경
     [SerializeField] private float angle = 60f;         // 전체 부채꼴 각도(디그리) 
-    //[SerializeField] private int damage = 12;           // 1회 피해량
     [SerializeField] private bool flatCone = true;      // Y축 높이 무시 여부
 
     [Header("Hold & Tick")]
@@ -36,22 +36,17 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     [SerializeField] private LineRenderer lr;           // 원뿔 시각화용 라인렌더러
     [SerializeField] private int arcSegments = 36;       // 호(arc) 해상도
 
-    [Header("SoundSetting")]
-    [SerializeField] int sfxId = 110017;                                                        // 재생할 사운드 리소스 아이디
-
     protected StatusEffect effect;
 
-    private RangedAttackContext _ctx;
     private Coroutine coneAttackRoutine;
     private bool isFiring;
     private float cosThreshold;                                 // cos(angle/2) 캐시
     [SerializeField] private readonly Collider[] hitObjects = new Collider[64];  // NonAlloc 버퍼
 
-    public event Action Started;
-    public event Action<float> Progress;
-    public event Action Ended;
-    public event Action Interrupted;
-
+    public event Action OnAttackStarted;
+    public event Action<float> OnProgressUpdated;
+    public event Action OnAttackEnded;
+    public event Action OnAttackInterrupted;
     #endregion endregion
 
     #region Unity Event
@@ -63,30 +58,16 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         lr.useWorldSpace = true;
         lr.loop = false;
         lr.enabled = false;
-        
-
         cosThreshold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad); // 부채꼴의 각의 절반.
-
     }
-
 
     private void OnDisable()
     {
         if (lr) lr.enabled = false;
     }
-
     #endregion
 
-
-
-    public void BindContext(RangedAttackContext ctx)
-    {
-        _ctx = ctx;
-        if (!muzzle && _ctx != null && _ctx.DefaultMuzzle) muzzle = _ctx.DefaultMuzzle;
-    }
-
     #region IRangedAttack Implementation
-
     /// <summary>
     /// 구체범위에 들어온 적을 레이어를 통해 감지
     /// 적의 방향벡터와 플레이어의 정면벡터를 내적시켜, 원뿔모양의 범위에 들어오는지 판단
@@ -97,31 +78,34 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     {
         if (isFiring) return;
         coneAttackRoutine = StartCoroutine(FireCone());
-
     }
 
     // 즉발형 스킬이므로 별도 취소 로직 필요 없음
     public void Stop() 
     {
-        if (!isFiring) return;
+        if (isFiring == false)
+        {
+            return;
+        }
+
         StopCoroutine(coneAttackRoutine);
         isFiring = false;
-        if (lr) lr.enabled = false;
-        Interrupted?.Invoke();
-    }
 
+        if (lr == true)
+        {
+            lr.enabled = false;
+        }
+        OnAttackInterrupted?.Invoke();
+    }
     #endregion
 
     private IEnumerator FireCone()
     {
         isFiring = true;
         //lr.enabled = true;
-        Started?.Invoke();
+        OnAttackStarted?.Invoke();
         fireVFX.Play();         // 불 VFX 실행
-        //GameModeManager.SoundManager.PlaySFX(110017);       // 불속성 원거리 공격 사운드 현재는 하드코딩으로 버그없이. 추후 serialzable 버그 수정
         float startTime = Time.time;
-
-        //bool sendProgress = false;      // 추후 공격중 전달할 이벤트가 있으면 사용
 
         while(Mouse.current.leftButton.isPressed && Time.time - startTime <maxDuration )
         {
@@ -178,15 +162,16 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         lr.enabled = false; // 시각화 끄기
         isFiring = false;       // 상태 해제
         fireVFX.Stop();         // 불 VFX 종료
-        //GameModeManager.SoundManager.StopSFX();       // 불 공격 사운드 종료
-        Ended?.Invoke();
+        OnAttackEnded?.Invoke();
     }
 
     private void UpdateConeLine(Vector3 origin, Vector3 forward, Vector3 axis)
     {
         int vertexCount = arcSegments + 2;        // 원점 + 호 ( arcSegments + 1 개 점 ) 
         if(lr.positionCount != vertexCount)
+        {
             lr.positionCount = vertexCount;
+        }
 
         lr.SetPosition(0, origin);                  // 시작점: 공격 시작점
 
@@ -204,7 +189,15 @@ public class RangedConeAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
         // 마지막 포인트는 다시 원점으로 돌아와 부채꼴을 닫는다.
         lr.SetPosition(vertexCount - 1, origin);
-
     }
-
 }
+
+#region legacy
+//    private RangedAttackContext _ctx;
+
+//public void BindContext(RangedAttackContext ctx)
+//{
+//    _ctx = ctx;
+//    if (!muzzle && _ctx != null && _ctx.DefaultMuzzle) muzzle = _ctx.DefaultMuzzle;
+//}
+#endregion

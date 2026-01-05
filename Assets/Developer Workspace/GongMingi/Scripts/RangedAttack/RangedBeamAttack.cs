@@ -14,22 +14,22 @@ using UnityEngine.InputSystem;
 ///   - 계속 홀드하고 있더라도 마법 시전시간이 끝나면 공격이 끝난다.
 /// </summary>
 [RequireComponent(typeof(LineRenderer))]
-public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
+public class RangedBeamAttack : MonoBehaviour, IRangedAttack
 {
     #region Field and Property
-    private RangedAttackContext _ctx;        // 변수 이름 수정 필요
+    public int? AnimationBoolHash => AnimParams.Beam;
+    public int? AnimationTriggerHash => null;
+    public bool UseProgress => false;
 
     [Header("VFX Setting")]     // 구현: 이예린
-    //[SerializeField] VFXObject beamVFX;
-    //[SerializeField] ParticleSystem vfxObjects;
     [SerializeField] private ParticleSystem beamloopParticle;   // 
     [SerializeField] private ParticleSystem impactParticle;     // 충돌지점 이펙트
     [SerializeField] private float surfaceOffset = 0.02f;       // z-fighting 방지 
 
-    public event Action Started;
-    public event Action<float> Progress;
-    public event Action Ended;
-    public event Action Interrupted;
+    public event Action OnAttackStarted;
+    public event Action<float> OnProgressUpdated;
+    public event Action OnAttackEnded;
+    public event Action OnAttackInterrupted;
 
     [Header("Beam Settings")]
     [SerializeField] private float maxDistance = 15f;       // 빔 최대 사거리
@@ -57,8 +57,6 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
     }
     #endregion
 
-    public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
-
     #region IRangedAttack Implementation
     public void ExecuteAttack(E_CastingType type)
     {       
@@ -75,17 +73,16 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         StopCoroutine(beamRoutine);                         // 코루틴 종료
         lr.enabled = false;                                 // 라인 숨김
         isFiring = false;                                   // 상태 리셋
-        Interrupted?.Invoke();          // 애니메이션 강제취소 신호
+        OnAttackInterrupted?.Invoke();                              // 애니메이션 강제취소 신호
     }
     #endregion
 
     #region Beam Implementation
-
     IEnumerator FireBeam()
     {
         isFiring = true;                                    // 발사 상태 ON
         //lr.enabled = true;                                // 라인 표시 ON
-        Started?.Invoke();                                  // 시작 신호
+        OnAttackStarted?.Invoke();                                  // 시작 신호
 
         if(beamloopParticle) beamloopParticle.Play(true);
 
@@ -113,7 +110,11 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
                         hit.point + hit.normal * surfaceOffset,                 // 충돌 지점
                         Quaternion.LookRotation(hit.normal)                     // 표면 법선 방향으로 회전
                     );
-                    if (!impactParticle.isPlaying) impactParticle.Play(true);   // 꺼져 있으면 킨다
+
+                    if (!impactParticle.isPlaying)
+                    {
+                        impactParticle.Play(true);   // 꺼져 있으면 킨다
+                    }
                 }
 
                 // 데미지는 틱 간격 으로만 적용 ( 프레임마다가 아님)
@@ -145,7 +146,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 
             // 전체 지속시간 대비 진행률 이벤트 ( UI 게이지 등에서 활용 가능)
             float t = Mathf.InverseLerp(0f, maxDuration, Time.time - startTime);
-            Progress?.Invoke(t);
+            OnProgressUpdated?.Invoke(t);
 
             yield return null;
         }
@@ -162,7 +163,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
         }
 
         isFiring = false;                                   // 상태 리셋 ( 빔 발사 중 false 변경)            
-        Ended?.Invoke();                                    // 애니메이션 정상 종료
+        OnAttackEnded?.Invoke();                                    // 애니메이션 정상 종료
     }
     #endregion
 
@@ -176,3 +177,9 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack, IRequireAttackCont
 #endif
 
 }
+
+#region legacy
+//public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
+//private RangedAttackContext _ctx;        // 변수 이름 수정 필요
+
+#endregion

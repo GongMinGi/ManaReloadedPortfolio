@@ -1,81 +1,73 @@
-using System;
-using System.ComponentModel;
+ï»¿using System;
 using UnityEngine;
 
-public interface IAttackSignals                         // °ø°İ »ı¸íÁÖ±â ½Ã±×³Î
-{
-    event Action Started;                               // °ø°İ ½ÃÀÛ(Â÷Áö ½ÃÀÛ/ ºö ½ÃÀÛ µî)
-    event Action<float> Progress;                       // 0~1 ÁøÇàµµ(¼±ÅÃ) : Â÷Áö/ Ã¤³Î¸µ 
-    event Action Ended;                                 // Á¤»ó Á¾·á (¹ß»ç ÇØÁ¦
-    event Action Interrupted;                           // °­Á¦ Ãë¼Ò (stop(), È¤Àº ÇÇ°İ µî)
-}
-
-
-/// <summary>
-///  * ÄÁÅØ½ºÆ® ÁÖÀÔ
-///   - ÄÁÆ®·Ñ·¯ÀÇ WireAttack¿¡¼­ ÇØ´ç ¿ø°Å¸® °ø°İÀÌ IRequireAttackContext ¸¦ ±¸ÇöÇß´ÂÁö È®ÀÎÇÑ´Ù.
-///   - ¸¸¾à ±¸ÇöµÇ¾î ÀÖ´Ù¸é, BindContext¸¦ ÅëÇØ ÇÊ¿äÇÑ Á¤º¸(ÄÁÅØ½ºÆ®)¸¦ ³Ñ°ÜÁØ´Ù.
-///   - °ø°İ ½ºÅ©¸³Æ®°¡ ÄÁÆ®·Ñ·¯¸¦ Ã£¾Æ´Ù´ÏÁö ¾Ê°íµµ ÇÃ·¹ÀÌ¾î À§Ä¡, ¿ø°Å¸® ¹ß»çÀ§Ä¡, ¾Ö´Ï¸ŞÀÌÅÍ¸¦ »ç¿ëÇÒ ¼ö ÀÖ´Ù.
-///     => °áÇÕµµ °¨¼Ò
-/// </summary>
-public interface IRequireAttackContext                  // °ø°İÀÌ ½ÇÇà ½Ã È°¿ëÇÒ °øÅë ÄÁÅØšÀ¸£¸£ ÁÖÀÔ¹Ş¾Æ¾ß ÇÔÀ» ³ªÅ¸³»´Â ÀÎÅÍÆäÀÌ½º
-{                                                       
-    void BindContext(RangedAttackContext ctx);          // ÄÁÆ®·Ñ·¯ »ı¼ºÇÑ RangedAttackContext ¸¦ ÂüÁ¶ÇÏ´Â ¸Ş¼­µå (ÀÇÁ¸¼º ÁÖÀÔ)
-}
-
-
-/// <summary>
-///  * ÄÁÅØ½ºÆ® : °ø°İ ·ÎÁ÷ÀÌ °øÅëÀ¸·Î ÇÊ¿ä·Î ÇÏ´Â ÀÇÁ¸¼º ¹­À½
-///   - ÇÃ·¹ÀÌ¾î À§Ä¡, °ø°İ ¹ß»ç À§Ä¡, ¾Ö´Ï¸ŞÀÌÅÍ ¿¡ ´ëÇÑ Á¤º¸¸¦ µé°í ÀÖ´Â Å¬·¡½º
-///   - ÄÁÆ®·Ñ·¯ÀÇ Awake¿¡¼­ ÇÑ ¹ø¸¸ »ı¼ºµÈ´Ù.
-/// </summary>
-public sealed class RangedAttackContext                 // °ø°İµéÀÌ °øÀ¯ÇÏ´Â ÄÁÅØ½ºÆ® ( Animator Á÷Á¢³ëÃâ x)
-{
-    public Transform Owner { get; }                     // °ø°İÀÇ ¼ÒÀ¯ÀÚ( ÇÃ·¹ÀÌ¾î ¶Ç´Â ¹«±â ·çÆ® Transform)
-    public Transform DefaultMuzzle { get; }             // ±âº» ¹ß»ç ¿øÁ¡(ÃÑ±¸) Transform(¾ø´Ù¸é Owner¸¦ ±×´ë·Î ÁÙ ¼ö ÀÖÀ½)
-    public IAnimationDriver Anim { get; }               // Animator¸¦ Á÷Á¢ ³ëÃâÇÏÁö ¾Ê°í, Ãß»ó µå¶óÀÌ¹ö·Î °¨½Ñ ¾Ö´Ï¸ŞÀÌ¼Ç Á¦¾î ÇÚµé
-
-    public RangedAttackContext(Transform owner, Transform defaultMuzzle, IAnimationDriver anim) // ÄÁÅØ½ºÆ® »ı¼ºÀÚ
-    {
-        Owner = owner;                                  // ¼ÒÀ¯ÀÚ Transform ÀúÀå (ÀĞ±â Àü¿ë ÀÚµ¿ ÇÁ·ÎÆÛÆ¼)
-        DefaultMuzzle = defaultMuzzle;                  // ±âº» ¸ÓÁñ Transform ÀúÀå ( ÀĞ±â Àü¿ë ÀÚµ¿ ÇÁ·ÎÆÛÆ¼)
-        Anim = anim;                                    // ¾Ö´Ï¸ŞÀÌ¼Ç Á¦¾î µå¶óÀÌ¹ö ÀúÀå( ÀĞ±â Àü¿ë ÀÚµ¿ ÇÁ·ÎÆÛÆ¼)
-    }
-}
-
-
-/// <summary>
-/// * Animator Wrapping
-///  - Á÷Á¢ÀûÀÎ Animator È£ÃâÀ» ÀÎÅÍÆäÀÌ½º µÚ·Î ¼û°Ü °áÇÕµµ¸¦ ´ÊÃß°í ¼º´É ÃÖÀûÈ­.
-/// </summary>
-public interface IAnimationDriver                       // Animator¿¡ Á÷Á¢ ÀÇÁ¸ÇÏÁö ¾Ê°í, ÇÊ¿äÇÑ ±â´É¸¸ Ãß»óÈ­ÇÑ µå¶óÀÌ¹ö ÀÎÅÍÆäÀÌ½º
+public interface IAnimationDriver                       // Animatorì— ì§ì ‘ ì˜ì¡´í•˜ì§€ ì•Šê³ , í•„ìš”í•œ ê¸°ëŠ¥ë§Œ ì¶”ìƒí™”í•œ ë“œë¼ì´ë²„ ì¸í„°í˜ì´ìŠ¤
 {
     void SetBool(int hash, bool value);                
     void SetTrigger(int hash);
     void SetFloat(int hash, float value);
 }
 
-
-public sealed class AnimatorDriver : IAnimationDriver    // ½ÇÁ¦ Unity Animator¸¦ °¨½Î´Â ±¸Ã¼ µå¶óÀÌ¹ö 
+/// <summary>
+/// ì• ë‹ˆë©”ì´í„°ë¥¼ ì¸í„°í˜ì´ìŠ¤ë¡œ ê°ì‹¸ê¸°
+/// ì‚¬ìš©í• ë–„ í´ë˜ìŠ¤ê°€ ì•„ë‹Œ ì¸í„°í˜ì´ìŠ¤ ë³€ìˆ˜ë¡œ ë§Œë“¤ì–´ ì‚¬ìš©
+/// => Animatorë¥¼ Animancerë“± ë‹¤ë¥¸ í´ë˜ìŠ¤ë¡œë°”ê¿”ë„ ì¸í„°í˜ì´ìŠ¤ì˜ ë©”ì„œë“œì´ë¦„, íŒŒë¼ë¯¸í„°ë§Œ ë˜‘ê°™ì´ ì“°ë©´ ë™ì¼í•˜ê²Œ ì‘ë™
+/// => êµì²´ê°€ ë§¤ìš° ìš©ì´í•´ì§
+/// </summary>
+public sealed class AnimatorDriver : IAnimationDriver    // ì‹¤ì œ Unity Animatorë¥¼ ê°ì‹¸ëŠ” êµ¬ì²´ ë“œë¼ì´ë²„ 
 {
-    private Animator _anim;                              // ³»ºÎ¿¡¼­ »ç¿ëÇÒ Animator ÂüÁ¶ ( ¿ÜºÎ¿¡ ³ëÃâÇÏÁö ¾ÊÀ½, ºÒº¯( ÀÌ°Ç readonly ºÙ¿©¾ßÇÔ))
-    public AnimatorDriver(Animator anim)                 => _anim = anim;                         // »ı¼ºÀÚ: Animator ÁÖÀÔ ¹× º¸°ü 
-    public void SetBool(int hash, bool value)            => _anim.SetBool(hash, value);           // bool ÆÄ¶ó¹ÌÅÍ ¼³Á¤(¹®ÀÚ¿­ ´ë½Å ÇØ½Ã »ç¿ë)
-    public void SetTrigger(int hash)                     => _anim.SetTrigger(hash);               // trigger ÆÄ¶ó¹ÌÅÍ ¹ßµ¿
-    public void SetFloat(int hash, float parameterValue) => _anim.SetFloat(hash, parameterValue); // float ÆÄ¶ó¹ÌÅÍ ¼³Á¤ 
+    private Animator _anim;                              // ë‚´ë¶€ì—ì„œ ì‚¬ìš©í•  Animator ì°¸ì¡° ( ì™¸ë¶€ì— ë…¸ì¶œí•˜ì§€ ì•ŠìŒ, ë¶ˆë³€( ì´ê±´ readonly ë¶™ì—¬ì•¼í•¨))
+    public AnimatorDriver(Animator anim)                 => _anim = anim;                         // ìƒì„±ì: Animator ì£¼ì… ë° ë³´ê´€ 
+    public void SetBool(int hash, bool value)            => _anim.SetBool(hash, value);           // bool íŒŒë¼ë¯¸í„° ì„¤ì •(ë¬¸ìì—´ ëŒ€ì‹  í•´ì‹œ ì‚¬ìš©)
+    public void SetTrigger(int hash)                     => _anim.SetTrigger(hash);               // trigger íŒŒë¼ë¯¸í„° ë°œë™
+    public void SetFloat(int hash, float parameterValue) => _anim.SetFloat(hash, parameterValue); // float íŒŒë¼ë¯¸í„° ì„¤ì • 
 }
 
-
-// ¾Ö´Ï¸ŞÀÌÅÍ ÆÄ¶ó¹ÌÅÍ hash Ä³½Ã
-public static class AnimParams                            // Animator ÆÄ¶ó¹ÌÅÍ ÀÌ¸§À» ÇØ½Ã·Î ¹Ì¸® º¯È¯ÇØ Ä³½ÃÇÏ´Â À¯Æ¿ Å¬·¡½º
+/// <summary>
+/// ì• ë‹ˆë©”ì´í„°ì— ëŒ€í•œ ì˜ì¡´ì„± ì œê±°
+/// ìœ ë‹ˆí‹° ì—ë””í„°ì—ì„œ íŒŒë¼ë¯¸í„° ì´ë¦„ì„ ë°”ê¿”ë„ ì—¬ê¸° í•˜ë‚˜ë§Œ ìˆ˜ì •í•˜ë©´ ëª¨ë“  ìŠ¤í¬ë¦½íŠ¸ ë³€ê²½
+/// </summary>
+public static class AnimParams                            // Animator íŒŒë¼ë¯¸í„° ì´ë¦„ì„ í•´ì‹œë¡œ ë¯¸ë¦¬ ë³€í™˜í•´ ìºì‹œí•˜ëŠ” ìœ í‹¸ í´ë˜ìŠ¤
 {
-    public static readonly int Beam = Animator.StringToHash("isRangedBeamAttack");                      // bool : ºö °ø°İ »óÅÂ Á¦¾î
-    public static readonly int ChargeProjectile = Animator.StringToHash("isRangedProjectileAttack");    // bool : Â÷Áö Åõ»çÃ¼ »óÅÂ Á¦¾î
-    public static readonly int ChargeCone = Animator.StringToHash("isRangedChargeConeAttack");          // bool : Â÷Áö ÄÜ »óÅÂ Á¦¾î
-    public static readonly int HoldConeAttack = Animator.StringToHash("isRangedConeAttack");                  // trigger : Áï¹ß ÄÜ °ø°İ Æ®¸®°Å
+    public static readonly int Beam = Animator.StringToHash("isRangedBeamAttack");                      // bool : ë¹” ê³µê²© ìƒíƒœ ì œì–´
+    public static readonly int ChargeProjectile = Animator.StringToHash("isRangedProjectileAttack");    // bool : ì°¨ì§€ íˆ¬ì‚¬ì²´ ìƒíƒœ ì œì–´
+    public static readonly int ChargeCone = Animator.StringToHash("isRangedChargeConeAttack");          // bool : ì°¨ì§€ ì½˜ ìƒíƒœ ì œì–´
+    public static readonly int HoldConeAttack = Animator.StringToHash("isRangedConeAttack");                  // trigger : ì¦‰ë°œ ì½˜ ê³µê²© íŠ¸ë¦¬ê±°
 
-    // Â÷Áö/ Ã¤³Î¸µ ÁøÇàµµ (ÇÊ¿äÇÏ¸é)
-    public static readonly int RangedProgress = Animator.StringToHash("RangedProgress");                // float : ÁøÇàµµ(0..1) ¹ÙÀÎµù¿ë
+    // ì°¨ì§€/ ì±„ë„ë§ ì§„í–‰ë„ (í•„ìš”í•˜ë©´)
+    public static readonly int RangedProgress = Animator.StringToHash("RangedProgress");                // float : ì§„í–‰ë„(0..1) ë°”ì¸ë”©ìš©
 }
 
+#region legacy
+///// <summary>
+/////  * ì»¨í…ìŠ¤íŠ¸ ì£¼ì…
+/////   - ì»¨íŠ¸ë¡¤ëŸ¬ì˜ WireAttackì—ì„œ í•´ë‹¹ ì›ê±°ë¦¬ ê³µê²©ì´ IRequireAttackContext ë¥¼ êµ¬í˜„í–ˆëŠ”ì§€ í™•ì¸í•œë‹¤.
+/////   - ë§Œì•½ êµ¬í˜„ë˜ì–´ ìˆë‹¤ë©´, BindContextë¥¼ í†µí•´ í•„ìš”í•œ ì •ë³´(ì»¨í…ìŠ¤íŠ¸)ë¥¼ ë„˜ê²¨ì¤€ë‹¤.
+/////   - ê³µê²© ìŠ¤í¬ë¦½íŠ¸ê°€ ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ ì°¾ì•„ë‹¤ë‹ˆì§€ ì•Šê³ ë„ í”Œë ˆì´ì–´ ìœ„ì¹˜, ì›ê±°ë¦¬ ë°œì‚¬ìœ„ì¹˜, ì• ë‹ˆë©”ì´í„°ë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆë‹¤.
+/////     => ê²°í•©ë„ ê°ì†Œ
+///// </summary>
+//public interface IRequireAttackContext                  // ê³µê²©ì´ ì‹¤í–‰ ì‹œ í™œìš©í•  ê³µí†µ ì»¨í…ìŠ½ë¥´ë¥´ ì£¼ì…ë°›ì•„ì•¼ í•¨ì„ ë‚˜íƒ€ë‚´ëŠ” ì¸í„°í˜ì´ìŠ¤
+//{                                                       
+//    void BindContext(RangedAttackContext ctx);          // ì»¨íŠ¸ë¡¤ëŸ¬ ìƒì„±í•œ RangedAttackContext ë¥¼ ì°¸ì¡°í•˜ëŠ” ë©”ì„œë“œ (ì˜ì¡´ì„± ì£¼ì…)
+//}
 
+///// <summary>
+/////  * ì»¨í…ìŠ¤íŠ¸ : ê³µê²© ë¡œì§ì´ ê³µí†µìœ¼ë¡œ í•„ìš”ë¡œ í•˜ëŠ” ì˜ì¡´ì„± ë¬¶ìŒ
+/////   - í”Œë ˆì´ì–´ ìœ„ì¹˜, ê³µê²© ë°œì‚¬ ìœ„ì¹˜, ì• ë‹ˆë©”ì´í„° ì— ëŒ€í•œ ì •ë³´ë¥¼ ë“¤ê³  ìˆëŠ” í´ë˜ìŠ¤
+/////   - ì»¨íŠ¸ë¡¤ëŸ¬ì˜ Awakeì—ì„œ í•œ ë²ˆë§Œ ìƒì„±ëœë‹¤.
+///// </summary>
+//public sealed class RangedAttackContext                 // ê³µê²©ë“¤ì´ ê³µìœ í•˜ëŠ” ì»¨í…ìŠ¤íŠ¸ ( Animator ì§ì ‘ë…¸ì¶œ x)
+//{
+//    public Transform Owner { get; }                     // ê³µê²©ì˜ ì†Œìœ ì( í”Œë ˆì´ì–´ ë˜ëŠ” ë¬´ê¸° ë£¨íŠ¸ Transform)
+//    public Transform DefaultMuzzle { get; }             // ê¸°ë³¸ ë°œì‚¬ ì›ì (ì´êµ¬) Transform(ì—†ë‹¤ë©´ Ownerë¥¼ ê·¸ëŒ€ë¡œ ì¤„ ìˆ˜ ìˆìŒ)
+//    public IAnimationDriver Anim { get; }               // Animatorë¥¼ ì§ì ‘ ë…¸ì¶œí•˜ì§€ ì•Šê³ , ì¶”ìƒ ë“œë¼ì´ë²„ë¡œ ê°ì‹¼ ì• ë‹ˆë©”ì´ì…˜ ì œì–´ í•¸ë“¤
+
+//    public RangedAttackContext(Transform owner, Transform defaultMuzzle, IAnimationDriver anim) // ì»¨í…ìŠ¤íŠ¸ ìƒì„±ì
+//    {
+//        Owner = owner;                                  // ì†Œìœ ì Transform ì €ì¥ (ì½ê¸° ì „ìš© ìë™ í”„ë¡œí¼í‹°)
+//        DefaultMuzzle = defaultMuzzle;                  // ê¸°ë³¸ ë¨¸ì¦ Transform ì €ì¥ ( ì½ê¸° ì „ìš© ìë™ í”„ë¡œí¼í‹°)
+//        Anim = anim;                                    // ì• ë‹ˆë©”ì´ì…˜ ì œì–´ ë“œë¼ì´ë²„ ì €ì¥( ì½ê¸° ì „ìš© ìë™ í”„ë¡œí¼í‹°)
+//    }
+//}
+
+#endregion

@@ -1,7 +1,6 @@
 ﻿using Game.Combat.Stats;
 using UnityEngine;
 
-
 /// <summary>
 /// * 작성자 : 공민기
 ///  - 땅 속성 원거리공격 투사체 로직 구현
@@ -26,8 +25,6 @@ public class RangedEarthProjectile : AbstractProjectile
     public delegate void OnSetup(float speed, float range, float radius, int damage, LayerMask enemyL, LayerMask obstacleL);
     public static OnSetup onSetup;                      // 델리게이트 (아직 테스트용)
 
-    [Header("SoundSetting")]
-    [SerializeField] int sfxId = 110014;                                                        // 재생할 사운드 리소스 아이디
     #endregion
 
     #region Unity Event
