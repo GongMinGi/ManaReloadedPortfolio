@@ -1,51 +1,39 @@
 ﻿using Game.Combat.Stats;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// 개발자: 이예린, 공민기
-/// 
 /// 플레이어 조작을 관리하는 클래스
-/// 
-/// 현재는 무한 맵 구현을 위해 캐릭터 이동 관련 기능이 구현되어 있음
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    Keyboard keyboard = Keyboard.current;               // 현재 키보드에 대한 제어를 들고 있음?
-
     #region FieldAndProperty
 
-    #region Stats
+    Keyboard keyboard = Keyboard.current;               // 현재 키보드에 대한 제어를 들고 있음?
+
     [Header("Stats Setting")]
     [SerializeField] UnitStats stats;   // 플레이어의 현재 스탯을 관리하는 컴포넌트
     public UnitStats Stats => stats;
-    #endregion
 
     [SerializeField] PlayerInput playerInput;
-
     [SerializeField] float moveSpeed;
     [SerializeField] float sprintMultiplier = 2f;
     [SerializeField] Rigidbody rb;
-
     [SerializeField] bool isSprint;
     [SerializeField] bool isMove;
     [SerializeField] bool isDie;
 
     [Header("Casting Settings")]
-    [SerializeField] private int maxInputCount = 6;                         // 조합 길이
-
+    [SerializeField] int maxInputCount = 6;                                     // 조합 길이
     [SerializeField] ElementalRangedAttackController rangedAttackController;    // 원거리 공격을 제어하는 컨트롤러
     [SerializeField] MeleeConeAttack meleeConeAttack;                           // 근접공격을 실행하기 위한 변수
 
     [Header("Event -> UI 연결")]
-    public UnityEvent<E_CastingType, int> onCastAdded;                      // (타입, index)
+    public UnityEvent<E_CastingType, int> onCastAdded;                          // (타입, index)
     public UnityEvent onCastReset;
     public UnityEvent onPlayerElementIsSet;
 
@@ -73,11 +61,9 @@ public class PlayerController : MonoBehaviour
         {Key.S, E_CastingType.Thunder },
         {Key.D, E_CastingType.Earth },
     };
-
     #endregion
 
     #region Unity Event
-
     /// <summary>
     /// 물리 프레임마다 호출.
     /// - <see cref="Move"/>로 실제 이동을 수행하고  
@@ -89,7 +75,9 @@ public class PlayerController : MonoBehaviour
         Move();
         OnCastingSpell();
         if (isMove)
+        {
             GameModeManager.MapTileManager.UpdateCurrentPos();
+        }
     }
 
     private void Start()
@@ -106,6 +94,20 @@ public class PlayerController : MonoBehaviour
         stats.OnDie += OnDie;
         rangedAttackController.PlayerAnim = playerAnim;                         // Awake 시에 ElmentalRangedAttackController로 애니메이터 넘겨줌
     }
+    #endregion
+
+    #region Prepare Game
+
+    /// <summary>
+    /// - wasd에 매핑된 속성을 바꾸는 메서드
+    /// - 매개변수로 바꿀 키와 변경할 속성을 받아서 변경한다.
+    /// </summary>
+    public void SetCastingKeyBinding(Key keyToChange, E_CastingType typeToChange)
+    {
+        castingKeyMapping[keyToChange] = typeToChange;
+    }
+
+    public void TogglePlayerInput(bool inputEnable) => playerInput.enabled = inputEnable;
     #endregion
 
     #region Move
@@ -151,38 +153,21 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        if (keyboard.spaceKey.isPressed || isDie == true)                                  // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
+        if (keyboard.spaceKey.isPressed || isDie == true)                           // 왼쪽 컨트롤 키가 눌린 상태면 바로 이동 불가
         {
-            rb.linearVelocity = new Vector3(0, 0, 0);                       // 플레이어 즉시 정지
-
-            playerAnim.SetFloat("Horizontal", 0, animDamp, Time.deltaTime);                           // 플레이어 이동 애니메이션 정지
+            rb.linearVelocity = Vector3.zero;                                       // 플레이어 즉시 정지
+            playerAnim.SetFloat("Horizontal", 0, animDamp, Time.deltaTime);         // 플레이어 이동 애니메이션 정지
             playerAnim.SetFloat("Speed", 0, animDamp, Time.deltaTime);
             return;                                                         
         }
 
-        float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);       // 이동속도 변수에 달리는 중이면, 다른 숫자를 곱해주고, 아니면  1을 곱해준다
-
+        float speed = moveSpeed * (isSprint ? sprintMultiplier : 1f);               // 이동속도 변수에 달리는 중이면, 다른 숫자를 곱해주고, 아니면  1을 곱해준다
         playerAnim.SetFloat("Horizontal", moveDir.x, animDamp, Time.deltaTime);
         playerAnim.SetFloat("Speed", moveDir.z, animDamp, Time.deltaTime);
-        
         Vector3 targetVelocity = moveDir.normalized * speed;
-        rb.linearVelocity = new Vector3(targetVelocity.x,0, targetVelocity.z);
+        rb.linearVelocity = new Vector3(targetVelocity.x, 0, targetVelocity.z);
     }
     #endregion
-
-    /// <summary>
-    /// - 게임 일시정지 입력 트리거
-    /// - esc 버튼을 누르면 게임 시간을 멈추고, 일시정지 ui를 띄운다. 
-    /// </summary>
-    //public void OnOptionButton(InputAction.CallbackContext ctx)
-    //{
-    //    if ( ctx.performed == false )
-    //    {
-    //        return;
-    //    }
-
-    //    GameModeManager.GameLogicManager.PauseGame();
-    //}
 
     public void OnDie(float tmp = 0)
     {
@@ -194,16 +179,8 @@ public class PlayerController : MonoBehaviour
         GameModeManager.GameLogicManager.GameOver();
     }
 
-    /// <summary>
-    /// - wasd에 매핑된 속성을 바꾸는 메서드
-    /// - 매개변수로 바꿀 키와 변경할 속성을 받아서 변경한다.
-    /// </summary>
-    public void SetCastingKeyBinding(Key keyToChange, E_CastingType typeToChange)
-    {
-        castingKeyMapping[keyToChange] = typeToChange;
-    }
 
-    #region 속성 캐스팅
+    #region element casting
 
     /// <summary>
     /// 속성 키(WASD) 입력 처리.
@@ -214,31 +191,13 @@ public class PlayerController : MonoBehaviour
     {
         if (keyboard.spaceKey.isPressed)
         {
-            if (keyboard.wKey.wasPressedThisFrame)
+            foreach (var mapping in castingKeyMapping)
             {
-                castingKeyMapping.TryGetValue(Key.W, out var value);
-                Debug.Log(value);                                           // 이거 로그없으면 리스트에 안들어감 ㅋㅋㅋ 미친 새기
-                AddCasting(value);
+                if (keyboard[mapping.Key].wasPressedThisFrame)
+                {
+                    AddCasting(mapping.Value); 
+                }
             }
-            if (keyboard.aKey.wasPressedThisFrame)
-            {
-                castingKeyMapping.TryGetValue(Key.A, out var value);
-                Debug.Log(value);
-                AddCasting(value);
-            }
-            if (keyboard.sKey.wasPressedThisFrame)
-            {
-                castingKeyMapping.TryGetValue(Key.S, out var value);
-                Debug.Log(value);
-                AddCasting(value);
-            }
-            if (keyboard.dKey.wasPressedThisFrame)
-            {
-                castingKeyMapping.TryGetValue(Key.D, out var value);
-                Debug.Log(value);
-                AddCasting(value);
-            }
-
         }
     }
 
@@ -251,8 +210,6 @@ public class PlayerController : MonoBehaviour
     {
         if (currentCastingList.Count >= maxInputCount) return;          //초과 입력 무시
 
-        //GameModeManager.SoundManager.PlaySFX(110013);                       // 속성 장전 사운드 sfx
-
         currentCastingList.Add(castingType);                            // 현재 캐스팅된 원소 목록에 지금 누른 원소를 추가한다.
         rangedAttackController.CastedElementCount[castingType]++;       // 현재 캐스팅된 속성 개수 업데이트 (우선순위 결정용)
         onCastAdded.Invoke(castingType, currentCastingList.Count - 1);  // unity event
@@ -260,7 +217,6 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// 캐스팅 입력을 초기화하고 UI 리셋 이벤트(<see cref="onCastReset"/>)를 호출한다.
-    /// => 이부분 추가로 공부필요 어케작동하는지 아직이해못함 ㅠ
     /// </summary>
     private void ResetCasting()
     {
@@ -270,7 +226,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region 조합 마법 공격
+    #region Combination Magic Attack
 
     /// <summary>
     /// ‘조합 마법 공격’ 입력 트리거.
@@ -280,7 +236,7 @@ public class PlayerController : MonoBehaviour
     {
         if ( ctx.performed == false )
         {
-            return;       // space 를 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.
+            return;                     // space 를 눌렀을때가 아니면 (hold시 혹은 땠을때) 실행하지 않는다.
         }
 
         TryCastSkill();                 // 스킬 실행
@@ -314,7 +270,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region 근접 공격
+    #region Melee Attack
 
     /// <summary>
     /// 근접 공격 입력 트리거.
@@ -337,7 +293,6 @@ public class PlayerController : MonoBehaviour
         meleeConeAttack.ExecuteAttack(E_CastingType.None);      // 무속성 물리 공격 실행
     }
 
-
     /// <summary>
     /// 근접 무기 인첸트 시도.
     /// * 실제 인첸트 효과는 추후 구현 예정.
@@ -349,7 +304,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region 원거리 공격
+    #region Ranged Attack
 
     /// <summary>
     /// 원거리 공격 입력 트리거.
@@ -358,15 +313,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnRangedAttack()
     {
-        if (currentCastingList.Count == 0)  // 현재 캐스팅된 원소의 수가 없다면, 리턴한다
+        if (currentCastingList.Count == 0)                  // 현재 캐스팅된 원소의 수가 없다면, 리턴한다
         {
             return;
         }
 
         rangedAttackController.TryElementalRangedAttack();  // 원거리 공격 시도
-        ResetCasting();                     // 캐스팅한 속성을 전부 비운다.
+        ResetCasting();                                     // 캐스팅한 속성을 전부 비운다.
     }
     #endregion
 
-    public void TogglePlayerInput(bool inputEnable) => playerInput.enabled = inputEnable;
 }

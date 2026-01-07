@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
-/// 개발자: 이예린
+/// 개발자: 이예린, 공민기
 /// 
 /// 플레이어가 보유한 원소 속성을 바탕으로,
 /// 우선순위에 따라 적절한 원거리 공격을 자동 선택하고 실행하는 컨트롤러
@@ -40,47 +39,19 @@ public class ElementalRangedAttackController : MonoBehaviour
     [SerializeField] RangedChargeProjectileAttack darkProjectileAttack;
     [SerializeField] RangedChargeProjectileAttack waterProjectileAttack;
 
-    private IAnimationDriver _anim;                                         // Animator를 감싼 추상 드라이버
-    private RangedAttackContext _ctx;                                       // 공격 공용 컨텍스트..(Ow
-    private readonly List<AttackBinding> attackBindings = new();            // 이벤트 구독 핸들 보관
-
+    private IAnimationDriver animDriver;                                         // Animator를 감싼 추상 드라이버
+    private AttackAnimationHandler attackAnimHandler;
     private void Awake()
     {
         playerAnim = GetComponent<Animator>();
-
-        //Debug.Log($"playerAnim (_anim 할당전) : {playerAnim}");            // awake보다 먼저 실행돼는 버그..,????
-
-        //if(playerAnim == null)
-        //    Debug.Log($"playerAnim 연산 1회진행 후 : {playerAnim}");
-
-        //playerAnim.SetTrigger("RangedConeAttack");
-        //Debug.Log($"playerAnim 트리거 연산 진행후 : {playerAnim}");
-
-        _anim = new AnimatorDriver(playerAnim);                             // Animator를 드라이버로 감싸기
-        //Debug.Log($"playerAnim (_anim 할당후) : {playerAnim}");
-
-        //if (_anim != null) Debug.Log("할당됨");
-        //else Debug.Log("할당 안됌");
-
-        _ctx = new RangedAttackContext(transform, transform, _anim);        // 공격 공용 컨텍스트 ( Owner/ DefaultMuzzle/ Anim) 구성
+        animDriver = new AnimatorDriver(playerAnim);                             // Animator를 드라이버로 감싸기
+        attackAnimHandler = new AttackAnimationHandler(animDriver);
 
         // 공격 바인딩 ( 시그널 -> Animator 파라미터 매핑) 
-        //  - 지속형은 boolHash로, 차지 / 채널링이면 useProgress = true 로 진행도 연결
-        attackBindings.Add(WireAttack(beamAttack,             boolHash: AnimParams.Beam,             useProgress: false));
-        attackBindings.Add(WireAttack(chargeProjectileAttack, boolHash: AnimParams.ChargeProjectile, useProgress: false));
-        attackBindings.Add(WireAttack(chargeConeAttack,       boolHash: AnimParams.ChargeCone,       useProgress: false));
-        attackBindings.Add(WireAttack(coneAttack,             boolHash: AnimParams.HoldConeAttack,   useProgress: false));
-    }
-
-    private void OnDestroy()
-    {
-        // 생성한 모든 바인딩 Dispose => 이벤트 구독 안전 해제
-        foreach (var binding in attackBindings)
-        {
-            binding.Dispose();
-        }
-
-        attackBindings.Clear();
+        RegisterAttack(beamAttack);
+        RegisterAttack(chargeProjectileAttack);
+        RegisterAttack(chargeConeAttack);
+        RegisterAttack(coneAttack);
     }
 
     /// <summary>
@@ -88,80 +59,20 @@ public class ElementalRangedAttackController : MonoBehaviour
     ///  - 각 액션을 animator의 파라미터메서드와 결합시킨다.
     ///  - 어떤 스크립트인지 몰라도 Monobehavior라면 받아서 인터페이스 구현 여부만 보고 바인딩을 한다
     /// </summary>
-    private AttackBinding WireAttack(
-        MonoBehaviour rangedAttack,                                                     // 모든 공격 클래스가 Monobehavior상속 => 특정 클래스 이름을 알 필요없이 어떤 공격이든 전달가능
-        int?          boolHash    = null,                                               // 지속형 공격이면 Animator Bool 해시
-        bool          useProgress = false,                                              // 차지, 채널링 진행도를 사용할 지 여부
-        int?          triggerHash = null)                                               // 즉발형 공격일 때 trigger파리미터 사용
+    private void RegisterAttack(IRangedAttack rangedAttack)
     {
         if (rangedAttack == null)
         {
-            return AttackBinding.Empty;                                                 // 인스펙터에 원거리공격 컴포넌트가 할당되지 않았다면 더미 바인딩 반환
+            return;                                                 // 인스펙터에 원거리공격 컴포넌트가 할당되지 않았다면 더미 바인딩 반환
         }
 
-        if (rangedAttack is IRequireAttackContext needCtx)                              // 공격이 컨텍스트를 요구하면(인터페이스를 구현했으면) 주입
-        {
-            needCtx.BindContext(_ctx);
-        }
-
-        if ( rangedAttack is not IAttackSignals signal)                                 // 시그널 없는 공격(ex: 즉발)이면 바인딩 불필요
-        {
-            return AttackBinding.Empty;
-        }
-
-        AttackBinding binding = new AttackBinding(signal);                              // 실제 구독/해제를 관리할 AttackBinding 인스턴스 생성
-
-        // 지속형(bool 파라미터) 매핑
-        if ( boolHash.HasValue)
-        {
-            int parameterHashValue = boolHash.Value;                                    // 해시 캐싱
-            binding.Started     = () => _anim.SetBool(parameterHashValue, true);        // 공격 시작 => bool ON
-            binding.Ended       = () => _anim.SetBool(parameterHashValue, false);       // 정상 종료 => Bool OFF
-            binding.Interrupted = () => _anim.SetBool(parameterHashValue, false);       // 강제 취소 => Bool OFF
-
-            if (useProgress)                                                            // 차지, 채널링 진행도 매핑
-            {
-                binding.Progress = attackProgressedRate => _anim.SetFloat(parameterHashValue, attackProgressedRate);
-            }
-        }
-
-        binding.Subscribe();                                                            // AttackBinding에서 실제 event와 실행할 Action을 연결
-        return binding;                                                                 // 컨트롤러에서 Dispose 할 수 있도록 반환
+        attackAnimHandler.Register(rangedAttack);
     }
 
-    private sealed class AttackBinding : IDisposable                                    // IDisposable을 구현한 이벤트 - 바인딩 한 덩어리 를 나타내는 내부 전용(sealed) 클래스
+    private void OnDestroy()
     {
-        public static readonly AttackBinding Empty = new(null);                         // 시그널이 아예 없는 경우에 쓰는 싱글턴 더미 객체 
-
-        private readonly IAttackSignals rangedAttackSignal;                             // 실제로 구독할 공격 시그널(started, end 등 )을 보관하는 읽기 전용 참조
-        public Action        Started;                                                   // 공격이 시작될 때 호출될 델리게이트(Action)
-        public Action        Ended;                                                     // 공격이 정상 종료될 때 호출
-        public Action        Interrupted;                                               // 외부 요인(Stop 등)으로 끊겼을때 호출
-        public Action<float> Progress;                                                  // 차지, 채널링 진행도(0~1)를 전달 ( 필요시 사용) 
-
-        public AttackBinding(IAttackSignals signal) => rangedAttackSignal = signal;     // 생성자. 컨트롤러가 전달한 signal을 받아온다.
-
-        public void Subscribe()                                                         // signal(이벤트)과 그 이벤트에서 호출할 함수(Acition)을 묶는다.
-        {
-            if (rangedAttackSignal == null) { return; }                                            // signal(이벤트)이 없으면 아무것도 하지 않음
-            if (Started            != null) { rangedAttackSignal.Started     += Started;     }     // 시작 이벤트 연결
-            if (Ended              != null) { rangedAttackSignal.Ended       += Ended;       }     // 종료 이벤트 연결
-            if (Interrupted        != null) { rangedAttackSignal.Interrupted += Interrupted; }     // 취소 이벤트 연결    
-            if (Progress           != null) { rangedAttackSignal.Progress    += Progress;    }     // 진행도 이벤트 연결
-        }
-
-        public void Dispose()                                                                     // IDisposeable을 이용하여 안전하게 구독 해제 
-        {
-            if (rangedAttackSignal == null) { return; }                                           // 이미 해제된 경우 바로 종료 
-            if (Started            != null) { rangedAttackSignal.Started     -= Started;     }    // 시작 이벤트 해제
-            if (Ended              != null) { rangedAttackSignal.Ended       -= Ended;       }    // 종료 이벤트 해제
-            if (Interrupted        != null) { rangedAttackSignal.Interrupted -= Interrupted; }    // 취소 이벤트 해제
-            if (Progress           != null) { rangedAttackSignal.Progress    -= Progress;    }    // 진행도 이벤트 해제
-            Started = Ended = Interrupted = null;                                                 // 델리게이트 참조를 제거해 GC 대상화
-            Progress = null;
-        }
+        attackAnimHandler.Dispose();
     }
-
 
     #region Casted Element Count Clear
     /// <summary>
@@ -179,6 +90,7 @@ public class ElementalRangedAttackController : MonoBehaviour
 
     #region Elemental Attack Dispatcher
     /// <summary>
+    /// 외부에서 호출되는 시작점
     /// 현재 보유한 원소를 기반으로 적절한 원거리 공격을 자동 선택하여 실행하는 메서드
     /// 우선순위와 보유 개수를 고려하여 실행되는 공격이 결정됨
     /// </summary>
@@ -232,7 +144,6 @@ public class ElementalRangedAttackController : MonoBehaviour
                     break;
             }
         }
-
         // 보유 중인 원소 개수에 대한 데이터 정리
         ClearCastedElementCount();
     }
@@ -350,6 +261,5 @@ public class ElementalRangedAttackController : MonoBehaviour
                 break;
         }
     }
-
     #endregion
 }

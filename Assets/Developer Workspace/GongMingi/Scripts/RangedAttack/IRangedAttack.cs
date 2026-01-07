@@ -1,28 +1,37 @@
-using UnityEngine;
+ï»¿using System;
 
+public interface IAttackSignal
+{
+    // ê³µê²© ìƒëª…ì£¼ê¸° ì‹œê·¸ë„
+    event Action OnAttackStarted;                               // ê³µê²© ì‹œì‘(ì°¨ì§€ ì‹œì‘/ ë¹” ì‹œì‘ ë“±)
+    event Action<float> OnProgressUpdated;                       // 0~1 ì§„í–‰ë„(ì„ íƒ) : ì°¨ì§€/ ì±„ë„ë§ 
+    event Action OnAttackEnded;                                 // ì •ìƒ ì¢…ë£Œ (ë°œì‚¬ í•´ì œ
+    event Action OnAttackInterrupted;                           // ê°•ì œ ì·¨ì†Œ (stop(), í˜¹ì€ í”¼ê²© ë“±)
+
+    int? AnimationBoolHash { get; }
+    int? AnimationTriggerHash { get; }
+    bool UseProgress { get; }
+}
 
 /// <summary>
-/// * ÀÛ¼ºÀÚ : °ø¹Î±â
-///  - ¿ø°Å¸® °ø°İ (ºö / ÄÜ / Åõ»çÃ¼ µî)ÀÌ »ó¼ÓÇÏ´Â ÀÎÅÍÆäÀÌ½º
-///  - Player / ElementalRangedAttackController ¿¡¼­ È£ÃâµÉ ¶§ 
-///     µ¿ÀÏÇÑ ¸Ş¼­µå·Î µµÀÛÇÏµµ·Ï °­Á¦
+/// * ì‘ì„±ì : ê³µë¯¼ê¸°
+///  - ì›ê±°ë¦¬ ê³µê²© (ë¹” / ì½˜ / íˆ¬ì‚¬ì²´ ë“±)ì´ ìƒì†í•˜ëŠ” ì¸í„°í˜ì´ìŠ¤
+///  - Player / ElementalRangedAttackController ì—ì„œ í˜¸ì¶œë  ë•Œ 
+///     ë™ì¼í•œ ë©”ì„œë“œë¡œ ë„ì‘í•˜ë„ë¡ ê°•ì œ
 /// </summary>
-public interface IRangedAttack
+public interface IRangedAttack : IAttackSignal
 {
-
     /// <summary>
-    /// - °ø°İ ½ÇÇà
-    /// - ElementalRangedAttackController °¡ ¼Ó¼º ( E_CastingType)À» °áÁ¤ÇØ ÁØ´Ù.
-    /// - ÇÊ¿ä ¾øÀ» ¶§´Â typeÀ» ¹«½ÃÇØµµ ok  
+    /// - ê³µê²© ì‹¤í–‰
+    /// - ElementalRangedAttackController ê°€ ì†ì„± ( E_CastingType)ì„ ê²°ì •í•´ ì¤€ë‹¤.
+    /// - í•„ìš” ì—†ì„ ë•ŒëŠ” typeì„ ë¬´ì‹œí•´ë„ ok  
     /// </summary>
     /// <param name="type"></param>
     abstract void ExecuteAttack(E_CastingType type);
 
-
     /// <summary>
-    /// - ¿ÜºÎ¿¡¼­ °ø°İÀ» °­Á¦ Áß´ÜÇÏ°í ½ÍÀ» ¶§ È£Ãâ
-    /// - ºö È¦µå Ãë¼Ò, Â÷Áö Ãë¼Ò, Ã¤³Î¸µ Äµ½½ µî¿¡ »ç¿ë
+    /// - ì™¸ë¶€ì—ì„œ ê³µê²©ì„ ê°•ì œ ì¤‘ë‹¨í•˜ê³  ì‹¶ì„ ë•Œ í˜¸ì¶œ
+    /// - ë¹” í™€ë“œ ì·¨ì†Œ, ì°¨ì§€ ì·¨ì†Œ, ì±„ë„ë§ ìº”ìŠ¬ ë“±ì— ì‚¬ìš©
     /// </summary>
     abstract void Stop();
-
 }

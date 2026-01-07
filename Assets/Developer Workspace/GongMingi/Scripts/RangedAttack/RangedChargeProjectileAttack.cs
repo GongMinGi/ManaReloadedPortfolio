@@ -9,15 +9,17 @@ using UnityEngine.InputSystem;
 ///  - 마우스 좌클릭을 누르는 동안 차지하고 때는 순간 투사체를 발사한다
 ///  - 풀링으로 관리
 /// </summary>
-public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequireAttackContext, IAttackSignals
+public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack
 {
     #region Field and Property
+    public int? AnimationBoolHash => AnimParams.ChargeProjectile;
+    public int? AnimationTriggerHash => null;
+    public bool UseProgress => false;
 
-    private RangedAttackContext _ctx;
-    public event Action Started;
-    public event Action<float> Progress;
-    public event Action Ended;
-    public event Action Interrupted;
+    public event Action OnAttackStarted;
+    public event Action<float> OnProgressUpdated;
+    public event Action OnAttackEnded;
+    public event Action OnAttackInterrupted;
 
     [Header("Projectile Pool / Muzzle")]
     [SerializeField] private AbstractProjectile projectilePrefab;    // 원거리 공격 시 프리팹
@@ -43,6 +45,7 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
     bool isCharging;                                                    // 차지 중 여부
     int currentDamage;                                                  // 현재 누적(강화)된 데미지
     AbstractProjectile projectileInstance;                           // 발사할 투사체에 정보(매개변수)를 전달하기 위해 다운캐스팅한 인스턴스를 저장 할
+
     #endregion
 
     #region Unity Event
@@ -56,8 +59,6 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
         GameModeManager.PoolManager.CreatePool(projectilePrefab, 20, 30);   // 풀매니저에 투사체 풀 생성 (초기20개, 최대 30개) 
     }
     #endregion
-
-    public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
 
     #region Interface Implementation
 
@@ -105,7 +106,7 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
         currentDamage = baseDamage;                                     // 초기 데미지 설정
         float timer = 0f;                                               // 차지 간격 타이머
 
-        Started?.Invoke();              // 차지 시작
+        OnAttackStarted?.Invoke();              // 차지 시작
 
         while (Mouse.current.leftButton.isPressed)                      // 마우스를 누르고 있는 동안
         {
@@ -120,14 +121,14 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
             //진행중 처리
             float denom = Mathf.Max(1, maxDamage - baseDamage);
             float t = Mathf.Clamp01((currentDamage - baseDamage) / (float)denom);
-            Progress?.Invoke(t);
+            OnProgressUpdated?.Invoke(t);
 
             yield return null;                                          // 다음 프레임까지 대기
         }
 
         FireProjectile();                                               // 버튼을 놓는 순간 발사
         isCharging = false;                                             // 차지 종료
-        Ended?.Invoke();        // 발사 후 종료
+        OnAttackEnded?.Invoke();        // 발사 후 종료
     }   
 
     /// <summary>
@@ -153,3 +154,9 @@ public class RangedChargeProjectileAttack : MonoBehaviour, IRangedAttack, IRequi
     }
     #endregion
 }
+
+
+#region legacy
+//private RangedAttackContext _ctx;
+//public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
+#endregion
