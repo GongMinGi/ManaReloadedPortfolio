@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float sprintMultiplier = 2f;
     [SerializeField] Rigidbody rb;
     [SerializeField] bool isSprint;
-    [SerializeField] bool isMove;
     [SerializeField] bool isDie;
 
     [Header("Casting Settings")]
@@ -74,10 +73,6 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         OnCastingSpell();
-        if (isMove)
-        {
-            GameModeManager.MapTileManager.UpdateCurrentPos();
-        }
     }
 
     private void Start()
@@ -135,15 +130,6 @@ public class PlayerController : MonoBehaviour
 
         moveDir.x = input.x;                    // x축이 입력받고 잇는지 , 오른쪽 == 1, 왼쪽 == -1, 정지 == 0
         moveDir.z = input.y;                    // y축이 입력받고 잇는지 , 위쪽 == 1, 아래쪽 == -1, 정지 == 0
-
-        if (input.x == 0 && input.y == 0)       // x축 y축 모두 움직이지 않는다면, 움직임을 판단하는 변수를 false로 설정
-        {
-            isMove = false;
-        }
-        else
-        {
-            isMove = true;
-        }
     }
 
     /// <summary>
