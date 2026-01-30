@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Cinemachine;
+using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,17 @@ public class GameLogicManager : MonoBehaviour
 {
     #region Singleton
     private GameLogicManager instance;
+    #endregion
+
+    #region Day & Night
+    [Header("Day & Night")]
+    [SerializeField] GameObject dayMap;
+    [SerializeField] CinemachineVirtualCamera dayCamera;
+    [SerializeField] GameObject nightMap;
+    [SerializeField] CinemachineVirtualCamera nightrCamera;
+
+    [SerializeField] DayNightState dayNightState = DayNightState.Night;
+    private Vector3 resetPos;
     #endregion
 
     #region Phase Info
@@ -50,7 +62,7 @@ public class GameLogicManager : MonoBehaviour
     #endregion
 
     #region Unity Event
-    private IEnumerator Start()
+    private void Start()
     {
         if (instance == null)
         {
@@ -58,10 +70,32 @@ public class GameLogicManager : MonoBehaviour
             GameModeManager.GameLogicManager = instance;
         }
         else
+        {
             Destroy(gameObject);
+        }
 
-        // GameModeManager 세팅 완료 및 totalPhases 설정 대기
-        yield return new WaitUntil(() => totalPhases != 0  && GameModeManager.IsReady);
+        if (GameModeManager.Player != null)
+        {
+            resetPos = GameModeManager.Player.transform.position;
+        }
+
+        // 낮/밤에 맞는 맵 오브젝트 활성화
+        if (dayNightState == DayNightState.Day)
+        {
+            dayMap.SetActive(true);
+            nightMap.SetActive(false);
+
+            dayCamera.Priority = 10;
+            nightrCamera.Priority = 0;
+        }
+        else
+        {
+            dayMap.SetActive(false);
+            nightMap.SetActive(true);
+
+            dayCamera.Priority = 0;
+            nightrCamera.Priority = 10;
+        }
 
         StartGame();
     }
@@ -74,14 +108,21 @@ public class GameLogicManager : MonoBehaviour
     /// </summary>
     private void StartGame()
     {
-        //GameModeManager.SoundManager.PlayBGM(bgmClip.game);     // 게임 BGM 실행
-        // FadeIn 후 게임 로직 실행
-        GameModeManager.UIManager.FadeIn(() => 
+        if (dayNightState == DayNightState.Day)
         {
-            GameModeManager.UIManager.ClearPopupHistory();  // UIManager의 PopupHistory 스택 초기화
-            ProceedPhase();
-            timer = StartCoroutine(TrackGameTime());
-        });
+            GameModeManager.UIManager.FadeIn(() =>
+            {
+                GameModeManager.UIManager.ClearPopupHistory();  // UIManager의 PopupHistory 스택 초기화
+                ProceedPhase();
+                timer = StartCoroutine(TrackGameTime());
+            });
+        }
+        else
+        {
+            GameModeManager.UIManager.FadeIn();
+            // 밤 로직
+            // 
+        }
     }
 
     /// <summary>
@@ -105,6 +146,47 @@ public class GameLogicManager : MonoBehaviour
         });
 
     }
+
+    [ContextMenu("ChageDayNightState")]
+    public void ChageDayNightState()
+    {
+        GameModeManager.UIManager.FadeOut(() =>
+        {
+            dayCamera.Priority = 0;
+            nightrCamera.Priority = 10;
+
+            GameModeManager.Player.transform.position = resetPos;
+
+            if (dayNightState == DayNightState.Day)
+            {
+                dayMap.SetActive(false);
+                nightMap.SetActive(true);
+
+                GameModeManager.UIManager.FadeIn(() =>
+                {
+
+                });
+
+                dayNightState = DayNightState.Night;
+            }
+            else
+            {
+                dayCamera.Priority = 10;
+                nightrCamera.Priority = 0;
+
+                dayMap.SetActive(true);
+                nightMap.SetActive(false);
+
+                GameModeManager.UIManager.FadeIn(() =>
+                {
+                    ProceedPhase();
+                });
+
+                dayNightState = DayNightState.Day;
+            }
+        });
+    }
+
     #endregion
 
     #region Phase Logic
@@ -117,9 +199,17 @@ public class GameLogicManager : MonoBehaviour
     {
         if (currentPhase < totalPhases)
         {
-            GameModeManager.EnemyManager.StartSpawnEnemyLoop(currentPhase++);
-            phaseText.text = $"{currentPhase} Phase";   // 페이즈 정보 텍스트 업데이트
-            GameModeManager.UIManager.ShowPhaseStartText(phaseText, phaseTextOffsetX);    // 페이즈 테스트 애니메이션 실행
+            if (dayNightState == DayNightState.Day)
+            {
+                GameModeManager.EnemyManager.StartSpawnEnemyLoop(currentPhase++);
+                phaseText.text = $"{currentPhase} Phase";   // 페이즈 정보 텍스트 업데이트
+                GameModeManager.UIManager.ShowPhaseStartText(phaseText, phaseTextOffsetX);    // 페이즈 테스트 애니메이션 실행
+            }
+            else
+            {
+
+            }
+
         }
         else
         {
@@ -177,4 +267,10 @@ public class GameLogicManager : MonoBehaviour
         });
     }
     #endregion
+}
+
+public enum DayNightState
+{
+    Day,
+    Night
 }

@@ -18,7 +18,7 @@ MonoBehaviour:
   - {fileID: 142936064559676311, guid: f15ec08bc64a152408e1c8c6b57dbbdc, type: 3}
   - {fileID: 8399470712659257399, guid: 89f4538e11ffd3c46b3bcc42f4cf392d, type: 3}
   - {fileID: 3127943182980027977, guid: b415f438ba1af7040892bf9c76319809, type: 3}
-  spawnDis: 40
+  spawnDis: 20
   spawnRange: 5
   phases:
   - enemies:
