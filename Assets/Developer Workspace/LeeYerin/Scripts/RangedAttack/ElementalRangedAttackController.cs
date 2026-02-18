@@ -33,11 +33,12 @@ public class ElementalRangedAttackController : MonoBehaviour
     [SerializeField] RangedChargeConeAttack chargeConeAttack;
     [SerializeField] RangedChargeProjectileAttack chargeProjectileAttack;
     [SerializeField] RangedBeamAttack beamAttack;
+    [SerializeField] RangedWaterBeamAttack waterBeamAttack;
     [SerializeField] RangedWindBeamAttack windBeamAttack;
     [SerializeField] RangedConeAttack coneAttack;
     [SerializeField] RangedIceConeAttack iceConeAttack;
     [SerializeField] RangedChargeProjectileAttack darkProjectileAttack;
-    [SerializeField] RangedChargeProjectileAttack waterProjectileAttack;
+    //[SerializeField] RangedChargeProjectileAttack waterProjectileAttack;
 
     private IAnimationDriver animDriver;                                         // Animator를 감싼 추상 드라이버
     private AttackAnimationHandler attackAnimHandler;
@@ -210,7 +211,7 @@ public class ElementalRangedAttackController : MonoBehaviour
                 chargeConeAttack.ExecuteAttack(castingType);
                 break;
             case E_CastingType.Water:
-                waterProjectileAttack.ExecuteAttack(castingType);
+                waterBeamAttack.ExecuteAttack(castingType);
                 break;
             case E_CastingType.Darkness:  // TODO: 어둠 속성 차후 클릭 공격으로 분리 예정
                 darkProjectileAttack.ExecuteAttack(castingType);

@@ -1,28 +1,19 @@
 ﻿using Game.Combat.Stats;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// * 작성자 : 공민기
-///   - 빛 / 어둠 속성 전용
-///   - 캐스팅한 원소에 빛이나 어둠속성이 포함되어 있을 때 실행되는 원거리 공격
-///   - 마우스 좌클릭을 누르고 있는 동안 빔 형태의 공격이 계속 나가는 홀드형 공격
-///   - 계속 홀드하고 있더라도 마법 시전시간이 끝나면 공격이 끝난다.
-/// </summary>
 [RequireComponent(typeof(LineRenderer))]
-public class RangedBeamAttack : MonoBehaviour, IRangedAttack
+public class RangedWaterBeamAttack : MonoBehaviour, IRangedAttack
 {
     #region Field and Property
     public int? AnimationBoolHash => AnimParams.Beam;
     public int? AnimationTriggerHash => null;
     public bool UseProgress => false;
 
-    [Header("VFX Setting")]     // 구현: 이예린
-    [SerializeField] private ParticleSystem beamloopParticle;   // 
+    [Header("VFX Setting")]    
     [SerializeField] private ParticleSystem impactParticle;     // 충돌지점 이펙트
     [SerializeField] private float surfaceOffset = 0.02f;       // z-fighting 방지 
 
@@ -39,9 +30,11 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
     [SerializeField] private LayerMask enemyLayer;          // 적 레이어
     [SerializeField] private LayerMask obstacleLayer;       // 빔을 막는 지형 레이어
 
+    [Header("Knockback Setting")]
+    [SerializeField] private float knockbackSpeed = 5f;
+
     [Header("Visual")]
     [SerializeField] private Transform muzzle;              // 빔 시작 지점
-
     [Tooltip("For prototype visualization of beam")]
     [SerializeField] private LineRenderer lr;               // 빔을 시각적으로 표현하기 위한 라인 렌더러 
 
@@ -60,7 +53,7 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
 
     #region IRangedAttack Implementation
     public void ExecuteAttack(E_CastingType type)
-    {       
+    {
         if (isFiring) return;                               // 이미 발사 중이면 무시
         beamRoutine = StartCoroutine(FireBeam());           // 빔 코루틴 시작
     }
@@ -85,28 +78,27 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
         lr.enabled = true;                                // 라인 표시 ON
         OnAttackStarted?.Invoke();                                  // 시작 신호
 
-        //if(beamloopParticle) beamloopParticle.Play(true);
         if (impactParticle != null) impactParticle.Play(true);
 
         float startTime = Time.time;                        // 현재 시간을 시작 시간으로 설정 
         float nextTickTime = 0f;                            // 다음 데미지 틱 시간 (쿨다운 타이머)
 
         // 좌클릭이 눌려 있고, 최대 지속 시간을 넘지 않을 때까지 루프
-        while (Mouse.current.leftButton.isPressed && Time.time -startTime < maxDuration)
+        while (Mouse.current.leftButton.isPressed && Time.time - startTime < maxDuration)
         {
             Vector3 origin = muzzle.position;               // 레이 시작점
             Vector3 dir = muzzle.forward;                   // 발사 방향( transform.forward)
-            
+
             float beamLength = maxDistance;                 // 최종 빔 길이 초기값.
             RaycastHit hit;                                 // 단일 Raycast 결과 저장용
 
             // 장애물 / 적 레이어에만 충돌 검사 (트리거는 무시)
-            if (Physics.Raycast(origin, dir, out hit, maxDistance, enemyLayer | obstacleLayer , QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(origin, dir, out hit, maxDistance, enemyLayer | obstacleLayer, QueryTriggerInteraction.Ignore))
             {
                 beamLength = hit.distance;                                      // 빔 길이를 충돌지점까지로 줄임
 
                 // 빔이 적/ 장애물을 맞췄을 때 위치/회전 갱신 
-                if(impactParticle)
+                if (impactParticle)
                 {
                     impactParticle.transform.SetPositionAndRotation(
                         hit.point + hit.normal * surfaceOffset,                 // 충돌 지점
@@ -122,23 +114,43 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
                 // 데미지는 틱 간격 으로만 적용 ( 프레임마다가 아님)
                 bool hitEnemy = enemyLayer.Contain(hit.collider.gameObject.layer);
 
-                if( hitEnemy && Time.time >= nextTickTime )
+                if( hitEnemy == true)
                 {
-                    if (hit.collider.TryGetComponent(out UnitStats target))
+                    if(hit.collider.TryGetComponent(out NavMeshAgent agent))
                     {
-                        target.TakeDamage(damagePerTick);                       // 데미지 1틱 적용
+                        if(agent.enabled && agent.isOnNavMesh)
+                        {
+                            Vector3 pushDir = dir.normalized;
+                            Vector3 targetPos = agent.transform.position + pushDir * knockbackSpeed * Time.deltaTime;
+
+                            if (NavMesh.SamplePosition(targetPos, out NavMeshHit navHit, 1.0f, NavMesh.AllAreas))
+                            {
+                                agent.Warp(navHit.position);
+                                agent.velocity = Vector3.zero;
+                            }
+                        }
                     }
 
-                    nextTickTime = Time.time + tickInterval;                    // 다음 틱 시간 갱신
+                    if ( Time.time >= nextTickTime)
+                    {
+                        if (hit.collider.TryGetComponent(out UnitStats target))
+                        {
+                            target.TakeDamage(damagePerTick);                       // 데미지 1틱 적용
+                        }
+
+                        nextTickTime = Time.time + tickInterval;                    // 다음 틱 시간 갱신
+                    }
                 }
+
+
             }
 
             else
             {
                 // 히트가 없으면 임팩트 파티클 끄기 ( 잔상 없이 자연스럽게)
-                if( impactParticle && impactParticle.isPlaying)
+                if (impactParticle && impactParticle.isPlaying)
                 {
-                    impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting );
+                    impactParticle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 }
             }
 
@@ -177,11 +189,4 @@ public class RangedBeamAttack : MonoBehaviour, IRangedAttack
         Gizmos.DrawLine(muzzle.position, muzzle.position + muzzle.forward * maxDistance);
     }
 #endif
-
 }
-
-#region legacy
-//public void BindContext(RangedAttackContext ctx) => _ctx = ctx;
-//private RangedAttackContext _ctx;        // 변수 이름 수정 필요
-
-#endregion
