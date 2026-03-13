@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7794499683313667478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2234164781746186872}
+  - component: {fileID: 1743092719491348986}
+  m_Layer: 0
+  m_Name: IcebergStrike
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2234164781746186872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794499683313667478}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7574959, y: -6.0061474, z: 4.6763706}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1743092719491348986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794499683313667478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cda8db40d7e1c9469bd094434840428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill_ID: 2000011
+  coolTime: 10
+  groundProjectilePrefab: {fileID: 6169083297345502941, guid: 9b0e8e6e21a8f764793aad1b6889965f, type: 3}
+  icebergPrefab: {fileID: 1519458121628624066, guid: 92691f529c4a7ee4aa782cec1fdb79e6, type: 3}
+  spawnHeight: 15
+  travelTime: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  maxRayDistance: 1000
+  fallbackPlaneY: 0
+  impactRadius: 5
+  burstDamage: 50
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  groundRadius: 3
+  groundDuration: 4
+  groundTickInterval: 0.5
+  groundTickDamage: 15
+  slowEffectId: 0
+  slowDuration: 1
+  slowAmount: 0.4
