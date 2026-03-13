@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3581179989659446031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3799840087563450977}
+  - component: {fileID: 8671675256034811301}
+  m_Layer: 0
+  m_Name: DieForMe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3799840087563450977
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3581179989659446031}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7574959, y: -6.0061474, z: 4.6763706}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8671675256034811301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3581179989659446031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eb3aebf43cca7c4c94a73042404225c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill_ID: 200012
+  coolTime: 10
+  groundProjectile: {fileID: 4428535120303427070, guid: f1062f4f5cf8e2948bf9f6bdf828188d, type: 3}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  maxRayDistance: 1000
+  fallbackPlaneY: 0
+  groundRadius: 2.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  bombDuration: 4
+  bombDamage: 6666
+  bombEffectId: 99
