@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5767596204631561249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1637469441249543075}
+  - component: {fileID: 8954134119635926975}
+  m_Layer: 0
+  m_Name: FireTornado
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1637469441249543075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5767596204631561249}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.5824785, y: 4.669871, z: -10.736435}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8954134119635926975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5767596204631561249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4af1e4545d4702b45831f6f84d34fc74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill_ID: 2000017
+  coolTime: 10
+  maxRayDistance: 1000
+  projectilePrefab: {fileID: 8911116967416709906, guid: 5de2a5f048326184ea9eb59c624a24fc, type: 3}
+  duration: 6
+  damageRadius: 1.5
+  damageInterval: 0.05
+  damagePerTick: 50
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  slowEffectId: 17
+  slowDuration: 0.6
+  slowAmount: 0.7
