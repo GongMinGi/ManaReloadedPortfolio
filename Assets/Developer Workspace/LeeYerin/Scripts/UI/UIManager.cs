@@ -51,6 +51,7 @@ public class UIManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         elementSpriteData.Initialization();
