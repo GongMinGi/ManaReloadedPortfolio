@@ -1,32 +1,32 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// °³º° ÆË¾÷ UIÀÇ µ¿ÀÛÀ» Á¦¾îÇÏ´Â ÄÁÆ®·Ñ·¯ Å¬·¡½º
+/// ê°œë³„ íŒì—… UIì˜ ë™ì‘ì„ ì œì–´í•˜ëŠ” ì»¨íŠ¸ë¡¤ëŸ¬ í´ë˜ìŠ¤
 /// 
-/// UIManager¸¦ ÅëÇØ ÆË¾÷ÀÇ ¿­±â/´İ±â¸¦ ¿äÃ»ÇÏ¸ç,
-/// ÆË¾÷ º»Ã¼(popupUI)¿Í ±× »óÀ§¿¡ ÀÖ´Â ¹è°æ(Backdrop)À» °ü¸®ÇÔ
+/// UIManagerë¥¼ í†µí•´ íŒì—…ì˜ ì—´ê¸°/ë‹«ê¸°ë¥¼ ìš”ì²­í•˜ë©°,
+/// íŒì—… ë³¸ì²´(popupUI)ì™€ ê·¸ ìƒìœ„ì— ìˆëŠ” ë°°ê²½(Backdrop)ì„ ê´€ë¦¬í•¨
 /// </summary>
 public class PopupController : MonoBehaviour
 {
-    [SerializeField] GameObject popupUI;    // ½ÇÁ¦ ÆË¾÷ UI GameObject (Canvas ÇÏÀ§)
+    [SerializeField] GameObject popupUI;    // ì‹¤ì œ íŒì—… UI GameObject (Canvas í•˜ìœ„)
     [SerializeField] GameObject backdrop;
 
     /// <summary>
-    /// ÆË¾÷ UI GameObject
+    /// íŒì—… UI GameObject
     /// </summary>
     public GameObject PopupUI => popupUI;
 
     /// <summary>
-    /// ¹İÅõ¸í ºí·¯ Ã³¸®µÈ BackdropÀÇ GameObject
+    /// ë°˜íˆ¬ëª… ë¸”ëŸ¬ ì²˜ë¦¬ëœ Backdropì˜ GameObject
     /// </summary>
     public GameObject Backdrop => backdrop;
 
     #region Request Open / Close
     /// <summary>
-    /// UIManager¿¡ ÆË¾÷ ¿­±â¸¦ ¿äÃ»ÇÏ´Â ¸Ş¼­µå
-    /// ½ºÅÃ °ü¸® ¹× UI È°¼ºÈ­´Â UIManager¿¡¼­ Ã³¸®µÊ
+    /// UIManagerì— íŒì—… ì—´ê¸°ë¥¼ ìš”ì²­í•˜ëŠ” ë©”ì„œë“œ
+    /// ìŠ¤íƒ ê´€ë¦¬ ë° UI í™œì„±í™”ëŠ” UIManagerì—ì„œ ì²˜ë¦¬ë¨
     /// </summary>
     public void RequestOpen()
     {
@@ -34,8 +34,8 @@ public class PopupController : MonoBehaviour
     }
 
     /// <summary>
-    /// UIManager¿¡ ÆË¾÷ ´İ±â¸¦ ¿äÃ»ÇÏ´Â ¸Ş¼­µå
-    /// °¡Àå ÃÖ±ÙÀÇ ÆË¾÷ÀÌ ´İÈ÷¸ç, ½ºÅÃ¿¡¼­ Á¦°ÅµÊ
+    /// UIManagerì— íŒì—… ë‹«ê¸°ë¥¼ ìš”ì²­í•˜ëŠ” ë©”ì„œë“œ
+    /// ê°€ì¥ ìµœê·¼ì˜ íŒì—…ì´ ë‹«íˆë©°, ìŠ¤íƒì—ì„œ ì œê±°ë¨
     /// </summary>
     public void RequestClose()
     {

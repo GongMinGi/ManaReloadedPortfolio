@@ -1,15 +1,15 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// °³¹ßÀÚ: ÀÌ¿¹¸°
+/// ê°œë°œì: ì´ì˜ˆë¦°
 /// 
-/// ÇÃ·¹ÀÌ¾î À§Ä¡¸¦ ±âÁØÀ¸·Î ¹«ÇÑ ¸Ê ÇüÅÂÀÇ Å¸ÀÏÀ» µ¿ÀûÀ¸·Î °ü¸®ÇÏ´Â ¸Å´ÏÀú Å¬·¡½º
+/// í”Œë ˆì´ì–´ ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë¬´í•œ ë§µ í˜•íƒœì˜ íƒ€ì¼ì„ ë™ì ìœ¼ë¡œ ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì € í´ë˜ìŠ¤
 /// 
-/// - Å¸ÀÏ ÇÁ¸®ÆÕÀ» ¿ÀºêÁ§Æ® Ç®·Î °ü¸®ÇÏ¿© »ı¼º/Á¦°Å ºñ¿ëÀ» ÃÖ¼ÒÈ­ÇÔ
-/// - ÇÃ·¹ÀÌ¾î ÁÖº¯ Å¸ÀÏ¸¸ À¯Áö, ¹üÀ§¸¦ ¹ş¾î³­ Å¸ÀÏÀº Pool·Î ¹İÈ¯ÇÔ
-/// - ÇöÀç Å¸ÀÏ(ÇÃ·¹ÀÌ¾î°¡ À§Ä¡ÇÑ Å¸ÀÏ) ÁÂÇ¥¸¦ ±âÁØÀ¸·Î Å¸ÀÏ ¾÷µ¥ÀÌÆ® ·ÎÁ÷ ¼öÇà
+/// - íƒ€ì¼ í”„ë¦¬íŒ¹ì„ ì˜¤ë¸Œì íŠ¸ í’€ë¡œ ê´€ë¦¬í•˜ì—¬ ìƒì„±/ì œê±° ë¹„ìš©ì„ ìµœì†Œí™”í•¨
+/// - í”Œë ˆì´ì–´ ì£¼ë³€ íƒ€ì¼ë§Œ ìœ ì§€, ë²”ìœ„ë¥¼ ë²—ì–´ë‚œ íƒ€ì¼ì€ Poolë¡œ ë°˜í™˜í•¨
+/// - í˜„ì¬ íƒ€ì¼(í”Œë ˆì´ì–´ê°€ ìœ„ì¹˜í•œ íƒ€ì¼) ì¢Œí‘œë¥¼ ê¸°ì¤€ìœ¼ë¡œ íƒ€ì¼ ì—…ë°ì´íŠ¸ ë¡œì§ ìˆ˜í–‰
 /// </summary>
 public class MapTileManager : MonoBehaviour
 {
@@ -32,13 +32,13 @@ public class MapTileManager : MonoBehaviour
     private Vector2Int currentTilePos = new Vector2Int(int.MaxValue, int.MaxValue);
 
     [Tooltip("Width/height of one tile")]
-    [SerializeField] int tileSize = 10;     // ÇÑ Å¸ÀÏÀÇ Æø/³ôÀÌ
+    [SerializeField] int tileSize = 10;     // í•œ íƒ€ì¼ì˜ í­/ë†’ì´
     [Tooltip("Tile radius around the player. 1 = 3x3, 2 = 5x5, etc.")]
-    [SerializeField] int tileRange = 1; // 3x3 ±×¸®µå
+    [SerializeField] int tileRange = 1; // 3x3 ê·¸ë¦¬ë“œ
     #endregion
 
     #region Active Tile Data
-    // ÇöÀç È°¼ºÈ­µÈ Å¸ÀÏÀ» ÀúÀåÇØµÎ´Â µñ¼Å³Ê¸®
+    // í˜„ì¬ í™œì„±í™”ëœ íƒ€ì¼ì„ ì €ì¥í•´ë‘ëŠ” ë”•ì…”ë„ˆë¦¬
     private Dictionary<Vector2Int, PooledObject> activeTiles = new();
     #endregion
 
@@ -52,7 +52,7 @@ public class MapTileManager : MonoBehaviour
     #region Unity Event
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => GameModeManager.Player != null);   // ÇÃ·¹ÀÌ¾î¸¦ ¾Ë ¼ö ÀÖÀ» ¶§±îÁö ´ë±â
+        yield return new WaitUntil(() => GameModeManager.Player != null);   // í”Œë ˆì´ì–´ë¥¼ ì•Œ ìˆ˜ ìˆì„ ë•Œê¹Œì§€ ëŒ€ê¸°
 
         if (instance == null)
         {
@@ -62,7 +62,7 @@ public class MapTileManager : MonoBehaviour
         else
             Destroy(instance);
 
-        yield return new WaitUntil(() => player != null);   // ÇÃ·¹ÀÌ¾î°¡ ÇÒ´çµÈ ÈÄ ÁøÇà
+        yield return new WaitUntil(() => player != null);   // í”Œë ˆì´ì–´ê°€ í• ë‹¹ëœ í›„ ì§„í–‰
 
         GameModeManager.PoolManager.CreatePool(tilePrefab, size, capacity);
         UpdateCurrentPos();
@@ -73,11 +73,11 @@ public class MapTileManager : MonoBehaviour
 
     #region Update Map Tiles
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î ÁÂÇ¥ º¯°æ È®ÀÎµÉ ½Ã ¸Ê Å¸ÀÌ¸¦ ¾÷µ¥ÀÌÆ®ÇÏ´Â ¸Ş¼­µå
+    /// í”Œë ˆì´ì–´ ì¢Œí‘œ ë³€ê²½ í™•ì¸ë  ì‹œ ë§µ íƒ€ì´ë¥¼ ì—…ë°ì´íŠ¸í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     public void UpdateCurrentPos()
     {
-        // ÇÃ·¹ÀÌ¾î°¡ ´Ù¸¥ Å¸ÀÏ·Î ÀÌµ¿ÇßÀ» °æ¿ì¿¡¸¸ ¾÷µ¥ÀÌÆ®
+        // í”Œë ˆì´ì–´ê°€ ë‹¤ë¥¸ íƒ€ì¼ë¡œ ì´ë™í–ˆì„ ê²½ìš°ì—ë§Œ ì—…ë°ì´íŠ¸
         Vector2Int newTilePos = GetPlayerTilePos();
 
         if (currentTilePos != newTilePos)
@@ -88,14 +88,14 @@ public class MapTileManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ¿ùµå ÁÂÇ¥¸¦ Å¸ÀÏ ÁÂÇ¥(Vector2Int)·Î º¯È¯ÇØÁÖ´Â ¸Ş¼­µå
-    /// Å¸ÀÏ °£°İ(tileSize)À» ±âÁØÀ¸·Î ÁÂÇ¥¸¦ Á¤¼ö ´ÜÀ§·Î Á¤·ÄÇÑ´Ù.
+    /// í”Œë ˆì´ì–´ì˜ ì›”ë“œ ì¢Œí‘œë¥¼ íƒ€ì¼ ì¢Œí‘œ(Vector2Int)ë¡œ ë³€í™˜í•´ì£¼ëŠ” ë©”ì„œë“œ
+    /// íƒ€ì¼ ê°„ê²©(tileSize)ì„ ê¸°ì¤€ìœ¼ë¡œ ì¢Œí‘œë¥¼ ì •ìˆ˜ ë‹¨ìœ„ë¡œ ì •ë ¬í•œë‹¤.
     /// </summary>
-    /// <returns>ÇöÀç ÇÃ·¹ÀÌ¾î°¡ À§Ä¡ÇÑ Å¸ÀÏÀÇ ÁÂÇ¥</returns>
+    /// <returns>í˜„ì¬ í”Œë ˆì´ì–´ê°€ ìœ„ì¹˜í•œ íƒ€ì¼ì˜ ì¢Œí‘œ</returns>
     private Vector2Int GetPlayerTilePos()
     {
-        // FloorToInt¸¦ »ç¿ëÇØ ¼Ò¼öÁ¡À» ³»¸² Ã³¸®ÇÔÀ¸·Î½á,
-        // À½¼ö ÁÂÇ¥µµ Æ÷ÇÔÇÑ Å¸ÀÏ ±×¸®µå ±âÁØÀ¸·Î Á¤È®È÷ Á¤·ÄÇÔ
+        // FloorToIntë¥¼ ì‚¬ìš©í•´ ì†Œìˆ˜ì ì„ ë‚´ë¦¼ ì²˜ë¦¬í•¨ìœ¼ë¡œì¨,
+        // ìŒìˆ˜ ì¢Œí‘œë„ í¬í•¨í•œ íƒ€ì¼ ê·¸ë¦¬ë“œ ê¸°ì¤€ìœ¼ë¡œ ì •í™•íˆ ì •ë ¬í•¨
         return new Vector2Int(
             Mathf.FloorToInt(player.transform.position.x / tileSize),
             Mathf.FloorToInt(player.transform.position.z / tileSize)
@@ -103,13 +103,13 @@ public class MapTileManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇöÀç ÇÃ·¹ÀÌ¾î À§Ä¡¸¦ ±âÁØÀ¸·Î ÇÊ¿äÇÑ Å¸ÀÏÀº À¯Áö,
-    /// ±×·¸Áö ¸øÇÑ Å¸ÀÏÀº Pool¿¡ ¹İÈ¯ÇÏ´Â ¸Ş¼­µå
+    /// í˜„ì¬ í”Œë ˆì´ì–´ ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ í•„ìš”í•œ íƒ€ì¼ì€ ìœ ì§€,
+    /// ê·¸ë ‡ì§€ ëª»í•œ íƒ€ì¼ì€ Poolì— ë°˜í™˜í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     private void UpdateTiles()
     {
-        // »õ·Î ÇÊ¿äÇÑ Å¸ÀÏ ÁÂÇ¥ ÁıÇÕ
-        HashSet<Vector2Int> neededTiles = new();    // ¼ø¼­ »ó°ü¾øÀÌ, Áßº¹À» Çã¿ëÇÏÁö ¾Ê´Â HashSet »ç¿ë
+        // ìƒˆë¡œ í•„ìš”í•œ íƒ€ì¼ ì¢Œí‘œ ì§‘í•©
+        HashSet<Vector2Int> neededTiles = new();    // ìˆœì„œ ìƒê´€ì—†ì´, ì¤‘ë³µì„ í—ˆìš©í•˜ì§€ ì•ŠëŠ” HashSet ì‚¬ìš©
 
         for (int dx = -tileRange; dx <= tileRange; dx++)
         {
@@ -118,7 +118,7 @@ public class MapTileManager : MonoBehaviour
                 Vector2Int tilePos = currentTilePos + new Vector2Int(dx, dz);
                 neededTiles.Add(tilePos);
 
-                // ÇØ´ç À§Ä¡¿¡ ¾ÆÁ÷ Å¸ÀÏÀÌ È°¼ºÈ­µÇÁö ¾Ê¾Ò´Ù¸é Pool¿¡¼­ ¿ÀºêÁ§Æ®¸¦ °¡Á®¿È
+                // í•´ë‹¹ ìœ„ì¹˜ì— ì•„ì§ íƒ€ì¼ì´ í™œì„±í™”ë˜ì§€ ì•Šì•˜ë‹¤ë©´ Poolì—ì„œ ì˜¤ë¸Œì íŠ¸ë¥¼ ê°€ì ¸ì˜´
                 if (!activeTiles.ContainsKey(tilePos))
                 {
                     Vector3 worldPos = new Vector3(tilePos.x * tileSize, 0f, tilePos.y *  tileSize);
@@ -128,19 +128,19 @@ public class MapTileManager : MonoBehaviour
             }
         }
 
-        // Á¦°ÅÇÒ Å¸ÀÏ ¸ñ·Ï
+        // ì œê±°í•  íƒ€ì¼ ëª©ë¡
         List<Vector2Int> removeTiles = new();
 
         foreach (var tile in activeTiles)
         {
             if (!neededTiles.Contains(tile.Key))
             {
-                tile.Value.Release();   // Å¸ÀÏ Pool¿¡ ¹İÈ¯(ºñÈ°¼ºÈ­)
+                tile.Value.Release();   // íƒ€ì¼ Poolì— ë°˜í™˜(ë¹„í™œì„±í™”)
                 removeTiles.Add(tile.Key);
             }
         }
 
-        // µñ¼Å³Ê¸®¿¡¼­ Á¦°Å
+        // ë”•ì…”ë„ˆë¦¬ì—ì„œ ì œê±°
         foreach (var tile in removeTiles)
             activeTiles.Remove(tile);
     }

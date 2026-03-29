@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
 
     Vector3 moveDir = new();
 
+    [SerializeField] bool isForLoadout = false;
+
     /// <summary>
     /// 외부 몬스터에서 접근하기 위해서 moveDir 프로퍼티화
     /// </summary>
@@ -74,9 +76,9 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         OnCastingSpell();
-        if (isMove)
+        if (isForLoadout == false && isMove)
         {
-            GameModeManager.MapTileManager.UpdateCurrentPos();
+            GameModeManager.MapTileManager?.UpdateCurrentPos();
         }
     }
 

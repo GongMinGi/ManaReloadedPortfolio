@@ -173,7 +173,7 @@ public class GameLogicManager : MonoBehaviour
         GameModeManager.UIManager.LoadIntoLoadoutUI = true;
         GameModeManager.UIManager.FadeOut(() =>
         {
-            SceneManager.LoadScene("Main Menu & Loadout Scene");
+            SceneManager.LoadScene("Loadout Scene");
         });
     }
     #endregion
