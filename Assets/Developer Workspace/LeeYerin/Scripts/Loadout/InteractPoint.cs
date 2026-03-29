@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class InteractPoint : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] PopupController popup;
+    [SerializeField] GameObject outline;
     bool canInteract = false;
 
     public void BeginInteract()
@@ -22,10 +23,12 @@ public class InteractPoint : MonoBehaviour, IPointerClickHandler
     private void OnTriggerEnter(Collider other)
     {
         canInteract = true;
+        outline.SetActive(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
         canInteract = false;
+        outline.SetActive(false);
     }
 }
