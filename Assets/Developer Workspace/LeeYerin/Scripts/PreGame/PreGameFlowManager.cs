@@ -15,6 +15,7 @@ public class PreGameFlowManager : MonoBehaviour
     [SerializeField] Animator playerAnimator;         // 로드아웃의 플레이어 애니메이터
 
     [Tooltip("Game scene name string")]
+    [SerializeField] string loadoutSceneName = "Loadout Scene";
     [SerializeField] string gameSceneName = "Game Scene";
     [SerializeField] string qaSceneName = "QA Scene";
 
@@ -28,17 +29,7 @@ public class PreGameFlowManager : MonoBehaviour
 
         GameModeManager.UIManager.ClearPopupHistory();      // UIManager의 ClearPopupHistory 스택 초기화
 
-        if (GameModeManager.UIManager.LoadIntoLoadoutUI)    // 게임 로드아웃으로 이동일 경우
-        {
-            gameMenuUI.SetActive(false);
-            loadOutUI.SetActive(true);
-            GameModeManager.UIManager.FadeIn();
-        }
-        else
-        {
-            // 게임 메인 메뉴로 이동일 경우
-            GameModeManager.UIManager.FadeIn();
-        }
+        GameModeManager.UIManager.FadeIn();
     }
     #endregion
 
@@ -50,9 +41,7 @@ public class PreGameFlowManager : MonoBehaviour
     {
         GameModeManager.UIManager.FadeOut(() => 
         {
-            gameMenuUI.SetActive(false);
-            loadOutUI.SetActive(true);
-            GameModeManager.UIManager.FadeIn();
+            SceneManager.LoadScene(loadoutSceneName);
         });
     }
 
@@ -62,8 +51,7 @@ public class PreGameFlowManager : MonoBehaviour
     /// </summary>
     public void GameStart()
     {
-        //GameModeManager.SoundManager.StopBGM();      // PreGameFlow의 BGM 종료
-        playerAnimator.SetTrigger("IsCompete");    // 캐릭터 출전 애니메이션 트리거
+        // playerAnimator.SetTrigger("IsCompete");    // 캐릭터 출전 애니메이션 트리거
 
         GameModeManager.UIManager.FadeOut(() =>
         {

@@ -173,7 +173,7 @@ public class PauseOverlayManager : MonoBehaviour
         GameModeManager.UIManager.LoadIntoLoadoutUI = false;
         GameModeManager.UIManager.FadeOut(() =>
         {
-            SceneManager.LoadScene("Main Menu & Loadout Scene");
+            SceneManager.LoadScene("Main Menu Scene");
         });
     }
 
