@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0981f42e9106d9a458cc47c005c70806, type: 3}
+  m_Name: IcebergStrike
+  m_EditorClassIdentifier: 
+  currentHashID: -271514994
+  CastList: 050000000600000000000000000000000600000005000000
+  castSkill: {fileID: 1743092719491348986, guid: bea050fb0d4bf2b4193d1f8d586b91dd, type: 3}

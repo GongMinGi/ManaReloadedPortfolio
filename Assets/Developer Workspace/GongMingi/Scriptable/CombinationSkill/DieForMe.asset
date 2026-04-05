@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0981f42e9106d9a458cc47c005c70806, type: 3}
+  m_Name: DieForMe
+  m_EditorClassIdentifier: 
+  currentHashID: -1482301484
+  CastList: 030000000300000003000000030000000300000003000000
+  castSkill: {fileID: 8671675256034811301, guid: 42d27a0e5b474fb4caade12ee570c99c, type: 3}
